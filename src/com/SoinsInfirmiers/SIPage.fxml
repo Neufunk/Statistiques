@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="anchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SoinsInfirmiers.SIPageController">
+   <children>
+      <JFXDrawer id="drawer" fx:id="drawer" defaultDrawerSize="250.0" layoutY="-4.0" overLayVisible="false" prefHeight="809.0" prefWidth="270.0">
+         <effect>
+            <DropShadow />
+         </effect></JFXDrawer>
+      <JFXHamburger id="hamburger" fx:id="hamburger" layoutX="-2.0" layoutY="5.0" prefHeight="38.0" prefWidth="55.0" />
+      <JFXProgressBar layoutX="481.0" layoutY="347.0" prefHeight="26.0" prefWidth="319.0" />
+      <Label layoutX="558.0" layoutY="314.0" text="Connexion à la BDD...">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
