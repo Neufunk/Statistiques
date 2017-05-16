@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
-<?import com.jfoenix.controls.JFXProgressBar?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,11 +17,19 @@
             <DropShadow />
          </effect></JFXDrawer>
       <JFXHamburger id="hamburger" fx:id="hamburger" layoutX="-2.0" layoutY="5.0" prefHeight="38.0" prefWidth="55.0" />
-      <JFXProgressBar layoutX="481.0" layoutY="347.0" prefHeight="26.0" prefWidth="319.0" />
-      <Label layoutX="558.0" layoutY="314.0" text="Connexion à la BDD...">
+      <Label layoutX="469.0" layoutY="24.0" text="STATISTIQUES SI">
          <font>
-            <Font size="17.0" />
+            <Font name="System Bold" size="36.0" />
+         </font></Label>
+      <PieChart fx:id="roundGraph" layoutX="359.0" layoutY="271.0" prefHeight="435.0" prefWidth="544.0" />
+      <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#96bb37" layoutX="469.0" layoutY="152.0" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" />
+      <JFXComboBox id="comboPeriode" fx:id="comboPeriode" focusColor="#96bb37" layoutX="660.0" layoutY="152.0" prefHeight="22.0" prefWidth="131.0" promptText="Période" unFocusColor="#006782" />
+      <JFXComboBox id="comboIndic" fx:id="comboIndic" focusColor="#96bb37" layoutX="469.0" layoutY="194.0" prefHeight="22.0" prefWidth="322.0" promptText="Indicateur" unFocusColor="#006782" />
+      <JFXComboBox id="comboYear" fx:id="comboYear" focusColor="#96bb37" layoutX="565.0" layoutY="101.0" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" />
+      <JFXButton fx:id="generateButton" layoutX="590.0" layoutY="241.0" prefHeight="30.0" prefWidth="81.0" style="-fx-background-color: #96bb37;" text="G" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
          </font>
-      </Label>
+      </JFXButton>
    </children>
 </AnchorPane>

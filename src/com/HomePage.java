@@ -1,6 +1,5 @@
 package com;
 
-import com.Main;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 import javafx.fxml.FXML;
@@ -9,13 +8,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
+import javax.swing.JOptionPane;
 
+import javax.swing.*;
 
 
 public class HomePage implements Initializable {
@@ -42,8 +48,8 @@ public class HomePage implements Initializable {
             }else{
                 labelCopyright.setVisible(true);
             }
-
         });
+
         // Lien vers SI Page
         siButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) ->  {
             Stage stage = Main.getPrimaryStage();

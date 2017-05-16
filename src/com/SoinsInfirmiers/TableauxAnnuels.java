@@ -1,9 +1,14 @@
 package com.SoinsInfirmiers;
 
+import com.AccessConnection;
 import com.Main;
+import com.Strings;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
+import com.sun.glass.ui.Menu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,21 +18,44 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import javax.swing.text.TableView;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class TableauxAnnuels implements Initializable{
 
+public class TableauxAnnuels implements Initializable {
+
+    // Instances de classes
+    Strings strings = new Strings();
+
+    // Instances des objets FXML
     @FXML
     private JFXHamburger hamburger;
     @FXML
     private JFXDrawer drawer;
+    @FXML
+    private JFXComboBox comboCentre;
+    @FXML
+    private JFXComboBox comboYear1;
+    @FXML
+    private JFXComboBox comboYear2;
+    @FXML
+    private JFXComboBox comboYear3;
+    @FXML
+    private JFXComboBox comboIndic;
+    @FXML
+    private JFXButton generateButton;
+    @FXML
+    private JFXButton clearButton;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // DRAWER MENU
+
+        /*******************************DRAWER MENU****************************************************************/
         VBox box = null;
         try {
             box = FXMLLoader.load(getClass().getResource("DrawerDesign.fxml"));
@@ -37,7 +65,7 @@ public class TableauxAnnuels implements Initializable{
         }
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
         transition.setRate(-1);
-        hamburger.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, (e) -> {
+        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             transition.setRate(transition.getRate() * -1);
             transition.play();
             if (drawer.isShown()) {
@@ -84,4 +112,22 @@ public class TableauxAnnuels implements Initializable{
                 });
             }
         }
-    }}
+        /***********************************************************************************************************/
+
+        // COMBOBOX
+        comboCentre.setItems(strings.centerList);
+        comboYear1.setItems(strings.yearList);
+        comboYear2.setItems(strings.yearList);
+        comboYear3.setItems(strings.yearList);
+        comboIndic.setItems(strings.indicList);
+
+
+        generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            String output = comboIndic.getValue().toString();
+            System.out.println(output);
+
+        });
+
+
+    }
+}
