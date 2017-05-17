@@ -70,7 +70,7 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </JFXHamburger>
-            <Label id="labelCopyright" fx:id="labelCopyright" prefHeight="14.0" prefWidth="394.0" style="visibility: false;" text="ABOUT : Logiciel Statistiques v Alpha 1.0.14 // mai 2017" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label id="labelCopyright" fx:id="labelCopyright" prefHeight="14.0" prefWidth="394.0" style="visibility: false;" text="ABOUT : Logiciel Statistiques v Alpha 1.0.15 // mai 2017" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <GridPane GridPane.columnSpan="3" GridPane.rowIndex="3">

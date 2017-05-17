@@ -9,8 +9,8 @@ public class AccessConnection {
     public static Connection SiStatConnection() {
 
         String url = "jdbc:ucanaccess://P:/INFORMATIQUE/Statistiques SI.accdb";
-        String user = "johnathanv";
-        String password = "liblum";
+        String user = "";
+        String password = "";
 
         System.out.println("Connexion au fichier >> Statistiques SI.accdb...");
         try {
@@ -41,6 +41,24 @@ public class AccessConnection {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void PreparedStatementExample(){
+
+        try {
+            PreparedStatement ps0 = AccessConnection.SiStatConnection().prepareStatement("SELECT * FROM 902_2015 WHERE Champ2 = ?");
+            ps0.setString(1, "INDICATEUR");
+            ResultSet result = ps0.executeQuery();
+            while (result.next()) {
+                String rs = result.getString("Champ3");
+                System.out.println(rs);
+                ps0.close();
+                AccessConnection.SiStatConnection().close();
+                System.out.println("Connexion terminée");
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
         }
     }
 }

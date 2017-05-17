@@ -1,6 +1,5 @@
 package com.SoinsInfirmiers;
 
-import com.AccessConnection;
 import com.Main;
 import com.Strings;
 import com.jfoenix.controls.JFXButton;
@@ -20,11 +19,14 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
+import org.apache.poi.hssf.util.CellReference;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class SIPageController implements Initializable {
@@ -52,6 +54,27 @@ public class SIPageController implements Initializable {
 
     // Variables
     String selectedChamp = "";
+    String pathName = "";
+    int selectedSheet = 0;
+    String selectedColumn = "";
+    int selectedRow = 0;
+    int selectedRow2 = 0;
+    int selectedRow3 = 0;
+    int selectedRow4 = 0;
+    int selectedRow5 = 0;
+    int selectedRow6 = 0;
+    Cell cell = null;
+    Cell cell2 = null;
+    Cell cell3 = null;
+    Cell cell4 = null;
+    Cell cell5 = null;
+    Cell cell6 = null;
+    double from1 = 0;
+    double from2 = 0;
+    double from3 = 0;
+    double from4 = 0;
+    double from5 = 0;
+    double from6 = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -123,67 +146,274 @@ public class SIPageController implements Initializable {
         comboPeriode.setItems(strings.periodList);
 
 
-
-
-        // MISE EN FROMAGE
-        ObservableList<PieChart.Data> pieChartData
-                = FXCollections.observableArrayList(
-                new PieChart.Data("Test 0", 25),
-                new PieChart.Data("Test 1", 50),
-                new PieChart.Data("Test 2", 15),
-                new PieChart.Data("Test 3", 10)
-        );
-        roundGraph.setData(pieChartData);
-        roundGraph.setAnimated(true);
-        roundGraph.setStartAngle(90);
-
-
         // BOUTTON
         generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+
+            // VIDAGE GRAPHIQUE
+            roundGraph.setTitleSide(null);
+
             // RECUPERATION DES ITEMS DANS COMBO
-            String comparePeriode = comboPeriode.getValue().toString();
-            if (comparePeriode == "Année Complète"){
-                selectedChamp = "Champ16";
-            }else if (comparePeriode == "Janvier"){
-                selectedChamp = "Champ4";
-            }else if (comparePeriode == "Février"){
-                selectedChamp = "Champ5";
-            }else if (comparePeriode == "Mars"){
-                selectedChamp = "Champ6";
-            }else if (comparePeriode == "Avril"){
-                selectedChamp = "Champ7";
-            }else if (comparePeriode == "Mai"){
-                selectedChamp = "Champ8";
-            }else if (comparePeriode == "Juin"){
-                selectedChamp = "Champ9";
-            }else if (comparePeriode == "Juillet"){
-                selectedChamp = "Champ10";
-            }else if (comparePeriode == "Août"){
-                selectedChamp = "Champ11";
-            }else if (comparePeriode == "Septembre"){
-                selectedChamp = "Champ12";
-            }else if (comparePeriode == "Octobre"){
-                selectedChamp = "Champ13";
-            }else if (comparePeriode == "Novembre"){
-                selectedChamp = "Champ14";
-            }else if (comparePeriode == "Décembre"){
-                selectedChamp = "Champ15";
+            String compareYear = comboYear.getValue().toString();
+            if (compareYear == "2017") {
+                pathName = "P:/PROVINCE et statistiques FASD/Namur 2017.xls";
+            } else {
+                System.out.println("Fichier introuvable");
             }
 
-            // DB CONNECTION
+            String compareCentre = comboCentre.getValue().toString();
+            if (compareCentre == "Global") {
+                selectedSheet = 5;
+            } else if (compareCentre == "Namur") {
+                selectedSheet = 4;
+            } else if (compareCentre == "Philippeville") {
+                selectedSheet = 0;
+            } else if (compareCentre == "Ciney") {
+                selectedSheet = 1;
+            } else if (compareCentre == "Gedinne") {
+                selectedSheet = 2;
+            } else if (compareCentre == "Eghezée") {
+                selectedSheet = 3;
+            } else {
+                System.out.println("Le centre n'existe pas");
+            }
+
+            String comparePeriode = comboPeriode.getValue().toString();
+            if (comparePeriode == "Janvier") {
+                selectedColumn = "D";
+            } else if (comparePeriode == "Février") {
+                selectedColumn = "E";
+            } else {
+                System.out.println("Période pas encore implementée");
+            }
+
             String compareIndic = comboIndic.getValue().toString();
+            if (compareIndic == "Total jours payés") {
+                selectedRow = 6;
+                selectedRow2 = 7;
+                selectedRow3 = 8;
+                selectedRow4 = 9;
+            } else if (compareIndic == "Total jours prestés Infirmières") {
+                selectedRow = 11;
+                selectedRow2 = 12;
+                selectedRow3 = 13;
+            } else {
+                System.out.println("Indicateur pas encore implementé");
+            }
+
+
             try {
-                PreparedStatement ps0 = AccessConnection.SiStatConnection().prepareStatement("SELECT * FROM 902_2015 WHERE Champ2 = ?");
-                ps0.setString(1, compareIndic);
-                ResultSet result = ps0.executeQuery();
-                while (result.next()) {
-                    String rs = result.getString(selectedChamp);
-                    System.out.println(rs);
-                    ps0.close();
-                    AccessConnection.SiStatConnection().close();
-                    System.out.println("Connexion terminée");
+                Workbook wb = WorkbookFactory.create(new File(pathName));
+                Workbook wb2 = WorkbookFactory.create(new File("P:/PROVINCE et statistiques FASD/Données Namur 2017.xls"));
+                Workbook wb3 = WorkbookFactory.create(new File("P:/PROVINCE et statistiques FASD/Suivi pers. CJB Namur 2017.xls"));
+                HSSFFormulaEvaluator evaluator = (HSSFFormulaEvaluator) wb.getCreationHelper().createFormulaEvaluator();
+                HSSFFormulaEvaluator evaluator2 = (HSSFFormulaEvaluator) wb2.getCreationHelper().createFormulaEvaluator();
+                HSSFFormulaEvaluator evaluator3 = (HSSFFormulaEvaluator) wb3.getCreationHelper().createFormulaEvaluator();
+                // Set up the workbook environment for evaluation
+                String[] workbookNames = {pathName, "Données Namur 2017.xls", "Suivi pers. CJB Namur 2017.xls"};
+                HSSFFormulaEvaluator[] evaluators = {evaluator, evaluator2, evaluator3};
+                HSSFFormulaEvaluator.setupEnvironment(workbookNames, evaluators);
+                Sheet sheet = wb.getSheetAt(selectedSheet);
+                CellReference cellReference = new CellReference(selectedColumn + selectedRow);
+                Row row = sheet.getRow(cellReference.getRow());
+                cell = row.getCell(cellReference.getCol());
+                if (selectedRow2 != 0) {
+                    CellReference cellReference2 = new CellReference(selectedColumn + selectedRow2);
+                    Row row2 = sheet.getRow(cellReference2.getRow());
+                    cell2 = row2.getCell(cellReference2.getCol());
+                }
+                if (selectedRow3 != 0) {
+                    CellReference cellReference3 = new CellReference(selectedColumn + selectedRow3);
+                    Row row3 = sheet.getRow(cellReference3.getRow());
+                    cell3 = row3.getCell(cellReference3.getCol());
+                }
+                if (selectedRow4 != 0) {
+                    CellReference cellReference4 = new CellReference(selectedColumn + selectedRow4);
+                    Row row4 = sheet.getRow(cellReference4.getRow());
+                    cell4 = row4.getCell(cellReference4.getCol());
+                }
+                if (selectedRow5 != 0) {
+                    CellReference cellReference5 = new CellReference(selectedColumn + selectedRow5);
+                    Row row5 = sheet.getRow(cellReference5.getRow());
+                    cell5 = row5.getCell(cellReference5.getCol());
+                }
+                if (selectedRow6 != 0) {
+                    CellReference cellReference6 = new CellReference(selectedColumn + selectedRow6);
+                    Row row6 = sheet.getRow(cellReference6.getRow());
+                    cell6 = row6.getCell(cellReference6.getCol());
+                }
+                if (cell != null) {
+                    from1 = cell.getNumericCellValue();
+                    switch (evaluator.evaluateFormulaCell(cell)) {
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            System.out.println(cell.getBooleanCellValue());
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.println(cell.getNumericCellValue());
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            System.out.println(cell.getStringCellValue());
+                            break;
+                        case Cell.CELL_TYPE_BLANK:
+                            break;
+                        case Cell.CELL_TYPE_ERROR:
+                            System.out.println(cell.getErrorCellValue());
+                            break;
+
+                        // CELL_TYPE_FORMULA n'arrivera jamais
+                        case Cell.CELL_TYPE_FORMULA:
+                            break;
                     }
-            } catch (SQLException e1) {
+                }
+                if (cell2 != null) {
+                    from2 = cell2.getNumericCellValue();
+                    switch (evaluator.evaluateFormulaCell(cell2)) {
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            System.out.println(cell2.getBooleanCellValue());
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.println(cell2.getNumericCellValue());
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            System.out.println(cell2.getStringCellValue());
+                            break;
+                        case Cell.CELL_TYPE_BLANK:
+                            break;
+                        case Cell.CELL_TYPE_ERROR:
+                            System.out.println(cell2.getErrorCellValue());
+                            break;
+
+                        // CELL_TYPE_FORMULA n'arrivera jamais
+                        case Cell.CELL_TYPE_FORMULA:
+                            break;
+                    }
+                }
+                if (cell3 != null) {
+                    from3 = cell3.getNumericCellValue();
+                    switch (evaluator.evaluateFormulaCell(cell3)) {
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            System.out.println(cell3.getBooleanCellValue());
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.println(cell3.getNumericCellValue());
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            System.out.println(cell3.getStringCellValue());
+                            break;
+                        case Cell.CELL_TYPE_BLANK:
+                            break;
+                        case Cell.CELL_TYPE_ERROR:
+                            System.out.println(cell3.getErrorCellValue());
+                            break;
+
+                        // CELL_TYPE_FORMULA n'arrivera jamais
+                        case Cell.CELL_TYPE_FORMULA:
+                            break;
+                    }
+                }
+                if (cell4 != null) {
+                    from4 = cell4.getNumericCellValue();
+                    switch (evaluator.evaluateFormulaCell(cell4)) {
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            System.out.println(cell4.getBooleanCellValue());
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.println(cell4.getNumericCellValue());
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            System.out.println(cell4.getStringCellValue());
+                            break;
+                        case Cell.CELL_TYPE_BLANK:
+                            break;
+                        case Cell.CELL_TYPE_ERROR:
+                            System.out.println(cell4.getErrorCellValue());
+                            break;
+
+                        // CELL_TYPE_FORMULA n'arrivera jamais
+                        case Cell.CELL_TYPE_FORMULA:
+                            break;
+                    }
+                }
+                if (cell5 != null) {
+                    from5 = cell5.getNumericCellValue();
+                    switch (evaluator.evaluateFormulaCell(cell5)) {
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            System.out.println(cell5.getBooleanCellValue());
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.println(cell5.getNumericCellValue());
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            System.out.println(cell5.getStringCellValue());
+                            break;
+                        case Cell.CELL_TYPE_BLANK:
+                            break;
+                        case Cell.CELL_TYPE_ERROR:
+                            System.out.println(cell5.getErrorCellValue());
+                            break;
+
+                        // CELL_TYPE_FORMULA n'arrivera jamais
+                        case Cell.CELL_TYPE_FORMULA:
+                            break;
+                    }
+                }
+                if (cell6 != null) {
+                    from6 = cell6.getNumericCellValue();
+                    switch (evaluator.evaluateFormulaCell(cell6)) {
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            System.out.println(cell6.getBooleanCellValue());
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.println(cell6.getNumericCellValue());
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            System.out.println(cell6.getStringCellValue());
+                            break;
+                        case Cell.CELL_TYPE_BLANK:
+                            break;
+                        case Cell.CELL_TYPE_ERROR:
+                            System.out.println(cell6.getErrorCellValue());
+                            break;
+
+                        // CELL_TYPE_FORMULA n'arrivera jamais
+                        case Cell.CELL_TYPE_FORMULA:
+                            break;
+                    }
+                }
+                // MISE EN FROMAGE
+                if (compareIndic == "Total jours payés" || compareIndic == "Total jours prestés Infirmières")
+                {
+                    ObservableList<PieChart.Data> pieChartData
+                            = FXCollections.observableArrayList(
+                            new PieChart.Data("Test 2", from2),
+                            new PieChart.Data("Test 3", from3),
+                            new PieChart.Data("Test 3", from4),
+                            new PieChart.Data("Test 3", from5)
+                    );
+                    roundGraph.setData(pieChartData);
+                    roundGraph.setStartAngle(90);
+                }
+
+                // VIDAGE MEMOIRE
+                cell = null;
+                cell2 = null;
+                cell3 = null;
+                cell4 = null;
+                cell5 = null;
+                cell6 = null;
+                selectedRow = 0;
+                selectedRow2 = 0;
+                selectedRow3 = 0;
+                selectedRow4 = 0;
+                selectedRow5 = 0;
+                selectedRow6 =0;
+                wb.close();
+                wb2.close();
+                wb3.close();
+
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (InvalidFormatException e1) {
                 e1.printStackTrace();
             }
 
