@@ -1,4 +1,4 @@
-package com.SoinsInfirmiers;
+package com.controllers.si;
 
 import com.Main;
 import com.Strings;
@@ -27,7 +27,7 @@ public class TableauxAnnuels implements Initializable {
     // Instances de classes
     Strings strings = new Strings();
 
-    // Instances des objets FXML
+    // Instances des objets fxml
     @FXML
     private JFXHamburger hamburger;
     @FXML
@@ -54,7 +54,7 @@ public class TableauxAnnuels implements Initializable {
         /*******************************DRAWER MENU****************************************************************/
         VBox box = null;
         try {
-            box = FXMLLoader.load(getClass().getResource("../FXML/DrawerDesign.fxml"));
+            box = FXMLLoader.load(getClass().getResource("../fxml/DrawerDesign.fxml"));
             drawer.setSidePane(box);
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class TableauxAnnuels implements Initializable {
                         case "drawerButtonBack":
                             Stage stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/HomePage.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../fxml/HomePage.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Aide & Soins à Domicile - Statistiques // FX_Alpha 1");
                             } catch (IOException e1) {
@@ -87,7 +87,7 @@ public class TableauxAnnuels implements Initializable {
                         case "arrayYearButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/TableauxAnnuels.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../fxml/TableauxAnnuels.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Soins Infirmiers - Tableaux Annuels // FX_Alpha 1");
                             } catch (IOException e1) {
@@ -97,7 +97,7 @@ public class TableauxAnnuels implements Initializable {
                         case "homeButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/StatistiquesSI.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../fxml/StatistiquesSI.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Soins Infirmiers - Statistiques // FX_Alpha 1");
                             } catch (IOException e1) {

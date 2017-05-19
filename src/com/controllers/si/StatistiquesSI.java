@@ -1,7 +1,8 @@
-package com.SoinsInfirmiers;
+package com.controllers.si;
 
 import com.Main;
 import com.Strings;
+import com.Year;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDrawer;
@@ -34,7 +35,7 @@ public class StatistiquesSI implements Initializable {
     // Instances de classes
     Strings strings = new Strings();
 
-    // Instances des objets FXML
+    // Instances des objets fxml
     @FXML
     private JFXHamburger hamburger;
     @FXML
@@ -53,9 +54,6 @@ public class StatistiquesSI implements Initializable {
     private JFXButton generateButton;
 
     // Variables de classe
-    String fileNameA = "";
-    String fileNameB = "";
-    String fileNameC = "";
     int selectedSheet = 0;
     String selectedColumn = "";
     int selectedRow = 0;
@@ -85,7 +83,7 @@ public class StatistiquesSI implements Initializable {
         /*************************************DRAWER MENU**********************************************************/
         VBox box = null;
         try {
-            box = FXMLLoader.load(getClass().getResource("../FXML/DrawerDesign.fxml"));
+            box = FXMLLoader.load(getClass().getResource("../fxml/DrawerDesign.fxml"));
             drawer.setSidePane(box);
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,7 +106,7 @@ public class StatistiquesSI implements Initializable {
                         case "drawerButtonBack":
                             Stage stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/HomePage.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../fxml/HomePage.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Aide & Soins à Domicile - Statistiques // FX_Alpha 1");
                             } catch (IOException e1) {
@@ -118,7 +116,7 @@ public class StatistiquesSI implements Initializable {
                         case "arrayYearButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/TableauxAnnuels.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../fxml/TableauxAnnuels.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Soins Infirmiers - Tableaux Annuels // FX_Alpha 1");
                             } catch (IOException e1) {
@@ -128,7 +126,7 @@ public class StatistiquesSI implements Initializable {
                         case "homeButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/StatistiquesSI.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../fxml/StatistiquesSI.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Soins Infirmiers - Statistiques // FX_Alpha 1");
                             } catch (IOException e1) {
@@ -152,17 +150,9 @@ public class StatistiquesSI implements Initializable {
         generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 
             // RECUPERATION DES ITEMS DANS COMBO
-            int compareYear = (int) comboYear.getValue();
-            if (compareYear == 2017) {
-                System.out.println("Okay ça marche");
-                fileNameA = "P:/PROVINCE et statistiques FASD/Namur 2017.xls";
-                fileNameB = "P:/PROVINCE et statistiques FASD/Données Namur 2017.xls";
-                fileNameC = "P:/PROVINCE et statistiques FASD/Suivi pers. CJB Namur 2017.xls";
-            } else if (compareYear == 2016){
-                System.out.println("Back in 2016");
-            }else{
-                System.out.println("Année introuvable");
-            }
+            Year year = new Year((Integer)comboYear.getValue());
+            year.toPath();
+
             String compareCentre = comboCentre.getValue().toString();
             if (compareCentre == "Global") {
                 selectedSheet = 5;
@@ -204,13 +194,13 @@ public class StatistiquesSI implements Initializable {
             }
 
             try {
-                Workbook wb = WorkbookFactory.create(new File(fileNameA));
-                Workbook wb2 = WorkbookFactory.create(new File(fileNameB));
-                Workbook wb3 = WorkbookFactory.create(new File(fileNameC));
+                Workbook wb = WorkbookFactory.create(new File(year.filePathA+year.fileNameA));
+                Workbook wb2 = WorkbookFactory.create(new File(year.filePathB+year.fileNameB));
+                Workbook wb3 = WorkbookFactory.create(new File(year.filePathC+year.fileNameC));
                 HSSFFormulaEvaluator evaluator = (HSSFFormulaEvaluator) wb.getCreationHelper().createFormulaEvaluator();
                 HSSFFormulaEvaluator evaluator2 = (HSSFFormulaEvaluator) wb2.getCreationHelper().createFormulaEvaluator();
                 HSSFFormulaEvaluator evaluator3 = (HSSFFormulaEvaluator) wb3.getCreationHelper().createFormulaEvaluator();
-                String[] workbookNames = {"Namur 2017.xls", "Données Namur 2017.xls", "Suivi pers. CJB Namur 2017.xls"};
+                String[] workbookNames = {year.fileNameA, year.fileNameB, year.fileNameC};
                 HSSFFormulaEvaluator[] evaluators = {evaluator, evaluator2, evaluator3};
                 HSSFFormulaEvaluator.setupEnvironment(workbookNames, evaluators);
                 Sheet sheet = wb.getSheetAt(selectedSheet);

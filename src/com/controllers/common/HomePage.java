@@ -1,5 +1,6 @@
-package com;
+package com.controllers.common;
 
+import com.Main;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
@@ -38,7 +39,7 @@ public class HomePage implements Initializable {
         siButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) ->  {
             Stage stage = Main.getPrimaryStage();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("FXML/StatistiquesSI.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("fxml/StatistiquesSI.fxml"));
                 stage.setScene(new Scene(root));
                 stage.setTitle("Soins Infirmiers - Statistiques // FX_Alpha 1");
             } catch (IOException e1) {
