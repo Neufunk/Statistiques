@@ -20,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         setPrimaryStage(primaryStage);
-        Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/HomePage.fxml"));
         primaryStage.setTitle("Aide & Soins à Domicile - Statistiques // FX_Alpha 1");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.setResizable(false);

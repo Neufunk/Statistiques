@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SIPageController implements Initializable {
+public class StatistiquesSI implements Initializable {
 
     // Instances de classes
     Strings strings = new Strings();
@@ -52,9 +52,10 @@ public class SIPageController implements Initializable {
     @FXML
     private JFXButton generateButton;
 
-    // Variables
-    String selectedChamp = "";
-    String pathName = "";
+    // Variables de classe
+    String fileNameA = "";
+    String fileNameB = "";
+    String fileNameC = "";
     int selectedSheet = 0;
     String selectedColumn = "";
     int selectedRow = 0;
@@ -75,6 +76,8 @@ public class SIPageController implements Initializable {
     double from4 = 0;
     double from5 = 0;
     double from6 = 0;
+    boolean withGraphic = false;
+    ObservableList<PieChart.Data> pieChartData;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -82,7 +85,7 @@ public class SIPageController implements Initializable {
         /*************************************DRAWER MENU**********************************************************/
         VBox box = null;
         try {
-            box = FXMLLoader.load(getClass().getResource("DrawerDesign.fxml"));
+            box = FXMLLoader.load(getClass().getResource("../FXML/DrawerDesign.fxml"));
             drawer.setSidePane(box);
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,7 +108,7 @@ public class SIPageController implements Initializable {
                         case "drawerButtonBack":
                             Stage stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../HomePage.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/HomePage.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Aide & Soins à Domicile - Statistiques // FX_Alpha 1");
                             } catch (IOException e1) {
@@ -115,7 +118,7 @@ public class SIPageController implements Initializable {
                         case "arrayYearButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("TableauxAnnuels.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/TableauxAnnuels.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Soins Infirmiers - Tableaux Annuels // FX_Alpha 1");
                             } catch (IOException e1) {
@@ -125,7 +128,7 @@ public class SIPageController implements Initializable {
                         case "homeButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("SIPage.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/StatistiquesSI.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle("Soins Infirmiers - Statistiques // FX_Alpha 1");
                             } catch (IOException e1) {
@@ -145,21 +148,21 @@ public class SIPageController implements Initializable {
         comboIndic.setItems(strings.indicList);
         comboPeriode.setItems(strings.periodList);
 
-
-        // BOUTTON
+        // GENERATE BUTTON
         generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 
-            // VIDAGE GRAPHIQUE
-            roundGraph.setTitleSide(null);
-
             // RECUPERATION DES ITEMS DANS COMBO
-            String compareYear = comboYear.getValue().toString();
-            if (compareYear == "2017") {
-                pathName = "P:/PROVINCE et statistiques FASD/Namur 2017.xls";
-            } else {
-                System.out.println("Fichier introuvable");
+            int compareYear = (int) comboYear.getValue();
+            if (compareYear == 2017) {
+                System.out.println("Okay ça marche");
+                fileNameA = "P:/PROVINCE et statistiques FASD/Namur 2017.xls";
+                fileNameB = "P:/PROVINCE et statistiques FASD/Données Namur 2017.xls";
+                fileNameC = "P:/PROVINCE et statistiques FASD/Suivi pers. CJB Namur 2017.xls";
+            } else if (compareYear == 2016){
+                System.out.println("Back in 2016");
+            }else{
+                System.out.println("Année introuvable");
             }
-
             String compareCentre = comboCentre.getValue().toString();
             if (compareCentre == "Global") {
                 selectedSheet = 5;
@@ -176,7 +179,6 @@ public class SIPageController implements Initializable {
             } else {
                 System.out.println("Le centre n'existe pas");
             }
-
             String comparePeriode = comboPeriode.getValue().toString();
             if (comparePeriode == "Janvier") {
                 selectedColumn = "D";
@@ -185,31 +187,30 @@ public class SIPageController implements Initializable {
             } else {
                 System.out.println("Période pas encore implementée");
             }
-
             String compareIndic = comboIndic.getValue().toString();
             if (compareIndic == "Total jours payés") {
                 selectedRow = 6;
                 selectedRow2 = 7;
                 selectedRow3 = 8;
                 selectedRow4 = 9;
+                withGraphic = true;
             } else if (compareIndic == "Total jours prestés Infirmières") {
                 selectedRow = 11;
                 selectedRow2 = 12;
                 selectedRow3 = 13;
+                withGraphic = false;
             } else {
                 System.out.println("Indicateur pas encore implementé");
             }
 
-
             try {
-                Workbook wb = WorkbookFactory.create(new File(pathName));
-                Workbook wb2 = WorkbookFactory.create(new File("P:/PROVINCE et statistiques FASD/Données Namur 2017.xls"));
-                Workbook wb3 = WorkbookFactory.create(new File("P:/PROVINCE et statistiques FASD/Suivi pers. CJB Namur 2017.xls"));
+                Workbook wb = WorkbookFactory.create(new File(fileNameA));
+                Workbook wb2 = WorkbookFactory.create(new File(fileNameB));
+                Workbook wb3 = WorkbookFactory.create(new File(fileNameC));
                 HSSFFormulaEvaluator evaluator = (HSSFFormulaEvaluator) wb.getCreationHelper().createFormulaEvaluator();
                 HSSFFormulaEvaluator evaluator2 = (HSSFFormulaEvaluator) wb2.getCreationHelper().createFormulaEvaluator();
                 HSSFFormulaEvaluator evaluator3 = (HSSFFormulaEvaluator) wb3.getCreationHelper().createFormulaEvaluator();
-                // Set up the workbook environment for evaluation
-                String[] workbookNames = {pathName, "Données Namur 2017.xls", "Suivi pers. CJB Namur 2017.xls"};
+                String[] workbookNames = {"Namur 2017.xls", "Données Namur 2017.xls", "Suivi pers. CJB Namur 2017.xls"};
                 HSSFFormulaEvaluator[] evaluators = {evaluator, evaluator2, evaluator3};
                 HSSFFormulaEvaluator.setupEnvironment(workbookNames, evaluators);
                 Sheet sheet = wb.getSheetAt(selectedSheet);
@@ -258,8 +259,6 @@ public class SIPageController implements Initializable {
                         case Cell.CELL_TYPE_ERROR:
                             System.out.println(cell.getErrorCellValue());
                             break;
-
-                        // CELL_TYPE_FORMULA n'arrivera jamais
                         case Cell.CELL_TYPE_FORMULA:
                             break;
                     }
@@ -281,8 +280,6 @@ public class SIPageController implements Initializable {
                         case Cell.CELL_TYPE_ERROR:
                             System.out.println(cell2.getErrorCellValue());
                             break;
-
-                        // CELL_TYPE_FORMULA n'arrivera jamais
                         case Cell.CELL_TYPE_FORMULA:
                             break;
                     }
@@ -304,8 +301,6 @@ public class SIPageController implements Initializable {
                         case Cell.CELL_TYPE_ERROR:
                             System.out.println(cell3.getErrorCellValue());
                             break;
-
-                        // CELL_TYPE_FORMULA n'arrivera jamais
                         case Cell.CELL_TYPE_FORMULA:
                             break;
                     }
@@ -327,8 +322,6 @@ public class SIPageController implements Initializable {
                         case Cell.CELL_TYPE_ERROR:
                             System.out.println(cell4.getErrorCellValue());
                             break;
-
-                        // CELL_TYPE_FORMULA n'arrivera jamais
                         case Cell.CELL_TYPE_FORMULA:
                             break;
                     }
@@ -350,8 +343,6 @@ public class SIPageController implements Initializable {
                         case Cell.CELL_TYPE_ERROR:
                             System.out.println(cell5.getErrorCellValue());
                             break;
-
-                        // CELL_TYPE_FORMULA n'arrivera jamais
                         case Cell.CELL_TYPE_FORMULA:
                             break;
                     }
@@ -373,17 +364,13 @@ public class SIPageController implements Initializable {
                         case Cell.CELL_TYPE_ERROR:
                             System.out.println(cell6.getErrorCellValue());
                             break;
-
-                        // CELL_TYPE_FORMULA n'arrivera jamais
                         case Cell.CELL_TYPE_FORMULA:
                             break;
                     }
                 }
                 // MISE EN FROMAGE
-                if (compareIndic == "Total jours payés" || compareIndic == "Total jours prestés Infirmières")
-                {
-                    ObservableList<PieChart.Data> pieChartData
-                            = FXCollections.observableArrayList(
+                if (withGraphic == true) {
+                    pieChartData = FXCollections.observableArrayList(
                             new PieChart.Data("Test 2", from2),
                             new PieChart.Data("Test 3", from3),
                             new PieChart.Data("Test 3", from4),
@@ -391,6 +378,8 @@ public class SIPageController implements Initializable {
                     );
                     roundGraph.setData(pieChartData);
                     roundGraph.setStartAngle(90);
+                }else{
+                    pieChartData.clear();
                 }
 
                 // VIDAGE MEMOIRE
@@ -405,21 +394,17 @@ public class SIPageController implements Initializable {
                 selectedRow3 = 0;
                 selectedRow4 = 0;
                 selectedRow5 = 0;
-                selectedRow6 =0;
+                selectedRow6 = 0;
                 wb.close();
                 wb2.close();
                 wb3.close();
-
 
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (InvalidFormatException e1) {
                 e1.printStackTrace();
             }
-
         });
-
-
     }
 
 }

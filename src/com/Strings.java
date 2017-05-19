@@ -10,8 +10,14 @@ public class Strings {
             .observableArrayList("Global", "Namur", "Eghezée", "Ciney", "Philippeville", "Gedinne");
 
     // Années
-    public ObservableList<String> yearList = FXCollections
-            .observableArrayList("2015", "2016", "2017");
+    public ObservableList<Integer> yearList = FXCollections
+            .observableArrayList(2015, 2016, 2017);
+
+    // Titres des Indicateurs
+    public ObservableList<String> titleList = FXCollections
+            .observableArrayList("Suivi du personnel infirmier", "Soins et visites", "Facturation", "Patients", "Déplacements", "\n",
+                    "Total jours payés en %", "Total presté en %", "Total absences non payées en %", "Répartition des blocs en %",
+                    "Suppléments (en jours) en %", "\n", "Total joues payés / h");
 
     // Indicateurs
     public ObservableList<String> indicList = FXCollections
