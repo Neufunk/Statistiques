@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="Statistiques_FX">
+    <output-path>$PROJECT_DIR$/out/artifacts/Statistiques_FX</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="alias" value="" />
+        <option name="appClass" value="com.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="keystore" value="" />
+        <option name="title" value="Statistiques" />
+        <option name="vendor" value="" />
+        <option name="version" value="Alpha 1" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="Statistiques_FX.jar">
+        <element id="module-output" name="Statistiques_FX" />
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+    </root>
+  </artifact>
+</component>

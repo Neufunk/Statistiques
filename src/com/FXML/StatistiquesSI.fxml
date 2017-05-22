@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane id="anchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SoinsInfirmiers.StatistiquesSI">
+   <children>
+      <JFXDrawer id="drawer" fx:id="drawer" defaultDrawerSize="250.0" layoutY="-4.0" overLayVisible="false" prefHeight="809.0" prefWidth="270.0">
+         <effect>
+            <DropShadow />
+         </effect></JFXDrawer>
+      <JFXHamburger id="hamburger" fx:id="hamburger" layoutX="-2.0" layoutY="5.0" prefHeight="38.0" prefWidth="55.0" />
+      <Label layoutX="469.0" layoutY="24.0" text="STATISTIQUES SI">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font></Label>
+      <PieChart fx:id="roundGraph" layoutX="359.0" layoutY="271.0" prefHeight="435.0" prefWidth="544.0" />
+      <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#96bb37" layoutX="469.0" layoutY="152.0" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" />
+      <JFXComboBox id="comboPeriode" fx:id="comboPeriode" focusColor="#96bb37" layoutX="660.0" layoutY="152.0" prefHeight="22.0" prefWidth="131.0" promptText="Période" unFocusColor="#006782" />
+      <JFXComboBox id="comboIndic" fx:id="comboIndic" focusColor="#96bb37" layoutX="469.0" layoutY="194.0" prefHeight="22.0" prefWidth="322.0" promptText="Indicateur" unFocusColor="#006782" />
+      <JFXComboBox id="comboYear" fx:id="comboYear" focusColor="#96bb37" layoutX="565.0" layoutY="101.0" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" />
+      <JFXButton fx:id="generateButton" layoutX="590.0" layoutY="241.0" prefHeight="30.0" prefWidth="81.0" style="-fx-background-color: #96bb37;" text="G" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>
