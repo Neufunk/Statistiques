@@ -3,29 +3,72 @@
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane id="anchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SoinsInfirmiers.StatistiquesSI">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SoinsInfirmiers.ControllerStatistiquesSI">
    <children>
-      <JFXDrawer id="drawer" fx:id="drawer" defaultDrawerSize="250.0" layoutY="-4.0" overLayVisible="false" prefHeight="809.0" prefWidth="270.0">
+      <AnchorPane fx:id="anchorPane1" layoutX="74.0" layoutY="382.0" prefHeight="324.0" prefWidth="532.0" style="-fx-background-color: WHITE;">
          <effect>
             <DropShadow />
-         </effect></JFXDrawer>
+         </effect>
+         <children>
+            <JFXTreeTableView layoutX="13.0" layoutY="10.0" prefHeight="303.0" prefWidth="507.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane id="nodeAnchorPaneC" fx:id="anchorPane2" layoutX="622.0" layoutY="21.0" prefHeight="683.0" prefWidth="587.0" style="-fx-background-color: WHITE;">
+         <children>
+            <PieChart fx:id="roundGraph" labelLineLength="30.0" layoutX="1.0" prefHeight="683.0" prefWidth="599.0" />
+            <Label fx:id="graphicTitle" alignment="CENTER" contentDisplay="CENTER" layoutX="116.0" layoutY="14.0" prefHeight="38.0" prefWidth="384.0" textFill="#006782">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorPane0" layoutX="74.0" layoutY="21.0" prefHeight="350.0" prefWidth="532.0" style="-fx-background-color: WHITE;">
+         <children>
+            <Label layoutX="105.0" layoutY="14.0" text="STATISTIQUES SI" textFill="#006782">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <JFXComboBox id="comboYear" fx:id="comboYear" focusColor="#96bb37" layoutX="201.0" layoutY="97.0" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" />
+            <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#96bb37" layoutX="105.0" layoutY="152.0" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" />
+            <JFXComboBox id="comboPeriode" fx:id="comboPeriode" focusColor="#96bb37" layoutX="299.0" layoutY="152.0" prefHeight="22.0" prefWidth="131.0" promptText="Période" unFocusColor="#006782" />
+            <JFXComboBox id="comboIndic" fx:id="comboIndic" focusColor="#96bb37" layoutX="106.0" layoutY="224.0" prefHeight="22.0" prefWidth="322.0" promptText="Indicateur" unFocusColor="#006782" />
+            <JFXButton fx:id="generateButton" buttonType="RAISED" layoutX="227.0" layoutY="291.0" prefHeight="30.0" prefWidth="81.0" style="-fx-background-color: #96bb37;" text="G" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <ImageView fx:id="pdfIcon" fitHeight="46.0" fitWidth="36.0" layoutX="1238.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/iconPDF.png" />
+         </image>
+         <effect>
+            <DropShadow height="2.0" radius="0.5" width="2.0" />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <AnchorPane fx:id="maskPane" layoutX="1.0" layoutY="-1.0" opacity="0.1" prefHeight="728.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
+      <JFXDrawer id="drawer" fx:id="drawer" defaultDrawerSize="250.0" layoutY="-4.0" overLayVisible="false" prefHeight="809.0" prefWidth="270.0" visible="false">
+         <effect>
+            <DropShadow />
+         </effect>
+      </JFXDrawer>
       <JFXHamburger id="hamburger" fx:id="hamburger" layoutX="-2.0" layoutY="5.0" prefHeight="38.0" prefWidth="55.0" />
-      <Label layoutX="469.0" layoutY="24.0" text="STATISTIQUES SI">
-         <font>
-            <Font name="System Bold" size="36.0" />
-         </font></Label>
-      <PieChart fx:id="roundGraph" layoutX="359.0" layoutY="271.0" prefHeight="435.0" prefWidth="544.0" />
-      <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#96bb37" layoutX="469.0" layoutY="152.0" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" />
-      <JFXComboBox id="comboPeriode" fx:id="comboPeriode" focusColor="#96bb37" layoutX="660.0" layoutY="152.0" prefHeight="22.0" prefWidth="131.0" promptText="Période" unFocusColor="#006782" />
-      <JFXComboBox id="comboIndic" fx:id="comboIndic" focusColor="#96bb37" layoutX="469.0" layoutY="194.0" prefHeight="22.0" prefWidth="322.0" promptText="Indicateur" unFocusColor="#006782" />
-      <JFXComboBox id="comboYear" fx:id="comboYear" focusColor="#96bb37" layoutX="565.0" layoutY="101.0" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" />
-      <JFXButton fx:id="generateButton" layoutX="590.0" layoutY="241.0" prefHeight="30.0" prefWidth="81.0" style="-fx-background-color: #96bb37;" text="G" textFill="WHITE">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </JFXButton>
    </children>
 </AnchorPane>

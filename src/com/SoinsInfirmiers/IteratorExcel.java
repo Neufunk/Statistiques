@@ -11,8 +11,18 @@ import java.io.IOException;
 
 public class IteratorExcel {
 
-    private Cell masterCell;
-    private Cell cellA, cellB, cellC, cellD, cellE;
+    private Workbook wb;
+    private Workbook wb2;
+    private Workbook wb3;
+    private Cell masterCell, masterTitleCell;
+    private Cell cellA, cellB, cellC, cellD, cellE, titleCellA, titleCellB, titleCellC,
+            titleCellD, titleCellE, titleCellF;
+    private String contentTitleMasterCell = "";
+    private String contentTitleCellA = "";
+    private String contentTitleCellB = "";
+    private String contentTitleCellC = "";
+    private String contentTitleCellD = "";
+    private String contentTitleCellE = "";
     private double contentMasterCell = 0;
     private double contentCellA = 0;
     private double contentCellB = 0;
@@ -32,48 +42,59 @@ public class IteratorExcel {
     private int rowD;
     private int rowE;
 
-    public void setPath(String path){
+    public void setPath(String path) {
         this.path = path;
     }
-    public void setFileA(String fileA){
+
+    public void setFileA(String fileA) {
         this.fileA = fileA;
     }
-    public void setFileB(String fileB){
+
+    public void setFileB(String fileB) {
         this.fileB = fileB;
     }
-    public void setFileC(String fileC){
+
+    public void setFileC(String fileC) {
         this.fileC = fileC;
     }
-    public void setSheet(int sheet){
+
+    public void setSheet(int sheet) {
         this.sheet = sheet;
     }
-    public void setColumn(String column){
+
+    public void setColumn(String column) {
         this.column = column;
     }
-    public void setMasterRow (int masterRow){
+
+    public void setMasterRow(int masterRow) {
         this.masterRow = masterRow;
     }
-    public void setRowA(int rowA){
+
+    public void setRowA(int rowA) {
         this.rowA = rowA;
     }
-    public void setRowB(int rowB){
+
+    public void setRowB(int rowB) {
         this.rowB = rowB;
     }
-    public void setRowC(int rowC){
+
+    public void setRowC(int rowC) {
         this.rowC = rowC;
     }
-    public void setRowD(int rowD){
+
+    public void setRowD(int rowD) {
         this.rowD = rowD;
     }
-    public void setRowE(int rowE){
+
+    public void setRowE(int rowE) {
         this.rowE = rowE;
     }
 
     void startIteration() throws IOException, InvalidFormatException {
 
-        Workbook wb = WorkbookFactory.create(new File(path+fileA));
-        Workbook wb2 = WorkbookFactory.create(new File(path+fileB));
-        Workbook wb3 = WorkbookFactory.create(new File(path+fileC));
+        wb = WorkbookFactory.create(new File(path + fileA));
+        wb2 = WorkbookFactory.create(new File(path + fileB));
+        wb3 = WorkbookFactory.create(new File(path + fileC));
         HSSFFormulaEvaluator evaluator = (HSSFFormulaEvaluator) wb.getCreationHelper().createFormulaEvaluator();
         HSSFFormulaEvaluator evaluator2 = (HSSFFormulaEvaluator) wb2.getCreationHelper().createFormulaEvaluator();
         HSSFFormulaEvaluator evaluator3 = (HSSFFormulaEvaluator) wb3.getCreationHelper().createFormulaEvaluator();
@@ -82,164 +103,84 @@ public class IteratorExcel {
         HSSFFormulaEvaluator.setupEnvironment(workbookNames, evaluators);
         Sheet selectionSheet = wb.getSheetAt(sheet);
 
-        CellReference cellReference = new CellReference(column + masterRow);
-        Row masterRowB = selectionSheet.getRow(cellReference.getRow());
-        masterCell = masterRowB.getCell(cellReference.getCol());
+        CellReference cellReference1 = new CellReference(column + masterRow);
+        Row masterRowB = selectionSheet.getRow(cellReference1.getRow());
+        masterCell = masterRowB.getCell(cellReference1.getCol());
+
+        CellReference titleCellReference1 = new CellReference("B"+ masterRow);
+        Row masterRowC = selectionSheet.getRow(titleCellReference1.getRow());
+        masterTitleCell = masterRowC.getCell(titleCellReference1.getCol());
 
         if (rowA != 0) {
             CellReference cellReference2 = new CellReference(column + rowA);
-            Row rowA = selectionSheet.getRow(cellReference2.getRow());
-            cellA = rowA.getCell(cellReference2.getCol());
+            Row rowAA = selectionSheet.getRow(cellReference2.getRow());
+            cellA = rowAA.getCell(cellReference2.getCol());
+            CellReference titleCellReference2 = new CellReference("B" + rowA);
+            Row titleRowA = selectionSheet.getRow(titleCellReference2.getRow());
+            titleCellA = titleRowA.getCell(titleCellReference2.getCol());
+
         }
         if (rowB != 0) {
             CellReference cellReference3 = new CellReference(column + rowB);
             Row rowB = selectionSheet.getRow(cellReference3.getRow());
             cellB = rowB.getCell(cellReference3.getCol());
+            CellReference titleCellReference3 = new CellReference("B" + this.rowB);
+            Row titleRowB = selectionSheet.getRow(titleCellReference3.getRow());
+            titleCellB = titleRowB.getCell(titleCellReference3.getCol());
         }
         if (rowC != 0) {
             CellReference cellReference4 = new CellReference(column + rowC);
             Row rowC = selectionSheet.getRow(cellReference4.getRow());
             cellC = rowC.getCell(cellReference4.getCol());
+            CellReference titleCellReference4 = new CellReference("B" + this.rowC);
+            Row titleRowC = selectionSheet.getRow(titleCellReference4.getRow());
+            titleCellC = titleRowC.getCell(titleCellReference4.getCol());
         }
         if (rowD != 0) {
             CellReference cellReference5 = new CellReference(column + rowD);
             Row rowD = selectionSheet.getRow(cellReference5.getRow());
             cellD = rowD.getCell(cellReference5.getCol());
+            CellReference titleCellReference5 = new CellReference("B" + this.rowD);
+            Row titleRowD = selectionSheet.getRow(titleCellReference5.getRow());
+            titleCellD = titleRowD.getCell(titleCellReference5.getCol());
         }
         if (rowE != 0) {
             CellReference cellReference6 = new CellReference(column + rowE);
             Row rowE = selectionSheet.getRow(cellReference6.getRow());
             cellE = rowE.getCell(cellReference6.getCol());
+            CellReference titleCellReference6 = new CellReference("B" + this.rowE);
+            Row titleRowE = selectionSheet.getRow(titleCellReference6.getRow());
+            titleCellE = titleRowE.getCell(titleCellReference6.getCol());
         }
 
-        if (masterCell != null) {
+        if (masterCell != null){
             contentMasterCell = masterCell.getNumericCellValue();
-            switch (evaluator.evaluateFormulaCell(masterCell)) {
-                case Cell.CELL_TYPE_BOOLEAN:
-                    System.out.println(masterCell.getBooleanCellValue());
-                    break;
-                case Cell.CELL_TYPE_NUMERIC:
-                    System.out.println(masterCell.getNumericCellValue());
-                    break;
-                case Cell.CELL_TYPE_STRING:
-                    System.out.println(masterCell.getStringCellValue());
-                    break;
-                case Cell.CELL_TYPE_BLANK:
-                    break;
-                case Cell.CELL_TYPE_ERROR:
-                    System.out.println(masterCell.getErrorCellValue());
-                    break;
-                case Cell.CELL_TYPE_FORMULA:
-                    break;
-            }
+            contentTitleMasterCell = masterTitleCell.getStringCellValue();
         }
-        if (cellA != null) {
+        if (cellA != null){
             contentCellA = cellA.getNumericCellValue();
-            switch (evaluator.evaluateFormulaCell(cellA)) {
-                case Cell.CELL_TYPE_BOOLEAN:
-                    System.out.println(cellA.getBooleanCellValue());
-                    break;
-                case Cell.CELL_TYPE_NUMERIC:
-                    System.out.println(cellA.getNumericCellValue());
-                    break;
-                case Cell.CELL_TYPE_STRING:
-                    System.out.println(cellA.getStringCellValue());
-                    break;
-                case Cell.CELL_TYPE_BLANK:
-                    break;
-                case Cell.CELL_TYPE_ERROR:
-                    System.out.println(cellA.getErrorCellValue());
-                    break;
-                case Cell.CELL_TYPE_FORMULA:
-                    break;
-            }
+            contentTitleCellA = titleCellA.getStringCellValue();
         }
-        if (cellB != null) {
+        if (cellB != null){
             contentCellB = cellB.getNumericCellValue();
-            switch (evaluator.evaluateFormulaCell(cellB)) {
-                case Cell.CELL_TYPE_BOOLEAN:
-                    System.out.println(cellB.getBooleanCellValue());
-                    break;
-                case Cell.CELL_TYPE_NUMERIC:
-                    System.out.println(cellB.getNumericCellValue());
-                    break;
-                case Cell.CELL_TYPE_STRING:
-                    System.out.println(cellB.getStringCellValue());
-                    break;
-                case Cell.CELL_TYPE_BLANK:
-                    break;
-                case Cell.CELL_TYPE_ERROR:
-                    System.out.println(cellB.getErrorCellValue());
-                    break;
-                case Cell.CELL_TYPE_FORMULA:
-                    break;
-            }
+            contentTitleCellB = titleCellB.getStringCellValue();
         }
-        if (cellC != null) {
+        if (cellC != null){
             contentCellC = cellC.getNumericCellValue();
-            switch (evaluator.evaluateFormulaCell(cellC)) {
-                case Cell.CELL_TYPE_BOOLEAN:
-                    System.out.println(cellC.getBooleanCellValue());
-                    break;
-                case Cell.CELL_TYPE_NUMERIC:
-                    System.out.println(cellC.getNumericCellValue());
-                    break;
-                case Cell.CELL_TYPE_STRING:
-                    System.out.println(cellC.getStringCellValue());
-                    break;
-                case Cell.CELL_TYPE_BLANK:
-                    break;
-                case Cell.CELL_TYPE_ERROR:
-                    System.out.println(cellC.getErrorCellValue());
-                    break;
-                case Cell.CELL_TYPE_FORMULA:
-                    break;
-            }
+            contentTitleCellC = titleCellC.getStringCellValue();
         }
-        if (cellD != null) {
+        if (cellD != null){
             contentCellD = cellD.getNumericCellValue();
-            switch (evaluator.evaluateFormulaCell(cellD)) {
-                case Cell.CELL_TYPE_BOOLEAN:
-                    System.out.println(cellD.getBooleanCellValue());
-                    break;
-                case Cell.CELL_TYPE_NUMERIC:
-                    System.out.println(cellD.getNumericCellValue());
-                    break;
-                case Cell.CELL_TYPE_STRING:
-                    System.out.println(cellD.getStringCellValue());
-                    break;
-                case Cell.CELL_TYPE_BLANK:
-                    break;
-                case Cell.CELL_TYPE_ERROR:
-                    System.out.println(cellD.getErrorCellValue());
-                    break;
-                case Cell.CELL_TYPE_FORMULA:
-                    break;
-            }
+            contentTitleCellD = titleCellD.getStringCellValue();
         }
-        if (cellE != null) {
+        if (cellE != null){
             contentCellE = cellE.getNumericCellValue();
-            switch (evaluator.evaluateFormulaCell(cellE)) {
-                case Cell.CELL_TYPE_BOOLEAN:
-                    System.out.println(cellE.getBooleanCellValue());
-                    break;
-                case Cell.CELL_TYPE_NUMERIC:
-                    System.out.println(cellE.getNumericCellValue());
-                    break;
-                case Cell.CELL_TYPE_STRING:
-                    System.out.println(cellE.getStringCellValue());
-                    break;
-                case Cell.CELL_TYPE_BLANK:
-                    break;
-                case Cell.CELL_TYPE_ERROR:
-                    System.out.println(cellE.getErrorCellValue());
-                    break;
-                case Cell.CELL_TYPE_FORMULA:
-                    break;
-            }
+            contentTitleCellE = titleCellE.getStringCellValue();
         }
+
     }
-    public double getContentMasterCell(){
+
+    public double getContentMasterCell() {
         return contentMasterCell;
     }
 
@@ -261,5 +202,23 @@ public class IteratorExcel {
 
     public double getContentCellE() {
         return contentCellE;
+    }
+
+    public String getContentTitleMasterCell() { return contentTitleMasterCell; }
+
+    public String getContentTitleCellA() { return contentTitleCellA; }
+
+    public String getContentTitleCellB() { return contentTitleCellB; }
+
+    public String getContentTitleCellC() { return contentTitleCellC; }
+
+    public String getContentTitleCellD() { return contentTitleCellD; }
+
+    public String getContentTitleCellE() { return contentTitleCellE; }
+
+    public void closeConnection() throws IOException {
+        wb.close();
+        wb2.close();
+        wb3.close();
     }
 }

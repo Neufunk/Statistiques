@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class TableauxAnnuels implements Initializable {
+public class ControllerTableauxAnnuels implements Initializable {
 
     // Instances de classes
     Strings strings = new Strings();
@@ -46,7 +46,6 @@ public class TableauxAnnuels implements Initializable {
     private JFXButton generateButton;
     @FXML
     private JFXButton clearButton;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -74,12 +73,12 @@ public class TableauxAnnuels implements Initializable {
             if (node.getAccessibleText() != null) {
                 node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     switch (node.getAccessibleText()) {
-                        case "drawerButtonBack":
+                        case "backButton":
                             Stage stage = Main.getPrimaryStage();
                             try {
                                 Parent root = FXMLLoader.load(getClass().getResource("../FXML/HomePage.fxml"));
                                 stage.setScene(new Scene(root));
-                                stage.setTitle("Aide & Soins à Domicile - Statistiques // FX_Alpha 1");
+                                stage.setTitle(Strings.homePageTitle);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
@@ -89,7 +88,7 @@ public class TableauxAnnuels implements Initializable {
                             try {
                                 Parent root = FXMLLoader.load(getClass().getResource("../FXML/TableauxAnnuels.fxml"));
                                 stage.setScene(new Scene(root));
-                                stage.setTitle("Soins Infirmiers - Tableaux Annuels // FX_Alpha 1");
+                                stage.setTitle(Strings.pageTitle1);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
@@ -99,7 +98,7 @@ public class TableauxAnnuels implements Initializable {
                             try {
                                 Parent root = FXMLLoader.load(getClass().getResource("../FXML/StatistiquesSI.fxml"));
                                 stage.setScene(new Scene(root));
-                                stage.setTitle("Soins Infirmiers - Statistiques // FX_Alpha 1");
+                                stage.setTitle(Strings.pageTitle1);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }

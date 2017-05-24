@@ -1,18 +1,23 @@
 package com.SoinsInfirmiers;
 
-
-public class IndicateurExcel {
+public class Indicateur {
 
     private int masterRow;
     private int rowA = 0;
+    private int rowTitleA = 0;
     private int rowB = 0;
+    private int rowTitleB =0;
     private int rowC = 0;
+    private int rowTitleC = 0;
     private int rowD = 0;
+    private int rowtitleD = 0;
     private int rowE = 0;
+    private int rowTitleE = 0;
     private int rowF = 0;
+    private int rowTitleF = 0;
     boolean withGraphic = false;
 
-    public void toRow(String indicateur) {
+    public void toExcelRow(String indicateur) {
         switch (indicateur) {
             case "Total jours payés":
                 masterRow = 6;
@@ -50,7 +55,7 @@ public class IndicateurExcel {
     public int getRowF(){
         return rowF;
     }
-    public boolean getGraphic(){
+    public boolean getWithGraphic(){
         return withGraphic;
     }
 

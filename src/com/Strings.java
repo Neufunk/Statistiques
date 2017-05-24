@@ -5,6 +5,11 @@ import javafx.collections.ObservableList;
 
 public class Strings {
 
+    // Page titles
+    public static String homePageTitle = new String("Aide & Soins à Domicile - Statistiques // FX_Alpha2");
+    public static String pageTitle0 = new String("Soins Infirmiers - Indicateurs annuels // FX_Alpha2");
+    public static String pageTitle1 = new String ("Soins Infirmiers - Evolution d'un indicateur // FX_Alpha2");
+
     // Centres
     public ObservableList<String> centerList = FXCollections
             .observableArrayList("Global", "Namur", "Eghezée", "Ciney", "Philippeville", "Gedinne");
@@ -32,4 +37,10 @@ public class Strings {
     public ObservableList<String> periodList = FXCollections
             .observableArrayList("Année Complète", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre");
+
+    public ObservableList<String> getIndicList() {
+        return indicList;
+    }
 }
+
+

@@ -40,7 +40,7 @@ public class HomePage implements Initializable {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("FXML/StatistiquesSI.fxml"));
                 stage.setScene(new Scene(root));
-                stage.setTitle("Soins Infirmiers - Statistiques // FX_Alpha 1");
+                stage.setTitle(Strings.pageTitle0);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

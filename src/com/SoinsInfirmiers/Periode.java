@@ -1,11 +1,12 @@
 package com.SoinsInfirmiers;
 
 
-public class PeriodeExcel {
+public class Periode {
 
     String column;
 
-    public void toColumn(String periode){
+    public void toExcelColumn(String periode){
+
         if (periode == "Janvier") {
             column = "D";
         } else if (periode == "Février") {
@@ -30,6 +31,8 @@ public class PeriodeExcel {
             column = "N";
         } else if (periode == "Décembre") {
             column = "O";
+        } else if (periode == "Année Complète") {
+            column = "P";
         } else {
             System.out.println("Erreur dans la période selectionnée");
         }

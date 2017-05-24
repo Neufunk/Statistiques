@@ -20,14 +20,14 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <JFXButton accessibleText="homeButton" focusTraversable="false" prefHeight="79.0" prefWidth="300.0" style="-fx-background-color: #96bb37;" text="homeSoinsInfirmiers" textFill="WHITE">
+      <JFXButton accessibleText="homeButton" buttonType="RAISED" focusTraversable="false" prefHeight="79.0" prefWidth="600.0" style="-fx-background-color: #96bb37;" text="Indicateurs annuels" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
          <VBox.margin>
             <Insets bottom="2.0" />
          </VBox.margin></JFXButton>
-      <JFXButton accessibleText="arrayYearButton" prefHeight="79.0" prefWidth="300.0" style="-fx-background-color: FF6600;" text="Tableaux Annuels" textFill="WHITE">
+      <JFXButton accessibleText="arrayYearButton" buttonType="RAISED" prefHeight="79.0" prefWidth="300.0" style="-fx-background-color: FF6600;" text="Evolution" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -35,17 +35,17 @@
             <Insets bottom="2.0" />
          </VBox.margin>
       </JFXButton>
-      <JFXButton accessibleText="drawerButton3" disable="true" prefHeight="79.0" prefWidth="250.0" style="-fx-background-color: #006782;" text="Autre" textFill="WHITE">
+      <JFXButton accessibleText="drawerButton3" disable="true" prefHeight="79.0" prefWidth="250.0" style="-fx-background-color: #006782;" text="Patients &amp; Visites par commune" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
          <VBox.margin>
             <Insets bottom="2.0" />
          </VBox.margin>
       </JFXButton>
-      <JFXButton accessibleText="drawerButton4" disable="true" prefHeight="79.0" prefWidth="250.0" style="-fx-background-color: #B10060;" text="Statistiques" textFill="WHITE">
+      <JFXButton accessibleText="drawerButton4" disable="true" prefHeight="79.0" prefWidth="250.0" style="-fx-background-color: #B10060;" text="Répartition par âge des patients" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="13.0" />
          </font>
          <VBox.margin>
             <Insets bottom="2.0" />
@@ -61,9 +61,9 @@
       </JFXButton>
       <JFXButton prefHeight="62.0" prefWidth="239.0" style="-fx-background-color: WHITE;" textFill="WHITE">
          <VBox.margin>
-            <Insets bottom="10.0" top="9.0" />
+            <Insets bottom="6.0" top="5.0" />
          </VBox.margin></JFXButton>
-      <JFXButton fx:id="backButton" accessibleText="drawerButtonBack" prefHeight="79.0" prefWidth="250.0" style="-fx-background-color: #e53935;" text="← Retour" textFill="WHITE">
+      <JFXButton fx:id="backButton" accessibleText="backButton" buttonType="RAISED" prefHeight="79.0" prefWidth="250.0" style="-fx-background-color: #e53935;" text="← Retour" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

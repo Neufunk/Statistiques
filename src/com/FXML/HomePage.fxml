@@ -41,7 +41,7 @@
             </Label>
          </children>
       </VBox>
-      <JFXButton id="closeButton" fx:id="closeButton" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" style="-fx-background-color: RED;" text="FERMER" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <JFXButton id="closeButton" fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" style="-fx-background-color: RED;" text="FERMER" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="30.0" right="30.0" />
          </GridPane.margin>
@@ -79,7 +79,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" disable="true" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #96bb37;" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+            <JFXButton id="avjButton" fx:id="avjButton" disable="true" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #96bb37;" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>

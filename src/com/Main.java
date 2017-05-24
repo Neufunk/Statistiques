@@ -21,9 +21,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         setPrimaryStage(primaryStage);
         Parent root = FXMLLoader.load(getClass().getResource("FXML/HomePage.fxml"));
-        primaryStage.setTitle("Aide & Soins à Domicile - Statistiques // FX_Alpha 1");
+        primaryStage.setTitle(Strings.homePageTitle);
         primaryStage.setScene(new Scene(root, 1280, 720));
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 

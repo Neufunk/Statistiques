@@ -1,11 +1,11 @@
 package com.SoinsInfirmiers;
 
 
-public class CentreExcel {
+public class Centre {
 
     private int sheet;
 
-    public void toSheet(String centre){
+    public void toExcelSheet(String centre) {
         if (centre == "Global") {
             sheet = 5;
         } else if (centre == "Namur") {
@@ -22,7 +22,9 @@ public class CentreExcel {
             System.out.println("Le centre n'existe pas");
         }
     }
-    public int getSheet(){
+
+    public int getSheet() {
         return sheet;
     }
+
 }
