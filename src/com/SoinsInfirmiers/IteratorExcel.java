@@ -9,6 +9,8 @@ import org.apache.poi.ss.usermodel.*;
 import java.io.File;
 import java.io.IOException;
 
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_ERROR;
+
 public class IteratorExcel {
 
     private Workbook wb;
@@ -16,7 +18,7 @@ public class IteratorExcel {
     private Workbook wb3;
     private Cell masterCell, masterTitleCell;
     private Cell cellA, cellB, cellC, cellD, cellE, titleCellA, titleCellB, titleCellC,
-            titleCellD, titleCellE, titleCellF;
+            titleCellD, titleCellE;
     private String contentTitleMasterCell = "";
     private String contentTitleCellA = "";
     private String contentTitleCellB = "";
@@ -42,56 +44,55 @@ public class IteratorExcel {
     private int rowD;
     private int rowE;
 
-    public void setPath(String path) {
+    void setPath(String path) {
         this.path = path;
     }
 
-    public void setFileA(String fileA) {
+    void setFileA(String fileA) {
         this.fileA = fileA;
     }
 
-    public void setFileB(String fileB) {
+    void setFileB(String fileB) {
         this.fileB = fileB;
     }
 
-    public void setFileC(String fileC) {
+    void setFileC(String fileC) {
         this.fileC = fileC;
     }
 
-    public void setSheet(int sheet) {
+    void setSheet(int sheet) {
         this.sheet = sheet;
     }
 
-    public void setColumn(String column) {
+    void setColumn(String column) {
         this.column = column;
     }
 
-    public void setMasterRow(int masterRow) {
+    void setMasterRow(int masterRow) {
         this.masterRow = masterRow;
     }
 
-    public void setRowA(int rowA) {
+    void setRowA(int rowA) {
         this.rowA = rowA;
     }
 
-    public void setRowB(int rowB) {
+    void setRowB(int rowB) {
         this.rowB = rowB;
     }
 
-    public void setRowC(int rowC) {
+    void setRowC(int rowC) {
         this.rowC = rowC;
     }
 
-    public void setRowD(int rowD) {
+    void setRowD(int rowD) {
         this.rowD = rowD;
     }
 
-    public void setRowE(int rowE) {
+    void setRowE(int rowE) {
         this.rowE = rowE;
     }
 
     void startIteration() throws IOException, InvalidFormatException {
-
         wb = WorkbookFactory.create(new File(path + fileA));
         wb2 = WorkbookFactory.create(new File(path + fileB));
         wb3 = WorkbookFactory.create(new File(path + fileC));
@@ -107,7 +108,7 @@ public class IteratorExcel {
         Row masterRowB = selectionSheet.getRow(cellReference1.getRow());
         masterCell = masterRowB.getCell(cellReference1.getCol());
 
-        CellReference titleCellReference1 = new CellReference("B"+ masterRow);
+        CellReference titleCellReference1 = new CellReference("B" + masterRow);
         Row masterRowC = selectionSheet.getRow(titleCellReference1.getRow());
         masterTitleCell = masterRowC.getCell(titleCellReference1.getCol());
 
@@ -152,28 +153,28 @@ public class IteratorExcel {
             Row titleRowE = selectionSheet.getRow(titleCellReference6.getRow());
             titleCellE = titleRowE.getCell(titleCellReference6.getCol());
         }
-
-        if (masterCell != null){
+        // TODO : Case CellValue.ERROR
+        if (masterCell != null) {
             contentMasterCell = masterCell.getNumericCellValue();
             contentTitleMasterCell = masterTitleCell.getStringCellValue();
         }
-        if (cellA != null){
+        if (cellA != null) {
             contentCellA = cellA.getNumericCellValue();
             contentTitleCellA = titleCellA.getStringCellValue();
         }
-        if (cellB != null){
+        if (cellB != null) {
             contentCellB = cellB.getNumericCellValue();
             contentTitleCellB = titleCellB.getStringCellValue();
         }
-        if (cellC != null){
+        if (cellC != null) {
             contentCellC = cellC.getNumericCellValue();
             contentTitleCellC = titleCellC.getStringCellValue();
         }
-        if (cellD != null){
+        if (cellD != null) {
             contentCellD = cellD.getNumericCellValue();
             contentTitleCellD = titleCellD.getStringCellValue();
         }
-        if (cellE != null){
+        if (cellE != null) {
             contentCellE = cellE.getNumericCellValue();
             contentTitleCellE = titleCellE.getStringCellValue();
         }
@@ -204,21 +205,33 @@ public class IteratorExcel {
         return contentCellE;
     }
 
-    public String getContentTitleMasterCell() { return contentTitleMasterCell; }
+    public String getContentTitleMasterCell() {
+        return contentTitleMasterCell;
+    }
 
-    public String getContentTitleCellA() { return contentTitleCellA; }
+    public String getContentTitleCellA() {
+        return contentTitleCellA;
+    }
 
-    public String getContentTitleCellB() { return contentTitleCellB; }
+    public String getContentTitleCellB() {
+        return contentTitleCellB;
+    }
 
-    public String getContentTitleCellC() { return contentTitleCellC; }
+    public String getContentTitleCellC() {
+        return contentTitleCellC;
+    }
 
-    public String getContentTitleCellD() { return contentTitleCellD; }
+    public String getContentTitleCellD() {
+        return contentTitleCellD;
+    }
 
-    public String getContentTitleCellE() { return contentTitleCellE; }
+    public String getContentTitleCellE() {
+        return contentTitleCellE;
+    }
 
     public void closeConnection() throws IOException {
-        wb.close();
-        wb2.close();
-        wb3.close();
+            wb.close();
+            wb2.close();
+            wb3.close();
     }
 }

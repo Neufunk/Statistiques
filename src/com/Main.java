@@ -23,7 +23,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXML/HomePage.fxml"));
         primaryStage.setTitle(Strings.homePageTitle);
         primaryStage.setScene(new Scene(root, 1280, 720));
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

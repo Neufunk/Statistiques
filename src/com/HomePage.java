@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -35,6 +36,8 @@ public class HomePage implements Initializable {
         });
 
         // Lien vers SI Page
+        // TODO : Intégrer un CSS pour le changement de couleur des boutons
+        Tooltip.install(siButton, new Tooltip("Département Soins Infirmiers"));
         siButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) ->  {
             Stage stage = Main.getPrimaryStage();
             try {

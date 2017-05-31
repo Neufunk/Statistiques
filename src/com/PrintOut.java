@@ -1,21 +1,31 @@
 package com;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
+import javafx.print.PageLayout;
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
-public class Print {
 
-    public static final void print(Node node){
+public class PrintOut {
+
+    public static final void printerPrint(Node node) {
         Printer printer = Printer.getDefaultPrinter();
-        /* PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE,
-                Printer.MarginType.HARDWARE_MINIMUM); */
         PrinterJob job = PrinterJob.createPrinterJob();
-        if(job != null){
+
+
+        if (job != null) {
             job.showPrintDialog(Main.getPrimaryStage());
             job.printPage(node);
             job.endJob();
         }
+    }
+
+    public static final void pdfPrint() {
+
     }
 }
