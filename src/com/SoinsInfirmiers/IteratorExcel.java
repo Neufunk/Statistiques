@@ -16,33 +16,38 @@ public class IteratorExcel {
     private Workbook wb;
     private Workbook wb2;
     private Workbook wb3;
+
     private Cell masterCell, masterTitleCell;
     private Cell cellA, cellB, cellC, cellD, cellE, titleCellA, titleCellB, titleCellC,
             titleCellD, titleCellE;
+
     private String contentTitleMasterCell = "";
     private String contentTitleCellA = "";
     private String contentTitleCellB = "";
     private String contentTitleCellC = "";
     private String contentTitleCellD = "";
     private String contentTitleCellE = "";
+
     private double contentMasterCell = 0;
     private double contentCellA = 0;
     private double contentCellB = 0;
     private double contentCellC = 0;
     private double contentCellD = 0;
     private double contentCellE = 0;
+
     private String path;
     private String fileA;
     private String fileB;
     private String fileC;
     private String column;
     private int sheet;
+
     private int masterRow;
-    private int rowA;
-    private int rowB;
-    private int rowC;
-    private int rowD;
-    private int rowE;
+    private int rowA = 0;
+    private int rowB = 0;
+    private int rowC = 0;
+    private int rowD = 0;
+    private int rowE = 0;
 
     void setPath(String path) {
         this.path = path;
@@ -230,8 +235,52 @@ public class IteratorExcel {
     }
 
     public void closeConnection() throws IOException {
-            wb.close();
-            wb2.close();
-            wb3.close();
+        wb.close();
+        wb2.close();
+        wb3.close();
+    }
+
+    public void resetVariables() {
+        masterCell = null;
+        masterTitleCell = null;
+        cellA = null;
+        cellB = null;
+        cellC = null;
+        cellD = null;
+        cellE = null;
+        titleCellA = null;
+        titleCellB = null;
+        titleCellC = null;
+        titleCellD = null;
+        titleCellE = null;
+
+        contentTitleMasterCell = "";
+        contentTitleCellA = "";
+        contentTitleCellB = "";
+        contentTitleCellC = "";
+        contentTitleCellD = "";
+        contentTitleCellE = "";
+
+        contentMasterCell = 0;
+        contentCellA = 0;
+        contentCellB = 0;
+        contentCellC = 0;
+        contentCellD = 0;
+        contentCellE = 0;
+
+        path = null;
+        fileA = null;
+        fileB = null;
+        fileC = null;
+        column = null;
+        sheet = 0;
+
+        masterRow = 0;
+        rowA = 0;
+        rowB = 0;
+        rowC = 0;
+        rowD = 0;
+        rowE = 0;
+
     }
 }

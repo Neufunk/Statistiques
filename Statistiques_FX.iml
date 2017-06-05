@@ -9,5 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="itext5-itextpdf-5.5.11" level="project" />
+    <orderEntry type="library" name="jfoenix (2)" level="project" />
+    <orderEntry type="library" name="jfoenix" level="project" />
   </component>
 </module>

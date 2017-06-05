@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 
+import java.text.NumberFormat;
+
 public class Graphic {
 
     ObservableList<PieChart.Data>pieChartData = FXCollections.observableArrayList();
@@ -17,7 +19,7 @@ public class Graphic {
         }
     }
 
-    public ObservableList<PieChart.Data>getPieChartData(){
+    public ObservableList<PieChart.Data> getPieChartData(){
         return pieChartData;
     }
 
@@ -31,7 +33,7 @@ public class Graphic {
         }
     }
 
-    public void setTitleRawDataValue(Label label, double value){
+    public void setMasterRawDataValue(Label label, double value){
         if (value == 0) {
             label.setText("");
             label.setVisible(false);
@@ -41,13 +43,13 @@ public class Graphic {
             label.setVisible(true);
         }else if (value > 1) {
             float floatValue = (float) value;
-            String strValue = String.format("%.2f", floatValue);
+            String strValue = String.format("%,.2f", floatValue);
             label.setText(strValue);
             label.setVisible(true);
         }else if (value > 0 && value < 1){
             float floatValue = (float) value*100;
-            String strValue = String.format("%.2f", floatValue);
-            label.setText(String.valueOf(strValue+"%"));
+            String strValue = String.format("%,.2f", floatValue);
+            label.setText(strValue+"%");
             label.setVisible(true);
         }else{
             label.setText("");
@@ -55,7 +57,6 @@ public class Graphic {
         }
     }
 
-    // TODO : Mettre point entre les milliers
     public void setRawDataValue(Label label, double value){
         if (value > 1) {
             float floatValue = (float) value;
@@ -63,7 +64,7 @@ public class Graphic {
             label.setVisible(true);
         }else if (value < 1 && value > 0) {
             float floatValue = (float) value * 100;
-            String strValue = String.format("%.2f", floatValue);
+            String strValue = String.format("%,.2f", floatValue);
             label.setText(String.valueOf(strValue + "%"));
             label.setVisible(true);
         }else if (value == 1){

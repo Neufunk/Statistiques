@@ -1,6 +1,8 @@
 package com.SoinsInfirmiers;
 
 
+import javafx.scene.control.Alert;
+
 public class Periode {
 
     String column;
@@ -37,6 +39,15 @@ public class Periode {
             System.out.println("Erreur dans la période selectionnée");
         }
     }
+
+    public void showEmptyDialog(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("NullPointerException");
+        alert.setHeaderText("Veuillez sélectionner une période");
+        alert.setContentText("avoid NullPointerException");
+        alert.showAndWait();
+    }
+
     public String getColumn(){
         return column;
     }

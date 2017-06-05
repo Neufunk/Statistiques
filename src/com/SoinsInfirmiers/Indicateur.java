@@ -1,5 +1,7 @@
 package com.SoinsInfirmiers;
 
+import javafx.scene.control.Alert;
+
 public class Indicateur {
 
     private int masterRow;
@@ -13,6 +15,7 @@ public class Indicateur {
     boolean withFileD = false;
 
     public void toExcelRow(String indicateur) {
+        resetVariables();
         switch (indicateur) {
             case "Total de jours payés":
                 masterRow = 6;
@@ -71,11 +74,12 @@ public class Indicateur {
                 masterRow = 36;
                 withGraphic = false;
                 break;
-            case "Nombre visites par Forfait":
-                masterRow = 37;
+            case "Nombre visites par forfait":
+                masterRow = 1;
                 rowA = 38;
                 rowB = 39;
                 rowC = 40;
+                withGraphic = false;
                 break;
             case "Visites par mutualité":
                 masterRow = 19;
@@ -217,6 +221,24 @@ public class Indicateur {
                 break;
 
         }
+    }
+
+    public void showEmptyDialog(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("NullPointerException");
+        alert.setHeaderText("Veuillez choisir un indicateur");
+        alert.setContentText("avoid NullPointerException");
+        alert.showAndWait();
+    }
+
+    private void resetVariables(){
+        masterRow = 0;
+        rowA = 0;
+        rowB = 0;
+        rowC = 0;
+        rowD = 0;
+        rowE = 0;
+        rowF = 0;
     }
 
     int getMasterRow() {

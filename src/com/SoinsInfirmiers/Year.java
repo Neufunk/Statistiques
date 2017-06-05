@@ -1,6 +1,8 @@
 package com.SoinsInfirmiers;
 
 
+import javafx.scene.control.Alert;
+
 public class Year {
 
     private Object year;
@@ -29,7 +31,21 @@ public class Year {
             fileC = "Suivi pers. CJB Namur 2015 new.xls";
             fileD = "Indicateurs 2015.xls";
             path = "P:/PROVINCE et statistiques FASD/";
+        } else if (year == 1337) {
+            fileA = "debug.xls";
+            fileB = "Données Namur 2016 new.xls";
+            fileC = "Suivi pers. CJB Namur 2016 new.xls";
+            fileD = "Indicateurs 2016.xls";
+            path = "E:/Developpement/IntelliJ/";
         }
+    }
+
+    public void showEmptyDialog(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("NullPointerException");
+        alert.setHeaderText("Veuillez sélectionner une année");
+        alert.setContentText("avoid NullPointerException");
+        alert.showAndWait();
     }
 
     public String getFileA() {

@@ -26,6 +26,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,6 +56,10 @@ public class ControllerStatistiquesSI implements Initializable {
     private AnchorPane mainPane;
     @FXML
     private AnchorPane anchorPane0;
+    @FXML
+    private AnchorPane anchorPane1;
+    @FXML
+    private AnchorPane anchorPane2;
     @FXML
     private AnchorPane maskPane;
     @FXML
@@ -97,6 +102,18 @@ public class ControllerStatistiquesSI implements Initializable {
     private ImageView printIcon;
     @FXML
     private JFXCheckBox debugBox;
+    @FXML
+    private Label monthLabel;
+    @FXML
+    private JFXButton backButton;
+    @FXML
+    private JFXButton nextButton;
+
+    private Year year = new Year();
+    private Centre centre = new Centre();
+    private Periode periode = new Periode();
+    private Indicateur indicateur = new Indicateur();
+    private IteratorExcel iteratorExcel = new IteratorExcel();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -109,8 +126,7 @@ public class ControllerStatistiquesSI implements Initializable {
         onGenerateButtonClick();
     }
 
-    private void drawMenu(){
-        //DRAWER MENU
+    private void drawMenu() {
         VBox box = null;
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), maskPane);
         fadeTransition.setAutoReverse(false);
@@ -191,13 +207,179 @@ public class ControllerStatistiquesSI implements Initializable {
         comboCentre.setItems(strings.centerList);
         comboPeriode.setItems(strings.periodList);
         comboCategorie.setItems(strings.categorieList);
-        Category cat = new Category();
+        Category category = new Category();
         anchorPane0.addEventHandler(MouseEvent.ANY, (e) -> {
             if (comboCategorie.getValue() != null) {
-                cat.setCategorie(comboCategorie.getValue().toString());
-                comboIndic.setItems(cat.getCategorie());
+                category.setCategorie(comboCategorie.getValue().toString());
+                comboIndic.setItems(category.getCategorie());
             }
         });
+    }
+
+    private void onGenerateButtonClick() {
+        generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            if (!checkEmpty()) {
+                return;
+            } else {
+                generate();
+            }
+        });
+    }
+
+    private boolean checkEmpty() {
+        if (comboYear.getValue() == null) {
+            year.showEmptyDialog();
+            return false;
+        } else if (comboCentre.getValue() == null) {
+            centre.showEmptyDialog();
+            return false;
+        } else if (comboPeriode.getValue() == null) {
+            periode.showEmptyDialog();
+            return false;
+        } else if (comboIndic.getValue() == null) {
+            indicateur.showEmptyDialog();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void generate() {
+        year.toPath((Integer) comboYear.getValue());
+        centre.toExcelSheet(comboCentre.getValue().toString());
+        periode.toExcelColumn(comboPeriode.getValue().toString());
+        indicateur.toExcelRow(comboIndic.getValue().toString());
+        if (indicateur.getWithFileD()) {
+            iteratorExcel.setPath(year.getPath());
+            iteratorExcel.setFileA(year.getFileD());
+            iteratorExcel.setFileB(year.getFileB());
+            iteratorExcel.setFileC(year.getFileC());
+        } else {
+            iteratorExcel.setPath(year.getPath());
+            iteratorExcel.setFileA(year.getFileA());
+            iteratorExcel.setFileB(year.getFileB());
+            iteratorExcel.setFileC(year.getFileC());
+        }
+        iteratorExcel.setSheet(centre.getSheet());
+        iteratorExcel.setColumn(periode.getColumn());
+        iteratorExcel.setMasterRow(indicateur.getMasterRow());
+        iteratorExcel.setRowA(indicateur.getRowA());
+        iteratorExcel.setRowB(indicateur.getRowB());
+        iteratorExcel.setRowC(indicateur.getRowC());
+        iteratorExcel.setRowD(indicateur.getRowD());
+        iteratorExcel.setRowE(indicateur.getRowE());
+        startIteration();
+        // PIEGRAPHIC
+        buildPieGraphic();
+        // RAWDATA
+        buildRawData();
+        iteratorExcel.resetVariables();
+        closeConnection();
+    }
+
+    private void startIteration() {
+        try {
+            iteratorExcel.startIteration();
+        } catch (FileNotFoundException e0) {
+            e0.printStackTrace();
+            String e1 = e0.toString();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fichier occupé ou introuvable");
+            alert.setHeaderText(e1);
+            alert.setContentText("CAUSE : \t\t\t" + e0.getCause() + "\n" + "STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
+                    "FICHIER : \t\t\t" + e0.getLocalizedMessage());
+            alert.showAndWait();
+        } catch (IOException | InvalidFormatException e1) {
+            e1.printStackTrace();
+        }
+        return;
+    }
+
+    private void buildPieGraphic() {
+        Graphic pieGraphic = new Graphic();
+        if (indicateur.getWithGraphic()) {
+            roundGraph.getData().clear();
+            noGraphicLabel.setVisible(false);
+            graphicTitle.setText(comboIndic.getValue().toString());
+            String[] graphicArray = {iteratorExcel.getContentTitleCellA(), iteratorExcel.getContentTitleCellB(),
+                    iteratorExcel.getContentTitleCellC(), iteratorExcel.getContentTitleCellD(), iteratorExcel.getContentTitleCellE()};
+            Double[] valueArray = {iteratorExcel.getContentCellA(), iteratorExcel.getContentCellB(),
+                    iteratorExcel.getContentCellC(), iteratorExcel.getContentCellD(), iteratorExcel.getContentCellE()};
+            for (int i = 0; i < graphicArray.length; i++) {
+                pieGraphic.buildGraphic(graphicArray[i], valueArray[i]);
+            }
+            roundGraph.setData(pieGraphic.getPieChartData());
+            roundGraph.setStartAngle(90);
+        } else {
+            roundGraph.getData().clear();
+            graphicTitle.setText("");
+            noGraphicLabel.setText("Graphique non disponible pour cet indicateur");
+            noGraphicLabel.setVisible(true);
+        }
+        for (final PieChart.Data data : roundGraph.getData()) {
+            data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, (e1) ->
+                    Tooltip.install(data.getNode(), new Tooltip(String.valueOf(data.getPieValue() + "%"))));
+        }
+    }
+
+    private void buildRawData() {
+        FadeTransition fadeTransitionA = new FadeTransition(Duration.millis(1000), labelPane);
+        FadeTransition fadeTransitionB = new FadeTransition(Duration.millis(1000), valuePane);
+        labelPane.setVisible(true);
+        valuePane.setVisible(true);
+        fadeTransitionA.setFromValue(0);
+        fadeTransitionA.setToValue(1);
+        fadeTransitionA.play();
+        fadeTransitionB.setFromValue(0);
+        fadeTransitionB.setToValue(1);
+        fadeTransitionB.play();
+        navigateThroughMonths();
+        Graphic setData = new Graphic();
+        setData.setRawDataName(labelMasterIndic, iteratorExcel.getContentTitleMasterCell());
+        Label[] indicLabel = {labelIndicA, labelIndicB, labelIndicC, labelIndicD, labelIndicE};
+        String[] dataName = {iteratorExcel.getContentTitleCellA(), iteratorExcel.getContentTitleCellB(),
+                iteratorExcel.getContentTitleCellC(), iteratorExcel.getContentTitleCellD(), iteratorExcel.getContentTitleCellE()};
+        for (int i = 0; i < indicLabel.length; i++) {
+            setData.setRawDataName(indicLabel[i], dataName[i]);
+        }
+        setData.setMasterRawDataValue(labelMasterValue, iteratorExcel.getContentMasterCell());
+
+        Label[] valueLabel = {labelValueA, labelValueB, labelValueC, labelValueD, labelValueE};
+        Double[] dataValue = {iteratorExcel.getContentCellA(), iteratorExcel.getContentCellB(),
+                iteratorExcel.getContentCellC(), iteratorExcel.getContentCellD(), iteratorExcel.getContentCellE()};
+        for (int i = 0; i < valueLabel.length; i++) {
+            setData.setRawDataValue(valueLabel[i], dataValue[i]);
+        }
+    }
+
+    private void navigateThroughMonths() {
+        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
+
+            //TODO : Continuer navigation par mois
+        });
+        monthLabel.setText(comboPeriode.getValue().toString());
+        monthLabel.setVisible(true);
+
+    }
+
+    private void initializeDebugBox() {
+        debugBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event -> {
+            if (debugBox.isSelected()) {
+                Strings.yearList.add(1337);
+            } else {
+                Strings.yearList.remove(3);
+            }
+        }));
+
+
+    }
+
+    private void closeConnection() {
+        try {
+            iteratorExcel.closeConnection();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     private void pdfIcon() {
@@ -236,140 +418,8 @@ public class ControllerStatistiquesSI implements Initializable {
         printIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> PrintOut.printerPrint(mainPane));
     }
 
-    private void onGenerateButtonClick(){
-        generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            // VERIFICATION DES CHAMPS VIDES
-            if (comboYear.getValue() == null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("NullPointerException");
-                alert.setHeaderText("Veuillez sélectionner une année");
-                alert.setContentText("avoid NullPointerException");
-                alert.showAndWait();
-            } else if (comboCentre.getValue() == null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("NullPointerException");
-                alert.setHeaderText("Veuillez sélectionner un centre");
-                alert.setContentText("avoid NullPointerException");
-                alert.showAndWait();
-            } else if (comboPeriode.getValue() == null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("NullPointerException");
-                alert.setHeaderText("Veuillez sélectionner une période");
-                alert.setContentText("avoid NullPointerException");
-                alert.showAndWait();
-            } else if (comboIndic.getValue() == null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("NullPointerException");
-                alert.setHeaderText("Veuillez choisir un indicateur");
-                alert.setContentText("avoid NullPointerException");
-                alert.showAndWait();
-            } else {
-                Year year = new Year();
-                Centre centre = new Centre();
-                Periode column = new Periode();
-                Indicateur indicateur = new Indicateur();
-                IteratorExcel iteratorExcel = new IteratorExcel();
-                year.toPath((Integer) comboYear.getValue());
-                centre.toExcelSheet(comboCentre.getValue().toString());
-                column.toExcelColumn(comboPeriode.getValue().toString());
-                indicateur.toExcelRow(comboIndic.getValue().toString());
-                if (indicateur.getWithFileD()){
-                    iteratorExcel.setPath(year.getPath());
-                    iteratorExcel.setFileA(year.getFileD());
-                    iteratorExcel.setFileB(year.getFileB());
-                    iteratorExcel.setFileC(year.getFileC());
-                }else {
-                    iteratorExcel.setPath(year.getPath());
-                    iteratorExcel.setFileA(year.getFileA());
-                    iteratorExcel.setFileB(year.getFileB());
-                    iteratorExcel.setFileC(year.getFileC());
-                }
-                iteratorExcel.setSheet(centre.getSheet());
-                iteratorExcel.setColumn(column.getColumn());
-                iteratorExcel.setMasterRow(indicateur.getMasterRow());
-                iteratorExcel.setRowA(indicateur.getRowA());
-                iteratorExcel.setRowB(indicateur.getRowB());
-                iteratorExcel.setRowC(indicateur.getRowC());
-                iteratorExcel.setRowD(indicateur.getRowD());
-                iteratorExcel.setRowE(indicateur.getRowE());
-                try {
-                    iteratorExcel.startIteration();
-                } catch (IOException|InvalidFormatException e1) {
-                    e1.printStackTrace();
-                }
-
-                Graphic pieGraphic = new Graphic();
-                if (indicateur.getWithGraphic()) {
-                    noGraphicLabel.setVisible(false);
-                    graphicTitle.setText(comboIndic.getValue().toString());
-                    String[] graphicArray = {iteratorExcel.getContentTitleCellA(),iteratorExcel.getContentTitleCellB(),
-                            iteratorExcel.getContentTitleCellC(),iteratorExcel.getContentTitleCellD(),iteratorExcel.getContentTitleCellE()};
-                    Double[] valueArray = {iteratorExcel.getContentCellA(), iteratorExcel.getContentCellB(),
-                            iteratorExcel.getContentCellC(), iteratorExcel.getContentCellD(), iteratorExcel.getContentCellE()};
-                    for (int i = 0; i < graphicArray.length; i++){
-                        pieGraphic.buildGraphic(graphicArray[i], valueArray[i]);
-                    }
-                    roundGraph.setData(pieGraphic.getPieChartData());
-                    roundGraph.setStartAngle(90);
-                } else {
-                    roundGraph.getData().clear();
-                    graphicTitle.setText("");
-                    noGraphicLabel.setVisible(true);
-                }
-                for (final PieChart.Data data : roundGraph.getData()) {
-                    data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, (e1) ->
-                            Tooltip.install(data.getNode(), new Tooltip(String.valueOf(data.getPieValue()+"%"))));
-                }
-                // RAWDATA
-                labelPane.setVisible(true);
-                valuePane.setVisible(true);
-                FadeTransition fadeTransitionA = new FadeTransition(Duration.millis(300), labelPane);
-                FadeTransition fadeTransitionB = new FadeTransition(Duration.millis(300), valuePane);
-                fadeTransitionA.setFromValue(0);
-                fadeTransitionA.setToValue(1);
-                fadeTransitionA.play();
-                fadeTransitionB.setFromValue(0);
-                fadeTransitionB.setToValue(1);
-                fadeTransitionB.play();
-                Graphic setData = new Graphic();
-                setData.setRawDataName(labelMasterIndic, iteratorExcel.getContentTitleMasterCell());
-                Label[] indicLabel = {labelIndicA, labelIndicB, labelIndicC, labelIndicD, labelIndicE};
-                String[] dataName = {iteratorExcel.getContentTitleCellA(), iteratorExcel.getContentTitleCellB(),
-                        iteratorExcel.getContentTitleCellC(), iteratorExcel.getContentTitleCellD(), iteratorExcel.getContentTitleCellE()};
-                for (int i = 0; i< indicLabel.length; i++){
-                    setData.setRawDataName(indicLabel[i], dataName[i]);
-                }
-                setData.setTitleRawDataValue(labelMasterValue, iteratorExcel.getContentMasterCell());
-                Label[] valueLabel = {labelValueA, labelValueB, labelValueC, labelValueD, labelValueE};
-                Double[] dataValue = {iteratorExcel.getContentCellA(), iteratorExcel.getContentCellB(),
-                        iteratorExcel.getContentCellC(), iteratorExcel.getContentCellD(), iteratorExcel.getContentCellE()};
-                for (int i = 0; i< valueLabel.length; i++){
-                    setData.setRawDataValue(valueLabel[i], dataValue[i]);
-                }
-                try {
-                    iteratorExcel.closeConnection();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-
-            }
-        });
-    }
-
-    private void initializeDebugBox(){
-        debugBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event -> {
-            if (debugBox.isSelected()){
-            Strings.yearList.add(1337);
-        }else{
-            Strings.yearList.remove(3);
-        }
-        }));
-
-
-
-    }
-
     // TODO Graphique animé
-
+    // TODO : Classe pour FadeTransitions
+    // TODO : Fade in pour les deux panels
 }
 
