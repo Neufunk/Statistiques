@@ -1,6 +1,5 @@
 package com.SoinsInfirmiers;
 
-
 import javafx.scene.control.Alert;
 
 public class Periode {

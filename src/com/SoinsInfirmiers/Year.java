@@ -3,16 +3,15 @@ package com.SoinsInfirmiers;
 
 import javafx.scene.control.Alert;
 
-public class Year {
+class Year {
 
-    private Object year;
     private String fileA;
     private String fileB;
     private String fileC;
     private  String fileD;
     private String path;
 
-    public void toPath(int year) {
+    void toPath(int year) {
         if (year == 2017) {
             fileA = "Namur 2017.xls";
             fileB = "Données Namur 2017.xls";
@@ -37,34 +36,52 @@ public class Year {
             fileC = "Suivi pers. CJB Namur 2016 new.xls";
             fileD = "Indicateurs 2016.xls";
             path = "E:/Developpement/IntelliJ/";
+        } else if (year == 2018) {
+            fileA = "Namur 2018 new.xls";
+            fileB = "Données Namur 2018 new.xls";
+            fileC = "Suivi pers. CJB Namur 2018 new.xls";
+            fileD = "Indicateurs 2018.xls";
+            path = "P:/PROVINCE et statistiques FASD/";
+        } else if (year == 2019) {
+            fileA = "Namur 2019 new.xls";
+            fileB = "Données Namur 2019 new.xls";
+            fileC = "Suivi pers. CJB Namur 2019 new.xls";
+            fileD = "Indicateurs 2019.xls";
+            path = "P:/PROVINCE et statistiques FASD/";
+        } else if (year == 2020) {
+            fileA = "Namur 2020 new.xls";
+            fileB = "Données Namur 2020 new.xls";
+            fileC = "Suivi pers. CJB Namur 2020 new.xls";
+            fileD = "Indicateurs 2020.xls";
+            path = "P:/PROVINCE et statistiques FASD/";
         }
     }
 
-    public void showEmptyDialog(){
+    void showEmptyDialog(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("NullPointerException");
+        alert.setTitle("Champ requis");
         alert.setHeaderText("Veuillez sélectionner une année");
         alert.setContentText("avoid NullPointerException");
         alert.showAndWait();
     }
 
-    public String getFileA() {
+    String getFileA() {
         return fileA;
     }
 
-    public String getFileD() {
+    String getFileD() {
         return fileD;
     }
 
-    public String getFileB() {
+    String getFileB() {
         return fileB;
     }
 
-    public String getFileC() {
+    String getFileC() {
         return fileC;
     }
 
-    public String getPath() {
+    String getPath() {
         return path;
     }
 

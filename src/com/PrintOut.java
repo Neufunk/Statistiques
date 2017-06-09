@@ -14,10 +14,9 @@ import java.io.FileOutputStream;
 public class PrintOut {
 
     public static final void printerPrint(Node node) {
+        // TODO : PRINT MISE EN PAGE
         Printer printer = Printer.getDefaultPrinter();
         PrinterJob job = PrinterJob.createPrinterJob();
-
-
         if (job != null) {
             job.showPrintDialog(Main.getPrimaryStage());
             job.printPage(node);
@@ -26,6 +25,6 @@ public class PrintOut {
     }
 
     public static final void pdfPrint() {
-
+        // TODO : PDF PRINT
     }
 }

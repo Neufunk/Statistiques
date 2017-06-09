@@ -6,9 +6,9 @@ import javafx.collections.ObservableList;
 public class Strings {
 
     // Page titles
-    public static String homePageTitle = new String("Aide & Soins à Domicile - Statistiques // FX_Alpha3");
-    public static String pageTitle0 = new String("Soins Infirmiers - Indicateurs annuels // FX_Alpha3");
-    public static String pageTitle1 = new String ("Soins Infirmiers - Evolution d'un indicateur // FX_Alpha3");
+    public static String homePageTitle = "Aide & Soins à Domicile - Statistiques // FX_Alpha3";
+    public static String pageTitle0 = "Soins Infirmiers - Indicateurs annuels // FX_Alpha3";
+    public static String pageTitle1 = "Soins Infirmiers - Evolution d'un indicateur // FX_Alpha3";
 
     // Centres
     public ObservableList<String> centerList = FXCollections
@@ -16,7 +16,7 @@ public class Strings {
 
     // Années
     public static ObservableList<Integer> yearList = FXCollections
-            .observableArrayList(2015, 2016, 2017);
+            .observableArrayList(2015, 2016, 2017, 2018, 2019, 2020);
 
     // Titres des Indicateurs
     public ObservableList<String> categorieList = FXCollections

@@ -4,8 +4,9 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
-<?import javafx.scene.chart.BarChart?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
@@ -61,16 +62,18 @@
             <DropShadow />
          </effect>
       </AnchorPane>
-      <AnchorPane layoutX="76.0" layoutY="365.0" prefHeight="341.0" prefWidth="1124.0">
+      <AnchorPane layoutX="76.0" layoutY="365.0" prefHeight="341.0" prefWidth="1124.0" style="-fx-background-color: WHITE;">
          <children>
-            <BarChart alternativeColumnFillVisible="true" layoutX="4.0" prefHeight="341.0" prefWidth="1124.0" style="-fx-background-color: WHITE;">
+            <LineChart fx:id="lineGraph" layoutX="1.0" prefHeight="342.0" prefWidth="1124.0" stylesheets="@../CSS/NormalSkin.css" visible="false">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis prefHeight="322.0" prefWidth="33.0" side="LEFT" />
+                <NumberAxis side="LEFT" />
               </yAxis>
-            </BarChart>
+            </LineChart>
+            <Label fx:id="noGraphicLabel" alignment="CENTER" layoutX="441.0" layoutY="155.0" prefHeight="32.0" prefWidth="245.0" text="Pas de graphique disponible pour cet indicateur" visible="false" />
+            <JFXSpinner fx:id="idleSpinner" layoutX="547.0" layoutY="155.0" />
          </children>
          <effect>
             <DropShadow />

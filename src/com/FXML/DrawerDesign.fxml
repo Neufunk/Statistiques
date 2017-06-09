@@ -16,7 +16,7 @@
             <Image url="@../../resources/ASD_logo.jpg" />
          </image>
       </ImageView>
-      <Label alignment="TOP_CENTER" prefHeight="31.0" prefWidth="155.0" text="Soins Infirmiers">
+      <Label alignment="TOP_CENTER" prefHeight="31.0" prefWidth="155.0" text="Soins Infirmiers" underline="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

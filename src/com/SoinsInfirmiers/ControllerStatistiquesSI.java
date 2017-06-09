@@ -23,7 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,10 +55,6 @@ public class ControllerStatistiquesSI implements Initializable {
     private AnchorPane mainPane;
     @FXML
     private AnchorPane anchorPane0;
-    @FXML
-    private AnchorPane anchorPane1;
-    @FXML
-    private AnchorPane anchorPane2;
     @FXML
     private AnchorPane maskPane;
     @FXML
@@ -124,6 +119,7 @@ public class ControllerStatistiquesSI implements Initializable {
         printIcon();
         initializeDebugBox();
         onGenerateButtonClick();
+        navigateThroughMonths();
     }
 
     private void drawMenu() {
@@ -245,20 +241,14 @@ public class ControllerStatistiquesSI implements Initializable {
     }
 
     private void generate() {
-        year.toPath((Integer) comboYear.getValue());
+        year.toPath((Integer)comboYear.getValue());
         centre.toExcelSheet(comboCentre.getValue().toString());
         periode.toExcelColumn(comboPeriode.getValue().toString());
         indicateur.toExcelRow(comboIndic.getValue().toString());
+        iteratorExcel.setPath(year.getPath());
+        iteratorExcel.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
         if (indicateur.getWithFileD()) {
-            iteratorExcel.setPath(year.getPath());
-            iteratorExcel.setFileA(year.getFileD());
-            iteratorExcel.setFileB(year.getFileB());
-            iteratorExcel.setFileC(year.getFileC());
-        } else {
-            iteratorExcel.setPath(year.getPath());
-            iteratorExcel.setFileA(year.getFileA());
-            iteratorExcel.setFileB(year.getFileB());
-            iteratorExcel.setFileC(year.getFileC());
+            iteratorExcel.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
         }
         iteratorExcel.setSheet(centre.getSheet());
         iteratorExcel.setColumn(periode.getColumn());
@@ -269,9 +259,7 @@ public class ControllerStatistiquesSI implements Initializable {
         iteratorExcel.setRowD(indicateur.getRowD());
         iteratorExcel.setRowE(indicateur.getRowE());
         startIteration();
-        // PIEGRAPHIC
         buildPieGraphic();
-        // RAWDATA
         buildRawData();
         iteratorExcel.resetVariables();
         closeConnection();
@@ -281,14 +269,7 @@ public class ControllerStatistiquesSI implements Initializable {
         try {
             iteratorExcel.startIteration();
         } catch (FileNotFoundException e0) {
-            e0.printStackTrace();
-            String e1 = e0.toString();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fichier occupé ou introuvable");
-            alert.setHeaderText(e1);
-            alert.setContentText("CAUSE : \t\t\t" + e0.getCause() + "\n" + "STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
-                    "FICHIER : \t\t\t" + e0.getLocalizedMessage());
-            alert.showAndWait();
+            iteratorExcel.fileNotFound(e0);
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
         }
@@ -306,7 +287,7 @@ public class ControllerStatistiquesSI implements Initializable {
             Double[] valueArray = {iteratorExcel.getContentCellA(), iteratorExcel.getContentCellB(),
                     iteratorExcel.getContentCellC(), iteratorExcel.getContentCellD(), iteratorExcel.getContentCellE()};
             for (int i = 0; i < graphicArray.length; i++) {
-                pieGraphic.buildGraphic(graphicArray[i], valueArray[i]);
+                pieGraphic.buildPieGraphic(graphicArray[i], valueArray[i]);
             }
             roundGraph.setData(pieGraphic.getPieChartData());
             roundGraph.setStartAngle(90);
@@ -327,13 +308,14 @@ public class ControllerStatistiquesSI implements Initializable {
         FadeTransition fadeTransitionB = new FadeTransition(Duration.millis(1000), valuePane);
         labelPane.setVisible(true);
         valuePane.setVisible(true);
+        monthLabel.setText(comboPeriode.getValue().toString());
+        monthLabel.setVisible(true);
         fadeTransitionA.setFromValue(0);
         fadeTransitionA.setToValue(1);
         fadeTransitionA.play();
         fadeTransitionB.setFromValue(0);
         fadeTransitionB.setToValue(1);
         fadeTransitionB.play();
-        navigateThroughMonths();
         Graphic setData = new Graphic();
         setData.setRawDataName(labelMasterIndic, iteratorExcel.getContentTitleMasterCell());
         Label[] indicLabel = {labelIndicA, labelIndicB, labelIndicC, labelIndicD, labelIndicE};
@@ -353,13 +335,23 @@ public class ControllerStatistiquesSI implements Initializable {
     }
 
     private void navigateThroughMonths() {
-        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
-
-            //TODO : Continuer navigation par mois
+        backButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
+            if (!checkEmpty()) {
+                return;
+            } else {
+                comboPeriode.getSelectionModel().selectPrevious();
+                generate();
+            }
         });
-        monthLabel.setText(comboPeriode.getValue().toString());
-        monthLabel.setVisible(true);
+        nextButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
+            if (!checkEmpty()) {
+                return;
+            } else {
+                comboPeriode.getSelectionModel().selectNext();
+                generate();
 
+            }
+        });
     }
 
     private void initializeDebugBox() {
@@ -370,8 +362,6 @@ public class ControllerStatistiquesSI implements Initializable {
                 Strings.yearList.remove(3);
             }
         }));
-
-
     }
 
     private void closeConnection() {
@@ -396,7 +386,6 @@ public class ControllerStatistiquesSI implements Initializable {
                 alert.setContentText("Impossible d'ouvrir le fichier.");
                 alert.showAndWait();
             } else {
-                Year year = new Year();
                 year.toPath((Integer) comboYear.getValue());
                 File file = new File(year.getPath() + year.getFileA());
                 if (!Desktop.isDesktopSupported()) {
@@ -420,6 +409,5 @@ public class ControllerStatistiquesSI implements Initializable {
 
     // TODO Graphique animé
     // TODO : Classe pour FadeTransitions
-    // TODO : Fade in pour les deux panels
 }
 
