@@ -336,7 +336,7 @@ public class IteratorExcel {
         alert.setTitle("Fichier occupé ou introuvable");
         alert.setHeaderText(e1);
         alert.setContentText("CAUSE : \t\t\t" + e0.getCause() + "\n" + "STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
-                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t" + this.getClass().toString() + " - fileNotFound()") ;
+                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t" + this.getClass().toString() + " - fileNotFound()");
         alert.showAndWait();
     }
 

@@ -1,7 +1,8 @@
+# StatistiquesFX
+
 
 Project JAVA_FX SDK 1.8.0_121
-Started on March 27, 2017
-Restarted on May 05, 2017
+Started on May 05, 2017
 
 LIBRARIES :
 -----------

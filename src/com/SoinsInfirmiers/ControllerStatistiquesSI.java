@@ -3,6 +3,7 @@ package com.SoinsInfirmiers;
 import com.Main;
 import com.PrintOut;
 import com.Strings;
+import com.itextpdf.text.DocumentException;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import javafx.animation.FadeTransition;
@@ -173,16 +174,6 @@ public class ControllerStatistiquesSI implements Initializable {
                                 e1.printStackTrace();
                             }
                             break;
-                        case "homeButton":
-                            stage = Main.getPrimaryStage();
-                            try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/StatistiquesSI.fxml"));
-                                stage.setScene(new Scene(root));
-                                stage.setTitle(Strings.pageTitle0);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                            break;
                     }
                 });
                 mainPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -273,7 +264,6 @@ public class ControllerStatistiquesSI implements Initializable {
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
         }
-        return;
     }
 
     private void buildPieGraphic() {
@@ -337,7 +327,6 @@ public class ControllerStatistiquesSI implements Initializable {
     private void navigateThroughMonths() {
         backButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
             if (!checkEmpty()) {
-                return;
             } else {
                 comboPeriode.getSelectionModel().selectPrevious();
                 generate();
@@ -345,11 +334,9 @@ public class ControllerStatistiquesSI implements Initializable {
         });
         nextButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
             if (!checkEmpty()) {
-                return;
             } else {
                 comboPeriode.getSelectionModel().selectNext();
                 generate();
-
             }
         });
     }
@@ -374,6 +361,17 @@ public class ControllerStatistiquesSI implements Initializable {
 
     private void pdfIcon() {
         Tooltip.install(pdfIcon, new Tooltip("Imprimer ou exporter en PDF"));
+        final String RESULT = "C:/StatistiquesPDF.pdf";
+        pdfIcon.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
+            try {
+                new PrintOut().pdfPrint(RESULT);
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
     }
 
     private void xlsIcon() {
