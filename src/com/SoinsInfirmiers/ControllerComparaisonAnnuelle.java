@@ -160,8 +160,8 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         });
     }
 
-    private void onClearButtonClick(){
-        clearButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e)->{
+    private void onClearButtonClick() {
+        clearButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             comboCentre.getSelectionModel().clearSelection();
             comboYear0.getSelectionModel().clearSelection();
             comboYear1.getSelectionModel().clearSelection();
@@ -338,17 +338,27 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         lineGraph.setTitle(iteratorExcel0.getContentTitleMasterCell());
     }
 
-    private void closeConnection(){
-        try{
+    private void closeConnection() {
+        try {
             iteratorExcel0.closeConnection();
             if (comboYear0.getValue() != null) {
                 iteratorExcel1.closeConnection();
             }
             if (comboYear1.getValue() != null) {
-                iteratorExcel2.closeConnection();
+
+                if (comboYear1.getValue() != null) {
+                    iteratorExcel1.closeConnection();
+                }
+                if (comboYear2.getValue() != null) {
+
+                    iteratorExcel2.closeConnection();
+                }
+            } catch(IOException e){
+                e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
+
