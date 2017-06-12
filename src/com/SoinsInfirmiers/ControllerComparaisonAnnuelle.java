@@ -341,8 +341,12 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     private void closeConnection(){
         try{
             iteratorExcel0.closeConnection();
-            iteratorExcel1.closeConnection();
-            iteratorExcel2.closeConnection();
+            if (comboYear0.getValue() != null) {
+                iteratorExcel1.closeConnection();
+            }
+            if (comboYear1.getValue() != null) {
+                iteratorExcel2.closeConnection();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
