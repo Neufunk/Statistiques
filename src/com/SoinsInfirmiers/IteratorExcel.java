@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_ERROR;
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC;
 
 public class IteratorExcel {
 
@@ -335,8 +336,30 @@ public class IteratorExcel {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Fichier occupé ou introuvable");
         alert.setHeaderText(e1);
-        alert.setContentText("CAUSE : \t\t\t" + e0.getCause() + "\n" + "STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
-                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t" + this.getClass().toString() + " - fileNotFound()");
+        alert.setContentText("STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
+                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - fileNotFound()");
+        alert.showAndWait();
+    }
+
+    public void illegalState(Exception e0){
+        e0.printStackTrace();
+        String e1 = e0.toString();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur dans le tableau Excel");
+        alert.setHeaderText(e1);
+        alert.setContentText("STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
+                "CAUSE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - illegalState()");
+        alert.showAndWait();
+    }
+
+    public void nullPointerException(Exception e0){
+        e0.printStackTrace();
+        String e1 = e0.toString();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Fichier occupé ou introuvable");
+        alert.setHeaderText(e1);
+        alert.setContentText("STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
+                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - nullPointer()");
         alert.showAndWait();
     }
 
@@ -347,6 +370,7 @@ public class IteratorExcel {
     }
 
     public void resetVariables() {
+
         masterCell = null;
         masterTitleCell = null;
         cellA = null;
@@ -387,6 +411,5 @@ public class IteratorExcel {
         rowC = 0;
         rowD = 0;
         rowE = 0;
-
     }
 }

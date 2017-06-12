@@ -27,7 +27,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.setResizable(false);
         primaryStage.show();
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/favicon.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/graphique.png")));
     }
 
     public static void main(String[] args) {

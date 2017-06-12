@@ -208,7 +208,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         if (comboYear2.getValue() != null) {
             generateYear2();
         }
-        buildLineGraphic();
         closeConnection();
     }
 
@@ -224,6 +223,8 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         }
         iteratorExcel0.setMasterRow(indicateur.getMasterRow());
         startIteration();
+        closeConnection();
+        iteratorExcel0.resetVariables();
     }
 
     private void generateYear1() {
@@ -259,11 +260,27 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             iteratorExcel0.allYearIteration();
         } catch (FileNotFoundException e0) {
             iteratorExcel0.fileNotFound(e0);
+            lineGraph.setTitle("");
+            lineGraph.getData().clear();
+            lineGraph.setVisible(false);
+            idleSpinner.setVisible(true);
+            return;
+        }catch (IllegalStateException e2){
+            System.out.print("Division par zéro !");
             return;
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
+            System.out.print("IO / InvalidFormat");
+            return;
+        }catch (NullPointerException e3){
+            lineGraph.setTitle("");
+            lineGraph.getData().clear();
+            lineGraph.setVisible(false);
+            noGraphicLabel.setVisible(true);
+            idleSpinner.setVisible(false);
             return;
         }
+        buildLineGraphic();
     }
 
     private void startIteration1() {
@@ -271,12 +288,22 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             iteratorExcel1.allYearIteration();
         } catch (FileNotFoundException e0) {
             iteratorExcel1.fileNotFound(e0);
+            lineGraph.getData().clear();
+            return;
+        } catch (IllegalStateException e2) {
+            System.out.print("Erreur");
             return;
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
             return;
+        } catch (NullPointerException e3) {
+            lineGraph.setTitle("");
+            lineGraph.getData().clear();
+            lineGraph.setVisible(false);
+            noGraphicLabel.setVisible(true);
+            return;
         }
-        return;
+        buildLineGraphic();
     }
 
     private void startIteration2() {
@@ -284,16 +311,28 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             iteratorExcel2.allYearIteration();
         } catch (FileNotFoundException e0) {
             iteratorExcel2.fileNotFound(e0);
+            lineGraph.getData().clear();
+            return;
+        }catch (IllegalStateException e2){
+            System.out.print("Erreur");
             return;
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
             return;
+        }catch (NullPointerException e3) {
+            lineGraph.setTitle("");
+            lineGraph.getData().clear();
+            lineGraph.setVisible(false);
+            noGraphicLabel.setVisible(true);
+            return;
         }
+        buildLineGraphic();
     }
 
     private void buildLineGraphic() {
         lineGraph.getData().clear();
         lineGraph.setVisible(true);
+        noGraphicLabel.setVisible(false);
         idleSpinner.setVisible(false);
         Graphic serie1 = new Graphic();
         Graphic serie2 = new Graphic();

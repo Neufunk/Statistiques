@@ -237,9 +237,10 @@ public class ControllerStatistiquesSI implements Initializable {
         periode.toExcelColumn(comboPeriode.getValue().toString());
         indicateur.toExcelRow(comboIndic.getValue().toString());
         iteratorExcel.setPath(year.getPath());
-        iteratorExcel.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
         if (indicateur.getWithFileD()) {
             iteratorExcel.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
+        }else {
+            iteratorExcel.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
         }
         iteratorExcel.setSheet(centre.getSheet());
         iteratorExcel.setColumn(periode.getColumn());
@@ -363,14 +364,7 @@ public class ControllerStatistiquesSI implements Initializable {
         Tooltip.install(pdfIcon, new Tooltip("Imprimer ou exporter en PDF"));
         final String RESULT = "C:/StatistiquesPDF.pdf";
         pdfIcon.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
-            try {
-                new PrintOut().pdfPrint(RESULT);
-            } catch (DocumentException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            // TODO : PDF Print
         });
     }
 
