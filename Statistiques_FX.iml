@@ -8,5 +8,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
+<<<<<<< HEAD
+=======
+    <orderEntry type="library" name="itext5-itextpdf-5.5.11" level="project" />
+    <orderEntry type="library" name="jfoenix (2)" level="project" />
+    <orderEntry type="library" name="jfoenix" level="project" />
+>>>>>>> a33b3a7b1954e1a86b3af28986c5591d0a2475e8
   </component>
 </module>

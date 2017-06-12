@@ -1,0 +1,19 @@
+	.button {
+
+}
+
+.button:hover {
+
+}
+
+.default-color0.chart-series-line {
+-fx-stroke: #e9967a;
+ }
+
+.default-color1.chart-series-line {
+-fx-stroke: #006782;
+ }
+
+.default-color2.chart-series-line {
+-fx-stroke: #96bb37;
+ }
