@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+implementation-title: Statistiques
+JavaFX-Preloader-Class: firstpreloader.FirstPreloader
+implementation-version: 0.1
+JavaFX-Application-Class: com.Main
+JavaFX-Class-Path: FirstPreloader.jar
+Class-Path: C:\Program Files (x86)\Java\jre1.8.0_131\lib
+Created-By: Johnathan Vanbeneden
+Main-Class: com.Main
+implementation-vendor: Johnathan Vanbeneden
+

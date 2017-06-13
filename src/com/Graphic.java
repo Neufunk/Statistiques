@@ -1,4 +1,4 @@
-package com.SoinsInfirmiers;
+package com;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +25,7 @@ public class Graphic {
 
     //LINEGRAPHIC
     public void buildLineGraphic(String title, double value, String xName) {
+        lineChartData.setName(xName);
         if (title != "" && value > 0) {
             if (value < 1 && value > 0) {
                 float floatValue = (float) value * 100;
@@ -32,12 +33,15 @@ public class Graphic {
             } else {
                 lineChartData.getData().add(new XYChart.Data<>(title, value));
             }
-            lineChartData.setName(xName);
         }
     }
 
     public XYChart.Series getLineChartData(){
         return lineChartData;
+    }
+
+    public void clear(){
+        lineChartData.getData().clear();
     }
 
 

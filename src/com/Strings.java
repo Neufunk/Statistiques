@@ -2,14 +2,14 @@ package com;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 public class Strings {
 
     // Page titles
-    public static String homePageTitle = "Aide & Soins à Domicile - Statistiques // FX_Alpha3";
-    public static String pageTitle0 = "Soins Infirmiers - Indicateurs annuels // FX_Alpha3";
-    public static String pageTitle1 = "Soins Infirmiers - Evolution d'un indicateur // FX_Alpha3";
-
+    public static String homePageTitle = "Aide & Soins à Domicile - Statistiques // beta 0.1";
+    public static String pageTitle0 = "Soins Infirmiers - Indicateurs annuels // beta 0.1";
+    public static String pageTitle1 = "Soins Infirmiers - Evolution d'un indicateur // beta 0.1";
 
     // Centres
     public ObservableList<String> centerList = FXCollections
@@ -44,7 +44,7 @@ public class Strings {
                     "Nombre visites par forfait", "Visites par mutualité",
                     "Total toilettes / total visites");
     public ObservableList<String> indicListFacturation = FXCollections
-            .observableArrayList("Facturation totale", "Tarification OA", "Réintroductions","Facturation par Visite",
+            .observableArrayList("Facturation totale", "Tarification OA", "Réintroductions", "Facturation par Visite",
                     "Facturation OA / jours prestés avec soins", "Facturation totale / jours prestés avec soins",
                     "Facturation totale par jours payés", "Recette OA");
     public ObservableList<String> indicListPatients = FXCollections
@@ -61,5 +61,4 @@ public class Strings {
     public ObservableList<String> periodList = FXCollections
             .observableArrayList("Année Complète", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre");
-
 }

@@ -1,9 +1,5 @@
-package com.SoinsInfirmiers;
+package com;
 
-import com.Main;
-import com.PrintOut;
-import com.Strings;
-import com.itextpdf.text.DocumentException;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import javafx.animation.FadeTransition;
@@ -128,7 +124,7 @@ public class ControllerStatistiquesSI implements Initializable {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), maskPane);
         fadeTransition.setAutoReverse(false);
         try {
-            box = FXMLLoader.load(getClass().getResource("../FXML/DrawerDesign.fxml"));
+            box = FXMLLoader.load(getClass().getResource("FXML/DrawerDesign.fxml"));
             drawer.setSidePane(box);
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,7 +153,7 @@ public class ControllerStatistiquesSI implements Initializable {
                         case "backButton":
                             Stage stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/HomePage.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("FXML/HomePage.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle(Strings.homePageTitle);
                             } catch (IOException e1) {
@@ -167,7 +163,7 @@ public class ControllerStatistiquesSI implements Initializable {
                         case "arrayYearButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("../FXML/TableauxAnnuels.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("FXML/TableauxAnnuels.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle(Strings.pageTitle1);
                             } catch (IOException e1) {
@@ -262,6 +258,7 @@ public class ControllerStatistiquesSI implements Initializable {
             iteratorExcel.startIteration();
         } catch (FileNotFoundException e0) {
             iteratorExcel.fileNotFound(e0);
+            return;
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
         }

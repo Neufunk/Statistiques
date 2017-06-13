@@ -1,4 +1,4 @@
-package com.SoinsInfirmiers;
+package com;
 
 import javafx.scene.control.Alert;
 
@@ -13,9 +13,9 @@ public class Indicateur {
     private int rowF = 0;
     private boolean withGraphic = false;
     boolean withFileD = false;
+    private boolean withLineGraphic = true;
 
     public void toExcelRow(String indicateur) {
-        resetVariables();
         switch (indicateur) {
             case "Total de jours payés":
                 masterRow = 6;
@@ -87,6 +87,7 @@ public class Indicateur {
                 rowB = 43;
                 rowC = 44;
                 withGraphic = true;
+                withLineGraphic = false;
                 break;
             case "Total toilettes / total visites":  // TODO : Arriver à 100%
                 masterRow = 1;
@@ -119,6 +120,7 @@ public class Indicateur {
                 rowD = 62;
                 rowE = 63;
                 withGraphic = false;
+                withLineGraphic = true;
                 break;
             case "Facturation OA / jours prestés avec soins":
                 masterRow = 65;
@@ -140,6 +142,7 @@ public class Indicateur {
                 rowD = 64;
                 withGraphic = false;
                 withFileD = true;
+                withLineGraphic = true;
                 break;
             case "Nombre de patients NOM/FF":         // PATIENTS
                 masterRow = 73;
@@ -162,6 +165,7 @@ public class Indicateur {
                 rowA = 79;
                 rowB = 80;
                 withGraphic = false;
+                withLineGraphic = false; //TODO : Finir le withLineGraphic False
                 break;
             case "Patients par mutualité":
                 masterRow = 1;
@@ -169,9 +173,10 @@ public class Indicateur {
                 rowB = 83;
                 rowC = 84;
                 withGraphic = true;
+                withLineGraphic = false;
                 break;
             case "Kilomètres parcourus & par visite":       // Déplacements
-                masterRow = 65;
+                masterRow = 66;
                 rowA = 66;
                 rowB = 67;
                 withFileD = true;
@@ -185,6 +190,7 @@ public class Indicateur {
                 rowD = 97;
                 rowE = 98;
                 withGraphic = true;
+                withLineGraphic = false;
                 break;
             case "Total presté":
                 masterRow = 100;
@@ -193,6 +199,7 @@ public class Indicateur {
                 rowC = 103;
                 rowD = 104;
                 withGraphic = true;
+                withLineGraphic = false;
                 break;
             case "Total absence non-payées":
                 masterRow = 106;
@@ -202,6 +209,7 @@ public class Indicateur {
                 rowD = 110;
                 rowE = 111;
                 withGraphic = true;
+                withLineGraphic = false;
                 break;
             case "Répartition des blocs":
                 masterRow = 113;
@@ -209,6 +217,7 @@ public class Indicateur {
                 rowB = 115;
                 rowC = 116;
                 withGraphic = true;
+                withLineGraphic = false;
                 break;
             case "Suppléments en jours":
                 masterRow = 118;
@@ -218,8 +227,8 @@ public class Indicateur {
                 rowD = 122;
                 rowE = 123;
                 withGraphic = true;
+                withLineGraphic = false;
                 break;
-
         }
     }
 
@@ -231,7 +240,7 @@ public class Indicateur {
         alert.showAndWait();
     }
 
-    private void resetVariables(){
+    public void resetVariables(){
         masterRow = 0;
         rowA = 0;
         rowB = 0;
@@ -239,6 +248,8 @@ public class Indicateur {
         rowD = 0;
         rowE = 0;
         rowF = 0;
+        withFileD = false;
+        withLineGraphic = true;
     }
 
     int getMasterRow() {
@@ -275,6 +286,10 @@ public class Indicateur {
 
     boolean getWithFileD() {
         return withFileD;
+    }
+
+    boolean getwithLineGraphic(){
+        return withLineGraphic;
     }
 
 }

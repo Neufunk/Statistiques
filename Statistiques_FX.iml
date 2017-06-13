@@ -11,6 +11,7 @@
     <orderEntry type="library" name="itext5-itextpdf-5.5.11" level="project" />
     <orderEntry type="library" name="jfoenix (2)" level="project" />
     <orderEntry type="library" name="jfoenix" level="project" />
-
+    <orderEntry type="library" name="org.gillius:jfxutils:1.0" level="project" />
+    <orderEntry type="library" name="jfoenix" level="project" />
   </component>
 </module>

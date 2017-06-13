@@ -12,6 +12,7 @@ LIBRARIES :
 - iText 5.5.11
     itext5-itextpdf-5.5.11
 - poi 3.16
+- jfxutils 1.0 (MAVEN : org.gillius)
 
 PLUGINS :
 ---------

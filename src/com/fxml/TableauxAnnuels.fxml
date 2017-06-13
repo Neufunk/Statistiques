@@ -5,15 +5,18 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SoinsInfirmiers.ControllerComparaisonAnnuelle">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ControllerComparaisonAnnuelle">
    <children>
       <Label layoutX="408.0" layoutY="123.0" text="Année 0" visible="false">
          <font>
@@ -57,6 +60,30 @@
                </font>
             </JFXButton>
             <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#96bb37" labelFloat="true" layoutX="293.0" layoutY="199.0" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" unFocusColor="#006782" />
+            <ImageView fx:id="redCross0" fitHeight="16.0" fitWidth="20.0" layoutX="115.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/RedCross.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="redCross1" fitHeight="16.0" fitWidth="16.0" layoutX="321.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/RedCross.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="redCross2" fitHeight="16.0" fitWidth="16.0" layoutX="503.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/RedCross.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
          </children>
          <effect>
             <DropShadow />
@@ -64,7 +91,7 @@
       </AnchorPane>
       <AnchorPane layoutX="76.0" layoutY="365.0" prefHeight="341.0" prefWidth="1124.0" style="-fx-background-color: WHITE;">
          <children>
-            <LineChart fx:id="lineGraph" layoutX="1.0" prefHeight="342.0" prefWidth="1124.0" stylesheets="@../CSS/NormalSkin.css" visible="false">
+            <LineChart fx:id="lineGraph" layoutX="1.0" layoutY="1.0" prefHeight="341.0" prefWidth="1124.0" stylesheets="@n.css" visible="false">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>

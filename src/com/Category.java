@@ -1,4 +1,4 @@
-package com.SoinsInfirmiers;
+package com;
 
 import com.Strings;
 import javafx.collections.ObservableList;

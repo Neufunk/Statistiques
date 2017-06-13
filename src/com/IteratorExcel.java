@@ -1,4 +1,4 @@
-package com.SoinsInfirmiers;
+package com;
 
 
 import javafx.scene.control.Alert;
@@ -331,13 +331,11 @@ public class IteratorExcel {
     }
 
     public void fileNotFound(Exception e0) {
-        e0.printStackTrace();
-        String e1 = e0.toString();
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Fichier occupé ou introuvable");
-        alert.setHeaderText(e1);
+        alert.setHeaderText("Fichier occupé ou introuvable : "+e0.getLocalizedMessage());
         alert.setContentText("STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
-                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - fileNotFound()");
+                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "METHOD : \t\t\t" + this.getClass().toString() + ".fileNotFound()");
         alert.showAndWait();
     }
 
@@ -371,6 +369,9 @@ public class IteratorExcel {
 
     public void resetVariables() {
 
+        wb = null;
+        wb2 = null;
+        wb3 = null;
         masterCell = null;
         masterTitleCell = null;
         cellA = null;
