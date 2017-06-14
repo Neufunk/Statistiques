@@ -1,6 +1,5 @@
-package com;
+package SoinsInfirmiers;
 
-import com.Strings;
 import javafx.collections.ObservableList;
 
 class Category {

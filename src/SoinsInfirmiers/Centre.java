@@ -1,4 +1,4 @@
-package com;
+package SoinsInfirmiers;
 
 
 import javafx.scene.control.Alert;

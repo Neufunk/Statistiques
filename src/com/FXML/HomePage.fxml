@@ -32,7 +32,7 @@
          <children>
             <ImageView fitHeight="337.0" fitWidth="575.0" preserveRatio="true">
                <image>
-                  <Image url="@../../resources/ASD_logo.jpg" />
+                  <Image url="/resources/img/ASD_logo.jpg" />
                </image>
             </ImageView>
          </children>
@@ -89,14 +89,14 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </JFXButton>
-            <JFXButton id="siButton" fx:id="siButton" buttonType="RAISED" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #006782;" styleClass="lighter" stylesheets="@../CSS/NormalSkin.css" text="SI" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+            <JFXButton id="siButton" fx:id="siButton" buttonType="RAISED" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #006782;" styleClass="lighter" stylesheets="@../../CSS/NormalSkin.css" text="SI" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </JFXButton>
             <ImageView fitHeight="200.0" fitWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@../../resources/graphique.png" />
+                  <Image url="/resources/img/graphique.png" />
                </image>
             </ImageView>
          </children>

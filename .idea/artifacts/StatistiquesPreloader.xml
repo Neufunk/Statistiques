@@ -7,6 +7,7 @@
       </options>
     </properties>
     <root id="archive" name="StatistiquesPreloader.jar">
+      <element id="module-output" name="Statistiques_FX" />
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>

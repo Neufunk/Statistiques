@@ -1,4 +1,4 @@
-package com;
+package SoinsInfirmiers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -6,10 +6,12 @@ import javafx.scene.control.Alert;
 
 public class Strings {
 
+    public static String versionNumber = "0.1.1";
+
     // Page titles
-    public static String homePageTitle = "Aide & Soins à Domicile - Statistiques // beta 0.1";
-    public static String pageTitle0 = "Soins Infirmiers - Indicateurs annuels // beta 0.1";
-    public static String pageTitle1 = "Soins Infirmiers - Evolution d'un indicateur // beta 0.1";
+    public static String homePageTitle = "Aide & Soins à Domicile - Statistiques // beta "+versionNumber;
+    public static String pageTitle0 = "Soins Infirmiers - Indicateurs annuels // beta "+versionNumber;
+    public static String pageTitle1 = "Soins Infirmiers - Evolution d'un indicateur // beta "+versionNumber;
 
     // Centres
     public ObservableList<String> centerList = FXCollections
@@ -26,7 +28,7 @@ public class Strings {
 
     // Années
     public static ObservableList<Integer> yearList = FXCollections
-            .observableArrayList(2015, 2016, 2017, 2018, 2019, 2020);
+            .observableArrayList(2015, 2016, 2017, 2018, 2019, 2020, 9999);
 
     // Titres des Indicateurs
     public ObservableList<String> categorieList = FXCollections

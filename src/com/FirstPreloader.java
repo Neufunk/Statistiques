@@ -6,9 +6,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-/**
- * Created by johnathanv on 13/06/2017.
- */
 public class FirstPreloader extends Preloader {
     ProgressBar bar;
     Stage stage;
@@ -17,7 +14,7 @@ public class FirstPreloader extends Preloader {
         bar = new ProgressBar();
         BorderPane p = new BorderPane();
         p.setCenter(bar);
-        return new Scene(p, 300, 150);
+        return new Scene(p, 600, 800);
     }
 
     public void start(Stage stage) throws Exception {

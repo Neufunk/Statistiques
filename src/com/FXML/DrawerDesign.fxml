@@ -13,7 +13,7 @@
       <JFXButton prefHeight="33.0" prefWidth="117.0" style="-fx-background-color: WHITE;" textFill="WHITE" />
       <ImageView fitHeight="102.0" fitWidth="240.0">
          <image>
-            <Image url="@../../resources/ASD_logo.jpg" />
+            <Image url="/resources/img/ASD_logo.jpg" />
          </image>
       </ImageView>
       <Label alignment="TOP_CENTER" prefHeight="31.0" prefWidth="155.0" text="Soins Infirmiers" underline="true">

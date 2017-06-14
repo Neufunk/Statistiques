@@ -4,8 +4,8 @@
 Project JAVA_FX SDK 1.8.0_121
 Started on May 05, 2017
 
-LIBRARIES :
------------
+##LIBRARIES :
+
 - JFoenix
 - uCanAccess
     Ucanaccess 4.0.1
@@ -14,10 +14,10 @@ LIBRARIES :
 - poi 3.16
 - jfxutils 1.0 (MAVEN : org.gillius)
 
-PLUGINS :
----------
+##PLUGINS :
+
 - SceneBuilder
 
-GITHUB :
---------
+##GITHUB :
+
 - https://github.com/Neufunk/StatistiquesFX

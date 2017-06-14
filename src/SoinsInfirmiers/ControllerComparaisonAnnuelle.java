@@ -1,5 +1,6 @@
-package com;
+package SoinsInfirmiers;
 
+import com.Main;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import javafx.animation.FadeTransition;
@@ -30,7 +31,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     // Instances de classes
     private Strings strings = new Strings();
 
-    // Instances des objets FXML
+    // Instances des objets com.FXML
     @FXML
     private JFXHamburger hamburger;
     @FXML
@@ -93,7 +94,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), maskPane);
         fadeTransition.setAutoReverse(false);
         try {
-            box = FXMLLoader.load(getClass().getResource("FXML/DrawerDesign.fxml"));
+            box = FXMLLoader.load(getClass().getResource("/com/FXML/DrawerDesign.fxml"));
             drawer.setSidePane(box);
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,7 +123,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
                         case "backButton":
                             Stage stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("FXML/HomePage.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/HomePage.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle(Strings.homePageTitle);
                             } catch (IOException e1) {
@@ -132,7 +133,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
                         case "homeButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("FXML/StatistiquesSI.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/StatistiquesSI.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle(Strings.pageTitle0);
                             } catch (IOException e1) {
@@ -234,7 +235,10 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             generateYear2();
         }
         buildLineGraphic();
-        closeConnection();
+        iteratorExcel0.resetVariables();
+        iteratorExcel1.resetVariables();
+        iteratorExcel2.resetVariables();
+        indicateur.resetVariables();
     }
 
     private void generateYear0() {
@@ -305,7 +309,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             idleSpinner.setVisible(false);
             return;
         }
-        buildLineGraphic();
     }
 
     private void startIteration1() {
@@ -328,7 +331,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             noGraphicLabel.setVisible(true);
             return;
         }
-        buildLineGraphic();
     }
 
     private void startIteration2() {
@@ -351,7 +353,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             noGraphicLabel.setVisible(true);
             return;
         }
-        buildLineGraphic();
     }
 
     private void buildLineGraphic() {

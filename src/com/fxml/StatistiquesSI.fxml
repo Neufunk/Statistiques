@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ControllerStatistiquesSI">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerStatistiquesSI">
    <children>
       <AnchorPane fx:id="anchorPane1" layoutX="74.0" layoutY="382.0" prefHeight="322.0" prefWidth="532.0" style="-fx-background-color: WHITE;">
          <effect>
@@ -114,7 +114,7 @@
       </AnchorPane>
       <ImageView fx:id="pdfIcon" fitHeight="46.0" fitWidth="36.0" layoutX="1240.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../resources/iconPDF.png" />
+            <Image url="@../../resources/img/iconPDF.png" />
          </image>
          <effect>
             <DropShadow height="2.0" radius="0.5" width="2.0" />
@@ -125,7 +125,7 @@
       </ImageView>
       <ImageView accessibleHelp="Open EXCEL File" fitHeight="46.0" fitWidth="36.0" layoutX="1239.0" layoutY="308.0" pickOnBounds="true" preserveRatio="true" fx:id="xlsIcon">
          <image>
-            <Image url="@../../resources/iconXLS.png" />
+            <Image url="@../../resources/img/iconXLS.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -133,7 +133,7 @@
       </ImageView>
       <ImageView fx:id="printIcon" fitHeight="46.0" fitWidth="47.0" layoutX="1234.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../resources/1496145040_icon-124-printer-text.png" />
+            <Image url="@../../resources/img/1496145040_icon-124-printer-text.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

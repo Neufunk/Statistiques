@@ -1,5 +1,7 @@
-package com;
+package SoinsInfirmiers;
 
+import com.Main;
+import com.PrintOut;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import javafx.animation.FadeTransition;
@@ -29,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class ControllerStatistiquesSI implements Initializable {
 
-    // Injection des objets FXML
+    // Injection des objets com.FXML
     @FXML
     private JFXHamburger hamburger;
     @FXML
@@ -124,7 +126,7 @@ public class ControllerStatistiquesSI implements Initializable {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), maskPane);
         fadeTransition.setAutoReverse(false);
         try {
-            box = FXMLLoader.load(getClass().getResource("FXML/DrawerDesign.fxml"));
+            box = FXMLLoader.load(getClass().getResource("/com/FXML/DrawerDesign.fxml"));
             drawer.setSidePane(box);
         } catch (IOException e) {
             e.printStackTrace();
@@ -153,7 +155,7 @@ public class ControllerStatistiquesSI implements Initializable {
                         case "backButton":
                             Stage stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("FXML/HomePage.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/HomePage.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle(Strings.homePageTitle);
                             } catch (IOException e1) {
@@ -163,7 +165,7 @@ public class ControllerStatistiquesSI implements Initializable {
                         case "arrayYearButton":
                             stage = Main.getPrimaryStage();
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("FXML/TableauxAnnuels.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/TableauxAnnuels.fxml"));
                                 stage.setScene(new Scene(root));
                                 stage.setTitle(Strings.pageTitle1);
                             } catch (IOException e1) {
@@ -178,6 +180,11 @@ public class ControllerStatistiquesSI implements Initializable {
                         maskPane.setVisible(false);
                         transition.setRate(transition.getRate() * -1);
                         transition.play();
+                    }
+                });
+                mainPane.addEventHandler(MouseEvent.MOUSE_MOVED, (e) -> {
+                    if (drawer.isHidden()){
+                        drawer.setVisible(false);
                     }
                 });
             }
@@ -249,8 +256,9 @@ public class ControllerStatistiquesSI implements Initializable {
         startIteration();
         buildPieGraphic();
         buildRawData();
-        iteratorExcel.resetVariables();
         closeConnection();
+        iteratorExcel.resetVariables();
+        indicateur.resetVariables();
     }
 
     private void startIteration() {
