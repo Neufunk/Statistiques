@@ -193,7 +193,7 @@ public class ControllerStatistiquesSI implements Initializable {
 
     private void initializeCombo() {
         Strings strings = new Strings();
-        comboYear.setItems(strings.yearList);
+        comboYear.setItems(Strings.yearList);
         comboCentre.setItems(strings.centerList);
         comboPeriode.setItems(strings.periodList);
         comboCategorie.setItems(strings.categorieList);

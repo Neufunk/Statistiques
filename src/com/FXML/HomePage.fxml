@@ -5,8 +5,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -32,7 +38,7 @@
          <children>
             <ImageView fitHeight="337.0" fitWidth="575.0" preserveRatio="true">
                <image>
-                  <Image url="/resources/img/ASD_logo.jpg" />
+                  <Image url="@../../resources/img/ASD_logo.jpg" />
                </image>
             </ImageView>
          </children>
@@ -84,7 +90,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton id="avjButton" fx:id="avjButton" disable="true" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #96bb37;" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+            <JFXButton id="avjButton" fx:id="avjButton" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #96bb37;" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
@@ -96,7 +102,7 @@
             </JFXButton>
             <ImageView fitHeight="200.0" fitWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <image>
-                  <Image url="/resources/img/graphique.png" />
+                  <Image url="@../../resources/img/graphique.png" />
                </image>
             </ImageView>
          </children>
@@ -104,5 +110,57 @@
             <Insets left="50.0" right="50.0" />
          </padding>
       </GridPane>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <top>
+            <MenuBar style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="Fichier">
+                  <items>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#closeButtonAction" text="Fermer" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                        <MenuItem mnemonicParsing="false" text="Annuler">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" text="Rétablir">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem disable="true" mnemonicParsing="false" text="Préférences" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Département AVJ">
+                    <items>
+                      <MenuItem disable="true" mnemonicParsing="false" text="Contingent" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Département SI">
+                    <items>
+                        <MenuItem fx:id="menuIndic" mnemonicParsing="false" onAction="#openIndicateursPage" text="Evolution par indicateur" />
+                      <MenuItem fx:id="menuComparaison" mnemonicParsing="false" onAction="#openComparaisonPage" text="Comparaison annuelle" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="Patients / Visites par Commune" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="Répartition par âge" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="Paramètres" />
+                    </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                        <MenuItem fx:id="menuPatchnote" mnemonicParsing="false" onAction="#showPatchnote" text="Patchnote" />
+                        <MenuItem fx:id="menuChangelogs" mnemonicParsing="false" onAction="#changeLogs" text="Changelogs" />
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+      </BorderPane>
    </children>
 </GridPane>

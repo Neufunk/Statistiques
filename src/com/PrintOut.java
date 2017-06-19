@@ -5,36 +5,32 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfBody;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.print.Printer;
-import javafx.print.PrinterJob;
+import javafx.print.*;
 import javafx.scene.Node;
+import javafx.stage.Stage;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class PrintOut {
 
-    public static final void printerPrint(Node node) {
+    public static void printerPrint(Node node) {
         // TODO : PRINT MISE EN PAGE
         Printer printer = Printer.getDefaultPrinter();
+        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.HARDWARE_MINIMUM);
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
-            job.showPrintDialog(Main.getPrimaryStage());
-            job.printPage(node);
+            job.showPrintDialog(new Stage());
+            job.printPage(pageLayout, node);
             job.endJob();
         }
     }
 
-    public static final void pdfPrint(String fileName) throws DocumentException, IOException {
-        // step 1
+    public static void pdfPrint(String fileName) throws DocumentException, IOException {
         Document document = new Document();
-        // step 2
         PdfWriter.getInstance(document, new FileOutputStream(fileName));
-        // step 3
         document.open();
-        // step 4
         document.add(new Paragraph(String.valueOf(Main.getPrimaryStage())));
-        // step 5
         document.close();
 
     }
