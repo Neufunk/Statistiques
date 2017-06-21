@@ -1,5 +1,6 @@
 package SoinsInfirmiers;
 
+import com.Effects;
 import com.Main;
 import com.PrintOut;
 import com.jfoenix.controls.*;
@@ -108,6 +109,7 @@ public class ControllerStatistiquesSI implements Initializable {
     private Periode periode = new Periode();
     private Indicateur indicateur = new Indicateur();
     private IteratorExcel iteratorExcel = new IteratorExcel();
+    private Effects effects = new Effects();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -123,8 +125,6 @@ public class ControllerStatistiquesSI implements Initializable {
 
     private void drawMenu() {
         VBox box = null;
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), maskPane);
-        fadeTransition.setAutoReverse(false);
         try {
             box = FXMLLoader.load(getClass().getResource("/com/FXML/DrawerDesign.fxml"));
             drawer.setSidePane(box);
@@ -142,9 +142,7 @@ public class ControllerStatistiquesSI implements Initializable {
             } else {
                 drawer.open();
                 maskPane.setVisible(true);
-                fadeTransition.setFromValue(0);
-                fadeTransition.setToValue(0.2);
-                fadeTransition.play();
+                effects.setFadeTransition(maskPane, 600, 0, 0.2);
                 drawer.setVisible(true);
             }
         });

@@ -90,7 +90,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton id="avjButton" fx:id="avjButton" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #96bb37;" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+            <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #96bb37;" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
@@ -112,7 +112,7 @@
       </GridPane>
       <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <top>
-            <MenuBar style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+            <MenuBar opacity="0.88" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
               <menus>
                 <Menu mnemonicParsing="false" text="Fichier">
                   <items>
@@ -138,7 +138,7 @@
                 </Menu>
                   <Menu mnemonicParsing="false" text="Département AVJ">
                     <items>
-                      <MenuItem disable="true" mnemonicParsing="false" text="Contingent" />
+                      <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Département SI">

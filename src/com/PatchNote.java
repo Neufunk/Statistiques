@@ -9,20 +9,10 @@ import java.util.Properties;
 
 public class PatchNote {
 
-    public static Properties load (String fileName) throws IOException {
-        Properties properties = new Properties();
-        FileInputStream input = new FileInputStream(fileName);
-        try {
-            properties.load(input);
-            return properties;
-        } finally {
-            input.close();
-        }
-    }
 
     public void patchNote() {
         try {
-            Properties prop = PatchNote.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Patchnote.properties");
+            Properties prop = LoadProperties.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Patchnote.properties");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("PATCHNOTE " + Version.versionNumber);
         alert.setHeaderText(prop.getProperty("Patchnote", "vide"));

@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="720" prefWidth="1280" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
+<AnchorPane fx:id="mainPane" prefHeight="720" prefWidth="1280" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
    <children>
-      <JFXTextField fx:id="textField" layoutX="209.0" layoutY="219.0" />
+      <AnchorPane fx:id="pane0" layoutX="436.0" layoutY="37.0" prefHeight="267.0" prefWidth="409.0" style="-fx-background-color: WHITE;">
+         <children>
+            <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" layoutX="95.0" layoutY="48.0" prefHeight="22.0" prefWidth="194.0" promptText="Centre" unFocusColor="#00707e" />
+            <JFXComboBox fx:id="comboSecteur" focusColor="#96bb37" labelFloat="true" layoutX="95.0" layoutY="112.0" prefHeight="22.0" prefWidth="194.0" promptText="Secteur" unFocusColor="#00707e" />
+            <JFXButton fx:id="generateButton" buttonType="RAISED" layoutX="164.0" layoutY="198.0" prefHeight="32.0" prefWidth="81.0" style="-fx-background-color: #E1A532;" text="G" textFill="WHITE" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <AnchorPane fx:id="pane1" layoutX="1018.0" layoutY="37.0" prefHeight="267.0" prefWidth="200.0" style="-fx-background-color: WHITE;">
+         <children>
+            <JFXButton fx:id="updateButton" buttonType="RAISED" layoutX="60.0" layoutY="14.0" prefHeight="39.0" prefWidth="81.0" style="-fx-background-color: #893209;" text="Update" textFill="WHITE" />
+            <JFXButton fx:id="travailleurButton" buttonType="RAISED" layoutX="60.0" layoutY="67.0" prefHeight="39.0" prefWidth="81.0" style="-fx-background-color: #00707E;" text="Travailleurs" textFill="WHITE" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: RED;" text="◄ Retour" textFill="WHITE" />
+      <AnchorPane fx:id="maskPane" layoutX="1.0" opacity="0.1" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
    </children>
 </AnchorPane>

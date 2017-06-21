@@ -1,5 +1,6 @@
 package SoinsInfirmiers;
 
+import com.Effects;
 import com.Main;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
@@ -75,6 +76,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     private Category category = new Category();
     private Indicateur indicateur = new Indicateur();
     private Centre centre = new Centre();
+    private Effects effects = new Effects();
     private IteratorExcel iteratorExcel0 = new IteratorExcel();
     private IteratorExcel iteratorExcel1 = new IteratorExcel();
     private IteratorExcel iteratorExcel2 = new IteratorExcel();
@@ -91,8 +93,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
 
     private void drawMenu() {
         VBox box = null;
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), maskPane);
-        fadeTransition.setAutoReverse(false);
         try {
             box = FXMLLoader.load(getClass().getResource("/com/FXML/DrawerDesign.fxml"));
             drawer.setSidePane(box);
@@ -111,9 +111,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
                 drawer.open();
                 drawer.open();
                 maskPane.setVisible(true);
-                fadeTransition.setFromValue(0);
-                fadeTransition.setToValue(0.2);
-                fadeTransition.play();
+                effects.setFadeTransition(maskPane, 600, 0, 0.2);
             }
         });
         for (Node node : box.getChildren()) {
@@ -461,6 +459,5 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             e.printStackTrace();
         }
     }
-
 }
 

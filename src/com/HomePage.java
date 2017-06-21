@@ -1,5 +1,6 @@
 package com;
 
+import AVJ.Data;
 import SoinsInfirmiers.Strings;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
@@ -102,7 +103,7 @@ public class HomePage implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("FXML/Contingent.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle(Strings.pageTitle1);
+            stage.setTitle(Data.pageTitle0);
         } catch (IOException e1) {
             e1.printStackTrace();
         }

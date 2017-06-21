@@ -1,6 +1,7 @@
-#StatistiquesFX
-Project JAVA_FX  - SDK 1.8.0_121 \
-Started on May 05, 2017
+#Statistiques FX 
+\
+JAVA FX Project  - SDK 1.8.0_121 \
+May 05, 2017
 
 ###LIBRARIES :
 

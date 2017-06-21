@@ -1,13 +1,12 @@
 <component name="ArtifactManager">
-  <artifact type="javafx-preloader" name="StatistiquesPreloader">
-    <output-path>$PROJECT_DIR$/out/artifacts/StatistiquesPreloader</output-path>
+  <artifact type="javafx-preloader" name="Preloader">
+    <output-path>$PROJECT_DIR$/out/artifacts/Preloader</output-path>
     <properties id="javafx-preloader-properties">
       <options>
         <option name="preloaderClass" value="com.FirstPreloader" />
       </options>
     </properties>
-    <root id="archive" name="StatistiquesPreloader.jar">
-      <element id="module-output" name="Statistiques_FX" />
+    <root id="archive" name="Preloader.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>
