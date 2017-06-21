@@ -9,10 +9,11 @@ import java.util.Properties;
 
 public class PatchNote {
 
+    LoadProperties loadProperties = new LoadProperties();
 
     public void patchNote() {
         try {
-            Properties prop = LoadProperties.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Patchnote.properties");
+            Properties prop = loadProperties.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Patchnote.properties");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("PATCHNOTE " + Version.versionNumber);
         alert.setHeaderText(prop.getProperty("Patchnote", "vide"));

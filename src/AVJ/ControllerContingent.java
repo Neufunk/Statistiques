@@ -57,6 +57,7 @@ public class ControllerContingent implements Initializable {
     Data data = new Data();
     static public Stage workerStage = new Stage();
     Effects effects = new Effects();
+    LoadProperties loadProperties = new LoadProperties();
 
     public void initialize(URL location, ResourceBundle resources) {
         loadProperties();
@@ -78,7 +79,7 @@ public class ControllerContingent implements Initializable {
 
     private void loadProperties() {
         try {
-            prop = LoadProperties.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Contingent.properties");
+            prop = loadProperties.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Contingent.properties");
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }

@@ -1,105 +1,124 @@
 package AVJ;
 
 import com.LoadProperties;
+import com.Version;
+import javafx.scene.control.Alert;
+
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 public class SectorToWorker {
 
-    String secteur = "";
+    String travailleur = "";
+    String key = "";
     LoadProperties loadProperties = new LoadProperties();
     Properties properties = new Properties();
 
-    public void secteurToWorker(String selectedSecteur){
+
+    public String setKey(String selectedSecteur) {
         loadFile();
-        this.secteur = selectedSecteur;
-        switch (selectedSecteur){
-            case "AM APE" :
-                secteur = properties.getProperty("travailleur.AMAPE");
+        switch (selectedSecteur) {
+            case "AM APE":
+                key = "travailleur.AMAPE";
                 break;
-            case "AM APE Philippeville" :
-                secteur = properties.getProperty("travailleur.AMAPEPhilippeville");
+            case "AM APE Philippeville":
+                key = "travailleur.AMAPEPhilippeville";
                 break;
-            case "AM Jambes" :
-                secteur = properties.getProperty("travailleur.AMJambes");
+            case "AM Jambes":
+                key = "travailleur.AMJambes";
                 break;
-            case "AM Philippeville" :
-                secteur = properties.getProperty("travailleur.AMPhilippeville");
+            case "AM Philippeville":
+                key = "travailleur.AMPhilippeville";
                 break;
-            case "Andenne" :
-                secteur = properties.getProperty("travailleur.Andenne");
+            case "Andenne":
+                key = "travailleur.Andenne";
                 break;
-            case "Bois de Villers" :
-                secteur = properties.getProperty("travailleur.BoisDeVillers");
+            case "Bois de Villers":
+                key = "travailleur.BoisDeVillers";
                 break;
-            case "Bouge" :
-                secteur = properties.getProperty("travailleur.Bouge");
+            case "Bouge":
+                key = "travailleur.Bouge";
                 break;
-            case "Cerfontaine" :
-                secteur = properties.getProperty("travailleur.Cerfontaine");
+            case "Cerfontaine":
+                key = "travailleur.Cerfontaine";
                 break;
-            case "Couvin" :
-                secteur = properties.getProperty("travailleur.Couvin");
+            case "Couvin":
+                key = "travailleur.Couvin";
                 break;
-            case "Eghezée" :
-                secteur = properties.getProperty("travailleur.Eghezée");
+            case "Eghezée":
+                key = "travailleur.Eghezée";
                 break;
-            case "Florennes" :
-                secteur = properties.getProperty("travailleur.Florennes");
+            case "Florennes":
+                key = "travailleur.Florennes";
                 break;
-            case "Fosses-Mettet" :
-                secteur = properties.getProperty("travailleur.FossesMettet");
+            case "Fosses-Mettet":
+                key = "travailleur.FossesMettet";
                 break;
-            case "Gembloux" :
-                secteur = properties.getProperty("travailleur.Gembloux");
+            case "Gembloux":
+                key = "travailleur.Gembloux";
                 break;
-            case "Gesves" :
-                secteur = properties.getProperty("travailleur.Gesves");
+            case "Gesves":
+                key = "travailleur.Gesves";
                 break;
-            case "Jambes" :
-                secteur = properties.getProperty("travailleur.Jambes");
+            case "Jambes":
+                key = "travailleur.Jambes";
                 break;
-            case "Jambes extérieur" :
-                secteur = properties.getProperty("travailleur.JambesExterieur");
+            case "Jambes extérieur":
+                key = "travailleur.JambesExterieur";
                 break;
-            case "Namur" :
-                secteur = properties.getProperty("travailleur.Namur");
+            case "Namur":
+                key = "travailleur.Namur";
                 break;
-            case "Namur Gare" :
-                secteur = properties.getProperty("travailleur.NamurGare");
+            case "Namur Gare":
+                key = "travailleur.NamurGare";
                 break;
-            case "Philippeville" :
-                secteur = properties.getProperty("travailleur.Philippeville");
+            case "Philippeville":
+                key = "travailleur.Philippeville";
                 break;
-            case "Saint-Servais" :
-                secteur = properties.getProperty("travailleur.SaintServais");
+            case "Saint-Servais":
+                key = "travailleur.SaintServais";
                 break;
-            case "Salzinnes" :
-                secteur = properties.getProperty("travailleur.Salzinnes");
+            case "Salzinnes":
+                key = "travailleur.Salzinnes";
                 break;
-            case "Sambreville" :
-                secteur = properties.getProperty("travailleur.Sambreville");
+            case "Sambreville":
+                key = "travailleur.Sambreville";
                 break;
-            case "Viroinval" :
-                secteur = properties.getProperty("travailleur.Viroinval");
+            case "Viroinval":
+                key = "travailleur.Viroinval";
                 break;
-            case "Volantes" :
-                secteur = properties.getProperty("travailleur.Volantes");
+            case "Volantes":
+                key = "travailleur.Volantes";
                 break;
-            case "Volantes Namur" :
-                secteur = properties.getProperty("travailleur.VolantesNamur");
+            case "Volantes Namur":
+                key = "travailleur.VolantesNamur";
                 break;
-            case "Walcourt" :
-                secteur = properties.getProperty("travailleur.Walcourt");
+            case "Walcourt":
+                key = "travailleur.Walcourt";
                 break;
         }
+        return key;
     }
 
-    public String getSecteur(){
-        return secteur;
+    public String getKey(){
+        return key;
     }
 
-    private void loadFile(){
+    public void secteurToWorker() {
+        travailleur = properties.getProperty(key);
+    }
+
+    public String getTravailleur() {
+        return travailleur;
+    }
+
+    public void changeWorker(String newWorker){
+        properties.setProperty(key, newWorker);
+        loadProperties.save(properties);
+    }
+
+    private void loadFile() {
         try {
             properties = loadProperties.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Contingent.properties");
         } catch (IOException e) {
