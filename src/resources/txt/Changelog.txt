@@ -1,10 +1,11 @@
 ﻿CHANGELOG
 ---------
 
-changelog-0.1.3 = 21/06/2017
+changelog-0.1.3 = 27/06/2017
   - Ajout du raccourci menu Contingent
   - Ajout du squelette de la page Contingent
   - Ajout de la fonction modification des travailleurs sociaux
+  - Ajout d'une librairie pour gérer PostgreSQL
 
 changelog-0.1.2 = 19/06/2017
   - Implémentation du Changelog

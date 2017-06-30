@@ -155,7 +155,7 @@
                   <items>
                         <MenuItem fx:id="menuPatchnote" mnemonicParsing="false" onAction="#showPatchnote" text="Patchnote" />
                         <MenuItem fx:id="menuChangelogs" mnemonicParsing="false" onAction="#changeLogs" text="Changelogs" />
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem disable="true" mnemonicParsing="false" text="About" />
                   </items>
                 </Menu>
               </menus>

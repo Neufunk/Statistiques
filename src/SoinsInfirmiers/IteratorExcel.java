@@ -1,6 +1,5 @@
 package SoinsInfirmiers;
 
-
 import javafx.scene.control.Alert;
 import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
 import org.apache.poi.hssf.util.CellReference;
@@ -9,9 +8,6 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.IOException;
-
-import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_ERROR;
-import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC;
 
 public class IteratorExcel {
 

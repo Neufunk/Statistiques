@@ -13,7 +13,7 @@
       <AnchorPane fx:id="mainPane" layoutX="5.0" layoutY="8.0" prefHeight="484.0" prefWidth="339.0" style="-fx-background-color: WHITE;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="8.0">
          <children>
             <JFXComboBox fx:id="comboSecteur" focusColor="#96bb37" labelFloat="true" layoutX="78.0" layoutY="134.0" prefHeight="22.0" prefWidth="183.0" promptText="Secteur" unFocusColor="#006782" />
-            <JFXTextField fx:id="nameField" alignment="CENTER" focusColor="#96bb37" layoutX="78.0" layoutY="220.0" prefHeight="22.0" prefWidth="183.0" promptText="Prénom" unFocusColor="#006782" />
+            <JFXTextField fx:id="nameField" alignment="CENTER" focusColor="#96bb37" labelFloat="true" layoutX="78.0" layoutY="220.0" prefHeight="22.0" prefWidth="183.0" promptText="Prénom" unFocusColor="#006782" />
             <Label layoutX="5.0" layoutY="-9.0" prefHeight="46.0" prefWidth="318.0" text="Modifier le secteur d'un travailleur Social" textFill="#006782">
                <font>
                   <Font name="System Bold" size="14.0" />

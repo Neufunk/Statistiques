@@ -1,31 +1,23 @@
 package AVJ;
 
-import SoinsInfirmiers.Strings;
 import com.Effects;
 import com.LoadProperties;
 import com.Main;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -60,11 +52,12 @@ public class ControllerContingent implements Initializable {
     LoadProperties loadProperties = new LoadProperties();
 
     public void initialize(URL location, ResourceBundle resources) {
-        loadProperties();
+
         initializeCombo();
         buildWorkerWindow();
         onWorkerButtonClick();
         onBackButtonClick();
+        onUpdateButtonClick();
     }
 
     private void initializeCombo() {
@@ -75,14 +68,6 @@ public class ControllerContingent implements Initializable {
                 comboSecteur.setItems(centre.getSecteur());
             }
         });
-    }
-
-    private void loadProperties() {
-        try {
-            prop = loadProperties.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Contingent.properties");
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
-        }
     }
 
     private void onWorkerButtonClick() {
@@ -107,6 +92,15 @@ public class ControllerContingent implements Initializable {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+    }
+
+    private void onUpdateButtonClick(){
+        updateButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
+            Database database = new Database();
+            database.connect();
+            database.loadColumn();
+        });
+
     }
 
     private void onBackButtonClick() {
