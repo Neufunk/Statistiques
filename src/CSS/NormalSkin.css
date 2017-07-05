@@ -1,0 +1,27 @@
+
+.mainFxmlClass {
+
+}
+.setup-button{
+    -fx-background-color:#424242;
+    -fx-text-fill: white;
+}
+.setup-button:hover{
+    -fx-background-color: #0288D1;
+}
+
+.green-button{
+    -fx-background-color:#96bb37;
+    -fx-text-fill: white;
+}
+.green-button:hover{
+    -fx-background-color: #AFDA42;
+}
+
+.blue-button{
+    -fx-background-color:#006782;
+    -fx-text-fill: white;
+}
+.blue-button:hover{
+    -fx-background-color: #008BAE;
+}

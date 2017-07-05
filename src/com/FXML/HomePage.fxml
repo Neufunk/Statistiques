@@ -90,12 +90,12 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #96bb37;" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+            <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../../CSS/NormalSkin.css" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </JFXButton>
-            <JFXButton id="siButton" fx:id="siButton" buttonType="RAISED" prefHeight="134.0" prefWidth="245.0" style="-fx-background-color: #006782;" styleClass="lighter" stylesheets="@../../CSS/NormalSkin.css" text="SI" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+            <JFXButton id="siButton" fx:id="siButton" buttonType="RAISED" prefHeight="134.0" prefWidth="245.0" styleClass="blue-button" stylesheets="@../../CSS/NormalSkin.css" text="SI" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
@@ -139,6 +139,8 @@
                   <Menu mnemonicParsing="false" text="Département AVJ">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="ASDB Engine" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Département SI">
@@ -150,6 +152,14 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem disable="true" mnemonicParsing="false" text="Paramètres" />
                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Outils">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+                    </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>

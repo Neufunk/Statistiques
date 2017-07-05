@@ -44,17 +44,13 @@ public class ControllerContingent implements Initializable {
     @FXML
     AnchorPane maskPane;
 
-    Properties prop;
     Centre centre = new Centre();
     Data data = new Data();
     static public Stage workerStage = new Stage();
     Effects effects = new Effects();
-    LoadProperties loadProperties = new LoadProperties();
 
     public void initialize(URL location, ResourceBundle resources) {
-
         initializeCombo();
-        buildWorkerWindow();
         onWorkerButtonClick();
         onBackButtonClick();
         onUpdateButtonClick();
@@ -75,6 +71,7 @@ public class ControllerContingent implements Initializable {
             effects.setFadeTransition(maskPane, 600, 0, 0.15);
             effects.setBoxBlur(mainPane);
             maskPane.setVisible(true);
+            buildWorkerWindow();
             workerStage.showAndWait();
             mainPane.setEffect(null);
             maskPane.setVisible(false);
@@ -86,7 +83,7 @@ public class ControllerContingent implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/WorkersAVJ.fxml"));
             workerStage.setScene(new Scene(root));
             workerStage.setTitle(Data.pageTitle1);
-            workerStage.initStyle(StageStyle.UNDECORATED);
+            workerStage.initStyle(StageStyle.UNDECORATED); //TODO : Résoudre bug avec la décoration de la fenêtre une fois fermée puis réouverte
             workerStage.initOwner(Main.getPrimaryStage());
             workerStage.initModality(Modality.APPLICATION_MODAL);
         } catch (IOException e1) {
@@ -96,9 +93,8 @@ public class ControllerContingent implements Initializable {
 
     private void onUpdateButtonClick(){
         updateButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-            Database database = new Database();
-            database.connect();
-            database.loadColumn();
+            IteratorExcel iteratorExcel = new IteratorExcel();
+            iteratorExcel.startIteration();
         });
 
     }

@@ -29,7 +29,6 @@ public class HomePage implements Initializable {
     private JFXHamburger hamburger;
 
     // Top menu handled by FXML Controller instead of Java
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         onButtonSiClick();
@@ -109,8 +108,21 @@ public class HomePage implements Initializable {
         }
     }
 
+    public void openASDB(){
+        Stage stage = new Stage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("FXML/ASDB.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle(Data.asdbTitle);
+            stage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
     public void closeButtonAction() throws InterruptedException {
         System.exit(0);
     }
+
 }
 

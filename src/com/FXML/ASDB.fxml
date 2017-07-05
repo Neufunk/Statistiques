@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ASDB">
+    <children>
+        <BorderPane prefHeight="455.0" prefWidth="665.0">
+            <top>
+                <MenuBar BorderPane.alignment="CENTER">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="File">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Close" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Edit">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Delete" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="About" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+            </top>
+            <right>
+                <VBox prefHeight="445.0" prefWidth="154.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#switchToWorkersTab" prefHeight="150.0" prefWidth="154.0" text="Workers">
+                            <graphic>
+                                <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../resources/img/1499104797_20.png" />
+                                    </image></ImageView>
+                            </graphic>
+                        </Button>
+                        <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#switchToSectorTab" prefHeight="150.0" prefWidth="154.0" text="Sectors">
+                            <graphic>
+                                <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../resources/img/1499104578_15.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#switchToDBissueTab" prefHeight="150.0" prefWidth="154.0" text="DB Issue">
+                            <graphic>
+                                <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/img/1499108055_database8.png" />
+                           </image></ImageView>
+                            </graphic>
+                        </Button>
+                        <Button contentDisplay="TOP" layoutX="10.0" layoutY="81.0" mnemonicParsing="false" onAction="#switchToTablesTab" prefHeight="150.0" prefWidth="154.0" text="Tables">
+                            <graphic>
+                                <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/img/1499108012_database.png" />
+                           </image></ImageView>
+                            </graphic>
+                        </Button>
+                        <Button contentDisplay="TOP" disable="true" layoutX="10.0" layoutY="223.0" mnemonicParsing="false" onAction="#switchToSettingsTab" prefHeight="150.0" prefWidth="154.0" text="Settings">
+                            <graphic>
+                                <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../resources/img/1499104839_settings.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                </VBox>
+            </right>
+            <center>
+                <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                  <Tab text=" Workers    ">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+                  <Tab text=" Sectors     ">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+                        <Tab closable="false" text=" DB Issue    ">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <VBox prefHeight="412.0" prefWidth="557.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <children>
+                                                <HBox fx:id="book_info" alignment="CENTER" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #e7e7e7;">
+                                                    <children>
+                                                        <TextField fx:id="bookIDInput" prefHeight="26.0" prefWidth="189.0" promptText="Sector ID">
+                                                            <HBox.margin>
+                                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                            </HBox.margin>
+                                                        </TextField>
+                                                        <VBox alignment="CENTER" prefHeight="151.0" prefWidth="387.0">
+                                                            <HBox.margin>
+                                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                            </HBox.margin>
+                                                            <children>
+                                                                <Text fx:id="bookName" strokeType="OUTSIDE" strokeWidth="0.0" text="Sector Name" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                    <VBox.margin>
+                                                                        <Insets top="10.0" />
+                                                                    </VBox.margin>
+                                                                </Text>
+                                                                <Text fx:id="bookAuthor" layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Antenne" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                    <VBox.margin>
+                                                                        <Insets top="10.0" />
+                                                                    </VBox.margin>
+                                                                </Text>
+                                                                <Text fx:id="bookStatus" layoutX="10.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                    <VBox.margin>
+                                                                        <Insets top="10.0" />
+                                                                    </VBox.margin>
+                                                                </Text>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                    </VBox.margin>
+                                                </HBox>
+                                                <HBox fx:id="member_info" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #e7e7e7;">
+                                                    <children>
+                                                        <TextField fx:id="memberIDInput" promptText="Worker ID">
+                                                            <HBox.margin>
+                                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                            </HBox.margin>
+                                                        </TextField>
+                                                        <VBox alignment="CENTER" prefHeight="151.0" prefWidth="387.0">
+                                                            <HBox.margin>
+                                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                            </HBox.margin>
+                                                            <children>
+                                                                <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" text="Worker Name" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                    <VBox.margin>
+                                                                        <Insets top="10.0" />
+                                                                    </VBox.margin>
+                                                                </Text>
+                                                                <Text fx:id="memberMobile" layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                    <VBox.margin>
+                                                                        <Insets top="10.0" />
+                                                                    </VBox.margin>
+                                                                </Text>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                    </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                                    <children>
+                                                        <JFXButton styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Issue">
+                                                            <graphic>
+                                                                <ImageView fx:id="issueButton" fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                                                            </graphic></JFXButton>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children></AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab closable="false" text=" Tables    ">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <BorderPane layoutX="251.0" layoutY="71.0" prefHeight="412.0" prefWidth="557.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <top>
+                                                <JFXTextField fx:id="tableNameField" labelFloat="true" maxWidth="274.0" minWidth="274.0" onAction="#displayTable" prefHeight="27.0" prefWidth="274.0" promptText="Enter TABLE NAME" BorderPane.alignment="CENTER">
+                                                    <BorderPane.margin>
+                                                        <Insets bottom="10.0" top="20.0" />
+                                                    </BorderPane.margin>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                                </JFXTextField>
+                                            </top>
+                                            <bottom>
+                                                <HBox alignment="CENTER" prefHeight="69.0" prefWidth="557.0" BorderPane.alignment="CENTER">
+                                                    <children>
+                                                        <JFXButton styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Renew" textFill="WHITE">
+                                                            <HBox.margin>
+                                                                <Insets right="20.0" />
+                                                            </HBox.margin>
+                                                            <graphic>
+                                                                <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../resources/img/renew.png" />
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </JFXButton>
+                                                        <JFXButton styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Submission" textFill="WHITE">
+                                                            <HBox.margin>
+                                                                <Insets right="20.0" />
+                                                            </HBox.margin>
+                                                            <graphic>
+                                                                <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../resources/img/return.png" />
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </JFXButton>
+                                                    </children>
+                                                </HBox>
+                                            </bottom>
+                                 <center>
+                                    <TableView fx:id="issueDataList" editable="true" prefHeight="540.0" prefWidth="870.0" BorderPane.alignment="CENTER">
+                                      <columns>
+                                        <TableColumn fx:id="c1" prefWidth="75.0" text="C1" />
+                                        <TableColumn fx:id="c2" prefWidth="75.0" text="C2" />
+                                      </columns>
+                                    </TableView>
+                                 </center>
+                                        </BorderPane>
+                                    </children></AnchorPane>
+                            </content>
+                        </Tab>
+                  <Tab disable="true" text=" Settings    ">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+                    </tabs>
+                </TabPane>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>

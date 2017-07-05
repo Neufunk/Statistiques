@@ -298,18 +298,13 @@ public class ControllerStatistiquesSI implements Initializable {
     }
 
     private void buildRawData() {
-        FadeTransition fadeTransitionA = new FadeTransition(Duration.millis(1000), labelPane);
-        FadeTransition fadeTransitionB = new FadeTransition(Duration.millis(1000), valuePane);
+
+        effects.setFadeTransition(labelPane, 1000, 0, 1);
+        effects.setFadeTransition(valuePane, 1000, 0, 1);
         labelPane.setVisible(true);
         valuePane.setVisible(true);
         monthLabel.setText(comboPeriode.getValue().toString());
         monthLabel.setVisible(true);
-        fadeTransitionA.setFromValue(0);
-        fadeTransitionA.setToValue(1);
-        fadeTransitionA.play();
-        fadeTransitionB.setFromValue(0);
-        fadeTransitionB.setToValue(1);
-        fadeTransitionB.play();
         Graphic setData = new Graphic();
         setData.setRawDataName(labelMasterIndic, iteratorExcel.getContentTitleMasterCell());
         Label[] indicLabel = {labelIndicA, labelIndicB, labelIndicC, labelIndicD, labelIndicE};
@@ -403,6 +398,5 @@ public class ControllerStatistiquesSI implements Initializable {
     }
 
     // TODO Graphique animé
-    // TODO : Classe pour FadeTransitions
 }
 

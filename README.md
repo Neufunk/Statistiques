@@ -13,6 +13,7 @@ May 05, 2017
 - poi 3.16
 - jfxutils 1.0
     - (<b>MAVEN</b> : org.gillius)
+- xmlbeans-2.6.0
 
 ###GITHUB :
 
