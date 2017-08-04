@@ -2,20 +2,26 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:id="mainPane" prefHeight="720" prefWidth="1280" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
    <children>
-      <AnchorPane fx:id="pane0" layoutX="436.0" layoutY="37.0" prefHeight="267.0" prefWidth="409.0" style="-fx-background-color: WHITE;">
-         <children>
-            <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" layoutX="95.0" layoutY="48.0" prefHeight="22.0" prefWidth="194.0" promptText="Centre" unFocusColor="#00707e" />
-            <JFXComboBox fx:id="comboSecteur" focusColor="#96bb37" labelFloat="true" layoutX="95.0" layoutY="112.0" prefHeight="22.0" prefWidth="194.0" promptText="Secteur" unFocusColor="#00707e" />
-            <JFXButton fx:id="generateButton" buttonType="RAISED" layoutX="164.0" layoutY="198.0" prefHeight="32.0" prefWidth="81.0" style="-fx-background-color: #E1A532;" text="G" textFill="WHITE" />
-         </children>
+      <AnchorPane fx:id="pane2" layoutX="18.0" layoutY="324.0" prefHeight="385.0" prefWidth="1249.0" style="-fx-background-color: WHITE;">
          <effect>
             <DropShadow />
          </effect>
+         <children>
+            <TableView fx:id="tableView" prefHeight="385.0" prefWidth="1250.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+         </children>
       </AnchorPane>
       <AnchorPane fx:id="pane1" layoutX="1018.0" layoutY="37.0" prefHeight="267.0" prefWidth="200.0" style="-fx-background-color: WHITE;">
          <children>
@@ -28,5 +34,17 @@
       </AnchorPane>
       <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: RED;" text="◄ Retour" textFill="WHITE" />
       <AnchorPane fx:id="maskPane" layoutX="1.0" opacity="0.1" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
+      <AnchorPane fx:id="pane0" layoutX="110.0" layoutY="47.0" prefHeight="267.0" prefWidth="745.0" style="-fx-background-color: WHITE;">
+         <children>
+            <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" layoutX="95.0" layoutY="48.0" onAction="#displaySecteur" prefHeight="22.0" prefWidth="194.0" promptText="Centre" unFocusColor="#00707e" />
+            <JFXComboBox fx:id="comboSecteur" focusColor="#96bb37" labelFloat="true" layoutX="95.0" layoutY="112.0" prefHeight="22.0" prefWidth="194.0" promptText="Secteur" unFocusColor="#00707e" />
+            <JFXButton fx:id="generateButton" buttonType="RAISED" layoutX="164.0" layoutY="198.0" prefHeight="32.0" prefWidth="81.0" style="-fx-background-color: #E1A532;" text="G" textFill="WHITE" />
+            <ListView fx:id="listView1" layoutX="341.0" layoutY="23.0" prefHeight="144.0" prefWidth="163.0" />
+            <ListView fx:id="listView2" layoutX="524.0" layoutY="23.0" prefHeight="144.0" prefWidth="163.0" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
    </children>
 </AnchorPane>

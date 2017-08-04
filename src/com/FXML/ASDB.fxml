@@ -9,7 +9,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -234,12 +233,7 @@
                                                 </HBox>
                                             </bottom>
                                  <center>
-                                    <TableView fx:id="issueDataList" editable="true" prefHeight="540.0" prefWidth="870.0" BorderPane.alignment="CENTER">
-                                      <columns>
-                                        <TableColumn fx:id="c1" prefWidth="75.0" text="C1" />
-                                        <TableColumn fx:id="c2" prefWidth="75.0" text="C2" />
-                                      </columns>
-                                    </TableView>
+                                    <TableView fx:id="issueDataList" editable="true" prefHeight="540.0" prefWidth="870.0" BorderPane.alignment="CENTER" />
                                  </center>
                                         </BorderPane>
                                     </children></AnchorPane>

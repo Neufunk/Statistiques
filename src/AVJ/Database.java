@@ -2,8 +2,6 @@ package AVJ;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import org.postgresql.util.PSQLException;
 
 import java.sql.*;
 
@@ -13,7 +11,7 @@ public class Database {
     private Statement state = null;
     private ResultSet result = null;
 
-    public void connect() {
+    public Connection connect() {
         try {
             System.out.println("\n---------------------------------- ");
             System.out.println("Test du driver...");
@@ -32,6 +30,7 @@ public class Database {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return conn;
     }
 
     private void update() {
@@ -88,6 +87,54 @@ public class Database {
             e.printStackTrace();
         }
         return answer;
+    }
+
+    public String loadPathName(String secteur){
+        String prenom = "";
+        String query = "SELECT * " +
+                "FROM travailleurs " +
+                "INNER JOIN secteurs " +
+                "ON travailleurs.id = secteurs.worker_id " +
+                "WHERE secteur_name = '"+secteur+"'";
+        try {
+            Statement state = conn.createStatement();
+            ResultSet result = state.executeQuery(query);
+            while (result.next()){
+                prenom = result.getString("prenom");
+            }
+            result.close();
+            state.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return prenom;
+    }
+
+    public String loadPathSecteur(String secteur){
+        String sect = "";
+        String query = "SELECT * " +
+                "FROM travailleurs " +
+                "INNER JOIN secteurs " +
+                "ON travailleurs.id = secteurs.worker_id " +
+                "WHERE secteur_name = '"+secteur+"'";
+        try {
+            Statement state = conn.createStatement();
+            ResultSet result = state.executeQuery(query);
+            while (result.next()){
+                sect = result.getString("secteur");
+            }
+            result.close();
+            state.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sect;
+    }
+
+    public void loadAllSector(){
+
     }
 
     public void closeConnection(){

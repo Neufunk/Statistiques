@@ -1,15 +1,18 @@
 package AVJ;
 
 import com.Effects;
-import com.LoadProperties;
 import com.Main;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -18,7 +21,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class ControllerContingent implements Initializable {
@@ -43,27 +45,43 @@ public class ControllerContingent implements Initializable {
     private JFXButton travailleurButton;
     @FXML
     AnchorPane maskPane;
+    @FXML
+    private ListView<String> listView1;
+    @FXML
+    private ListView<?> listView2;
+    @FXML
+    private TableView<?> tableView;
 
     Centre centre = new Centre();
     Data data = new Data();
     static public Stage workerStage = new Stage();
     Effects effects = new Effects();
+    Database database = new Database();
 
     public void initialize(URL location, ResourceBundle resources) {
         initializeCombo();
         onWorkerButtonClick();
         onBackButtonClick();
         onUpdateButtonClick();
+        initializeListView();
     }
 
     private void initializeCombo() {
         comboCentre.setItems(data.centerList);
-        pane0.addEventHandler(MouseEvent.ANY, (e) -> {
-            if (comboCentre.getValue() != null) {
-                centre.setCentre(comboCentre.getValue().toString());
-                comboSecteur.setItems(centre.getSecteur());
-            }
-        });
+    }
+
+    private void initializeListView() {
+        TableColumn firstNameCol = new TableColumn("First Name");
+        TableColumn lastNameCol = new TableColumn("Last Name");
+        TableColumn emailCol = new TableColumn("Email");
+        tableView.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
+    }
+
+    public void displaySecteur(){
+        if (comboCentre.getValue() != null) {
+            centre.setCentre(comboCentre.getValue().toString());
+            comboSecteur.setItems(centre.getSecteur());
+        }
     }
 
     private void onWorkerButtonClick() {
@@ -96,7 +114,6 @@ public class ControllerContingent implements Initializable {
             IteratorExcel iteratorExcel = new IteratorExcel();
             iteratorExcel.startIteration();
         });
-
     }
 
     private void onBackButtonClick() {
@@ -111,6 +128,17 @@ public class ControllerContingent implements Initializable {
             }
         });
     }
+
+    public String getSecteur(){
+        String secteur = database.loadPathSecteur(comboSecteur.getValue().toString());
+        return secteur;
+    }
+
+    public String getName(){
+        String name = database.loadPathName(comboSecteur.getValue().toString());
+        return name;
+    }
+
 
 }
 
