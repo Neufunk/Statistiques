@@ -33,4 +33,8 @@ public class Data {
                     "Philippeville", "Saint-Servais", "Salzinnes", "Sambreville", "Viroinval",  "Volantes",
                     "Volantes Namur",  "Walcourt");
 
+    public ObservableList<String> periode = FXCollections
+            .observableArrayList( "Année Complète", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
+                    "Septembre", "Octobre", "Novembre", "Décembre");
+
 }

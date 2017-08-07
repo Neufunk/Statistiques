@@ -2,5 +2,5 @@ package com;
 
 public class Version {
 
-    public static String versionNumber = "0.1.3";
+    public static String versionNumber = "0.2.0";
 }

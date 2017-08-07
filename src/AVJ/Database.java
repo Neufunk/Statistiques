@@ -33,15 +33,12 @@ public class Database {
         return conn;
     }
 
-    private void update() {
-
-    }
 
     public ObservableList loadColumnToCombo(String table, String column) {
         ObservableList<String> array = FXCollections.observableArrayList();
         try {
             state = conn.createStatement();
-            result = state.executeQuery("SELECT "+column+ " FROM " + table);
+            result = state.executeQuery("SELECT " + column + " FROM " + table);
             while (result.next()) {
                 String answer = result.getString(column);
                 array.add(answer);
@@ -52,33 +49,18 @@ public class Database {
         return array;
     }
 
-    public ObservableList loadTabletoList(String table) {
-        ObservableList<String> array = FXCollections.observableArrayList();
-        try {
-            Statement state = conn.createStatement();
-            ResultSet result = state.executeQuery("SELECT * FROM " + table);
-            ResultSetMetaData resultMeta = result.getMetaData();
-            while (result.next()) {
-                array.add(result.getString("nom"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return array;
-    }
-
-    public String loadWorkerName(String secteur){
+    public String loadWorkerName(String secteur) {
         String answer = "";
         String query = "SELECT * " +
                 "FROM travailleurs " +
                 "INNER JOIN secteurs " +
-                    "ON travailleurs.id = secteurs.worker_id " +
-                "WHERE secteur_name = '"+secteur+"'";
+                "ON travailleurs.id = secteurs.worker_id " +
+                "WHERE secteur_name = '" + secteur + "'";
         try {
             Statement state = conn.createStatement();
             ResultSet result = state.executeQuery(query);
-            while (result.next()){
-                answer = result.getString("prenom") + " " +result.getString("nom");
+            while (result.next()) {
+                answer = result.getString("prenom") + " " + result.getString("nom");
             }
             result.close();
             state.close();
@@ -89,17 +71,17 @@ public class Database {
         return answer;
     }
 
-    public String loadPathName(String secteur){
+    public String loadPathName(String secteur) {
         String prenom = "";
         String query = "SELECT * " +
                 "FROM travailleurs " +
                 "INNER JOIN secteurs " +
                 "ON travailleurs.id = secteurs.worker_id " +
-                "WHERE secteur_name = '"+secteur+"'";
+                "WHERE secteur_name = '" + secteur + "'";
         try {
             Statement state = conn.createStatement();
             ResultSet result = state.executeQuery(query);
-            while (result.next()){
+            while (result.next()) {
                 prenom = result.getString("prenom");
             }
             result.close();
@@ -111,17 +93,17 @@ public class Database {
         return prenom;
     }
 
-    public String loadPathSecteur(String secteur){
+    public String loadPathSecteur(String secteur) {
         String sect = "";
         String query = "SELECT * " +
                 "FROM travailleurs " +
                 "INNER JOIN secteurs " +
                 "ON travailleurs.id = secteurs.worker_id " +
-                "WHERE secteur_name = '"+secteur+"'";
+                "WHERE secteur_name = '" + secteur + "'";
         try {
             Statement state = conn.createStatement();
             ResultSet result = state.executeQuery(query);
-            while (result.next()){
+            while (result.next()) {
                 sect = result.getString("secteur");
             }
             result.close();
@@ -133,19 +115,60 @@ public class Database {
         return sect;
     }
 
-    public void loadAllSector(){
-
+    public ObservableList loadSectorsToCombo(String centre) {
+        ObservableList<String> answer = FXCollections.observableArrayList();
+        if (centre == "ASD") {
+            centre = "Namur, Philippeville";
+        }
+        String sql = "SELECT * " +
+                "FROM secteurs " +
+                "WHERE antenne = '" + centre + "'";
+        try {
+            Statement state = conn.createStatement();
+            ResultSet result = state.executeQuery(sql);
+            ResultSetMetaData resultMeta = result.getMetaData();
+            while (result.next()) {
+                answer.add(result.getString("secteur_name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return answer;
     }
 
-    public void closeConnection(){
+    public String loadContingent(String centre, String secteur, String periode, String annee) {
+        String sql;
+        if (periode == "Année Complète") {
+            periode = "Total";
+        }
+        if (centre == "ASD") {
+            sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
+                    "FROM contingent " +
+                    "INNER JOIN secteurs " +
+                    "ON contingent.numero_secteur = secteurs.id " +
+                    "WHERE mois = '" + periode + "'" +
+                    "AND annee = '" + annee + "'";
+        } else {
+            sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
+                    "FROM contingent " +
+                    "INNER JOIN secteurs " +
+                    "ON contingent.numero_secteur = secteurs.id " +
+                    "WHERE secteur_name = '" + secteur + "'" +
+                    "AND mois = '" + periode + "'" +
+                    "AND annee = '" + annee + "'";
+        }
+        return sql;
+    }
+
+    public void closeConnection() {
         System.out.println("\n----------------------------------");
         System.out.println("Tentative de fermeture de connexion...");
         try {
-            if (state!=null){
+            if (state != null) {
                 state.close();
                 System.out.println("\t - State fermé");
             }
-            if (result!=null){
+            if (result != null) {
                 result.close();
                 System.out.println("\t - Result fermé");
             }
