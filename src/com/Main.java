@@ -1,6 +1,6 @@
 package com;
 
-import SoinsInfirmiers.Strings;
+import SoinsInfirmiers.Data;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,7 +24,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         setPrimaryStage(primaryStage);
         Parent root = FXMLLoader.load(getClass().getResource("FXML/HomePage.fxml"));
-        primaryStage.setTitle(Strings.homePageTitle);
+        primaryStage.setTitle(Data.homePageTitle);
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.setResizable(false);
         primaryStage.show();

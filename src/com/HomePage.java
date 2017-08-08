@@ -1,7 +1,6 @@
 package com;
 
-import AVJ.Data;
-import SoinsInfirmiers.Strings;
+import SoinsInfirmiers.Data;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import javafx.fxml.FXML;
@@ -80,7 +79,7 @@ public class HomePage implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("FXML/StatistiquesSI.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle(Strings.pageTitle0);
+            stage.setTitle(Data.pageTitle0);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -91,7 +90,18 @@ public class HomePage implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("FXML/TableauxAnnuels.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle(Strings.pageTitle1);
+            stage.setTitle(Data.pageTitle1);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openSettingsPage(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("FXML/SettingsSI.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle(Data.pageTitle2);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -102,7 +112,7 @@ public class HomePage implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("FXML/Contingent.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle0);
+            stage.setTitle(AVJ.Data.pageTitle0);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -113,7 +123,7 @@ public class HomePage implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("FXML/ASDB.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle(Data.asdbTitle);
+            stage.setTitle(AVJ.Data.asdbTitle);
             stage.show();
         } catch (IOException e1) {
             e1.printStackTrace();

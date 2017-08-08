@@ -1,17 +1,12 @@
 package SoinsInfirmiers;
 
 import com.Effects;
-import com.Main;
 import com.PrintOut;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
-import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -20,8 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import java.awt.*;
 import java.io.File;
@@ -96,8 +89,6 @@ public class ControllerStatistiquesSI implements Initializable {
     @FXML
     private ImageView printIcon;
     @FXML
-    private JFXCheckBox debugBox;
-    @FXML
     private Label monthLabel;
     @FXML
     private JFXButton backButton;
@@ -118,7 +109,6 @@ public class ControllerStatistiquesSI implements Initializable {
         pdfIcon();
         xlsIcon();
         printIcon();
-        initializeDebugBox();
         onGenerateButtonClick();
         navigateThroughMonths();
     }
@@ -126,7 +116,7 @@ public class ControllerStatistiquesSI implements Initializable {
     private void drawMenu() {
         VBox box = null;
         try {
-            box = FXMLLoader.load(getClass().getResource("/com/FXML/DrawerDesign.fxml"));
+            box = FXMLLoader.load(getClass().getResource("/com/FXML/DrawerSI.fxml"));
             drawer.setSidePane(box);
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,32 +136,6 @@ public class ControllerStatistiquesSI implements Initializable {
                 drawer.setVisible(true);
             }
         });
-        for (Node node : box.getChildren()) {
-            if (node.getAccessibleText() != null) {
-                node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                    switch (node.getAccessibleText()) {
-                        case "backButton":
-                            Stage stage = Main.getPrimaryStage();
-                            try {
-                                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/HomePage.fxml"));
-                                stage.setScene(new Scene(root));
-                                stage.setTitle(Strings.homePageTitle);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                            break;
-                        case "arrayYearButton":
-                            stage = Main.getPrimaryStage();
-                            try {
-                                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/TableauxAnnuels.fxml"));
-                                stage.setScene(new Scene(root));
-                                stage.setTitle(Strings.pageTitle1);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                            break;
-                    }
-                });
                 mainPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     if (drawer.isShown()) {
                         drawer.close();
@@ -186,15 +150,13 @@ public class ControllerStatistiquesSI implements Initializable {
                     }
                 });
             }
-        }
-    }
 
     private void initializeCombo() {
-        Strings strings = new Strings();
-        comboYear.setItems(Strings.yearList);
-        comboCentre.setItems(strings.centerList);
-        comboPeriode.setItems(strings.periodList);
-        comboCategorie.setItems(strings.categorieList);
+        Data data = new Data();
+        comboYear.setItems(Data.yearList);
+        comboCentre.setItems(data.centerList);
+        comboPeriode.setItems(data.periodList);
+        comboCategorie.setItems(data.categorieList);
         Category category = new Category();
         anchorPane0.addEventHandler(MouseEvent.ANY, (e) -> {
             if (comboCategorie.getValue() != null) {
@@ -298,7 +260,6 @@ public class ControllerStatistiquesSI implements Initializable {
     }
 
     private void buildRawData() {
-
         effects.setFadeTransition(labelPane, 1000, 0, 1);
         effects.setFadeTransition(valuePane, 1000, 0, 1);
         labelPane.setVisible(true);
@@ -338,16 +299,6 @@ public class ControllerStatistiquesSI implements Initializable {
                 generate();
             }
         });
-    }
-
-    private void initializeDebugBox() {
-        debugBox.addEventHandler(MouseEvent.MOUSE_CLICKED, (event -> {
-            if (debugBox.isSelected()) {
-                Strings.yearList.add(1337);
-            } else {
-                Strings.yearList.remove(3);
-            }
-        }));
     }
 
     private void closeConnection() {

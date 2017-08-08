@@ -14,25 +14,6 @@ public class Data {
     public ObservableList<String> centerList = FXCollections
             .observableArrayList("ASD", "Namur", "Philippeville");
 
-    public ObservableList<String> secteursASD = FXCollections
-            .observableArrayList("Province");
-
-    public ObservableList<String> secteursNamur = FXCollections
-            .observableArrayList("AM APE", "AM Jambes", "Andenne", "Bois de Villers", "Bouge", "Eghezée",
-                    "Fosses-Mettet", "Gembloux", "Gesves",  "Jambes", "Jambes extérieur", "Namur",  "Namur Gare",
-                    "Saint-Servais", "Salzinnes", "Sambreville", "Volantes Namur");
-
-    public ObservableList<String> secteursPhilippeville = FXCollections
-            .observableArrayList( "AM APE Philippeville",  "AM Philippeville", "Cerfontaine", "Couvin",
-                    "Florennes", "Philippeville", "Viroinval",  "Volantes",  "Walcourt");
-
-    public ObservableList<String> secteursAll = FXCollections
-            .observableArrayList("AM APE", "AM APE Philippeville", "AM Jambes",   "AM Philippeville",
-                    "Andenne", "Bois de Villers", "Bouge",  "Cerfontaine",  "Couvin", "Eghezée",  "Florennes",
-                    "Fosses-Mettet", "Gembloux", "Gesves",  "Jambes", "Jambes extérieur", "Namur",  "Namur Gare",
-                    "Philippeville", "Saint-Servais", "Salzinnes", "Sambreville", "Viroinval",  "Volantes",
-                    "Volantes Namur",  "Walcourt");
-
     public ObservableList<String> periode = FXCollections
             .observableArrayList( "Année Complète", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
                     "Septembre", "Octobre", "Novembre", "Décembre");

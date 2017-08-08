@@ -52,7 +52,7 @@
             </Label>
          </children>
       </VBox>
-      <JFXButton id="closeButton" fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" style="-fx-background-color: RED;" text="FERMER" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <JFXButton id="close-button" fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" styleClass="close-button" stylesheets="@../../CSS/NormalSkin.css" text="FERMER" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="30.0" right="30.0" />
          </GridPane.margin>
@@ -150,7 +150,7 @@
                         <MenuItem disable="true" mnemonicParsing="false" text="Patients / Visites par Commune" />
                         <MenuItem disable="true" mnemonicParsing="false" text="Répartition par âge" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem disable="true" mnemonicParsing="false" text="Paramètres" />
+                        <MenuItem mnemonicParsing="false" onAction="#openSettingsPage" text="Paramètres" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Outils">

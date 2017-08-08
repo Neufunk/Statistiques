@@ -27,7 +27,6 @@ public class ASDB {
     @FXML
     public TabPane tabPane;
 
-
     private ObservableList<ObservableList> data;
 
     public void displayTable() {
@@ -35,13 +34,13 @@ public class ASDB {
         data = FXCollections.observableArrayList();
         try {
             c = database.connect();
-            String SQL = "SELECT * FROM "+ tableNameField.getText() ;
+            String SQL = "SELECT * FROM "+ tableNameField.getText();
             ResultSet rs = c.createStatement().executeQuery(SQL);
 
             //TABLE COLUMN ADDED DYNAMICALLY
 
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
-                //We are using non property style for making dynamic table
+                //non property style for making dynamic table
                 final int j = i;
                 TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -53,9 +52,7 @@ public class ASDB {
                 issueDataList.getColumns().addAll(col);
                 System.out.println("Column [" + i + "] ");
             }
-
             //Data added to ObservableList
-
             while (rs.next()) {
                 //Iterate Row
                 ObservableList<String> row = FXCollections.observableArrayList();
@@ -66,8 +63,7 @@ public class ASDB {
                 System.out.println("Row [1] ajoutée " + row);
                 data.add(row);
             }
-
-            //FINALLY ADDED TO TableView
+            //ADDED TO TableView
             issueDataList.setItems(data);
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,19 +83,15 @@ public class ASDB {
     public void switchToWorkersTab() {
         tabPane.getSelectionModel().select(0);
     }
-
     public void switchToSectorTab() {
         tabPane.getSelectionModel().select(1);
     }
-
     public void switchToDBissueTab() {
         tabPane.getSelectionModel().select(2);
     }
-
     public void switchToTablesTab() {
         tabPane.getSelectionModel().select(3);
     }
-
     public void switchToSettingsTab() {
         tabPane.getSelectionModel().select(4);
     }

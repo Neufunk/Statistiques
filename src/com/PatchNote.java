@@ -5,11 +5,11 @@ import javafx.scene.control.Alert;
 import java.io.IOException;
 import java.util.Properties;
 
-class PatchNote {
+public class PatchNote {
 
     private LoadProperties loadProperties = new LoadProperties();
 
-    void patchNote() {
+    public void patchNote() {
         try {
             Properties prop = loadProperties.load("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\properties\\Patchnote.properties");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

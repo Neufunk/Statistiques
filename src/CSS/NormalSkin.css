@@ -25,3 +25,19 @@
 .blue-button:hover{
     -fx-background-color: #008BAE;
 }
+
+.close-button{
+    -fx-background-color:#C62828;
+    -fx-text-fill: white;
+}
+.close-button:hover{
+    -fx-background-color: #F44336;
+}
+
+.orange-button{
+    -fx-background-color:#E1A532;
+    -fx-text-fill: white;
+}
+.orange-button:hover{
+    -fx-background-color: #edbc5e;
+}

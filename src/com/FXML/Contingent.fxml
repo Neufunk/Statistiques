@@ -2,10 +2,18 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" prefHeight="720" prefWidth="1280" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
    <children>
@@ -14,7 +22,7 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="tableView" prefHeight="385.0" prefWidth="1250.0" />
+            <TableView fx:id="tableView" fixedCellSize="300.0" prefHeight="385.0" prefWidth="1250.0" tableMenuButtonVisible="true" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pane1" layoutX="1018.0" layoutY="37.0" prefHeight="267.0" prefWidth="200.0" style="-fx-background-color: WHITE;">
@@ -26,20 +34,85 @@
             <DropShadow />
          </effect>
       </AnchorPane>
-      <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: RED;" text="◄ Retour" textFill="WHITE" />
+      <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="56.0" layoutY="155.0" prefHeight="32.0" prefWidth="90.0" styleClass="close-button" stylesheets="@../../CSS/NormalSkin.css" text="◄ Retour" textFill="WHITE" />
       <AnchorPane fx:id="maskPane" layoutX="1.0" opacity="0.1" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
       <AnchorPane fx:id="pane0" layoutX="191.0" layoutY="37.0" prefHeight="267.0" prefWidth="745.0" style="-fx-background-color: WHITE;">
          <children>
-            <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" layoutX="95.0" layoutY="48.0" onAction="#displaySecteurs" prefHeight="22.0" prefWidth="194.0" promptText="Centre" unFocusColor="#00707e" />
-            <JFXComboBox fx:id="comboSecteur" focusColor="#96bb37" labelFloat="true" layoutX="95.0" layoutY="95.0" prefHeight="22.0" prefWidth="194.0" promptText="Secteurs" unFocusColor="#00707e" />
-            <JFXButton fx:id="generateButton" buttonType="RAISED" layoutX="164.0" layoutY="198.0" onAction="#displayTable" prefHeight="32.0" prefWidth="81.0" style="-fx-background-color: #E1A532;" text="G" textFill="WHITE" />
-            <ListView fx:id="listView1" layoutX="341.0" layoutY="23.0" prefHeight="144.0" prefWidth="163.0" />
-            <ListView fx:id="listView2" layoutX="524.0" layoutY="23.0" prefHeight="144.0" prefWidth="163.0" />
-            <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" layoutX="95.0" layoutY="145.0" prefHeight="22.0" prefWidth="194.0" promptText="Période" unFocusColor="#00707e" />
+            <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="45.0" onAction="#displaySecteurs" prefHeight="22.0" prefWidth="194.0" promptText="Centre" unFocusColor="#00707e" />
+            <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="95.0" prefHeight="22.0" prefWidth="194.0" promptText="Selectionnez un centre" unFocusColor="#00707e" />
+            <JFXButton fx:id="generateButton" buttonType="RAISED" layoutX="195.0" layoutY="197.0" onAction="#displayTable" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="@../../CSS/NormalSkin.css" text="G" textFill="WHITE" />
+            <ListView fx:id="listView1" layoutX="373.0" layoutY="45.0" prefHeight="144.0" prefWidth="163.0" />
+            <ListView fx:id="listView2" layoutX="560.0" layoutY="45.0" prefHeight="144.0" prefWidth="163.0" />
+            <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="145.0" prefHeight="22.0" prefWidth="194.0" promptText="Période" unFocusColor="#00707e" />
+            <JFXToggleButton fx:id="toggleButton" onAction="#toggleButtonListener" prefHeight="56.0" prefWidth="117.0" selected="true" style="-fx-background-color: #FFFFFF;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font></JFXToggleButton>
          </children>
          <effect>
             <DropShadow />
          </effect>
       </AnchorPane>
+      <BorderPane layoutX="1.0" prefHeight="32.0" prefWidth="473.0">
+         <top>
+            <MenuBar opacity="0.88" prefHeight="22.0" prefWidth="395.0" style="-fx-background-color: FAFAFA;" BorderPane.alignment="CENTER">
+               <menus>
+                  <Menu mnemonicParsing="false" text="Fichier">
+                     <items>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="menuClose" mnemonicParsing="false" text="Fermer" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Edit">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Annuler">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" text="Rétablir">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="Préférences" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Département AVJ">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Département SI">
+                     <items>
+                        <MenuItem fx:id="menuIndic" mnemonicParsing="false" onAction="#openIndicateursPage" text="Evolution par indicateur" />
+                        <MenuItem fx:id="menuComparaison" mnemonicParsing="false" onAction="#openComparaisonPage" text="Comparaison annuelle" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="Patients / Visites par Commune" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="Répartition par âge" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#openSettingsPage" text="Paramètres" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Outils">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+                     </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem fx:id="menuPatchnote" mnemonicParsing="false" onAction="#showPatchnote" text="Patchnote" />
+                        <MenuItem fx:id="menuChangelogs" mnemonicParsing="false" onAction="#changeLogs" text="Changelogs" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="About" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </top></BorderPane>
    </children>
 </AnchorPane>

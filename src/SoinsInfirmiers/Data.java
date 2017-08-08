@@ -4,25 +4,17 @@ import com.Version;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Strings {
+public class Data {
 
     // Page titles
     public static String homePageTitle = "Aide & Soins à Domicile - Statistiques // beta "+ Version.versionNumber;
     public static String pageTitle0 = "Soins Infirmiers - Indicateurs annuels // beta "+Version.versionNumber;
     public static String pageTitle1 = "Soins Infirmiers - Evolution d'un indicateur // beta "+Version.versionNumber;
+    public static String pageTitle2 = "Soins Infirmiers - Paramètres // beta "+Version.versionNumber;
 
     // Centres
     public ObservableList<String> centerList = FXCollections
             .observableArrayList("Global", "Namur", "Eghezée", "Ciney", "Philippeville", "Gedinne");
-
-    // Indicateurs
-    public ObservableList<String> indicList = FXCollections
-            .observableArrayList("Total jours payés", "Total jours prestés Infirmières", "% coupés", "Solde récup. fin de mois", "\n",
-                    "Nombre de visites", "Nombre de soins", "Nbre soins/visite", "\n", "Nbre vis/J. prestés avec soins", "\n",
-                    "Nombre visites NOM", "Nombre soins NOM", "Nombre plafonds journ.", "\n", "Nombre visites FFA", "Nombre visites FFB",
-                    "Nombre visites FFC", "\n", "% visites MC Accord", "% visites autres MC", "% visites autres OA", "\n",
-                    "Total toilettes NOM / total visites", "Total toilettes / total visites", "\n", "Facturation totale", "Facturation OA",
-                    "Tarific autres", "TM", "Réintroduction");
 
     // Années
     public static ObservableList<Integer> yearList = FXCollections
@@ -55,7 +47,6 @@ public class Strings {
     public ObservableList<String> indicListSuiviDuPersonnelPourcents = FXCollections
             .observableArrayList("Total de jours payés en %", "Total presté", "Total absence non-payées", "Répartition des blocs",
                     "Suppléments en jours");
-
 
     // Périodes
     public ObservableList<String> periodList = FXCollections

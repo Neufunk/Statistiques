@@ -1,24 +1,17 @@
 package SoinsInfirmiers;
 
 import com.Effects;
-import com.Main;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
-import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import javafx.scene.control.Label;
 
@@ -30,7 +23,7 @@ import java.util.ResourceBundle;
 public class ControllerComparaisonAnnuelle implements Initializable {
 
     // Instances de classes
-    private Strings strings = new Strings();
+    private Data data = new Data();
 
     // Instances des objets com.FXML
     @FXML
@@ -94,7 +87,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     private void drawMenu() {
         VBox box = null;
         try {
-            box = FXMLLoader.load(getClass().getResource("/com/FXML/DrawerDesign.fxml"));
+            box = FXMLLoader.load(getClass().getResource("/com/FXML/DrawerSI.fxml"));
             drawer.setSidePane(box);
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,50 +107,23 @@ public class ControllerComparaisonAnnuelle implements Initializable {
                 effects.setFadeTransition(maskPane, 600, 0, 0.2);
             }
         });
-        for (Node node : box.getChildren()) {
-            if (node.getAccessibleText() != null) {
-                node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                    switch (node.getAccessibleText()) {
-                        case "backButton":
-                            Stage stage = Main.getPrimaryStage();
-                            try {
-                                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/HomePage.fxml"));
-                                stage.setScene(new Scene(root));
-                                stage.setTitle(Strings.homePageTitle);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                            break;
-                        case "homeButton":
-                            stage = Main.getPrimaryStage();
-                            try {
-                                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/StatistiquesSI.fxml"));
-                                stage.setScene(new Scene(root));
-                                stage.setTitle(Strings.pageTitle0);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                            break;
-                    }
-                });
-                mainPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                    if (drawer.isShown()) {
-                        drawer.close();
-                        maskPane.setVisible(false);
-                        transition.setRate(transition.getRate() * -1);
-                        transition.play();
-                    }
-                });
+        mainPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            if (drawer.isShown()) {
+                drawer.close();
+                maskPane.setVisible(false);
+                transition.setRate(transition.getRate() * -1);
+                transition.play();
             }
-        }
+        });
     }
 
+
     private void initializeCombo() {
-        comboCentre.setItems(strings.centerList);
-        comboYear0.setItems(Strings.yearList);
-        comboYear1.setItems(Strings.yearList);
-        comboYear2.setItems(Strings.yearList);
-        comboCategorie.setItems(strings.categorieList);
+        comboCentre.setItems(data.centerList);
+        comboYear0.setItems(Data.yearList);
+        comboYear1.setItems(Data.yearList);
+        comboYear2.setItems(Data.yearList);
+        comboCategorie.setItems(data.categorieList);
         anchorPane0.addEventHandler(MouseEvent.ANY, (e) -> {
             if (comboCategorie.getValue() != null) {
                 category.setCategorie(comboCategorie.getValue().toString());

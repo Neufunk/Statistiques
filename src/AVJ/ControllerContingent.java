@@ -1,9 +1,12 @@
 package AVJ;
 
+import SoinsInfirmiers.Data;
 import com.Effects;
 import com.Main;
+import com.PatchNote;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,6 +27,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -61,8 +66,10 @@ public class ControllerContingent implements Initializable {
     private ListView<?> listView2;
     @FXML
     private TableView<ObservableList> tableView;
+    @FXML
+    private JFXToggleButton toggleButton;
 
-    Data data = new Data();
+    AVJ.Data data = new AVJ.Data();
     static public Stage workerStage = new Stage();
     Effects effects = new Effects();
     Database database = new Database();
@@ -73,6 +80,7 @@ public class ControllerContingent implements Initializable {
         onWorkerButtonClick();
         onBackButtonClick();
         onUpdateButtonClick();
+        toggleButtonListener();
     }
 
     private void initializeCombo() {
@@ -80,11 +88,17 @@ public class ControllerContingent implements Initializable {
         comboPeriode.setItems(data.periode);
     }
 
+    public void toggleButtonListener(){
+            toggleButton.setText(getCurrentYear());
+    }
+
     public void displaySecteurs(){
         if (comboCentre.getValue() == "ASD"){
             comboSecteur.setPromptText("Province entière");
+            comboSecteur.setDisable(true);
         }else{
             comboSecteur.setPromptText("Secteurs");
+            comboSecteur.setDisable(false);
         }
         database.connect();
         if (comboCentre.getValue() != null) {
@@ -109,7 +123,7 @@ public class ControllerContingent implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/WorkersAVJ.fxml"));
             workerStage.setScene(new Scene(root));
-            workerStage.setTitle(Data.pageTitle1);
+            workerStage.setTitle(AVJ.Data.pageTitle1);
             workerStage.initStyle(StageStyle.UNDECORATED); //TODO : Résoudre bug avec la décoration de la fenêtre une fois fermée puis réouverte
             workerStage.initOwner(Main.getPrimaryStage());
             workerStage.initModality(Modality.APPLICATION_MODAL);
@@ -131,17 +145,21 @@ public class ControllerContingent implements Initializable {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/HomePage.fxml"));
                 stage.setScene(new Scene(root));
-                stage.setTitle(Data.homePageTitle);
+                stage.setTitle(AVJ.Data.homePageTitle);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         });
     }
 
-    private String getCurrentYear(){
+    private String getCurrentYear() {
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
-        return String.valueOf(year);
+        if (toggleButton.isSelected()) {
+            return String.valueOf(year);
+        } else {
+            return String.valueOf(year-1);
+        }
     }
 
     public void displayTable() {
@@ -156,7 +174,7 @@ public class ControllerContingent implements Initializable {
                 secteur = comboSecteur.getValue().toString();
             }
             String periode = comboPeriode.getValue().toString();
-            String year= getCurrentYear();
+            String year = getCurrentYear();
             String sql = database.loadContingent(centre, secteur, periode, year);
             ResultSet rs = c.createStatement().executeQuery(sql);
 
@@ -192,6 +210,81 @@ public class ControllerContingent implements Initializable {
         }
     }
 
+    //Menu bar
+    public void showPatchnote(){
+        PatchNote pn = new PatchNote();
+        pn.patchNote();
+    }
+
+    public void changeLogs(){
+        File file = new File("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\txt\\Changelog.txt");
+        if (!Desktop.isDesktopSupported()) {
+            System.out.println("OS non supporté");
+            return;
+        }
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            if (file.exists()) desktop.open(file);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openIndicateursPage(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/StatistiquesSI.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle(Data.pageTitle0);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openComparaisonPage(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/TableauxAnnuels.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle(Data.pageTitle1);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openSettingsPage(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/SettingsSI.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle(Data.pageTitle2);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openContingentPage(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/Contingent.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle(AVJ.Data.pageTitle0);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openASDB(){
+        Stage stage = new Stage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/ASDB.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle(AVJ.Data.asdbTitle);
+            stage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
 }
 
 

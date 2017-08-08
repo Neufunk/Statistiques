@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
@@ -106,7 +105,6 @@
                   <Font size="13.0" />
                </font>
             </JFXButton>
-            <JFXCheckBox fx:id="debugBox" checkedColor="#96bb37" layoutX="452.0" layoutY="321.0" text="debug" unCheckedColor="BLACK" />
          </children>
          <effect>
             <DropShadow />

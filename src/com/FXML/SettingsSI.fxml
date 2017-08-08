@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" prefHeight="720" prefWidth="1280" style="-fx-background-color: FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerSettings">
+   <children>
+      <JFXCheckBox fx:id="debugBoxMBP" layoutX="297.0" layoutY="174.0" prefHeight="30.0" prefWidth="195.0" text="debug (MacBook Pro only)" />
+      <AnchorPane fx:id="maskPane" layoutY="-1.0" opacity="0.1" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
+      <JFXDrawer id="drawer" fx:id="drawer" defaultDrawerSize="250.0" layoutY="-4.0" overLayVisible="false" prefHeight="720.0" prefWidth="270.0" visible="false">
+         <effect>
+            <DropShadow />
+         </effect>
+      </JFXDrawer>
+      <JFXHamburger id="hamburger" fx:id="hamburger" layoutY="8.0" prefHeight="38.0" prefWidth="55.0" />
+      <Separator layoutX="258.0" layoutY="43.0" orientation="VERTICAL" prefHeight="626.0" prefWidth="12.0" />
+      <Label layoutX="283.0" layoutY="22.0" prefHeight="48.0" prefWidth="244.0" text="PARAMETRES">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Separator layoutX="311.0" layoutY="67.0" prefHeight="5.0" prefWidth="166.0" />
+      <JFXCheckBox fx:id="debugBox" layoutX="297.0" layoutY="125.0" prefHeight="30.0" prefWidth="195.0" text="debug" />
+   </children>
+</AnchorPane>
