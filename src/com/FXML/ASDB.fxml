@@ -47,7 +47,7 @@
             <right>
                 <VBox prefHeight="445.0" prefWidth="154.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#switchToWorkersTab" prefHeight="150.0" prefWidth="154.0" text="Workers">
+                        <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#switchToWorkersTab" prefHeight="150.0" prefWidth="154.0" text="Travailleurs">
                             <graphic>
                                 <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -55,7 +55,7 @@
                                     </image></ImageView>
                             </graphic>
                         </Button>
-                        <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#switchToSectorTab" prefHeight="150.0" prefWidth="154.0" text="Sectors">
+                        <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#switchToSectorTab" prefHeight="150.0" prefWidth="154.0" text="Secteurs">
                             <graphic>
                                 <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -95,12 +95,118 @@
             <center>
                 <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                     <tabs>
-                  <Tab text=" Workers    ">
+                  <Tab text="Travailleurs     ">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="-1.0" prefHeight="412.0" prefWidth="557.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #e7e7e7;">
+                                       <children>
+                                          <TextField fx:id="workerTabIdInput" onAction="#searchByIdWorkerDatabase" prefHeight="22.0" prefWidth="58.0" promptText="ID">
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="workerTabFirstNameInput" onAction="#searchByFirstNameWorkerDatabase" promptText="Prénom">
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="workerTabLastNameInput" onAction="#searchByLastNameWorkerDatabase" promptText="Nom" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="30.0" top="30.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #e7e7e7;">
+                                       <children>
+                                          <TextField fx:id="workerTabSectorIdInput" prefHeight="22.0" prefWidth="67.0" promptText="Sector ID">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="workerTabSectorInput" promptText="Secteur">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="workerTabCentreInput" promptText="Centre" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="50.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="89.0" prefWidth="708.0" style="-fx-background-color: e5e5e5;">
+                                       <children>
+                                          <JFXButton onAction="#clearTextFieldsWorkerTab" styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Renew" textFill="WHITE">
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../resources/img/renew.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <HBox.margin>
+                                                <Insets left="100.0" right="150.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#updateWorkerDatabase" styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Update" textFill="WHITE">
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../resources/img/return.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#addWorker" styleClass="add-button" stylesheets="@../../CSS/NormalSkin.css" text="Add" textFill="WHITE">
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../resources/img/addCross.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#deleteWorker" styleClass="delete-button" stylesheets="@../../CSS/NormalSkin.css" text="Delete" textFill="WHITE">
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../resources/img/trash.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text=" Sectors     ">
+                  <Tab text="Secteurs     ">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
@@ -111,9 +217,9 @@
                                     <children>
                                         <VBox prefHeight="412.0" prefWidth="557.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <children>
-                                                <HBox fx:id="book_info" alignment="CENTER" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #e7e7e7;">
+                                                <HBox alignment="CENTER" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #e7e7e7;">
                                                     <children>
-                                                        <TextField fx:id="bookIDInput" prefHeight="26.0" prefWidth="189.0" promptText="Sector ID">
+                                                        <TextField prefHeight="26.0" prefWidth="189.0" promptText="Sector ID">
                                                             <HBox.margin>
                                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                             </HBox.margin>
@@ -123,17 +229,17 @@
                                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                             </HBox.margin>
                                                             <children>
-                                                                <Text fx:id="bookName" strokeType="OUTSIDE" strokeWidth="0.0" text="Sector Name" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sector Name" textAlignment="CENTER" wrappingWidth="346.8388671875">
                                                                     <VBox.margin>
                                                                         <Insets top="10.0" />
                                                                     </VBox.margin>
                                                                 </Text>
-                                                                <Text fx:id="bookAuthor" layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Antenne" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                <Text layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Antenne" textAlignment="CENTER" wrappingWidth="346.8388671875">
                                                                     <VBox.margin>
                                                                         <Insets top="10.0" />
                                                                     </VBox.margin>
                                                                 </Text>
-                                                                <Text fx:id="bookStatus" layoutX="10.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                <Text layoutX="10.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" textAlignment="CENTER" wrappingWidth="346.8388671875">
                                                                     <VBox.margin>
                                                                         <Insets top="10.0" />
                                                                     </VBox.margin>
@@ -145,9 +251,9 @@
                                                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                     </VBox.margin>
                                                 </HBox>
-                                                <HBox fx:id="member_info" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #e7e7e7;">
+                                                <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="1000.0" style="-fx-background-color: #e7e7e7;">
                                                     <children>
-                                                        <TextField fx:id="memberIDInput" promptText="Worker ID">
+                                                        <TextField promptText="Worker ID">
                                                             <HBox.margin>
                                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                             </HBox.margin>
@@ -157,12 +263,12 @@
                                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                             </HBox.margin>
                                                             <children>
-                                                                <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" text="Worker Name" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Worker Name" textAlignment="CENTER" wrappingWidth="346.8388671875">
                                                                     <VBox.margin>
                                                                         <Insets top="10.0" />
                                                                     </VBox.margin>
                                                                 </Text>
-                                                                <Text fx:id="memberMobile" layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" textAlignment="CENTER" wrappingWidth="346.8388671875">
+                                                                <Text layoutX="10.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" textAlignment="CENTER" wrappingWidth="346.8388671875">
                                                                     <VBox.margin>
                                                                         <Insets top="10.0" />
                                                                     </VBox.margin>
@@ -187,13 +293,13 @@
                                     </children></AnchorPane>
                             </content>
                         </Tab>
-                        <Tab closable="false" text=" Tables    ">
+                        <Tab closable="false" text=" Tables     ">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
                                         <BorderPane layoutX="251.0" layoutY="71.0" prefHeight="412.0" prefWidth="557.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <top>
-                                                <JFXTextField fx:id="tableNameField" labelFloat="true" maxWidth="274.0" minWidth="274.0" onAction="#displayTable" prefHeight="27.0" prefWidth="274.0" promptText="Enter TABLE NAME" BorderPane.alignment="CENTER">
+                                                <JFXTextField fx:id="tableNameField" labelFloat="true" maxWidth="274.0" minWidth="274.0" onAction="#displayTable" prefHeight="27.0" prefWidth="274.0" promptText="Entrez TABLENAME" BorderPane.alignment="CENTER">
                                                     <BorderPane.margin>
                                                         <Insets bottom="10.0" top="20.0" />
                                                     </BorderPane.margin>
@@ -205,7 +311,7 @@
                                             <bottom>
                                                 <HBox alignment="CENTER" prefHeight="69.0" prefWidth="557.0" BorderPane.alignment="CENTER">
                                                     <children>
-                                                        <JFXButton styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Renew" textFill="WHITE">
+                                                        <JFXButton onAction="#clearTable" styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Renew" textFill="WHITE">
                                                             <HBox.margin>
                                                                 <Insets right="20.0" />
                                                             </HBox.margin>
@@ -217,7 +323,7 @@
                                                                 </ImageView>
                                                             </graphic>
                                                         </JFXButton>
-                                                        <JFXButton styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Submission" textFill="WHITE">
+                                                        <JFXButton styleClass="setup-button" stylesheets="@../../CSS/NormalSkin.css" text="Update" textFill="WHITE">
                                                             <HBox.margin>
                                                                 <Insets right="20.0" />
                                                             </HBox.margin>

@@ -160,6 +160,11 @@ public class Database {
         return sql;
     }
 
+    public String updateContingent(String indicateur, double valeur, int year, String mois, String secteur){
+        String sql = "UPDATE contingent";
+        return sql;
+    }
+
     public void closeConnection() {
         System.out.println("\n----------------------------------");
         System.out.println("Tentative de fermeture de connexion...");

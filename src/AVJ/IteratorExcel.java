@@ -1,5 +1,8 @@
 package AVJ;
 
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -12,6 +15,7 @@ public class IteratorExcel extends ControllerContingent {
     Workbook workbook;
     Database database = new Database();
     ControllerContingent controllerContingent = new ControllerContingent();
+    String fileName = "";
 
     String[] titleTab = {"B21", "B22", "B23", "B24", "B25", "B26", "B27", "B28"};
 
@@ -33,24 +37,76 @@ public class IteratorExcel extends ControllerContingent {
             34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
             81, 82, 83, 84, 85, 86, 87, 89, 89, 90, 91, 92, 93, 94, 95, 96, 900, 901, 902, 903, 904, 905, 906, 907};
 
-    public void startIteration(){
+    String[] indicateurs = {"Total Heures dispo par mois (Base 40)", "Total Heures dispo par mois (Base 38)",
+                            "Nbre H Absentéisme (code M) (Base 40)", "Nbre H Absentéisme (code M) (Base 38)",
+                            "Nbre H Prestées (code PR) (Base 40)", "Nbre H Prestées (code PR) (Base 38)",
+                            "Ecart H Dispo et H prestées (Base 40)", "Ecart H Dispo et H prestées (Base 38)"};
+
+
+    public void startIteration(String path, String year, String firstName, String secteur) {
+        switch (secteur) {
+            case "Andenne":
+                fileName = "Secteur d'";
+                break;
+            case "Eghezée":
+                fileName = "Secteur d' ";
+                break;
+            case "Volantes Namur":
+                fileName = "Secteur ";
+                break;
+            case "Volantes Philippeville":
+                fileName = "Secteur des ";
+                break;
+            default:
+                fileName = "Secteur de ";
+        }
         try {
-            workbook = WorkbookFactory.create(new File("P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\2017\\Christel\\Secteur d'Andenne.xlsm"));
+            workbook = WorkbookFactory.create
+                    (new File(path + year + "\\" + firstName + "\\" + fileName + secteur + ".xlsm"));
             Sheet selectionSheet = workbook.getSheet("Contingent");
-            for (int i = 0; i < cellTab.length; i++){
+            for (int i = 0; i < cellTab.length; i++) {
                 CellReference cellReference = new CellReference(cellTab[i]);
                 Row row = selectionSheet.getRow(cellReference.getRow());
                 Cell cell = row.getCell(cellReference.getCol());
                 double result = cell.getNumericCellValue();
                 cellResult[i] = result;
             }
-            for (int i = 0; i < cellResult.length; i++){
-                System.out.println(cellResult[i]);
-            }
+            for (int i = 0; i < cellResult.length; i++) {
+                int j = 0;
+                if (j > 7){
+                    j = 0;               // TODO : Incrémenter pour avoir Indicateurs + valeurs correspondante
+                }
+                    System.out.println(indicateurs[j] + " : " + cellResult[i]);
+                j++;
 
-        } catch (InvalidFormatException | IOException e) {
-            e.printStackTrace();
+            }
+        } catch (InvalidFormatException e) {
+            displayFormatException(e);
+        } catch (IOException e) {
+            displayIOException(e);
         }
+
     }
 
+    private void displayFormatException(InvalidFormatException e) {
+        e.printStackTrace();
+        String e1 = e.toString();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur lors de l'importation des données");
+        alert.setHeaderText(e1);
+        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+                "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - displayFormatException()");
+        alert.showAndWait();
+    }
+
+    private void displayIOException(IOException e) {
+        e.printStackTrace();
+        String e1 = e.toString();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur lors de l'importation des données");
+        alert.setHeaderText(e1);
+        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+                "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - displayIOException()");
+        alert.showAndWait();
+    }
 }

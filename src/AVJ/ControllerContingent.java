@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -68,6 +70,8 @@ public class ControllerContingent implements Initializable {
     private TableView<ObservableList> tableView;
     @FXML
     private JFXToggleButton toggleButton;
+    @FXML
+    private JFXToggleButton toggleButton1;
 
     AVJ.Data data = new AVJ.Data();
     static public Stage workerStage = new Stage();
@@ -81,6 +85,7 @@ public class ControllerContingent implements Initializable {
         onBackButtonClick();
         onUpdateButtonClick();
         toggleButtonListener();
+        toggleButtonDirectriceListener();
     }
 
     private void initializeCombo() {
@@ -88,15 +93,23 @@ public class ControllerContingent implements Initializable {
         comboPeriode.setItems(data.periode);
     }
 
-    public void toggleButtonListener(){
-            toggleButton.setText(getCurrentYear());
+    public void toggleButtonListener() {
+        toggleButton.setText(getCurrentYear());
     }
 
-    public void displaySecteurs(){
-        if (comboCentre.getValue() == "ASD"){
+    public void toggleButtonDirectriceListener() {
+        if (toggleButton1.isSelected()) {
+            toggleButton1.setText("Laurence");
+        } else {
+            toggleButton1.setText("Sarah");
+        }
+    }
+
+    public void displaySecteurs() {
+        if (comboCentre.getValue() == "ASD") {
             comboSecteur.setPromptText("Province entière");
             comboSecteur.setDisable(true);
-        }else{
+        } else {
             comboSecteur.setPromptText("Secteurs");
             comboSecteur.setDisable(false);
         }
@@ -132,12 +145,44 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    private void onUpdateButtonClick(){
+    private void onUpdateButtonClick() {
         updateButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
             IteratorExcel iteratorExcel = new IteratorExcel();
-            iteratorExcel.startIteration();
+            String sql = "SELECT * FROM travailleurs " +
+                    "INNER JOIN secteurs " +
+                    "ON travailleurs.id = secteurs.worker_id ";
+            Connection conn = database.connect();
+            try {
+                Statement statement = conn.createStatement();
+                ResultSet rs = statement.executeQuery(sql);
+                while (rs.next()) {
+                    String name = rs.getString("prenom");
+                    String sect = rs.getString("secteur_name");
+                    String centre = rs.getString("antenne");
+                    String namPath = "";
+                    String philPath = "";
+                    if (toggleButton1.isSelected()) {
+                        namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                        philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                    } else {
+                        namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                        philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                    }
+                    switch (centre) {
+                        case "Namu":
+                            iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect);
+                            break;
+                        case "Philippeville":
+                            iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect);
+                            break;
+                    }
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         });
     }
+
 
     private void onBackButtonClick() {
         backButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
@@ -158,7 +203,7 @@ public class ControllerContingent implements Initializable {
         if (toggleButton.isSelected()) {
             return String.valueOf(year);
         } else {
-            return String.valueOf(year-1);
+            return String.valueOf(year - 1);
         }
     }
 
@@ -170,7 +215,7 @@ public class ControllerContingent implements Initializable {
             Connection c = database.connect();
             String centre = comboCentre.getValue().toString();
             String secteur = "";
-            if (comboSecteur.getValue()!= null) {
+            if (comboSecteur.getValue() != null) {
                 secteur = comboSecteur.getValue().toString();
             }
             String periode = comboPeriode.getValue().toString();
@@ -211,12 +256,12 @@ public class ControllerContingent implements Initializable {
     }
 
     //Menu bar
-    public void showPatchnote(){
+    public void showPatchnote() {
         PatchNote pn = new PatchNote();
         pn.patchNote();
     }
 
-    public void changeLogs(){
+    public void changeLogs() {
         File file = new File("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\txt\\Changelog.txt");
         if (!Desktop.isDesktopSupported()) {
             System.out.println("OS non supporté");
@@ -230,7 +275,7 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    public void openIndicateursPage(){
+    public void openIndicateursPage() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/StatistiquesSI.fxml"));
@@ -241,7 +286,7 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    public void openComparaisonPage(){
+    public void openComparaisonPage() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/TableauxAnnuels.fxml"));
@@ -252,7 +297,7 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    public void openSettingsPage(){
+    public void openSettingsPage() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/SettingsSI.fxml"));
@@ -263,7 +308,7 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    public void openContingentPage(){
+    public void openContingentPage() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/Contingent.fxml"));
@@ -274,7 +319,7 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    public void openASDB(){
+    public void openASDB() {
         Stage stage = new Stage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/ASDB.fxml"));

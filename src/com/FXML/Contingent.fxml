@@ -22,13 +22,18 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="tableView" fixedCellSize="300.0" prefHeight="385.0" prefWidth="1250.0" tableMenuButtonVisible="true" />
+            <TableView fx:id="tableView" fixedCellSize="30.0" prefHeight="385.0" prefWidth="1250.0" tableMenuButtonVisible="true" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pane1" layoutX="1018.0" layoutY="37.0" prefHeight="267.0" prefWidth="200.0" style="-fx-background-color: WHITE;">
          <children>
-            <JFXButton fx:id="updateButton" buttonType="RAISED" layoutX="60.0" layoutY="14.0" prefHeight="39.0" prefWidth="81.0" style="-fx-background-color: #893209;" text="Update" textFill="WHITE" />
-            <JFXButton fx:id="travailleurButton" buttonType="RAISED" layoutX="60.0" layoutY="67.0" prefHeight="39.0" prefWidth="81.0" style="-fx-background-color: #00707E;" text="Travailleurs" textFill="WHITE" />
+            <JFXButton fx:id="updateButton" buttonType="RAISED" layoutX="60.0" layoutY="73.0" prefHeight="39.0" prefWidth="81.0" style="-fx-background-color: #893209;" text="Update" textFill="WHITE" />
+            <JFXButton fx:id="travailleurButton" buttonType="RAISED" layoutX="60.0" layoutY="134.0" prefHeight="39.0" prefWidth="81.0" style="-fx-background-color: #00707E;" text="Travailleurs" textFill="WHITE" />
+            <JFXToggleButton fx:id="toggleButton1" layoutX="33.0" layoutY="14.0" onAction="#toggleButtonDirectriceListener" prefHeight="56.0" prefWidth="136.0" selected="true" style="-fx-background-color: #FFFFFF;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+            </JFXToggleButton>
          </children>
          <effect>
             <DropShadow />

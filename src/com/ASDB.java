@@ -13,8 +13,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class ASDB {
 
@@ -26,15 +25,168 @@ public class ASDB {
     private TableView<ObservableList> issueDataList;
     @FXML
     public TabPane tabPane;
+    @FXML
+    private TextField workerTabIdInput;
+    @FXML
+    private TextField workerTabFirstNameInput;
+    @FXML
+    private TextField workerTabLastNameInput;
+    @FXML
+    private TextField workerTabSectorIdInput;
+    @FXML
+    private TextField workerTabSectorInput;
+    @FXML
+    private TextField workerTabCentreInput;
 
     private ObservableList<ObservableList> data;
 
+    public void searchByIdWorkerDatabase() {
+        int id = Integer.parseInt(workerTabIdInput.getText());
+        String sql = "SELECT *, secteurs.id AS sectorID " +
+                "FROM travailleurs " +
+                "INNER JOIN secteurs " +
+                "ON travailleurs.id = secteurs.worker_id " +
+                "WHERE travailleurs.id='"+id+"'";
+        Connection conn = database.connect();
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                workerTabFirstNameInput.setText(rs.getString("prenom"));
+                workerTabLastNameInput.setText(rs.getString("nom"));
+                workerTabSectorIdInput.setText(rs.getString("sectorID"));
+                workerTabSectorInput.setText(rs.getString("secteur_name"));
+                workerTabCentreInput.setText(rs.getString("antenne"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void searchByFirstNameWorkerDatabase() {
+        String sql = "SELECT *, secteurs.id AS sectorID " +
+                "FROM travailleurs " +
+                "INNER JOIN secteurs " +
+                "ON travailleurs.id = secteurs.worker_id " +
+                "WHERE prenom ='"+workerTabFirstNameInput.getText()+"'";
+        Connection conn = database.connect();
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                workerTabIdInput.setText(rs.getString("id"));
+                workerTabFirstNameInput.setText(rs.getString("prenom"));
+                workerTabLastNameInput.setText(rs.getString("nom"));
+                workerTabSectorIdInput.setText(rs.getString("sectorID"));
+                workerTabSectorInput.setText(rs.getString("secteur_name"));
+                workerTabCentreInput.setText(rs.getString("antenne"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void searchByLastNameWorkerDatabase() {
+        String sql = "SELECT *, secteurs.id AS sectorID " +
+                "FROM travailleurs " +
+                "INNER JOIN secteurs " +
+                "ON travailleurs.id = secteurs.worker_id " +
+                "WHERE nom='"+workerTabLastNameInput.getText()+"'";
+        Connection conn = database.connect();
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                workerTabIdInput.setText(rs.getString("id"));
+                workerTabFirstNameInput.setText(rs.getString("prenom"));
+                workerTabLastNameInput.setText(rs.getString("nom"));
+                workerTabSectorIdInput.setText(rs.getString("sectorID"));
+                workerTabSectorInput.setText(rs.getString("secteur_name"));
+                workerTabCentreInput.setText(rs.getString("antenne"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void clearTextFieldsWorkerTab(){
+        workerTabIdInput.clear();
+        workerTabFirstNameInput.clear();
+        workerTabLastNameInput.clear();
+        workerTabSectorIdInput.clear();
+        workerTabSectorInput.clear();
+        workerTabCentreInput.clear();
+    }
+
+    public void updateWorkerDatabase(){
+        int id = Integer.parseInt(workerTabIdInput.getText());
+        String sql = "UPDATE travailleurs "+
+                "SET prenom = '"+workerTabFirstNameInput.getText()+"', "+
+                "nom = '"+workerTabLastNameInput.getText()+"' "+
+                "WHERE id = "+id+"";
+        String sql2 = "UPDATE secteurs "+
+                "SET id = '"+workerTabSectorIdInput.getText()+"', "+
+                "secteur_name = '"+workerTabSectorInput.getText()+"', "+
+                "antenne = '"+workerTabCentreInput.getText()+"' "+
+                "WHERE worker_id = "+id+"";
+        Connection conn = database.connect();
+        try {
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(sql);
+            statement.executeUpdate(sql2);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("TRAVAILLEUR MIS A JOUR");
+            alert.setHeaderText("Travailleur : ID "+ workerTabIdInput.getText()+ " " +
+                    workerTabFirstNameInput.getText() + " "+ workerTabLastNameInput.getText() +
+                    "\n Correctement mis à jour.");
+            alert.setContentText("");
+            alert.show();
+            searchByIdWorkerDatabase();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }   // TODO : Finir ASDB. Problème avec certains ID + DELETE
+
+    public void addWorker(){
+        int id = Integer.parseInt(workerTabIdInput.getText());
+        String sql = "INSERT INTO travailleurs (id, nom, prenom) "+
+                "VALUES ("+id+", '"+workerTabLastNameInput.getText()+"', '"+workerTabFirstNameInput.getText()+"')";
+        Connection conn = database.connect();
+        try {
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteWorker(){
+        int id = Integer.parseInt(workerTabIdInput.getText());
+        String sql = "DELETE FROM travailleurs "+
+                "WHERE id = "+id+" AND nom = +"+workerTabLastNameInput.getText()+" AND prenom = "+workerTabFirstNameInput.getText()+"";
+        Connection conn = database.connect();
+        try {
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(sql);
+
+    } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void displayTable() {
+        issueDataList.getColumns().clear();
         Connection c;
         data = FXCollections.observableArrayList();
         try {
             c = database.connect();
-            String SQL = "SELECT * FROM "+ tableNameField.getText();
+            String SQL = "SELECT * FROM " + tableNameField.getText();
             ResultSet rs = c.createStatement().executeQuery(SQL);
 
             //TABLE COLUMN ADDED DYNAMICALLY
@@ -71,7 +223,12 @@ public class ASDB {
         }
     }
 
-    public void aboutWindow(){
+    public void clearTable(){
+        tableNameField.clear();
+        issueDataList.getColumns().clear();
+    }
+
+    public void aboutWindow() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("ASDB Engine - 1.0");
         alert.setHeaderText("Aide & Soins à Domicile Database Engine");
@@ -83,15 +240,19 @@ public class ASDB {
     public void switchToWorkersTab() {
         tabPane.getSelectionModel().select(0);
     }
+
     public void switchToSectorTab() {
         tabPane.getSelectionModel().select(1);
     }
+
     public void switchToDBissueTab() {
         tabPane.getSelectionModel().select(2);
     }
+
     public void switchToTablesTab() {
         tabPane.getSelectionModel().select(3);
     }
+
     public void switchToSettingsTab() {
         tabPane.getSelectionModel().select(4);
     }
