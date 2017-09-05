@@ -69,6 +69,8 @@ public class ControllerContingent implements Initializable {
     @FXML
     private TableView<ObservableList> tableView;
     @FXML
+    private TableView<ObservableList> tableView2;
+    @FXML
     private JFXToggleButton toggleButton;
     @FXML
     private JFXToggleButton toggleButton1;
@@ -169,7 +171,7 @@ public class ControllerContingent implements Initializable {
                         philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
                     }
                     switch (centre) {
-                        case "Namu":
+                        case "Namur":
                             iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect);
                             break;
                         case "Philippeville":

@@ -18,7 +18,7 @@ public class Database {
             Class.forName("org.postgresql.Driver");
             System.out.println("Driver O.K.");
 
-            String url = "jdbc:postgresql://localhost/Statistiques";
+            String url = "jdbc:postgresql://localhost/statistiques";
             String user = "java_user";
             String passwd = "fasd";
 
@@ -32,7 +32,6 @@ public class Database {
         }
         return conn;
     }
-
 
     public ObservableList loadColumnToCombo(String table, String column) {
         ObservableList<String> array = FXCollections.observableArrayList();
@@ -160,9 +159,29 @@ public class Database {
         return sql;
     }
 
-    public String updateContingent(String indicateur, double valeur, int year, String mois, String secteur){
-        String sql = "UPDATE contingent";
-        return sql;
+    public void updateContingent(String indicateur, double valeur, int year, String mois, String secteur) {
+        Connection conn = connect();
+        try {
+            Statement state = conn.createStatement();
+            String sql = "UPDATE contingent " +
+                    "SET valeur = '" + valeur + "' " +
+                    "WHERE EXISTS (SELECT secteur_name FROM secteurs WHERE secteurs.id = numero_secteur) = '" + secteur + "' AND indicateur = '" + indicateur + "' AND annee = '" + year + "' " +
+                    "AND numero_secteur = '" + secteur + "' AND mois = '" + mois + "'";
+
+                    /*
+                    "INNER JOIN statistiques.secteurs " +
+                    "ON contingent.numero_secteur = secteurs.id ";
+                    */
+            state.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            state.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e + " Erreur lors de l'écriture dans la BDD");
+        }
     }
 
     public void closeConnection() {

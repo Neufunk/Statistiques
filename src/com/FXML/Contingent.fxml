@@ -22,7 +22,8 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="tableView" fixedCellSize="30.0" prefHeight="385.0" prefWidth="1250.0" tableMenuButtonVisible="true" />
+            <TableView fx:id="tableView" fixedCellSize="30.0" prefHeight="385.0" prefWidth="600.0" tableMenuButtonVisible="true" />
+            <TableView fx:id="tableView2" fixedCellSize="30.0" layoutX="649.0" prefHeight="385.0" prefWidth="600.0" tableMenuButtonVisible="true" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pane1" layoutX="1018.0" layoutY="37.0" prefHeight="267.0" prefWidth="200.0" style="-fx-background-color: WHITE;">

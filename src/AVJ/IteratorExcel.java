@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 public class IteratorExcel extends ControllerContingent {
 
@@ -16,6 +17,8 @@ public class IteratorExcel extends ControllerContingent {
     Database database = new Database();
     ControllerContingent controllerContingent = new ControllerContingent();
     String fileName = "";
+    int j = 0;
+    int k = 0;
 
     String[] titleTab = {"B21", "B22", "B23", "B24", "B25", "B26", "B27", "B28"};
 
@@ -38,9 +41,12 @@ public class IteratorExcel extends ControllerContingent {
             81, 82, 83, 84, 85, 86, 87, 89, 89, 90, 91, 92, 93, 94, 95, 96, 900, 901, 902, 903, 904, 905, 906, 907};
 
     String[] indicateurs = {"Total Heures dispo par mois (Base 40)", "Total Heures dispo par mois (Base 38)",
-                            "Nbre H Absentéisme (code M) (Base 40)", "Nbre H Absentéisme (code M) (Base 38)",
-                            "Nbre H Prestées (code PR) (Base 40)", "Nbre H Prestées (code PR) (Base 38)",
-                            "Ecart H Dispo et H prestées (Base 40)", "Ecart H Dispo et H prestées (Base 38)"};
+            "Nbre H Absentéisme (code M) (Base 40)", "Nbre H Absentéisme (code M) (Base 38)",
+            "Nbre H Prestées (code PR) (Base 40)", "Nbre H Prestées (code PR) (Base 38)",
+            "Ecart H Dispo et H prestées (Base 40)", "Ecart H Dispo et H prestées (Base 38)"};
+
+    String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
+            "Septembre", "Octobre", "Novembre", "Décembre", "Année Complète"};
 
 
     public void startIteration(String path, String year, String firstName, String secteur) {
@@ -72,20 +78,31 @@ public class IteratorExcel extends ControllerContingent {
                 cellResult[i] = result;
             }
             for (int i = 0; i < cellResult.length; i++) {
-                int j = 0;
-                if (j > 7){
-                    j = 0;               // TODO : Incrémenter pour avoir Indicateurs + valeurs correspondante
+                if (j >= 8) {
+                    j = 0;
+                    k++;
                 }
-                    System.out.println(indicateurs[j] + " : " + cellResult[i]);
-                j++;
+                if (k >= 13) {
+                    k = 0;
+                }
+                database.updateContingent(indicateurs[j], cellResult[i], getCurrentYear(), mois[k], secteur);
+                System.out.println(fileName + secteur + " - " + mois[k] + " - " + indicateurs[j] + " : " + cellResult[i]);
 
+
+
+                j++;
             }
         } catch (InvalidFormatException e) {
             displayFormatException(e);
         } catch (IOException e) {
             displayIOException(e);
         }
+    }
 
+    private int getCurrentYear() {
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        return year;
     }
 
     private void displayFormatException(InvalidFormatException e) {
