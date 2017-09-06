@@ -80,6 +80,7 @@ public class ControllerContingent implements Initializable {
     Effects effects = new Effects();
     Database database = new Database();
     private ObservableList<ObservableList> observableList;
+    private ObservableList<ObservableList> observableList2;
 
     public void initialize(URL location, ResourceBundle resources) {
         initializeCombo();
@@ -211,8 +212,10 @@ public class ControllerContingent implements Initializable {
 
     public void displayTable() {
         tableView.getColumns().clear();
+        tableView2.getColumns().clear();
         observableList = FXCollections.observableArrayList();
-        observableList.clear();
+        observableList2 = FXCollections.observableArrayList();
+        observableList2.clear();
         try {
             Connection c = database.connect();
             String centre = comboCentre.getValue().toString();
@@ -222,7 +225,8 @@ public class ControllerContingent implements Initializable {
             }
             String periode = comboPeriode.getValue().toString();
             String year = getCurrentYear();
-            String sql = database.loadContingent(centre, secteur, periode, year);
+            //BASE 38
+            String sql = database.loadContingent38(centre, secteur, periode, year);
             ResultSet rs = c.createStatement().executeQuery(sql);
 
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
@@ -247,8 +251,35 @@ public class ControllerContingent implements Initializable {
                 System.out.println("Row [1] ajoutée " + row);
                 observableList.add(row);
             }
+            // BASE 40
+            String sql2 = database.loadContingent40(centre, secteur, periode, year);
+            ResultSet rs2 = c.createStatement().executeQuery(sql2);
+
+            for (int i = 0; i < rs2.getMetaData().getColumnCount(); i++) {
+                final int j = i;
+                TableColumn col = new TableColumn(rs2.getMetaData().getColumnName(i + 1));
+                col.setCellFactory(TextFieldTableCell.forTableColumn());
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+                        return new SimpleStringProperty(param.getValue().get(j).toString());
+                    }
+                });
+                tableView2.getColumns().addAll(col);
+                System.out.println("Column [" + i + "] ");
+            }
+            while (rs2.next()) {
+                //Iterate Row
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for (int i = 1; i <= rs2.getMetaData().getColumnCount(); i++) {
+                    //Iterate Column
+                    row.add(rs2.getString(i));
+                }
+                System.out.println("Row [1] ajoutée " + row);
+                observableList2.add(row);
+            }
 
             tableView.setItems(observableList);
+            tableView2.setItems(observableList2);
             database.closeConnection();
         } catch (Exception e) {
             e.printStackTrace();

@@ -87,9 +87,6 @@ public class IteratorExcel extends ControllerContingent {
                 }
                 database.updateContingent(indicateurs[j], cellResult[i], getCurrentYear(), mois[k], secteur);
                 System.out.println(fileName + secteur + " - " + mois[k] + " - " + indicateurs[j] + " : " + cellResult[i]);
-
-
-
                 j++;
             }
         } catch (InvalidFormatException e) {

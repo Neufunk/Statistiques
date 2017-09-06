@@ -135,7 +135,7 @@ public class Database {
         return answer;
     }
 
-    public String loadContingent(String centre, String secteur, String periode, String annee) {
+    public String loadContingent38(String centre, String secteur, String periode, String annee) {
         String sql;
         if (periode == "Année Complète") {
             periode = "Total";
@@ -146,7 +146,11 @@ public class Database {
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
                     "WHERE mois = '" + periode + "'" +
-                    "AND annee = '" + annee + "'";
+                    "AND annee = '" + annee + "'" +
+                    "AND indicateur IN ('Total Heures dispo par mois (Base 38)', " +
+                    "'Nbre H Absentéisme (code M) (Base 38)', " +
+                    "'Nbre H Prestées (code PR) (Base 38)', " +
+                    "'Ecart H Dispo et H prestées (Base 38)') ";
         } else {
             sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
                     "FROM contingent " +
@@ -154,34 +158,66 @@ public class Database {
                     "ON contingent.numero_secteur = secteurs.id " +
                     "WHERE secteur_name = '" + secteur + "'" +
                     "AND mois = '" + periode + "'" +
-                    "AND annee = '" + annee + "'";
+                    "AND annee = '" + annee + "'" +
+                    "AND indicateur IN ('Total Heures dispo par mois (Base 38)', " +
+                    "'Nbre H Absentéisme (code M) (Base 38)', " +
+                    "'Nbre H Prestées (code PR) (Base 38)', " +
+                    "'Ecart H Dispo et H prestées (Base 38)') ";
+        }
+        return sql;
+    }
+
+    public String loadContingent40(String centre, String secteur, String periode, String annee) {
+        String sql;
+        if (periode == "Année Complète") {
+            periode = "Total";
+        }
+        if (centre == "ASD") {
+            sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
+                    "FROM contingent " +
+                    "INNER JOIN secteurs " +
+                    "ON contingent.numero_secteur = secteurs.id " +
+                    "WHERE mois = '" + periode + "'" +
+                    "AND annee = '" + annee + "'" +
+                    "AND indicateur IN ('Total Heures dispo par mois (Base 40)', " +
+                    "'Nbre H Absentéisme (code M) (Base 40)', " +
+                    "'Nbre H Prestées (code PR) (Base 40)', " +
+                    "'Ecart H Dispo et H prestées (Base 40)') ";
+        } else {
+            sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
+                    "FROM contingent " +
+                    "INNER JOIN secteurs " +
+                    "ON contingent.numero_secteur = secteurs.id " +
+                    "WHERE secteur_name = '" + secteur + "'" +
+                    "AND mois = '" + periode + "'" +
+                    "AND annee = '" + annee + "' " +
+                    "AND indicateur IN ('Total Heures dispo par mois (Base 40)', " +
+                    "'Nbre H Absentéisme (code M) (Base 40)', " +
+                    "'Nbre H Prestées (code PR) (Base 40)', " +
+                    "'Ecart H Dispo et H prestées (Base 40)') ";
+            ;
         }
         return sql;
     }
 
     public void updateContingent(String indicateur, double valeur, int year, String mois, String secteur) {
-        Connection conn = connect();
         try {
-            Statement state = conn.createStatement();
-            String sql = "UPDATE contingent " +
-                    "SET valeur = '" + valeur + "' " +
-                    "WHERE EXISTS (SELECT secteur_name FROM secteurs WHERE secteurs.id = numero_secteur) = '" + secteur + "' AND indicateur = '" + indicateur + "' AND annee = '" + year + "' " +
-                    "AND numero_secteur = '" + secteur + "' AND mois = '" + mois + "'";
-
-                    /*
-                    "INNER JOIN statistiques.secteurs " +
-                    "ON contingent.numero_secteur = secteurs.id ";
-                    */
-            state.executeUpdate(sql);
+            String sql = "UPDATE contingent SET valeur = ? FROM secteurs " +
+                    "WHERE indicateur = ? AND annee = ? AND numero_secteur = (SELECT secteurs.id FROM secteurs " +
+                    "INNER JOIN contingent ON secteurs.id = contingent.numero_secteur WHERE secteur_name = ? LIMIT 1) AND mois = ?";
+            PreparedStatement preparedStatement = connect().prepareStatement(sql);
+            preparedStatement.setObject(1, valeur);
+            preparedStatement.setObject(2, indicateur);
+            preparedStatement.setObject(3, year);
+            preparedStatement.setObject(4, secteur);
+            preparedStatement.setObject(5, mois);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        try {
-            state.close();
-            conn.close();
         } catch (Exception e) {
-            System.out.println(e + " Erreur lors de l'écriture dans la BDD");
+            System.out.println(e + " - Erreur lors de l'écriture dans la BDD");
         }
+        closeConnection();
     }
 
     public void closeConnection() {
