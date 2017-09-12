@@ -2,6 +2,7 @@ package AVJ;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 
@@ -18,7 +19,7 @@ public class Database {
             Class.forName("org.postgresql.Driver");
             System.out.println("Driver O.K.");
 
-            String url = "jdbc:postgresql://localhost/statistiques";
+            String url = "jdbc:postgresql://130.15.0.89/statistiques";
             String user = "java_user";
             String passwd = "fasd";
 
@@ -44,6 +45,7 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            displayError(e);
         }
         return array;
     }
@@ -121,7 +123,8 @@ public class Database {
         }
         String sql = "SELECT * " +
                 "FROM secteurs " +
-                "WHERE antenne = '" + centre + "'";
+                "WHERE antenne = '" + centre + "'" +
+                "ORDER BY secteur_name ASC ";
         try {
             Statement state = conn.createStatement();
             ResultSet result = state.executeQuery(sql);
@@ -135,13 +138,26 @@ public class Database {
         return answer;
     }
 
-    public String loadContingent38(String centre, String secteur, String periode, String annee) {
+    public String loadContingent38(String centre, String secteur, String periode, String annee, boolean checkboxState) {
         String sql;
         if (periode == "Année Complète") {
             periode = "Total";
         }
-        if (centre == "ASD") {
-            sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
+        if (checkboxState) {
+            sql = "SELECT annee, mois, indicateur, ROUND (CAST(SUM(valeur) AS numeric),2) AS valeur, antenne " +
+                    "FROM contingent " +
+                    "INNER JOIN secteurs " +
+                    "ON contingent.numero_secteur = secteurs.id " +
+                    "WHERE antenne = '" + centre + "'" +
+                    "AND mois = '" + periode + "'" +
+                    "AND annee = '" + annee + "'" +
+                    "AND indicateur IN ('Total Heures dispo par mois (Base 38)', " +
+                    "'Nbre H Absentéisme (code M) (Base 38)', " +
+                    "'Nbre H Prestées (code PR) (Base 38)', " +
+                    "'Ecart H Dispo et H prestées (Base 38)') " +
+                    "GROUP BY indicateur, antenne, annee, mois";
+        } else if (centre == "ASD") {
+            sql = "SELECT annee, mois, indicateur, ROUND(CAST(SUM(valeur) AS numeric),2) AS valeur, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -150,9 +166,10 @@ public class Database {
                     "AND indicateur IN ('Total Heures dispo par mois (Base 38)', " +
                     "'Nbre H Absentéisme (code M) (Base 38)', " +
                     "'Nbre H Prestées (code PR) (Base 38)', " +
-                    "'Ecart H Dispo et H prestées (Base 38)') ";
+                    "'Ecart H Dispo et H prestées (Base 38)') " +
+                    "GROUP BY annee, mois, indicateur, antenne";
         } else {
-            sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
+            sql = "SELECT annee, mois, indicateur, ROUND (CAST(valeur AS numeric),2) AS valeur, secteur_name, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -163,39 +180,6 @@ public class Database {
                     "'Nbre H Absentéisme (code M) (Base 38)', " +
                     "'Nbre H Prestées (code PR) (Base 38)', " +
                     "'Ecart H Dispo et H prestées (Base 38)') ";
-        }
-        return sql;
-    }
-
-    public String loadContingent40(String centre, String secteur, String periode, String annee) {
-        String sql;
-        if (periode == "Année Complète") {
-            periode = "Total";
-        }
-        if (centre == "ASD") {
-            sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
-                    "FROM contingent " +
-                    "INNER JOIN secteurs " +
-                    "ON contingent.numero_secteur = secteurs.id " +
-                    "WHERE mois = '" + periode + "'" +
-                    "AND annee = '" + annee + "'" +
-                    "AND indicateur IN ('Total Heures dispo par mois (Base 40)', " +
-                    "'Nbre H Absentéisme (code M) (Base 40)', " +
-                    "'Nbre H Prestées (code PR) (Base 40)', " +
-                    "'Ecart H Dispo et H prestées (Base 40)') ";
-        } else {
-            sql = "SELECT annee, mois, indicateur, valeur, secteur_name, antenne " +
-                    "FROM contingent " +
-                    "INNER JOIN secteurs " +
-                    "ON contingent.numero_secteur = secteurs.id " +
-                    "WHERE secteur_name = '" + secteur + "'" +
-                    "AND mois = '" + periode + "'" +
-                    "AND annee = '" + annee + "' " +
-                    "AND indicateur IN ('Total Heures dispo par mois (Base 40)', " +
-                    "'Nbre H Absentéisme (code M) (Base 40)', " +
-                    "'Nbre H Prestées (code PR) (Base 40)', " +
-                    "'Ecart H Dispo et H prestées (Base 40)') ";
-            ;
         }
         return sql;
     }
@@ -214,7 +198,9 @@ public class Database {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println(e + " - Erreur lors de la requête SQL");
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e + " - Erreur lors de l'écriture dans la BDD");
         }
         closeConnection();
@@ -239,6 +225,17 @@ public class Database {
         System.out.println("Connexion terminée.");
         System.out.println("---------------------------------- \n");
 
+    }
+
+    private void displayError(Exception e){
+        e.printStackTrace();
+        String e1 = e.toString();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(e1);
+        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+                "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - displayFormatException()");
+        alert.showAndWait();
     }
 
 }

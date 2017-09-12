@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -22,8 +24,16 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="tableView" fixedCellSize="30.0" prefHeight="385.0" prefWidth="600.0" tableMenuButtonVisible="true" />
-            <TableView fx:id="tableView2" fixedCellSize="30.0" layoutX="649.0" prefHeight="385.0" prefWidth="600.0" tableMenuButtonVisible="true" />
+            <TableView fx:id="tableView" fixedCellSize="30.0" layoutX="14.0" layoutY="87.0" prefHeight="243.0" prefWidth="610.0" tableMenuButtonVisible="true" />
+            <TableView fx:id="tableView2" fixedCellSize="30.0" layoutX="636.0" layoutY="87.0" prefHeight="243.0" prefWidth="600.0" tableMenuButtonVisible="true" />
+            <Label fx:id="yearLabel1" layoutX="292.0" layoutY="38.0" text="Label" visible="false">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="yearLabel2" layoutX="936.0" layoutY="38.0" text="Label" visible="false">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pane1" layoutX="1018.0" layoutY="37.0" prefHeight="267.0" prefWidth="200.0" style="-fx-background-color: WHITE;">
@@ -40,10 +50,11 @@
             <DropShadow />
          </effect>
       </AnchorPane>
-      <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="56.0" layoutY="155.0" prefHeight="32.0" prefWidth="90.0" styleClass="close-button" stylesheets="@../../CSS/NormalSkin.css" text="◄ Retour" textFill="WHITE" />
+      <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="56.0" layoutY="37.0" prefHeight="32.0" prefWidth="90.0" styleClass="close-button" stylesheets="@../../CSS/NormalSkin.css" text="◄ Retour" textFill="WHITE" />
       <AnchorPane fx:id="maskPane" layoutX="1.0" opacity="0.1" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
       <AnchorPane fx:id="pane0" layoutX="191.0" layoutY="37.0" prefHeight="267.0" prefWidth="745.0" style="-fx-background-color: WHITE;">
          <children>
+            <JFXCheckBox fx:id="antenneCheckbox" layoutX="97.0" layoutY="99.0" onAction="#displaySecteurs" />
             <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="45.0" onAction="#displaySecteurs" prefHeight="22.0" prefWidth="194.0" promptText="Centre" unFocusColor="#00707e" />
             <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="95.0" prefHeight="22.0" prefWidth="194.0" promptText="Selectionnez un centre" unFocusColor="#00707e" />
             <JFXButton fx:id="generateButton" buttonType="RAISED" layoutX="195.0" layoutY="197.0" onAction="#displayTable" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="@../../CSS/NormalSkin.css" text="G" textFill="WHITE" />

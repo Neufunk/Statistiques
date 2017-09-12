@@ -113,7 +113,7 @@ public class Indicateur {
                 withGraphic = false;
                 break;
             case "Facturation par Visite":
-                masterRow = 1;
+                masterRow = 59;
                 rowA = 59;
                 rowB = 60;
                 rowC = 61;

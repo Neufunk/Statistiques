@@ -5,6 +5,7 @@ import com.Effects;
 import com.Main;
 import com.PatchNote;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,9 +17,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -26,6 +26,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.awt.*;
 import java.io.File;
@@ -74,6 +75,12 @@ public class ControllerContingent implements Initializable {
     private JFXToggleButton toggleButton;
     @FXML
     private JFXToggleButton toggleButton1;
+    @FXML
+    private Label yearLabel1;
+    @FXML
+    private Label yearLabel2;
+    @FXML
+    private JFXCheckBox antenneCheckbox;
 
     AVJ.Data data = new AVJ.Data();
     static public Stage workerStage = new Stage();
@@ -112,15 +119,30 @@ public class ControllerContingent implements Initializable {
         if (comboCentre.getValue() == "ASD") {
             comboSecteur.setPromptText("Province entière");
             comboSecteur.setDisable(true);
-        } else {
+            antenneCheckbox.setDisable(true);
+            antenneCheckbox.setSelected(false);
+        } else if (antenneCheckbox.isSelected()) {
+            comboSecteur.setDisable(true);
+            comboSecteur.getSelectionModel().clearSelection();
+            comboSecteur.setPromptText("Secteur entier");
+        }else{
             comboSecteur.setPromptText("Secteurs");
             comboSecteur.setDisable(false);
+            antenneCheckbox.setDisable(false);
         }
         database.connect();
         if (comboCentre.getValue() != null) {
             comboSecteur.setItems(database.loadSectorsToCombo(comboCentre.getValue().toString()));
         }
         database.closeConnection();
+    }
+
+    public boolean getCheckboxState(){
+        if (antenneCheckbox.isSelected()){
+            return true;
+        }else{
+            return  false;
+        }
     }
 
     private void onWorkerButtonClick() {
@@ -145,6 +167,7 @@ public class ControllerContingent implements Initializable {
             workerStage.initModality(Modality.APPLICATION_MODAL);
         } catch (IOException e1) {
             e1.printStackTrace();
+            displayError(e1);
         }
     }
 
@@ -186,7 +209,6 @@ public class ControllerContingent implements Initializable {
         });
     }
 
-
     private void onBackButtonClick() {
         backButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
             Stage stage = Main.getPrimaryStage();
@@ -210,11 +232,26 @@ public class ControllerContingent implements Initializable {
         }
     }
 
+    public void displayYearLabel() {
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        yearLabel1.setVisible(true);
+        yearLabel2.setVisible(true);
+        yearLabel1.setText(String.valueOf(year - 1));
+        yearLabel2.setText(String.valueOf(year - 2));
+        if (toggleButton.isSelected()) {
+            yearLabel1.setText(String.valueOf(year));
+            yearLabel2.setText(String.valueOf(year - 1));
+        }
+    }
+
     public void displayTable() {
         tableView.getColumns().clear();
         tableView2.getColumns().clear();
+        displayYearLabel();
         observableList = FXCollections.observableArrayList();
         observableList2 = FXCollections.observableArrayList();
+        observableList.clear();
         observableList2.clear();
         try {
             Connection c = database.connect();
@@ -225,8 +262,8 @@ public class ControllerContingent implements Initializable {
             }
             String periode = comboPeriode.getValue().toString();
             String year = getCurrentYear();
-            //BASE 38
-            String sql = database.loadContingent38(centre, secteur, periode, year);
+            // CURRENT YEAR TABLE
+            String sql = database.loadContingent38(centre, secteur, periode, year, getCheckboxState());
             ResultSet rs = c.createStatement().executeQuery(sql);
 
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
@@ -251,8 +288,14 @@ public class ControllerContingent implements Initializable {
                 System.out.println("Row [1] ajoutée " + row);
                 observableList.add(row);
             }
-            // BASE 40
-            String sql2 = database.loadContingent40(centre, secteur, periode, year);
+            // LAST YEAR TABLE
+            Calendar now = Calendar.getInstance();
+            int currentYear = now.get(Calendar.YEAR);
+            String lastYear = String.valueOf(currentYear - 1);
+            if (toggleButton.isSelected()) {
+                lastYear = String.valueOf(currentYear - 2);
+            }
+            String sql2 = database.loadContingent38(centre, secteur, periode, lastYear, getCheckboxState());
             ResultSet rs2 = c.createStatement().executeQuery(sql2);
 
             for (int i = 0; i < rs2.getMetaData().getColumnCount(); i++) {
@@ -277,16 +320,26 @@ public class ControllerContingent implements Initializable {
                 System.out.println("Row [1] ajoutée " + row);
                 observableList2.add(row);
             }
-
             tableView.setItems(observableList);
             tableView2.setItems(observableList2);
             database.closeConnection();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Erreur lors de la construction des données");
-
+            displayError(e);
         }
     }
+
+    private void displayError(Exception e){
+            e.printStackTrace();
+            String e1 = e.toString();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(e1);
+            alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+                    "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString());
+            alert.showAndWait();
+        }
 
     //Menu bar
     public void showPatchnote() {

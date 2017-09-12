@@ -46,7 +46,7 @@ public class IteratorExcel extends ControllerContingent {
             "Ecart H Dispo et H prestées (Base 40)", "Ecart H Dispo et H prestées (Base 38)"};
 
     String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
-            "Septembre", "Octobre", "Novembre", "Décembre", "Année Complète"};
+            "Septembre", "Octobre", "Novembre", "Décembre", "Total"};
 
 
     public void startIteration(String path, String year, String firstName, String secteur) {

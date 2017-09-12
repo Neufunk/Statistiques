@@ -180,7 +180,6 @@ public class IteratorExcel {
             contentCellE = cellE.getNumericCellValue();
             contentTitleCellE = titleCellE.getStringCellValue();
         }
-
     }
 
     public double getContentMasterCell() {
