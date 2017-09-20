@@ -80,6 +80,7 @@ public class Indicateur {
                 rowB = 39;
                 rowC = 40;
                 withGraphic = false;
+                withLineGraphic = false;
                 break;
             case "Visites par mutualité":
                 masterRow = 19;
@@ -165,7 +166,7 @@ public class Indicateur {
                 rowA = 79;
                 rowB = 80;
                 withGraphic = false;
-                withLineGraphic = false; //TODO : Finir le withLineGraphic False
+                withLineGraphic = false;
                 break;
             case "Patients par mutualité":
                 masterRow = 1;

@@ -1,5 +1,6 @@
 package AVJ;
 
+import RingProgressIndicator.RingProgressIndicator;
 import SoinsInfirmiers.Data;
 import com.Effects;
 import com.Main;
@@ -8,10 +9,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,11 +27,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.awt.*;
 import java.io.File;
@@ -42,31 +48,15 @@ import java.util.ResourceBundle;
 public class ControllerContingent implements Initializable {
 
     @FXML
-    private AnchorPane mainPane;
-    @FXML
-    private AnchorPane pane0;
-    @FXML
     private JFXComboBox comboCentre;
     @FXML
     private JFXComboBox comboSecteur;
     @FXML
     private JFXComboBox comboPeriode;
     @FXML
-    private JFXButton generateButton;
-    @FXML
-    private AnchorPane pane1;
-    @FXML
-    private JFXButton updateButton;
-    @FXML
     private JFXButton backButton;
     @FXML
-    private JFXButton travailleurButton;
-    @FXML
     AnchorPane maskPane;
-    @FXML
-    private ListView<String> listView1;
-    @FXML
-    private ListView<?> listView2;
     @FXML
     private TableView<ObservableList> tableView;
     @FXML
@@ -83,17 +73,18 @@ public class ControllerContingent implements Initializable {
     private JFXCheckBox antenneCheckbox;
 
     AVJ.Data data = new AVJ.Data();
-    static public Stage workerStage = new Stage();
-    Effects effects = new Effects();
     Database database = new Database();
+    public static Stage progressStage = new Stage();
     private ObservableList<ObservableList> observableList;
     private ObservableList<ObservableList> observableList2;
+    RingProgressIndicator ringProgressIndicator = new RingProgressIndicator();
+
+    int progress = 0;
+    boolean endJob = false;
 
     public void initialize(URL location, ResourceBundle resources) {
         initializeCombo();
-        onWorkerButtonClick();
         onBackButtonClick();
-        onUpdateButtonClick();
         toggleButtonListener();
         toggleButtonDirectriceListener();
     }
@@ -125,7 +116,7 @@ public class ControllerContingent implements Initializable {
             comboSecteur.setDisable(true);
             comboSecteur.getSelectionModel().clearSelection();
             comboSecteur.setPromptText("Secteur entier");
-        }else{
+        } else {
             comboSecteur.setPromptText("Secteurs");
             comboSecteur.setDisable(false);
             antenneCheckbox.setDisable(false);
@@ -137,83 +128,84 @@ public class ControllerContingent implements Initializable {
         database.closeConnection();
     }
 
-    public boolean getCheckboxState(){
-        if (antenneCheckbox.isSelected()){
+    public boolean getCheckboxState() {
+        if (antenneCheckbox.isSelected()) {
             return true;
-        }else{
-            return  false;
+        } else {
+            return false;
         }
     }
 
-    private void onWorkerButtonClick() {
-        travailleurButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-            effects.setFadeTransition(maskPane, 600, 0, 0.15);
-            effects.setBoxBlur(mainPane);
-            maskPane.setVisible(true);
-            buildWorkerWindow();
-            workerStage.showAndWait();
-            mainPane.setEffect(null);
-            maskPane.setVisible(false);
-        });
-    }
+    public void onUpdateButtonClick() {
+        IteratorExcel iteratorExcel = new IteratorExcel();
+        buildProgressWindow();
+        endJob = false;
+        new WorkerThread(ringProgressIndicator).start();
 
-    private void buildWorkerWindow() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/WorkersAVJ.fxml"));
-            workerStage.setScene(new Scene(root));
-            workerStage.setTitle(AVJ.Data.pageTitle1);
-            workerStage.initStyle(StageStyle.UNDECORATED); //TODO : Résoudre bug avec la décoration de la fenêtre une fois fermée puis réouverte
-            workerStage.initOwner(Main.getPrimaryStage());
-            workerStage.initModality(Modality.APPLICATION_MODAL);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-            displayError(e1);
-        }
-    }
-
-    private void onUpdateButtonClick() {
-        updateButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-            IteratorExcel iteratorExcel = new IteratorExcel();
-            String sql = "SELECT * FROM travailleurs " +
-                    "INNER JOIN secteurs " +
-                    "ON travailleurs.id = secteurs.worker_id ";
-            Connection conn = database.connect();
-            try {
-                Statement statement = conn.createStatement();
-                ResultSet rs = statement.executeQuery(sql);
-                while (rs.next()) {
-                    String name = rs.getString("prenom");
-                    String sect = rs.getString("secteur_name");
-                    String centre = rs.getString("antenne");
-                    String namPath = "";
-                    String philPath = "";
-                    if (toggleButton1.isSelected()) {
-                        namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                        philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                    } else {
-                        namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                        philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+        final Service<Void> calculateService = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        String sql = "SELECT * FROM travailleurs " +
+                                "INNER JOIN secteurs " +
+                                "ON travailleurs.id = secteurs.worker_id ";
+                        Connection conn = database.connect();
+                        try {
+                            Statement statement = conn.createStatement();
+                            ResultSet rs = statement.executeQuery(sql);
+                            while (rs.next()) {
+                                progress += 5;
+                                String name = rs.getString("prenom");
+                                String sect = rs.getString("secteur_name");
+                                String centre = rs.getString("antenne");
+                                String namPath = "";
+                                String philPath = "";
+                                if (toggleButton1.isSelected()) {
+                                    namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                    philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                } else {
+                                    namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                    philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                }
+                                switch (centre) {
+                                    case "Namur":
+                                        iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect);
+                                        break;
+                                    case "Philippeville":
+                                        iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect);
+                                        break;
+                                }
+                            }
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                            displayError(e1);
+                        }
+                        progressStage.close();
+                        endJob = true;
+                        return null;
                     }
-                    switch (centre) {
-                        case "Namur":
-                            iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect);
-                            break;
-                        case "Philippeville":
-                            iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect);
-                            break;
-                    }
-                }
-            } catch (SQLException e1) {
-                e1.printStackTrace();
+                };
+            }
+        };
+        calculateService.stateProperty().addListener((ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue, Worker.State newValue) -> {
+            switch (newValue) {
+                case FAILED:
+                case CANCELLED:
+                case SUCCEEDED:
+                    break;
             }
         });
+        calculateService.start();
     }
+
 
     private void onBackButtonClick() {
         backButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
             Stage stage = Main.getPrimaryStage();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/HomePage.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/HomePage.fxml"));
                 stage.setScene(new Scene(root));
                 stage.setTitle(AVJ.Data.homePageTitle);
             } catch (IOException e1) {
@@ -232,7 +224,7 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    public void displayYearLabel() {
+    private void displayYearLabel() {
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
         yearLabel1.setVisible(true);
@@ -245,7 +237,15 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    public void displayTable() {
+    public void onGenerateButtonClick() {
+        if (!checkEmpty()) {
+            return;
+        } else {
+            displayTable();
+        }
+    }
+
+    private void displayTable() {
         tableView.getColumns().clear();
         tableView2.getColumns().clear();
         displayYearLabel();
@@ -330,16 +330,89 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    private void displayError(Exception e){
-            e.printStackTrace();
-            String e1 = e.toString();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(e1);
-            alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
-                    "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString());
-            alert.showAndWait();
+    private boolean checkEmpty() {
+        if (comboCentre.getValue() == null) {
+            showEmptyDialog("un centre");
+            return false;
+        } else if (!antenneCheckbox.isSelected() && comboSecteur.getValue() == null && comboCentre.getValue() != "ASD") {
+            showEmptyDialog("un secteur");
+            return false;
+        } else if (comboPeriode.getValue() == null) {
+            showEmptyDialog("une période");
+            return false;
+        } else {
+            return true;
         }
+    }
+
+    private void showEmptyDialog(String string) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("NullPointerException");
+        alert.setHeaderText("Veuillez sélectionner " + string);
+        alert.setContentText("avoid NullPointerException");
+        alert.showAndWait();
+    }
+
+    private void displayError(Exception e) {
+        e.printStackTrace();
+        String e1 = e.toString();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(e1);
+        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+                "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString());
+        alert.showAndWait();
+    }
+
+    // Progress bar
+    private void buildProgressWindow() {
+        ringProgressIndicator.setRingWidth(400);
+        ringProgressIndicator.makeIndeterminate();
+        StackPane root = new StackPane();
+        root.getChildren().add(ringProgressIndicator);
+        Scene scene = new Scene(root, 300, 250, Color.TRANSPARENT);
+        scene.setFill(Color.TRANSPARENT);
+        progressStage.setScene(scene);
+        progressStage.initOwner(Main.getPrimaryStage());
+        progressStage.initModality(Modality.APPLICATION_MODAL);
+        progressStage.initStyle(StageStyle.TRANSPARENT);
+        progressStage.initStyle(StageStyle.UNDECORATED);
+        progressStage.show();
+    }
+
+    class WorkerThread extends Thread {
+        RingProgressIndicator rpi;
+
+        // int progress = 0;
+        public WorkerThread(RingProgressIndicator rpi) {
+            this.rpi = rpi;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    rpi.setProgress(progress);
+                });
+                // progress += 1;
+                if (progress > 100) {
+                    Platform.runLater(() -> {
+                        while (endJob = false) {
+                            ringProgressIndicator.makeIndeterminate();
+                        }
+                        progressStage.close();
+                    });
+                    break;
+                }
+            }
+        }
+
+    }
 
     //Menu bar
     public void showPatchnote() {
@@ -348,7 +421,7 @@ public class ControllerContingent implements Initializable {
     }
 
     public void changeLogs() {
-        File file = new File("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\txt\\Changelog.txt");
+        File file = new File("/resources/txt/Changelog.txt");
         if (!Desktop.isDesktopSupported()) {
             System.out.println("OS non supporté");
             return;
@@ -364,7 +437,7 @@ public class ControllerContingent implements Initializable {
     public void openIndicateursPage() {
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/StatistiquesSI.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/StatistiquesSI.fxml"));
             stage.setScene(new Scene(root));
             stage.setTitle(Data.pageTitle0);
         } catch (IOException e1) {
@@ -375,7 +448,7 @@ public class ControllerContingent implements Initializable {
     public void openComparaisonPage() {
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/TableauxAnnuels.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/TableauxAnnuels.fxml"));
             stage.setScene(new Scene(root));
             stage.setTitle(Data.pageTitle1);
         } catch (IOException e1) {
@@ -386,7 +459,7 @@ public class ControllerContingent implements Initializable {
     public void openSettingsPage() {
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/SettingsSI.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/SettingsSI.fxml"));
             stage.setScene(new Scene(root));
             stage.setTitle(Data.pageTitle2);
         } catch (IOException e1) {
@@ -397,7 +470,7 @@ public class ControllerContingent implements Initializable {
     public void openContingentPage() {
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/Contingent.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/Contingent.fxml"));
             stage.setScene(new Scene(root));
             stage.setTitle(AVJ.Data.pageTitle0);
         } catch (IOException e1) {
@@ -408,7 +481,7 @@ public class ControllerContingent implements Initializable {
     public void openASDB() {
         Stage stage = new Stage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../com/FXML/ASDB.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/ASDB.fxml"));
             stage.setScene(new Scene(root));
             stage.setTitle(AVJ.Data.asdbTitle);
             stage.show();

@@ -34,11 +34,11 @@ public class Database {
         return conn;
     }
 
-    public ObservableList loadColumnToCombo(String table, String column) {
+    public ObservableList loadColumnToCombo(String table, String column, String orderBy) {
         ObservableList<String> array = FXCollections.observableArrayList();
         try {
             state = conn.createStatement();
-            result = state.executeQuery("SELECT " + column + " FROM " + table);
+            result = state.executeQuery("SELECT " + column + " FROM " + table + " ORDER BY " + orderBy);
             while (result.next()) {
                 String answer = result.getString(column);
                 array.add(answer);
@@ -50,75 +50,9 @@ public class Database {
         return array;
     }
 
-    public String loadWorkerName(String secteur) {
-        String answer = "";
-        String query = "SELECT * " +
-                "FROM travailleurs " +
-                "INNER JOIN secteurs " +
-                "ON travailleurs.id = secteurs.worker_id " +
-                "WHERE secteur_name = '" + secteur + "'";
-        try {
-            Statement state = conn.createStatement();
-            ResultSet result = state.executeQuery(query);
-            while (result.next()) {
-                answer = result.getString("prenom") + " " + result.getString("nom");
-            }
-            result.close();
-            state.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return answer;
-    }
-
-    public String loadPathName(String secteur) {
-        String prenom = "";
-        String query = "SELECT * " +
-                "FROM travailleurs " +
-                "INNER JOIN secteurs " +
-                "ON travailleurs.id = secteurs.worker_id " +
-                "WHERE secteur_name = '" + secteur + "'";
-        try {
-            Statement state = conn.createStatement();
-            ResultSet result = state.executeQuery(query);
-            while (result.next()) {
-                prenom = result.getString("prenom");
-            }
-            result.close();
-            state.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return prenom;
-    }
-
-    public String loadPathSecteur(String secteur) {
-        String sect = "";
-        String query = "SELECT * " +
-                "FROM travailleurs " +
-                "INNER JOIN secteurs " +
-                "ON travailleurs.id = secteurs.worker_id " +
-                "WHERE secteur_name = '" + secteur + "'";
-        try {
-            Statement state = conn.createStatement();
-            ResultSet result = state.executeQuery(query);
-            while (result.next()) {
-                sect = result.getString("secteur");
-            }
-            result.close();
-            state.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return sect;
-    }
-
-    public ObservableList loadSectorsToCombo(String centre) {
+    public ObservableList<String> loadSectorsToCombo(String centre) {
         ObservableList<String> answer = FXCollections.observableArrayList();
-        if (centre == "ASD") {
+        if (centre.equals("ASD")) {
             centre = "Namur, Philippeville";
         }
         String sql = "SELECT * " +
@@ -144,7 +78,7 @@ public class Database {
             periode = "Total";
         }
         if (checkboxState) {
-            sql = "SELECT annee, mois, indicateur, ROUND (CAST(SUM(valeur) AS numeric),2) AS valeur, antenne " +
+            sql = "SELECT annee, mois, indicateur, CAST(ROUND(SUM(valeur),2)AS money) AS valeur, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -157,7 +91,7 @@ public class Database {
                     "'Ecart H Dispo et H prestées (Base 38)') " +
                     "GROUP BY indicateur, antenne, annee, mois";
         } else if (centre == "ASD") {
-            sql = "SELECT annee, mois, indicateur, ROUND(CAST(SUM(valeur) AS numeric),2) AS valeur, antenne " +
+            sql = "SELECT annee, mois, indicateur, CAST(ROUND(SUM(valeur),2)AS money) AS valeur, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -167,9 +101,10 @@ public class Database {
                     "'Nbre H Absentéisme (code M) (Base 38)', " +
                     "'Nbre H Prestées (code PR) (Base 38)', " +
                     "'Ecart H Dispo et H prestées (Base 38)') " +
-                    "GROUP BY annee, mois, indicateur, antenne";
+                    "GROUP BY annee, mois, indicateur, antenne " +
+                    "ORDER BY antenne";
         } else {
-            sql = "SELECT annee, mois, indicateur, ROUND (CAST(valeur AS numeric),2) AS valeur, secteur_name, antenne " +
+            sql = "SELECT annee, mois, indicateur, CAST(ROUND(SUM(valeur),2)AS money) AS valeur, secteur_name, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -179,7 +114,8 @@ public class Database {
                     "AND indicateur IN ('Total Heures dispo par mois (Base 38)', " +
                     "'Nbre H Absentéisme (code M) (Base 38)', " +
                     "'Nbre H Prestées (code PR) (Base 38)', " +
-                    "'Ecart H Dispo et H prestées (Base 38)') ";
+                    "'Ecart H Dispo et H prestées (Base 38)') " +
+                    "GROUP BY annee, mois, indicateur, antenne, secteur_name ";
         }
         return sql;
     }
@@ -227,7 +163,7 @@ public class Database {
 
     }
 
-    private void displayError(Exception e){
+    private void displayError(Exception e) {
         e.printStackTrace();
         String e1 = e.toString();
         Alert alert = new Alert(Alert.AlertType.ERROR);
