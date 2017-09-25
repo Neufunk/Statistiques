@@ -5,7 +5,6 @@ import SoinsInfirmiers.Data;
 import com.Effects;
 import com.Main;
 import com.PatchNote;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
@@ -20,13 +19,19 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -54,9 +59,9 @@ public class ControllerContingent implements Initializable {
     @FXML
     private JFXComboBox comboPeriode;
     @FXML
-    private JFXButton backButton;
+    private AnchorPane mainPane;
     @FXML
-    AnchorPane maskPane;
+    public AnchorPane maskPane;
     @FXML
     private TableView<ObservableList> tableView;
     @FXML
@@ -74,19 +79,28 @@ public class ControllerContingent implements Initializable {
 
     AVJ.Data data = new AVJ.Data();
     Database database = new Database();
+    Effects fx = new Effects();
     public static Stage progressStage = new Stage();
     private ObservableList<ObservableList> observableList;
     private ObservableList<ObservableList> observableList2;
     RingProgressIndicator ringProgressIndicator = new RingProgressIndicator();
-
-    int progress = 0;
-    boolean endJob = false;
+    private volatile boolean runningThreadFlag = true;
+    Worker.State newValue;
+    static int progress = 0;
+    String secteurLabel = "Initialisation...";
+    public static TextField textField = new TextField();
+    public static TextArea shellTextArea = new TextArea();
+    Stage eventShell = new Stage();
+    Button cancelButton = new Button("Annuler");
 
     public void initialize(URL location, ResourceBundle resources) {
         initializeCombo();
-        onBackButtonClick();
+        onCancelButtonClick();
         toggleButtonListener();
         toggleButtonDirectriceListener();
+        if (progressStage.getOwner() != Main.getPrimaryStage()){
+            progressWindowProperties();
+        }
     }
 
     private void initializeCombo() {
@@ -128,90 +142,101 @@ public class ControllerContingent implements Initializable {
         database.closeConnection();
     }
 
-    public boolean getCheckboxState() {
+    private boolean getCheckboxState() {
         if (antenneCheckbox.isSelected()) {
             return true;
-        } else {
-            return false;
-        }
+        } else return false;
     }
 
     public void onUpdateButtonClick() {
-        IteratorExcel iteratorExcel = new IteratorExcel();
         buildProgressWindow();
-        endJob = false;
         new WorkerThread(ringProgressIndicator).start();
+        startUpdate();
+    }
 
+    public void startUpdate(){
+        runningThreadFlag = true;
+        IteratorExcel iteratorExcel = new IteratorExcel();
         final Service<Void> calculateService = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        String sql = "SELECT * FROM travailleurs " +
-                                "INNER JOIN secteurs " +
-                                "ON travailleurs.id = secteurs.worker_id ";
-                        Connection conn = database.connect();
-                        try {
-                            Statement statement = conn.createStatement();
-                            ResultSet rs = statement.executeQuery(sql);
-                            while (rs.next()) {
-                                progress += 5;
-                                String name = rs.getString("prenom");
-                                String sect = rs.getString("secteur_name");
-                                String centre = rs.getString("antenne");
-                                String namPath = "";
-                                String philPath = "";
-                                if (toggleButton1.isSelected()) {
-                                    namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                    philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                } else {
-                                    namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                    philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                }
-                                switch (centre) {
-                                    case "Namur":
-                                        iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect);
-                                        break;
-                                    case "Philippeville":
-                                        iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect);
-                                        break;
-                                }
+                            String sql = "SELECT * FROM travailleurs " +
+                                    "INNER JOIN secteurs " +
+                                    "ON travailleurs.id = secteurs.worker_id ";
+                            Connection connection = database.connect();
+                            try {
+                                Statement statement = connection.createStatement();
+                                ResultSet rs = statement.executeQuery(sql);
+                                    while (rs.next()) {
+                                        if (!runningThreadFlag) {
+                                            newValue = State.CANCELLED;
+                                            break;
+                                        } else {
+                                            progress += 1;
+                                            String name = rs.getString("prenom");
+                                            String sect = rs.getString("secteur_name");
+                                            String centre = rs.getString("antenne");
+                                            String namPath;
+                                            String philPath;
+                                            if (toggleButton1.isSelected()) {
+                                                namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                                philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                            } else {
+                                                namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                                philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                            }
+                                            switch (centre) {
+                                                case "Namur":
+                                                    iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect, connection);
+                                                    break;
+                                                case "Philippeville":
+                                                    iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect, connection);
+                                                    break;
+                                            }
+                                            progress += 1;
+                                        }
+                                    }
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                                displayError(e1);
                             }
-                        } catch (SQLException e1) {
-                            e1.printStackTrace();
-                            displayError(e1);
-                        }
-                        progressStage.close();
-                        endJob = true;
                         return null;
                     }
                 };
             }
         };
-        calculateService.stateProperty().addListener((ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue, Worker.State newValue) -> {
+        calculateService.stateProperty().addListener((ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue,Worker.State newValue) -> {
+            this.newValue = newValue;
             switch (newValue) {
                 case FAILED:
+                    closeProgressWindow();
+                    database.closeConnection();
+                    System.out.println("FAILED");
                 case CANCELLED:
+                    closeProgressWindow();
+                    database.closeConnection();
+                    System.out.println("CANCELLED");
                 case SUCCEEDED:
+                    closeProgressWindow();
+                    database.closeConnection();
+                    eventShell.setTitle("EventShell - Updated");
+                    updateFinishedAlert();
+                    System.out.println("SUCCEEDED");
                     break;
             }
         });
         calculateService.start();
     }
 
-
-    private void onBackButtonClick() {
-        backButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-            Stage stage = Main.getPrimaryStage();
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/HomePage.fxml"));
-                stage.setScene(new Scene(root));
-                stage.setTitle(AVJ.Data.homePageTitle);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        });
+    private void updateFinishedAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Mise à jour terminée");
+        alert.setHeaderText("La base de donnée a bien été mise à jour");
+        alert.setContentText("");
+        alert.showAndWait();
     }
 
     private String getCurrentYear() {
@@ -239,7 +264,6 @@ public class ControllerContingent implements Initializable {
 
     public void onGenerateButtonClick() {
         if (!checkEmpty()) {
-            return;
         } else {
             displayTable();
         }
@@ -364,20 +388,82 @@ public class ControllerContingent implements Initializable {
         alert.showAndWait();
     }
 
-    // Progress bar
-    private void buildProgressWindow() {
-        ringProgressIndicator.setRingWidth(400);
-        ringProgressIndicator.makeIndeterminate();
-        StackPane root = new StackPane();
-        root.getChildren().add(ringProgressIndicator);
-        Scene scene = new Scene(root, 300, 250, Color.TRANSPARENT);
-        scene.setFill(Color.TRANSPARENT);
-        progressStage.setScene(scene);
+    /* Progress bar */
+    private void progressWindowProperties(){
         progressStage.initOwner(Main.getPrimaryStage());
         progressStage.initModality(Modality.APPLICATION_MODAL);
-        progressStage.initStyle(StageStyle.TRANSPARENT);
         progressStage.initStyle(StageStyle.UNDECORATED);
+        progressStage.initStyle(StageStyle.TRANSPARENT);
+        progressStage.setOpacity(0.95);
+        progressStage.setWidth(380);
+        progressStage.setHeight(300);
+        progressStage.setX(Main.getPrimaryStage().getX() + Main.getPrimaryStage().getWidth() / 2 - progressStage.getWidth() / 2);
+        progressStage.setY(Main.getPrimaryStage().getY() + Main.getPrimaryStage().getHeight() / 2 - progressStage.getHeight() / 2);
+    }
+
+    private void buildProgressWindow() {
+        StackPane stackPane = new StackPane();
+        HBox hBoxTop = new HBox(10);
+        HBox hBoxBottom = new HBox(10);
+        Scene scene = new Scene(stackPane);
+
+        scene.setFill(Color.TRANSPARENT);
+
+        ringProgressIndicator.setRingWidth(400);
+        ringProgressIndicator.makeIndeterminate();
+
+        stackPane.setPadding(new Insets(0, 0, 30, 0));
+        stackPane.setStyle("" +
+                "-fx-background-radius: 20; " +
+                "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,1) , 5, 0.0 , 0 , 1 ); " +
+                "-fx-background-insets: 12;");
+        stackPane.getChildren().add(ringProgressIndicator);
+        stackPane.getChildren().add(hBoxTop);
+        stackPane.getChildren().add(hBoxBottom);
+
+        hBoxTop.setAlignment(Pos.TOP_CENTER);
+        textField.setText(secteurLabel);
+        textField.setMinWidth(150);
+        hBoxTop.getChildren().add(textField);
+        hBoxBottom.setAlignment(Pos.BOTTOM_CENTER);
+        hBoxBottom.getChildren().add(cancelButton);
+
+        maskPane.setVisible(true);
+        fx.setFadeTransition(maskPane, 600, 0, 0.5);
+        fx.setBoxBlur(mainPane);
+
+        progressStage.setScene(scene);
         progressStage.show();
+        buildEventShell();
+    }
+
+    public void buildEventShell(){
+        StackPane stackPane = new StackPane();
+        Scene scene = new Scene(stackPane);
+
+        stackPane.getChildren().add(shellTextArea);
+        shellTextArea.setStyle("-fx-control-inner-background:#000000; -fx-highlight-fill: #00ff00; -fx-highlight-text-fill: #000000; -fx-text-fill: #ffffff; ");
+        shellTextArea.setEditable(false);
+
+        eventShell.setTitle("EventShell - Updating...");
+        eventShell.setX(Main.getPrimaryStage().getX() + Main.getPrimaryStage().getWidth() / 1 - eventShell.getWidth() / 2);
+        eventShell.setY(Main.getPrimaryStage().getY() + Main.getPrimaryStage().getHeight() / 1 - eventShell.getHeight() / 2);
+        eventShell.setScene(scene);
+        eventShell.setHeight(300);
+        eventShell.setWidth(500);
+        eventShell.show();
+    }
+
+    private void onCancelButtonClick(){
+        cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            runningThreadFlag = false;
+        });
+    }
+
+    private void closeProgressWindow(){
+        fx.unsetBoxBlur(mainPane);
+        maskPane.setVisible(false);
+        progressStage.close();
     }
 
     class WorkerThread extends Thread {
@@ -392,20 +478,16 @@ public class ControllerContingent implements Initializable {
         public void run() {
             while (true) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(3500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 Platform.runLater(() -> {
                     rpi.setProgress(progress);
                 });
-                // progress += 1;
                 if (progress > 100) {
                     Platform.runLater(() -> {
-                        while (endJob = false) {
                             ringProgressIndicator.makeIndeterminate();
-                        }
-                        progressStage.close();
                     });
                     break;
                 }
@@ -414,7 +496,24 @@ public class ControllerContingent implements Initializable {
 
     }
 
-    //Menu bar
+    class ShellThread extends Thread {
+        public String commandLine;
+
+        public ShellThread() {
+        }
+
+        public void setCommandLine(String commandLine){
+            this.commandLine = commandLine;
+        }
+
+        @Override
+        public void run() {
+            shellTextArea.appendText(commandLine + "\n");
+        }
+
+    }
+
+    /* Menu bar */
     public void showPatchnote() {
         PatchNote pn = new PatchNote();
         pn.patchNote();
@@ -485,6 +584,17 @@ public class ControllerContingent implements Initializable {
             stage.setScene(new Scene(root));
             stage.setTitle(AVJ.Data.asdbTitle);
             stage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openHomepage() {
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/FXML/HomePage.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle(AVJ.Data.homePageTitle);
         } catch (IOException e1) {
             e1.printStackTrace();
         }

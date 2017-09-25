@@ -3,22 +3,25 @@ package AVJ;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
+import javafx.scene.paint.Color;
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Calendar;
 
 public class IteratorExcel extends ControllerContingent {
 
     Workbook workbook;
     Database database = new Database();
-    ControllerContingent controllerContingent = new ControllerContingent();
+    ShellThread shellThread = new ShellThread();
     String fileName = "";
     int j = 0;
     int k = 0;
+    int sectorCount = 0;
 
     String[] titleTab = {"B21", "B22", "B23", "B24", "B25", "B26", "B27", "B28"};
 
@@ -49,13 +52,14 @@ public class IteratorExcel extends ControllerContingent {
             "Septembre", "Octobre", "Novembre", "Décembre", "Total"};
 
 
-    public void startIteration(String path, String year, String firstName, String secteur) {
+    public void startIteration(String path, String year, String firstName, String secteur, Connection connection) {
+        progress+=1;
         switch (secteur) {
             case "Andenne":
                 fileName = "Secteur d'";
                 break;
             case "Eghezée":
-                fileName = "Secteur d' ";
+                fileName = "Secteur d'";
                 break;
             case "Volantes Namur":
                 fileName = "Secteur ";
@@ -66,6 +70,8 @@ public class IteratorExcel extends ControllerContingent {
             default:
                 fileName = "Secteur de ";
         }
+        secteurLabel = fileName+secteur;
+        textField.setText(secteurLabel);
         try {
             workbook = WorkbookFactory.create
                     (new File(path + year + "\\" + firstName + "\\" + fileName + secteur + ".xlsm"));
@@ -78,22 +84,34 @@ public class IteratorExcel extends ControllerContingent {
                 cellResult[i] = result;
             }
             for (int i = 0; i < cellResult.length; i++) {
-                if (j >= 8) {
+                if (j >= 8) {     // pour les 8 indicateurs
                     j = 0;
                     k++;
                 }
-                if (k >= 13) {
+                if (k >= 13) {    // pour les 13 périodes
                     k = 0;
                 }
-                database.updateContingent(indicateurs[j], cellResult[i], getCurrentYear(), mois[k], secteur);
-                System.out.println(fileName + secteur + " - " + mois[k] + " - " + indicateurs[j] + " : " + cellResult[i]);
+                database.updateContingent(indicateurs[j], cellResult[i], getCurrentYear(), mois[k], secteur, connection);
+                System.out.println("#" + sectorCount + ". " + fileName + secteur + " - " + mois[k] + " - " + indicateurs[j] + " : " + cellResult[i]);
                 j++;
             }
+            progress+=2;
+            sectorCount++;
+            shellThread.setCommandLine("#"+sectorCount+"/22 - "+ fileName+secteur + " - MIS À JOUR");
+            shellThread.run();
         } catch (InvalidFormatException e) {
-            displayFormatException(e);
+            // displayFormatException(e);
+            sectorCount++;
+            e.printStackTrace();
         } catch (IOException e) {
-            displayIOException(e);
+            // displayIOException(e);
+            sectorCount++;
+            shellThread.setCommandLine("!!! - #"+sectorCount+"/22 - "+ fileName+secteur + " - NON MIS À JOUR >>> " + e.getMessage());
+            shellThread.run();
+            e.printStackTrace();
+
         }
+
     }
 
     private int getCurrentYear() {

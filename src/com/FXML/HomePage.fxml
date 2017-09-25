@@ -110,7 +110,7 @@
             <Insets left="50.0" right="50.0" />
          </padding>
       </GridPane>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+      <BorderPane prefHeight="240.0" prefWidth="837.0" GridPane.rowIndex="2">
          <top>
             <MenuBar opacity="0.88" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
               <menus>
@@ -140,7 +140,7 @@
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="ASDB Engine" />
+                        <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Département SI">

@@ -2,7 +2,11 @@ package AVJ;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.sql.*;
 
@@ -120,12 +124,12 @@ public class Database {
         return sql;
     }
 
-    public void updateContingent(String indicateur, double valeur, int year, String mois, String secteur) {
+    public void updateContingent(String indicateur, double valeur, int year, String mois, String secteur, Connection connection) {
         try {
             String sql = "UPDATE contingent SET valeur = ? FROM secteurs " +
                     "WHERE indicateur = ? AND annee = ? AND numero_secteur = (SELECT secteurs.id FROM secteurs " +
                     "INNER JOIN contingent ON secteurs.id = contingent.numero_secteur WHERE secteur_name = ? LIMIT 1) AND mois = ?";
-            PreparedStatement preparedStatement = connect().prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setObject(1, valeur);
             preparedStatement.setObject(2, indicateur);
             preparedStatement.setObject(3, year);
@@ -139,7 +143,6 @@ public class Database {
             e.printStackTrace();
             System.out.println(e + " - Erreur lors de l'écriture dans la BDD");
         }
-        closeConnection();
     }
 
     public void closeConnection() {

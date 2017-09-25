@@ -43,9 +43,7 @@ public class ASDB implements Initializable {
     private ComboBox<String> workerTabWorkerCombo;
     @FXML
     private TextField workerTabCentreInput;
-
     // SECTOR TAB @FXML
-
     @FXML
     private ComboBox<String> sectorTabSectorCombo;
     @FXML
@@ -62,10 +60,11 @@ public class ASDB implements Initializable {
     private TextField sectorTabSectorInput;
     @FXML
     private TextField sectorTabCentreInput;
-
     // ISSUE TAB
     @FXML
-    private ComboBox<String> comboQuery;
+    private ComboBox<String> issueTabComboQuery;
+    @FXML
+    private TextArea issueTabTextAreaQuery;
 
 
     private ObservableList<ObservableList> data;
@@ -85,28 +84,29 @@ public class ASDB implements Initializable {
         workerTabWorkerCombo.setItems(workersList);
         sectorTabWorkerCombo.setItems(workersList);
 
-        comboQuery.setItems(dataList.queryList);
+        issueTabComboQuery.setItems(dataList.queryList);
+
+        database.closeConnection();
     }
 
-    // WORKER TAB
-
+    /* Worker Tab */
     public void searchBySecteursCombo(){
+        Connection conn = database.connect();
         workerTabWorkerCombo.getSelectionModel().clearSelection();
-        String sql = "SELECT *, secteurs.id AS sectorID " +
+        String sql = "SELECT *, travailleurs.id AS WorkerID " +
                 "FROM secteurs " +
                 "LEFT JOIN travailleurs " +
                 "ON secteurs.worker_id = travailleurs.id " +
                 "WHERE secteur_name ='"+workerTabSectorCombo.getValue().toString()+"' " +
                 "ORDER BY secteur_name ASC ";
-        Connection conn = database.connect();
         try {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
-                workerTabIdInput.setText(rs.getString("id"));
+                workerTabIdInput.setText(rs.getString("WorkerID"));
                 workerTabFirstNameInput.setText(rs.getString("prenom"));
                 workerTabLastNameInput.setText(rs.getString("nom"));
-                workerTabSectorIdInput.setText(rs.getString("sectorID"));;
+                workerTabSectorIdInput.setText(rs.getString("id"));;
                 workerTabCentreInput.setText(rs.getString("antenne"));
             }
         } catch (SQLException e) {
@@ -117,13 +117,13 @@ public class ASDB implements Initializable {
     }
 
     public void searchByWorkerCombo(){
+        Connection conn = database.connect();
         workerTabSectorCombo.getSelectionModel().clearSelection();
         String sql = "SELECT *, secteurs.id AS sectorID " +
                 "FROM travailleurs " +
                 "LEFT JOIN secteurs " +
                 "ON travailleurs.id = secteurs.worker_id " +
                 "WHERE nom ='"+ workerTabWorkerCombo.getValue()+"'";
-        Connection conn = database.connect();
         try {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
@@ -298,8 +298,7 @@ public class ASDB implements Initializable {
         clearFieldsWorkerTab();
     }
 
-    // SECTORS TAB
-
+    /* Sector TAB */
     public void searchBySecteursCombo2(){
         workerTabWorkerCombo.getSelectionModel().clearSelection();
         String sql = "SELECT *, secteurs.id AS sectorID " +
@@ -377,8 +376,7 @@ public class ASDB implements Initializable {
         clearFieldsWorkerTab();
     }
 
-    // TABLES TAB
-
+    /* Tables Tab */
     public void displayTable() {
         issueDataList.getColumns().clear();
         Connection c;
@@ -427,8 +425,7 @@ public class ASDB implements Initializable {
         issueDataList.getColumns().clear();
     }
 
-    // MENU BAR
-
+    /* Menu Bar */
     public void aboutWindow() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("ASDB Engine - 1.0");
@@ -438,8 +435,7 @@ public class ASDB implements Initializable {
         alert.show();
     }
 
-    // TAB
-
+    /* Switch Tab */
     public void switchToWorkersTab() {
         tabPane.getSelectionModel().select(0);
     }
@@ -460,6 +456,7 @@ public class ASDB implements Initializable {
         tabPane.getSelectionModel().select(4);
     }
 
+    /* ERRORS */
     private void displayError(Exception e) {
         e.printStackTrace();
         String e1 = e.toString();

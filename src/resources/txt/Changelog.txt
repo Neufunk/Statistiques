@@ -1,6 +1,13 @@
 ﻿CHANGELOG
 ---------
 
+changelog-0.2.3 = 25/09/2017
+  - Tabs "Travailleurs" et "Secteurs" fonctionnels dans l'ASDB
+  - Ajout d'une barre de chargement lors de la mise à jour de la DB Contingent
+  - Séparation des Threads graphiques et updates
+  - Ajout d'une fenêtre shell pour résumer les secteurs mis à jour
+  - Ajout du squelette XML pour le Tab "Issue" de l'ASDB
+
 changelog-0.2.2 = 11/09/2017
   - Ajouts et corrections au Contingent
   - Correction de bugs côté SI

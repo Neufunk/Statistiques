@@ -94,9 +94,9 @@
                 </VBox>
             </right>
             <center>
-                <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                <TabPane fx:id="tabPane" prefHeight="626.0" prefWidth="746.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                     <tabs>
-                  <Tab text="Travailleurs     ">
+                  <Tab closable="false" text="Travailleurs     ">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -224,7 +224,7 @@
                            </children></AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Secteurs     ">
+                  <Tab closable="false" text="Secteurs     ">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -352,8 +352,8 @@
                                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                             </HBox.margin>
                                              <children>
-                                                <ComboBox fx:id="comboQuery" prefWidth="150.0" />
-                                                <TextArea prefHeight="120.0" prefWidth="424.0" promptText="Enter QUERY here">
+                                                <ComboBox fx:id="issueTabComboQuery" prefWidth="150.0" promptText="QUERY Type" />
+                                                <TextArea fx:id="issueTabTextAreaQuery" prefHeight="120.0" prefWidth="424.0" promptText="Enter QUERY here">
                                                    <VBox.margin>
                                                       <Insets top="20.0" />
                                                    </VBox.margin>
@@ -442,7 +442,7 @@
                                     </children></AnchorPane>
                             </content>
                         </Tab>
-                  <Tab disable="true" text=" Settings    ">
+                  <Tab closable="false" disable="true" text=" Settings    ">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
