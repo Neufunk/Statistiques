@@ -47,8 +47,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+
+import static AVJ.IteratorExcel.getNonUpdated;
 
 public class ControllerContingent implements Initializable {
 
@@ -77,28 +80,25 @@ public class ControllerContingent implements Initializable {
     @FXML
     private JFXCheckBox antenneCheckbox;
 
-    AVJ.Data data = new AVJ.Data();
-    Database database = new Database();
-    Effects fx = new Effects();
-    public static Stage progressStage = new Stage();
-    private ObservableList<ObservableList> observableList;
-    private ObservableList<ObservableList> observableList2;
-    RingProgressIndicator ringProgressIndicator = new RingProgressIndicator();
+    private AVJ.Data data = new AVJ.Data();
+    private Database database = new Database();
+    private Effects fx = new Effects();
+    private static Stage progressStage = new Stage();
+    private RingProgressIndicator ringProgressIndicator = new RingProgressIndicator();
     private volatile boolean runningThreadFlag = true;
-    Worker.State newValue;
     static int progress = 0;
     String secteurLabel = "Initialisation...";
-    public static TextField textField = new TextField();
-    public static TextArea shellTextArea = new TextArea();
-    Stage eventShell = new Stage();
-    Button cancelButton = new Button("Annuler");
+    static TextField textField = new TextField();
+    private static TextArea shellTextArea = new TextArea();
+    private Stage eventShell = new Stage();
+    private Button cancelButton = new Button("Annuler");
 
     public void initialize(URL location, ResourceBundle resources) {
         initializeCombo();
         onCancelButtonClick();
         toggleButtonListener();
         toggleButtonDirectriceListener();
-        if (progressStage.getOwner() != Main.getPrimaryStage()){
+        if (progressStage.getOwner() != Main.getPrimaryStage()) {
             progressWindowProperties();
         }
     }
@@ -154,7 +154,7 @@ public class ControllerContingent implements Initializable {
         startUpdate();
     }
 
-    public void startUpdate(){
+    private void startUpdate() {
         runningThreadFlag = true;
         IteratorExcel iteratorExcel = new IteratorExcel();
         final Service<Void> calculateService = new Service<Void>() {
@@ -163,67 +163,74 @@ public class ControllerContingent implements Initializable {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                            String sql = "SELECT * FROM travailleurs " +
-                                    "INNER JOIN secteurs " +
-                                    "ON travailleurs.id = secteurs.worker_id ";
-                            Connection connection = database.connect();
-                            try {
-                                Statement statement = connection.createStatement();
-                                ResultSet rs = statement.executeQuery(sql);
-                                    while (rs.next()) {
-                                        if (!runningThreadFlag) {
-                                            newValue = State.CANCELLED;
-                                            break;
-                                        } else {
-                                            progress += 1;
-                                            String name = rs.getString("prenom");
-                                            String sect = rs.getString("secteur_name");
-                                            String centre = rs.getString("antenne");
-                                            String namPath;
-                                            String philPath;
-                                            if (toggleButton1.isSelected()) {
-                                                namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                                philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                            } else {
-                                                namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                                philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                            }
-                                            switch (centre) {
-                                                case "Namur":
-                                                    iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect, connection);
-                                                    break;
-                                                case "Philippeville":
-                                                    iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect, connection);
-                                                    break;
-                                            }
-                                            progress += 1;
-                                        }
+                        String sql = "SELECT * FROM travailleurs " +
+                                "INNER JOIN secteurs " +
+                                "ON travailleurs.id = secteurs.worker_id ";
+                        Connection connection = database.connect();
+                        try {
+                            Statement statement = connection.createStatement();
+                            ResultSet rs = statement.executeQuery(sql);
+                            while (rs.next()) {
+                                if (!runningThreadFlag) {
+                                    break;
+                                } else {
+                                    progress += 1;
+                                    String name = rs.getString("prenom");
+                                    String sect = rs.getString("secteur_name");
+                                    String centre = rs.getString("antenne");
+                                    String namPath;
+                                    String philPath;
+                                    if (toggleButton1.isSelected()) {
+                                        namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                        philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                    } else {
+                                        namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+                                        philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
                                     }
-                            } catch (SQLException e1) {
-                                e1.printStackTrace();
-                                displayError(e1);
+                                    switch (centre) {
+                                        case "Namur":
+                                            iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect, connection);
+                                            progress+=1;
+                                            break;
+                                        case "Philippeville":
+                                            iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect, connection);
+                                            progress+=1;
+                                            break;
+                                    }
+                                }
                             }
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                            shellTextArea.appendText(e1.getMessage());
+                            displayError(e1);
+                        }
                         return null;
                     }
                 };
             }
         };
-        calculateService.stateProperty().addListener((ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue,Worker.State newValue) -> {
-            this.newValue = newValue;
+        calculateService.stateProperty().addListener((ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue, Worker.State newValue) -> {
             switch (newValue) {
                 case FAILED:
                     closeProgressWindow();
                     database.closeConnection();
+                    eventShell.setTitle("EventShell - Failed");
+                    shellTextArea.appendText("FAILED");
                     System.out.println("FAILED");
+                    break;
                 case CANCELLED:
                     closeProgressWindow();
                     database.closeConnection();
+                    eventShell.setTitle("EventShell - Cancelled");
+                    shellTextArea.appendText("CANCELLED");
                     System.out.println("CANCELLED");
+                    break;
                 case SUCCEEDED:
                     closeProgressWindow();
                     database.closeConnection();
                     eventShell.setTitle("EventShell - Updated");
                     updateFinishedAlert();
+                    shellTextArea.appendText("SUCCEEDED");
                     System.out.println("SUCCEEDED");
                     break;
             }
@@ -231,12 +238,12 @@ public class ControllerContingent implements Initializable {
         calculateService.start();
     }
 
-    private void updateFinishedAlert(){
+    private void updateFinishedAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Mise à jour terminée");
-        alert.setHeaderText("La base de donnée a bien été mise à jour");
-        alert.setContentText("");
-        alert.showAndWait();
+        alert.setHeaderText("La mise à jour de la base de données s'est terminée sans erreur. \n Si des secteurs n'ont pas pu être mis à jour, ils apparaitront plus bas");
+        alert.setContentText(getNonUpdated());
+        alert.show();
     }
 
     private String getCurrentYear() {
@@ -273,10 +280,8 @@ public class ControllerContingent implements Initializable {
         tableView.getColumns().clear();
         tableView2.getColumns().clear();
         displayYearLabel();
-        observableList = FXCollections.observableArrayList();
-        observableList2 = FXCollections.observableArrayList();
-        observableList.clear();
-        observableList2.clear();
+        ObservableList<ObservableList> observableList = FXCollections.observableArrayList();
+        ObservableList<ObservableList> observableList2 = FXCollections.observableArrayList();
         try {
             Connection c = database.connect();
             String centre = comboCentre.getValue().toString();
@@ -294,11 +299,7 @@ public class ControllerContingent implements Initializable {
                 final int j = i;
                 TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
-                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                        return new SimpleStringProperty(param.getValue().get(j).toString());
-                    }
-                });
+                col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView.getColumns().addAll(col);
                 System.out.println("Column [" + i + "] ");
             }
@@ -326,11 +327,7 @@ public class ControllerContingent implements Initializable {
                 final int j = i;
                 TableColumn col = new TableColumn(rs2.getMetaData().getColumnName(i + 1));
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
-                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                        return new SimpleStringProperty(param.getValue().get(j).toString());
-                    }
-                });
+                col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView2.getColumns().addAll(col);
                 System.out.println("Column [" + i + "] ");
             }
@@ -383,13 +380,13 @@ public class ControllerContingent implements Initializable {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
         alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e.getStackTrace()) + "\n" +
                 "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString());
         alert.showAndWait();
     }
 
     /* Progress bar */
-    private void progressWindowProperties(){
+    private void progressWindowProperties() {
         progressStage.initOwner(Main.getPrimaryStage());
         progressStage.initModality(Modality.APPLICATION_MODAL);
         progressStage.initStyle(StageStyle.UNDECORATED);
@@ -402,6 +399,7 @@ public class ControllerContingent implements Initializable {
     }
 
     private void buildProgressWindow() {
+        progress = 0;
         StackPane stackPane = new StackPane();
         HBox hBoxTop = new HBox(10);
         HBox hBoxBottom = new HBox(10);
@@ -437,11 +435,12 @@ public class ControllerContingent implements Initializable {
         buildEventShell();
     }
 
-    public void buildEventShell(){
+    private void buildEventShell() {
         StackPane stackPane = new StackPane();
         Scene scene = new Scene(stackPane);
 
         stackPane.getChildren().add(shellTextArea);
+        shellTextArea.clear();
         shellTextArea.setStyle("-fx-control-inner-background:#000000; -fx-highlight-fill: #00ff00; -fx-highlight-text-fill: #000000; -fx-text-fill: #ffffff; ");
         shellTextArea.setEditable(false);
 
@@ -454,13 +453,11 @@ public class ControllerContingent implements Initializable {
         eventShell.show();
     }
 
-    private void onCancelButtonClick(){
-        cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            runningThreadFlag = false;
-        });
+    private void onCancelButtonClick() {
+        cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> runningThreadFlag = false);
     }
 
-    private void closeProgressWindow(){
+    private void closeProgressWindow() {
         fx.unsetBoxBlur(mainPane);
         maskPane.setVisible(false);
         progressStage.close();
@@ -470,7 +467,7 @@ public class ControllerContingent implements Initializable {
         RingProgressIndicator rpi;
 
         // int progress = 0;
-        public WorkerThread(RingProgressIndicator rpi) {
+        WorkerThread(RingProgressIndicator rpi) {
             this.rpi = rpi;
         }
 
@@ -482,13 +479,11 @@ public class ControllerContingent implements Initializable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Platform.runLater(() -> {
-                    rpi.setProgress(progress);
-                });
+                Platform.runLater(() ->
+                        rpi.setProgress(progress));
                 if (progress > 100) {
-                    Platform.runLater(() -> {
-                            ringProgressIndicator.makeIndeterminate();
-                    });
+                    Platform.runLater(() ->
+                            ringProgressIndicator.makeIndeterminate());
                     break;
                 }
             }
@@ -496,21 +491,8 @@ public class ControllerContingent implements Initializable {
 
     }
 
-    class ShellThread extends Thread {
-        public String commandLine;
-
-        public ShellThread() {
-        }
-
-        public void setCommandLine(String commandLine){
-            this.commandLine = commandLine;
-        }
-
-        @Override
-        public void run() {
-            shellTextArea.appendText(commandLine + "\n");
-        }
-
+    void addShell(String commandLine) {
+        shellTextArea.appendText(commandLine + "\n");
     }
 
     /* Menu bar */

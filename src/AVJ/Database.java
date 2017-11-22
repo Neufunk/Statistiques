@@ -2,13 +2,10 @@ package AVJ;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.sql.*;
+import java.util.Arrays;
 
 public class Database {
 
@@ -54,7 +51,7 @@ public class Database {
         return array;
     }
 
-    public ObservableList<String> loadSectorsToCombo(String centre) {
+    ObservableList<String> loadSectorsToCombo(String centre) {
         ObservableList<String> answer = FXCollections.observableArrayList();
         if (centre.equals("ASD")) {
             centre = "Namur, Philippeville";
@@ -66,7 +63,6 @@ public class Database {
         try {
             Statement state = conn.createStatement();
             ResultSet result = state.executeQuery(sql);
-            ResultSetMetaData resultMeta = result.getMetaData();
             while (result.next()) {
                 answer.add(result.getString("secteur_name"));
             }
@@ -76,13 +72,13 @@ public class Database {
         return answer;
     }
 
-    public String loadContingent38(String centre, String secteur, String periode, String annee, boolean checkboxState) {
+    String loadContingent38(String centre, String secteur, String periode, String annee, boolean checkboxState) {
         String sql;
-        if (periode == "Année Complète") {
+        if (periode.equals("Année Complète")) {
             periode = "Total";
         }
         if (checkboxState) {
-            sql = "SELECT annee, mois, indicateur, CAST(ROUND(SUM(valeur),2)AS money) AS valeur, antenne " +
+            sql = "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -94,8 +90,8 @@ public class Database {
                     "'Nbre H Prestées (code PR) (Base 38)', " +
                     "'Ecart H Dispo et H prestées (Base 38)') " +
                     "GROUP BY indicateur, antenne, annee, mois";
-        } else if (centre == "ASD") {
-            sql = "SELECT annee, mois, indicateur, CAST(ROUND(SUM(valeur),2)AS money) AS valeur, antenne " +
+        } else if (centre.equals("ASD")) {
+            sql = "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -108,7 +104,7 @@ public class Database {
                     "GROUP BY annee, mois, indicateur, antenne " +
                     "ORDER BY antenne";
         } else {
-            sql = "SELECT annee, mois, indicateur, CAST(ROUND(SUM(valeur),2)AS money) AS valeur, secteur_name, antenne " +
+            sql = "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, secteur_name, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -124,7 +120,7 @@ public class Database {
         return sql;
     }
 
-    public void updateContingent(String indicateur, double valeur, int year, String mois, String secteur, Connection connection) {
+    void updateContingent(String indicateur, double valeur, int year, String mois, String secteur, Connection connection) {
         try {
             String sql = "UPDATE contingent SET valeur = ? FROM secteurs " +
                     "WHERE indicateur = ? AND annee = ? AND numero_secteur = (SELECT secteurs.id FROM secteurs " +
@@ -172,7 +168,7 @@ public class Database {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
         alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e.getStackTrace()) + "\n" +
                 "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - displayFormatException()");
         alert.showAndWait();
     }

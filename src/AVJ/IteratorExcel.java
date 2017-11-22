@@ -1,11 +1,10 @@
 package AVJ;
 
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
-import javafx.scene.paint.Color;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
@@ -13,19 +12,16 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.Calendar;
 
-public class IteratorExcel extends ControllerContingent {
+class IteratorExcel extends ControllerContingent {
 
-    Workbook workbook;
-    Database database = new Database();
-    ShellThread shellThread = new ShellThread();
-    String fileName = "";
-    int j = 0;
-    int k = 0;
-    int sectorCount = 0;
+    private Database database = new Database();
+    private Workbook workbook;
+    private int j = 0;
+    private int k = 0;
+    private int sectorCount = 0;
+    private static ObservableList<String> nonUpdated = FXCollections.observableArrayList();
 
-    String[] titleTab = {"B21", "B22", "B23", "B24", "B25", "B26", "B27", "B28"};
-
-    String[] cellTab = {"C21", "C22", "C23", "C24", "C25", "C26", "C27", "C28",
+    private String[] cellTab = {"C21", "C22", "C23", "C24", "C25", "C26", "C27", "C28",
             "D21", "D22", "D23", "D24", "D25", "D26", "D27", "D28",
             "E21", "E22", "E23", "E24", "E25", "E26", "E27", "E28",
             "F21", "F22", "F23", "F24", "F25", "F26", "F27", "F28",
@@ -39,21 +35,21 @@ public class IteratorExcel extends ControllerContingent {
             "N21", "N22", "N23", "N24", "N25", "N26", "N27", "N28",
             "O21", "O22", "O23", "O24", "O25", "O26", "O27", "O28"};
 
-    double[] cellResult = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+    private double[] cellResult = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
             34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
             81, 82, 83, 84, 85, 86, 87, 89, 89, 90, 91, 92, 93, 94, 95, 96, 900, 901, 902, 903, 904, 905, 906, 907};
 
-    String[] indicateurs = {"Total Heures dispo par mois (Base 40)", "Total Heures dispo par mois (Base 38)",
+    private String[] indicateurs = {"Total Heures dispo par mois (Base 40)", "Total Heures dispo par mois (Base 38)",
             "Nbre H Absentéisme (code M) (Base 40)", "Nbre H Absentéisme (code M) (Base 38)",
             "Nbre H Prestées (code PR) (Base 40)", "Nbre H Prestées (code PR) (Base 38)",
             "Ecart H Dispo et H prestées (Base 40)", "Ecart H Dispo et H prestées (Base 38)"};
 
-    String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
+    private String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
             "Septembre", "Octobre", "Novembre", "Décembre", "Total"};
 
-
-    public void startIteration(String path, String year, String firstName, String secteur, Connection connection) {
-        progress+=1;
+    void startIteration(String path, String year, String firstName, String secteur, Connection connection) {
+        progress += 1;
+        String fileName;
         switch (secteur) {
             case "Andenne":
                 fileName = "Secteur d'";
@@ -70,11 +66,11 @@ public class IteratorExcel extends ControllerContingent {
             default:
                 fileName = "Secteur de ";
         }
-        secteurLabel = fileName+secteur;
+        secteurLabel = fileName + secteur;
         textField.setText(secteurLabel);
         try {
-            workbook = WorkbookFactory.create
-                    (new File(path + year + "\\" + firstName + "\\" + fileName + secteur + ".xlsm"));
+            ZipSecureFile.setMinInflateRatio(0); // Ratio pour éviter le blocage des zip-bombs
+            workbook = WorkbookFactory.create(new File(path + year + "\\" + firstName + "\\" + fileName + secteur + ".xlsm"));
             Sheet selectionSheet = workbook.getSheet("Contingent");
             for (int i = 0; i < cellTab.length; i++) {
                 CellReference cellReference = new CellReference(cellTab[i]);
@@ -83,7 +79,7 @@ public class IteratorExcel extends ControllerContingent {
                 double result = cell.getNumericCellValue();
                 cellResult[i] = result;
             }
-            for (int i = 0; i < cellResult.length; i++) {
+            for (double aCellResult : cellResult) {         // = for (int i = 0; i < cellResult.length; i++)
                 if (j >= 8) {     // pour les 8 indicateurs
                     j = 0;
                     k++;
@@ -91,54 +87,38 @@ public class IteratorExcel extends ControllerContingent {
                 if (k >= 13) {    // pour les 13 périodes
                     k = 0;
                 }
-                database.updateContingent(indicateurs[j], cellResult[i], getCurrentYear(), mois[k], secteur, connection);
-                System.out.println("#" + sectorCount + ". " + fileName + secteur + " - " + mois[k] + " - " + indicateurs[j] + " : " + cellResult[i]);
+                database.updateContingent(indicateurs[j], aCellResult, getCurrentYear(), mois[k], secteur, connection);
+                System.out.println("#" + sectorCount + ". " + fileName + secteur + " - " + mois[k] + " - " + indicateurs[j] + " : " + aCellResult);
                 j++;
             }
-            progress+=2;
+            progress += 2;
             sectorCount++;
-            shellThread.setCommandLine("#"+sectorCount+"/22 - "+ fileName+secteur + " - MIS À JOUR");
-            shellThread.run();
-        } catch (InvalidFormatException e) {
-            // displayFormatException(e);
+            addShell("#" + sectorCount + "/22 - " + fileName + secteur + " - MIS À JOUR");
+        } catch (IOException | InvalidFormatException e) {
             sectorCount++;
+            progress += 2;
+            addShell("!!! - #" + sectorCount + "/22 - " + fileName + secteur + " - NON MIS À JOUR >> " + e.getMessage());
             e.printStackTrace();
-        } catch (IOException e) {
-            // displayIOException(e);
-            sectorCount++;
-            shellThread.setCommandLine("!!! - #"+sectorCount+"/22 - "+ fileName+secteur + " - NON MIS À JOUR >>> " + e.getMessage());
-            shellThread.run();
-            e.printStackTrace();
-
+            nonUpdated.add(fileName + secteur);
         }
-
+        closeWorkbook();
     }
 
     private int getCurrentYear() {
         Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        return year;
+        return now.get(Calendar.YEAR);
     }
 
-    private void displayFormatException(InvalidFormatException e) {
-        e.printStackTrace();
-        String e1 = e.toString();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur lors de l'importation des données");
-        alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
-                "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - displayFormatException()");
-        alert.showAndWait();
+    private void closeWorkbook() {
+        try {
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void displayIOException(IOException e) {
-        e.printStackTrace();
-        String e1 = e.toString();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur lors de l'importation des données");
-        alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
-                "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - displayIOException()");
-        alert.showAndWait();
+    static String getNonUpdated() {
+        return nonUpdated.toString();
     }
+
 }
