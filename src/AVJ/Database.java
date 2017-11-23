@@ -10,8 +10,8 @@ import java.util.Arrays;
 public class Database {
 
     private Connection conn;
-    private Statement state = null;
-    private ResultSet result = null;
+    private Statement state;
+    private ResultSet result;
 
     public Connection connect() {
         try {

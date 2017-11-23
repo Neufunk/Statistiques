@@ -1,7 +1,7 @@
 package SoinsInfirmiers;
 
 import com.Effects;
-import com.PrintOut;
+import com.Print;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import javafx.fxml.FXML;
@@ -311,9 +311,9 @@ public class ControllerStatistiquesSI implements Initializable {
 
     private void pdfIcon() {
         Tooltip.install(pdfIcon, new Tooltip("Imprimer ou exporter en PDF"));
-        final String RESULT = "C:/StatistiquesPDF.pdf";
         pdfIcon.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
-            // TODO : PDF Print
+            Pdf pdf = new Pdf();
+            pdf.buildPdf();
         });
     }
 
@@ -345,7 +345,7 @@ public class ControllerStatistiquesSI implements Initializable {
 
     private void printIcon() {
         Tooltip.install(printIcon, new Tooltip("Imprimer"));
-        printIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> PrintOut.printerPrint(mainPane));
+        printIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> Print.printerPrint(mainPane));
     }
 
     // TODO Graphique animé

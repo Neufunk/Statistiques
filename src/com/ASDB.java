@@ -89,7 +89,9 @@ public class ASDB implements Initializable {
         database.closeConnection();
     }
 
-    /* Worker Tab */
+    /*
+     Worker Tab
+     */
     public void searchBySecteursCombo(){
         Connection conn = database.connect();
         workerTabWorkerCombo.getSelectionModel().clearSelection();
@@ -298,7 +300,9 @@ public class ASDB implements Initializable {
         clearFieldsWorkerTab();
     }
 
-    /* Sector TAB */
+    /*
+    * Sector TAB
+    */
     public void searchBySecteursCombo2(){
         workerTabWorkerCombo.getSelectionModel().clearSelection();
         String sql = "SELECT *, secteurs.id AS sectorID " +
@@ -376,7 +380,9 @@ public class ASDB implements Initializable {
         clearFieldsWorkerTab();
     }
 
-    /* Tables Tab */
+    /*
+    * Tables Tab
+    */
     public void displayTable() {
         issueDataList.getColumns().clear();
         Connection c;
