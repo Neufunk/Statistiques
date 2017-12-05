@@ -1,4 +1,10 @@
 Manifest-Version: 1.0
-Class-Path: C:\Program Files (x86)\Java\jre1.8.0_131\lib
-Main-Class: com.Main
-
+Main-Class: main.Main
+implementation-vendor: nhildebr
+implementation-title: AnimatedCircles
+implementation-version: 1.0
+JavaFX-Preloader-Class: main.FirstPreloader
+JavaFX-Application-Class: main.Main
+JavaFX-Class-Path: lib/FirstPreloader.jar
+Created-By: JavaFX Packager
+Main-Class: main.Main

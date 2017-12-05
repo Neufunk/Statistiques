@@ -3,13 +3,9 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Preloader</output-path>
     <properties id="javafx-preloader-properties">
       <options>
-        <option name="preloaderClass" value="com.FirstPreloader" />
+        <option name="preloaderClass" value="main.FirstPreloader" />
       </options>
     </properties>
-    <root id="archive" name="Preloader.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
-      </element>
-    </root>
+    <root id="archive" name="Preloader.jar" />
   </artifact>
 </component>

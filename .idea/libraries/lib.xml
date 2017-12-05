@@ -15,6 +15,8 @@
       <root url="jar://$PROJECT_DIR$/lib/poi-scratchpad-3.16.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/jfoenix.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/itext5-itextpdf-5.5.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/postgresql-42.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xmlbeans-2.6.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,9 +1,9 @@
-#Statistiques FX 
+# Statistiques FX 
 \
 JAVA FX Project  - SDK 1.8.0_121 \
 May 05, 2017
 
-###LIBRARIES :
+### LIBRARIES :
 
 - JFoenix
 - uCanAccess
@@ -15,6 +15,6 @@ May 05, 2017
     - (<b>MAVEN</b> : org.gillius)
 - xmlbeans-2.6.0
 
-###GITHUB :
+### GITHUB :
 
 https://github.com/Neufunk/StatistiquesFX

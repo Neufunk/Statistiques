@@ -1,25 +1,26 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" name="Statistiques_FX">
+  <artifact type="javafx" build-on-make="true" name="Statistiques_FX">
     <output-path>$PROJECT_DIR$/out/artifacts/Statistiques_FX</output-path>
     <properties id="javafx-properties">
       <options>
-        <option name="appClass" value="com.Main" />
+        <option name="appClass" value="main.Main" />
         <option name="description" value="" />
         <option name="height" value="720" />
         <option name="htmlPlaceholderId" value="" />
-        <option name="title" value="Statistiques" />
-        <option name="vendor" value="Johnathan VANBENEDEN" />
-        <option name="version" value="0.2.3" />
+        <option name="title" value="Statistiques FX" />
+        <option name="vendor" value="Johnathan Vanbeneden" />
+        <option name="version" value="" />
         <option name="width" value="1280" />
       </options>
     </properties>
     <root id="root">
       <element id="archive" name="Statistiques_FX.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="dir-copy" path="$PROJECT_DIR$/src/com" />
+        <element id="dir-copy" path="$PROJECT_DIR$/src/resources" />
         <element id="module-output" name="Statistiques_FX" />
-        <element id="library" level="project" name="lib" />
-        <element id="library" level="project" name="postgresql-42.1.1" />
-        <element id="library" level="project" name="org.gillius:jfxutils:1.0" />
-        <element id="library" level="project" name="xmlbeans-2.6.0" />
       </element>
     </root>
   </artifact>

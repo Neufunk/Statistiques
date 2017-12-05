@@ -20,7 +20,7 @@ changelog-0.2.1 = 08/08/2017
   - Ajout de la page Paramètres SI
   - Correction d'un bug lié au Drawer SI
   - Ajout d'un controlleur pour le Drawer SI afin d'alléger l'impact sur les ressources système
-  - Plusieurs modifications design via CSS
+  - Plusieurs modifications design via resources.ui.CSS
   - Correction de bugs mineurs
 
 changelog-0.2.0.1 = 04/07/2017
@@ -33,7 +33,7 @@ changelog-0.2.0 = 28/07/2017
 
 changelog-0.1.4 = 19/07/2017
     - ASDB GUI complete
-    - Transformation des .properties vers une BDD centralisée (AVJ)
+    - Transformation des .properties vers une BDD centralisée (com.AVJ)
 
 changelog-0.1.3 = 27/06/2017
   - Ajout du raccourci menu Contingent

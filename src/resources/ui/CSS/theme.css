@@ -1,0 +1,67 @@
+.setup-button {
+    -fx-background-color:#424242;
+    -fx-text-fill: white;
+}
+.setup-button:hover {
+    -fx-background-color: #0288D1;
+}
+
+.delete-button {
+    -fx-background-color:#424242;
+    -fx-text-fill: white;
+}
+.delete-button:hover{
+    -fx-background-color: #C62828;
+}
+
+.add-button {
+    -fx-background-color:#424242;
+    -fx-text-fill: white;
+}
+.add-button:hover {
+    -fx-background-color: #AFDA42;
+}
+.green-button {
+    -fx-background-color:#96bb37;
+    -fx-text-fill: white;
+}
+.green-button:hover {
+    -fx-background-color: #AFDA42;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-scale-z: 1.02;
+
+}
+
+.blue-button {
+    -fx-background-color:#006782;
+    -fx-text-fill: white;
+}
+.blue-button:hover {
+    -fx-background-color: #008BAE;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-scale-z: 1.02;
+}
+
+.close-button {
+    -fx-background-color:#C62828;
+    -fx-text-fill: white;
+}
+.close-button:hover {
+    -fx-background-color: #F44336;
+        -fx-scale-x: 1.02;
+        -fx-scale-y: 1.02;
+        -fx-scale-z: 1.02;
+}
+
+.orange-button {
+    -fx-background-color:#E1A532;
+    -fx-text-fill: white;
+}
+.orange-button:hover {
+    -fx-background-color: #edbc5e;
+        -fx-scale-x: 1.02;
+        -fx-scale-y: 1.02;
+        -fx-scale-z: 1.02;
+}

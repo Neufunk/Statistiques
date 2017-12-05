@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" prefHeight="720" prefWidth="1280" style="-fx-background-color: FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerSettings">
+   <children>
+      <JFXCheckBox fx:id="debugBoxMBP" layoutX="297.0" layoutY="174.0" prefHeight="30.0" prefWidth="195.0" text="debug (MacBook Pro only)" />
+      <AnchorPane fx:id="maskPane" layoutY="-1.0" opacity="0.1" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
+      <Separator layoutX="258.0" layoutY="43.0" orientation="VERTICAL" prefHeight="626.0" prefWidth="12.0" />
+      <Label layoutX="282.0" layoutY="31.0" prefHeight="48.0" prefWidth="244.0" text="PARAMETRES">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Separator layoutX="311.0" layoutY="67.0" prefHeight="5.0" prefWidth="166.0" />
+      <JFXCheckBox fx:id="debugBox" layoutX="297.0" layoutY="125.0" prefHeight="30.0" prefWidth="195.0" text="debug" />
+      <MenuBar layoutX="6.0" layoutY="1.0" opacity="0.88" prefHeight="25.0" prefWidth="552.0" style="-fx-background-color: FAFAFA;">
+         <menus>
+            <Menu mnemonicParsing="false" text="Fichier">
+               <items>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="menuClose" mnemonicParsing="false" text="Fermer" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Annuler">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Rétablir">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Préférences" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Département AVJ">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Département SI">
+               <items>
+                  <MenuItem fx:id="menuIndic" mnemonicParsing="false" onAction="#openIndicateursPage" text="Evolution par indicateur" />
+                  <MenuItem fx:id="menuComparaison" mnemonicParsing="false" onAction="#openComparaisonPage" text="Comparaison annuelle" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Patients / Visites par Commune" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Répartition par âge" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#openSettingsPage" text="Paramètres" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Outils">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+               </items>
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="O" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem fx:id="menuPatchnote" mnemonicParsing="false" onAction="#showPatchnote" text="Patchnote" />
+                  <MenuItem fx:id="menuChangelogs" mnemonicParsing="false" onAction="#changeLogs" text="Changelogs" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
