@@ -1,5 +1,5 @@
 package main;
 
 public class Version {
-    public static String versionNumber = "0.2.4";
+    public static String versionNumber = "0.3.0";
 }

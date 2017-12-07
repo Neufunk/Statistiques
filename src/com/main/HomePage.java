@@ -7,13 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,55 +19,31 @@ import java.util.ResourceBundle;
 public class HomePage implements Initializable {
 
     public JFXButton closeButton;
-    public MenuItem menuClose;
-    public MenuItem menuIndic;
-    public MenuItem menuComparaison;
-    public MenuItem menuPatchnote;
-    public MenuItem menuChangelogs;
     @FXML
     private JFXButton siButton;
     @FXML
     private JFXButton avjButton;
+    @FXML
+    private VBox menuPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         onButtonSiClick();
         onButtonAvjClick();
+        Menu menu = new Menu();
+        menu.loadMenuBar(menuPane);
     }
 
     private void onButtonSiClick(){
         Tooltip.install(siButton, new Tooltip("Département Soins Infirmiers"));
-        siButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) ->  {
-           openIndicateursPage();
-        });
+        siButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> openIndicateursPage());
     }
 
     private void onButtonAvjClick(){
-        avjButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) ->{
-            openContingentPage();
-        });
-    }
-    
-    public void showPatchnote(){
-        PatchNote pn = new PatchNote();
-        pn.patchNote();
+        avjButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> openContingentPage());
     }
 
-    public void changeLogs(){
-            File file = new File("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques_FX\\src\\resources\\txt\\Changelog.txt");
-            if (!Desktop.isDesktopSupported()) {
-                System.out.println("OS non supporté");
-                return;
-            }
-            Desktop desktop = Desktop.getDesktop();
-            try {
-                if (file.exists()) desktop.open(file);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-    }
-
-    public void openIndicateursPage(){
+    private void openIndicateursPage(){
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/StatistiquesSI.fxml"));
@@ -80,46 +54,12 @@ public class HomePage implements Initializable {
         }
     }
 
-    public void openComparaisonPage(){
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/TableauxAnnuels.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle1);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openSettingsPage(){
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SettingsSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle2);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openContingentPage(){
+    private void openContingentPage(){
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Contingent.fxml"));
             stage.setScene(new Scene(root));
             stage.setTitle(AVJ.Data.pageTitle0);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openASDB(){
-        Stage stage = new Stage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ASDB.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.asdbTitle);
-            stage.show();
         } catch (IOException e1) {
             e1.printStackTrace();
         }

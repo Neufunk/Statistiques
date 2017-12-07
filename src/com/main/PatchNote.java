@@ -7,12 +7,10 @@ import java.util.Properties;
 
 public class PatchNote {
 
-    private LoadProperties loadProperties = new LoadProperties();
-
     public void patchNote() {
         try {
             Properties prop = new Properties();
-            prop.load(getClass().getResourceAsStream("/resources/properties/Patchnote.properties"));
+            prop.load(getClass().getResourceAsStream("/properties/Patchnote.properties"));
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("PATCHNOTE " + Version.versionNumber);
             alert.setHeaderText(prop.getProperty("Patchnote", "vide"));

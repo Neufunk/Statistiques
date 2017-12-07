@@ -8,15 +8,11 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerComparaisonAnnuelle">
@@ -65,7 +61,7 @@
             <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#96bb37" labelFloat="true" layoutX="293.0" layoutY="199.0" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" unFocusColor="#006782" />
             <ImageView fx:id="redCross0" fitHeight="16.0" fitWidth="20.0" layoutX="115.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/img/RedCross.png" />
+                  <Image url="@../../img/RedCross.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -73,7 +69,7 @@
             </ImageView>
             <ImageView fx:id="redCross1" fitHeight="16.0" fitWidth="16.0" layoutX="321.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/img/RedCross.png" />
+                  <Image url="@../../img/RedCross.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -81,7 +77,7 @@
             </ImageView>
             <ImageView fx:id="redCross2" fitHeight="16.0" fitWidth="16.0" layoutX="503.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/img/RedCross.png" />
+                  <Image url="@../../img/RedCross.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -110,63 +106,6 @@
          </effect>
       </AnchorPane>
       <AnchorPane fx:id="maskPane" layoutY="-3.0" opacity="0.1" prefHeight="729.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
-      <MenuBar layoutY="1.0" opacity="0.88" prefHeight="25.0" prefWidth="801.0" style="-fx-background-color: FAFAFA;">
-         <menus>
-            <Menu mnemonicParsing="false" text="Fichier">
-               <items>
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="menuClose" mnemonicParsing="false" text="Fermer" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Annuler">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Rétablir">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem disable="true" mnemonicParsing="false" text="Préférences" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Département AVJ">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Département SI">
-               <items>
-                  <MenuItem fx:id="menuIndic" mnemonicParsing="false" onAction="#openIndicateursPage" text="Evolution par indicateur" />
-                  <MenuItem fx:id="menuComparaison" mnemonicParsing="false" onAction="#openComparaisonPage" text="Comparaison annuelle" />
-                  <MenuItem disable="true" mnemonicParsing="false" text="Patients / Visites par Commune" />
-                  <MenuItem disable="true" mnemonicParsing="false" text="Répartition par âge" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#openSettingsPage" text="Paramètres" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Outils">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
-               </items>
-               <accelerator>
-                  <KeyCodeCombination alt="UP" code="O" control="ANY" meta="UP" shift="UP" shortcut="UP" />
-               </accelerator>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem fx:id="menuPatchnote" mnemonicParsing="false" onAction="#showPatchnote" text="Patchnote" />
-                  <MenuItem fx:id="menuChangelogs" mnemonicParsing="false" onAction="#changeLogs" text="Changelogs" />
-                  <MenuItem disable="true" mnemonicParsing="false" text="About" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
+      <VBox fx:id="menuPane" prefHeight="32.0" prefWidth="914.0" />
    </children>
 </AnchorPane>

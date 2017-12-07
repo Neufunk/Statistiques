@@ -1,15 +1,10 @@
 package SoinsInfirmiers;
 
-import main.Effects;
-import main.Main;
-import main.PatchNote;
-import main.Print;
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -17,8 +12,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import main.Effects;
+import main.Menu;
+import main.Print;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,11 +27,6 @@ import java.util.ResourceBundle;
 
 public class ControllerStatistiquesSI implements Initializable {
 
-    // Injection des objets resources.ui.FXML
-    @FXML
-    private JFXHamburger hamburger;
-    @FXML
-    private JFXDrawer drawer;
     @FXML
     private JFXComboBox comboCentre;
     @FXML
@@ -52,9 +46,7 @@ public class ControllerStatistiquesSI implements Initializable {
     @FXML
     private AnchorPane anchorPane0;
     @FXML
-    private AnchorPane maskPane;
-    @FXML
-    private ImageView pdfIcon;
+    private JFXSpinner spinner;
     @FXML
     private JFXComboBox comboCategorie;
     @FXML
@@ -97,6 +89,8 @@ public class ControllerStatistiquesSI implements Initializable {
     private JFXButton backButton;
     @FXML
     private JFXButton nextButton;
+    @FXML
+    private VBox menuPane;
 
     private Year year = new Year();
     private Centre centre = new Centre();
@@ -107,8 +101,9 @@ public class ControllerStatistiquesSI implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Menu menu = new Menu();
+        menu.loadMenuBar(menuPane);
         initializeCombo();
-        pdfIcon();
         xlsIcon();
         printIcon();
         onGenerateButtonClick();
@@ -132,9 +127,7 @@ public class ControllerStatistiquesSI implements Initializable {
 
     private void onGenerateButtonClick() {
         generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (!checkEmpty()) {
-                return;
-            } else {
+            if (checkEmpty()) {
                 generate();
             }
         });
@@ -190,7 +183,7 @@ public class ControllerStatistiquesSI implements Initializable {
             iteratorExcel.startIteration();
         } catch (FileNotFoundException e0) {
             iteratorExcel.fileNotFound(e0);
-            return;
+            // return;
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
         }
@@ -199,6 +192,7 @@ public class ControllerStatistiquesSI implements Initializable {
     private void buildPieGraphic() {
         Graphic pieGraphic = new Graphic();
         if (indicateur.getWithGraphic()) {
+            spinner.setVisible(false);
             roundGraph.getData().clear();
             noGraphicLabel.setVisible(false);
             graphicTitle.setText(comboIndic.getValue().toString());
@@ -213,6 +207,7 @@ public class ControllerStatistiquesSI implements Initializable {
             roundGraph.setStartAngle(90);
         } else {
             roundGraph.getData().clear();
+            spinner.setVisible(false);
             graphicTitle.setText("");
             noGraphicLabel.setText("Graphique non disponible pour cet indicateur");
             noGraphicLabel.setVisible(true);
@@ -250,15 +245,13 @@ public class ControllerStatistiquesSI implements Initializable {
 
     private void navigateThroughMonths() {
         backButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
-            if (!checkEmpty()) {
-            } else {
+            if (checkEmpty()) {
                 comboPeriode.getSelectionModel().selectPrevious();
                 generate();
             }
         });
         nextButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
-            if (!checkEmpty()) {
-            } else {
+            if (checkEmpty()) {
                 comboPeriode.getSelectionModel().selectNext();
                 generate();
             }
@@ -271,14 +264,6 @@ public class ControllerStatistiquesSI implements Initializable {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-    }
-
-    private void pdfIcon() {
-        Tooltip.install(pdfIcon, new Tooltip("Imprimer ou exporter en PDF"));
-        pdfIcon.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
-            Pdf pdf = new Pdf();
-            pdf.buildPdf();
-        });
     }
 
     private void xlsIcon() {
@@ -310,93 +295,6 @@ public class ControllerStatistiquesSI implements Initializable {
     private void printIcon() {
         Tooltip.install(printIcon, new Tooltip("Imprimer"));
         printIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> Print.printerPrint(mainPane));
-    }
-
-    /* Menu bar */
-    public void showPatchnote() {
-        PatchNote pn = new PatchNote();
-        pn.patchNote();
-    }
-
-    public void changeLogs() {
-        File file = new File("/txt/Changelog.txt");
-        if (!Desktop.isDesktopSupported()) {
-            System.out.println("OS non supporté");
-            return;
-        }
-        Desktop desktop = Desktop.getDesktop();
-        try {
-            if (file.exists()) desktop.open(file);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openIndicateursPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/StatistiquesSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle0);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openComparaisonPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/TableauxAnnuels.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle1);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openSettingsPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SettingsSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle2);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openContingentPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Contingent.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.pageTitle0);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openASDB() {
-        Stage stage = new Stage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ASDB.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.asdbTitle);
-            stage.show();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openHomepage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/HomePage.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.homePageTitle);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
     }
 }
 

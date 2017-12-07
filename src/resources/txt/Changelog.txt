@@ -1,8 +1,16 @@
 ﻿CHANGELOG
 ---------
 
+Patchnote-0.3.0 = 06/12/2017
+  - Refactorisation complète du système de fichiers
+  - Correction des warnings IDEA
+  - Création de l'objet 'PDF' pour les rapports
+  - Création de l'objet 'Menu' pour optimiser et faciliter la maintenance
+  - Mise à jour de l'UI
+
 Patchnote-0.2.4 = 09/10/2017
-  - Ajout d'un ratio au niveau de POI Excel pour éviter le blocage des zip-bombs provoqué par les tableaux mensuels trop lourds et qui empêchaient la DB de se mettre à jour.
+  - Ajout d'un ratio au niveau de POI Excel pour éviter le blocage des zip-bombs provoqué par les tableaux mensuels
+        trop lourds et qui empêchaient la DB de se mettre à jour
 
 changelog-0.2.3 = 25/09/2017
   - Tabs "Travailleurs" et "Secteurs" fonctionnels dans l'ASDB

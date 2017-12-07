@@ -1,10 +1,6 @@
 package AVJ;
 
 import RingProgressIndicator.RingProgressIndicator;
-import SoinsInfirmiers.Data;
-import main.Effects;
-import main.Main;
-import main.PatchNote;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
@@ -17,31 +13,26 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import main.Effects;
+import main.Main;
+import main.Menu;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -79,6 +70,8 @@ public class ControllerContingent implements Initializable {
     private Label yearLabel2;
     @FXML
     private JFXCheckBox antenneCheckbox;
+    @FXML
+    private VBox menuPane;
 
     private AVJ.Data data = new AVJ.Data();
     private Database database = new Database();
@@ -94,6 +87,8 @@ public class ControllerContingent implements Initializable {
     private Button cancelButton = new Button("Annuler");
 
     public void initialize(URL location, ResourceBundle resources) {
+        Menu menu = new Menu();
+        menu.loadMenuBar(menuPane);
         initializeCombo();
         onCancelButtonClick();
         toggleButtonListener();
@@ -143,11 +138,7 @@ public class ControllerContingent implements Initializable {
     }
 
     private boolean getCheckboxState() {
-        if (antenneCheckbox.isSelected()) {
-            return true;
-        } else {
-            return false;
-        }
+        return antenneCheckbox.isSelected();
     }
 
     public void onUpdateButtonClick() {
@@ -272,8 +263,7 @@ public class ControllerContingent implements Initializable {
     }
 
     public void onGenerateButtonClick() {
-        if (!checkEmpty()) {
-        } else {
+        if (checkEmpty()) {
             displayTable();
         }
     }
@@ -498,92 +488,6 @@ public class ControllerContingent implements Initializable {
         shellTextArea.appendText(commandLine + "\n");
     }
 
-    /* Menu bar */
-    public void showPatchnote() {
-        PatchNote pn = new PatchNote();
-        pn.patchNote();
-    }
-
-    public void changeLogs() {
-        File file = new File("/txt/Changelog.txt");
-        if (!Desktop.isDesktopSupported()) {
-            System.out.println("OS non supporté");
-            return;
-        }
-        Desktop desktop = Desktop.getDesktop();
-        try {
-            if (file.exists()) desktop.open(file);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openIndicateursPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/StatistiquesSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle0);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openComparaisonPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/TableauxAnnuels.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle1);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openSettingsPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SettingsSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle2);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openContingentPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Contingent.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.pageTitle0);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openASDB() {
-        Stage stage = new Stage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ASDB.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.asdbTitle);
-            stage.show();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openHomepage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/HomePage.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.homePageTitle);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
 }
 
 

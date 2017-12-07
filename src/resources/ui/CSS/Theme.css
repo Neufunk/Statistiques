@@ -22,26 +22,25 @@
     -fx-background-color: #AFDA42;
 }
 .green-button {
-    -fx-background-color:#96bb37;
+    -fx-background-color:#86bc24;
     -fx-text-fill: white;
 }
 .green-button:hover {
     -fx-background-color: #AFDA42;
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
-    -fx-scale-z: 1.02;
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-scale-z: 1.01;
 
 }
-
 .blue-button {
-    -fx-background-color:#006782;
+    -fx-background-color:#006886;
     -fx-text-fill: white;
 }
 .blue-button:hover {
     -fx-background-color: #008BAE;
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
-    -fx-scale-z: 1.02;
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-scale-z: 1.01;
 }
 
 .close-button {
@@ -50,9 +49,9 @@
 }
 .close-button:hover {
     -fx-background-color: #F44336;
-        -fx-scale-x: 1.02;
-        -fx-scale-y: 1.02;
-        -fx-scale-z: 1.02;
+        -fx-scale-x: 1.01;
+        -fx-scale-y: 1.01;
+        -fx-scale-z: 1.01;
 }
 
 .orange-button {
@@ -61,7 +60,10 @@
 }
 .orange-button:hover {
     -fx-background-color: #edbc5e;
-        -fx-scale-x: 1.02;
-        -fx-scale-y: 1.02;
-        -fx-scale-z: 1.02;
+        -fx-scale-x: 1.01;
+        -fx-scale-y: 1.01;
+        -fx-scale-z: 1.01;
+}
+.menu-title {
+    -fx-font-weight: bold;
 }

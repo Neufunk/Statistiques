@@ -1,27 +1,26 @@
 package SoinsInfirmiers;
 
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import main.Effects;
-import com.jfoenix.controls.*;
-import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSpinner;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import main.Effects;
 import main.Main;
-import main.PatchNote;
+import main.Menu;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import javafx.scene.control.Label;
 
-import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -29,14 +28,9 @@ import java.util.ResourceBundle;
 
 public class ControllerComparaisonAnnuelle implements Initializable {
 
-    // Instances de classes
+
     private Data data = new Data();
 
-    // Instances des objets resources.ui.FXML
-    @FXML
-    private JFXHamburger hamburger;
-    @FXML
-    private JFXDrawer drawer;
     @FXML
     private JFXComboBox comboCentre;
     @FXML
@@ -71,6 +65,8 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     private ImageView redCross1;
     @FXML
     private ImageView redCross2;
+    @FXML
+    private VBox menuPane;
 
     private Year year = new Year();
     private Category category = new Category();
@@ -83,6 +79,8 @@ public class ControllerComparaisonAnnuelle implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Menu menu = new Menu();
+        menu.loadMenuBar(menuPane);
         initializeCombo();
         onGenerateButtonClick();
         onClearButtonClick();
@@ -395,82 +393,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    /* Menu bar */
-    public void showPatchnote() {
-        PatchNote pn = new PatchNote();
-        pn.patchNote();
-    }
-
-    public void changeLogs() {
-        File file = new File("/txt/Changelog.txt");
-        if (!Desktop.isDesktopSupported()) {
-            System.out.println("OS non supporté");
-            return;
-        }
-        Desktop desktop = Desktop.getDesktop();
-        try {
-            if (file.exists()) desktop.open(file);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openIndicateursPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/StatistiquesSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle0);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openComparaisonPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/TableauxAnnuels.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle1);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openSettingsPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SettingsSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle2);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openContingentPage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Contingent.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.pageTitle0);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public void openASDB() {
-        Stage stage = new Stage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ASDB.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.asdbTitle);
-            stage.show();
-        } catch (IOException e1) {
-            e1.printStackTrace();
         }
     }
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="0.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Menu">
+    <MenuBar layoutY="2.0" opacity="0.9" prefHeight="0.0" prefWidth="663.0" style="-fx-background-color: #FAFAFA;">
+        <cursor>
+            <Cursor fx:constant="DEFAULT" />
+        </cursor>
+        <Menu mnemonicParsing="false" style="-fx-font-weight: bold;" styleClass="menu-title" text="STATISTIQUES">
+            <MenuItem accelerator="backspace" mnemonicParsing="false" onAction="#openHomepage" style="-fx-font-weight: normal;" text="Revenir à l'accueil          " />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#showPatchnote" style="-fx-font-weight: normal;" text="Patchnote" />
+            <MenuItem mnemonicParsing="false" onAction="#changeLogs" style="-fx-font-weight: normal;" text="Changelogs" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#closeButtonAction" style="-fx-font-weight: normal;" text="Quitter Statistiques" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Fichier">
+            <MenuItem mnemonicParsing="false" onAction="#closeButtonAction" text="Imprimer" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+            <MenuItem mnemonicParsing="false" text="Annuler" accelerator="Shortcut+Z" />
+            <MenuItem mnemonicParsing="false" text="Rétablir" accelerator="Shortcut+Y" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Préférences" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Département AVJ">
+            <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Département SI">
+            <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Evolution par indicateur" />
+            <MenuItem mnemonicParsing="false" onAction="#openComparaisonPage" text="Comparaison annuelle" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Patients / Visites par Commune" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Répartition par âge" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <Menu mnemonicParsing="false" text="Rapports">
+                <MenuItem mnemonicParsing="false" text="Activité &amp; Suivi du personnel" />
+            </Menu>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#openSettingsPage" text="Paramètres" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Outils">
+            <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="?">
+            <MenuItem disable="true" mnemonicParsing="false" text="Aide" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Signaler un bug" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem disable="true" mnemonicParsing="false" text="À propos de Statistiques" />
+        </Menu>
+    </MenuBar>
+</AnchorPane>
