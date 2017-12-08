@@ -1,6 +1,7 @@
 package main;
 
 import SoinsInfirmiers.Data;
+import SoinsInfirmiers.Pdf;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -51,6 +52,10 @@ public class Menu {
         }
     }
 
+    public void print() {
+        // TODO
+    }
+
     public void openIndicateursPage(){
         Stage stage = Main.getPrimaryStage();
         try {
@@ -73,15 +78,9 @@ public class Menu {
         }
     }
 
-    public void openSettingsPage(){
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SettingsSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle2);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+    public void pdfActivite(){
+        Pdf pdf = new Pdf();
+        pdf.buildPdf();
     }
 
     public void openContingentPage(){

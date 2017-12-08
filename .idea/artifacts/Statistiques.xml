@@ -4,13 +4,11 @@
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="main.Main" />
-        <option name="description" value="Coded and designed by JOHNATHAN VANBENEDEN" />
-        <option name="height" value="720" />
+        <option name="description" value="" />
         <option name="htmlPlaceholderId" value="" />
         <option name="title" value="" />
         <option name="vendor" value="" />
         <option name="version" value="" />
-        <option name="width" value="1280" />
       </options>
     </properties>
     <root id="root">
@@ -20,6 +18,11 @@
         </element>
         <element id="module-output" name="Statistiques" />
       </element>
+      <element id="library" level="project" name="itext5-itextpdf-5.5.11" />
+      <element id="library" level="project" name="poi-ooxml-3.16" />
+      <element id="library" level="project" name="postgresql-42.1.1" />
+      <element id="library" level="project" name="poi-3.16" />
+      <element id="library" level="project" name="jfoenix" />
     </root>
   </artifact>
 </component>

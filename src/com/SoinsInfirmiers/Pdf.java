@@ -7,9 +7,9 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.scene.shape.Circle;
 
-class Pdf {
-
+public class Pdf {
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD);
     private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
@@ -19,7 +19,7 @@ class Pdf {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
             Font.BOLD);
 
-    void buildPdf() {
+    public void buildPdf() {
         try {
             Document document = new Document();
             String currentUser = System.getProperty("user.name");
@@ -78,7 +78,7 @@ class Pdf {
 
         Paragraph paragraph = new Paragraph();
         addEmptyLine(paragraph, 3);
-        createActiviteTable(paragraph);
+
         chapter.add(paragraph);
         document.add(chapter);
     }

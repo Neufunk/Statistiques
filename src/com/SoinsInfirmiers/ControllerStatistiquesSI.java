@@ -15,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.Effects;
 import main.Menu;
-import main.Print;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.awt.*;
@@ -41,8 +40,6 @@ public class ControllerStatistiquesSI implements Initializable {
     private JFXButton generateButton;
     @FXML
     private Label graphicTitle;
-    @FXML
-    private AnchorPane mainPane;
     @FXML
     private AnchorPane anchorPane0;
     @FXML
@@ -82,8 +79,6 @@ public class ControllerStatistiquesSI implements Initializable {
     @FXML
     private ImageView xlsIcon;
     @FXML
-    private ImageView printIcon;
-    @FXML
     private Label monthLabel;
     @FXML
     private JFXButton backButton;
@@ -105,7 +100,6 @@ public class ControllerStatistiquesSI implements Initializable {
         menu.loadMenuBar(menuPane);
         initializeCombo();
         xlsIcon();
-        printIcon();
         onGenerateButtonClick();
         navigateThroughMonths();
     }
@@ -290,11 +284,6 @@ public class ControllerStatistiquesSI implements Initializable {
                 }
             }
         });
-    }
-
-    private void printIcon() {
-        Tooltip.install(printIcon, new Tooltip("Imprimer"));
-        printIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> Print.printerPrint(mainPane));
     }
 }
 

@@ -46,10 +46,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     @FXML
     private JFXButton clearButton;
     @FXML
-    private AnchorPane maskPane;
-    @FXML
-    private AnchorPane mainPane;
-    @FXML
     private JFXComboBox comboCategorie;
     @FXML
     private AnchorPane anchorPane0;
@@ -85,7 +81,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         onGenerateButtonClick();
         onClearButtonClick();
         onRedCrossClick();
-        graphicZoom();
+
     }
 
     private void initializeCombo() {
@@ -348,31 +344,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         }
     }
 
-    private void graphicZoom() {
-        final double SCALE_DELTA = 1.1;
-        lineGraph.setOnScroll(event -> {
-            event.consume();
-
-            if (event.getDeltaY() == 0) {
-                return;
-            }
-
-            double scaleFactor = (event.getDeltaY() > 0) ? SCALE_DELTA : 1 / SCALE_DELTA;
-
-            lineGraph.setScaleX(lineGraph.getScaleX() * scaleFactor);
-            lineGraph.setScaleY(lineGraph.getScaleY() * scaleFactor);
-        });
-
-        lineGraph.setOnMousePressed(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2) {
-                    lineGraph.setScaleX(1.0);
-                    lineGraph.setScaleY(1.0);
-                }
-            }
-        });
-    }
-
     private void unmountLineGraphic() {
         lineGraph.setVisible(false);
         noGraphicLabel.setVisible(true);
@@ -393,17 +364,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void openHomepage() {
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/HomePage.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.homePageTitle);
-        } catch (IOException e1) {
-            e1.printStackTrace();
         }
     }
 }

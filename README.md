@@ -1,19 +1,18 @@
-# Statistiques FX 
+# Statistiques
 \
-JAVA FX Project  - SDK 1.8.0_121 \
+SDK 1.8.0_151 \
 May 05, 2017
 
 ### LIBRARIES :
 
 - JFoenix
-- uCanAccess
-    - Ucanaccess 4.0.1
-- iText 5.5.11
+- iText
     - itext5-itextpdf-5.5.11
-- poi 3.16
-- jfxutils 1.0
-    - (<b>MAVEN</b> : org.gillius)
-- xmlbeans-2.6.0
+- Apache POI
+     - poi 3.16
+     - poi-ooxml-3.16
+- PostgreSQL
+    - postgresql-42.1.1
 
 ### GITHUB :
 

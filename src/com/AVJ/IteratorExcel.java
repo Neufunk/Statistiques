@@ -35,9 +35,7 @@ class IteratorExcel extends ControllerContingent {
             "N21", "N22", "N23", "N24", "N25", "N26", "N27", "N28",
             "O21", "O22", "O23", "O24", "O25", "O26", "O27", "O28"};
 
-    private double[] cellResult = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-            34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
-            81, 82, 83, 84, 85, 86, 87, 89, 89, 90, 91, 92, 93, 94, 95, 96, 900, 901, 902, 903, 904, 905, 906, 907};
+    private double[] cellResult = new double[104];
 
     private String[] indicateurs = {"Total Heures dispo par mois (Base 40)", "Total Heures dispo par mois (Base 38)",
             "Nbre H Absentéisme (code M) (Base 40)", "Nbre H Absentéisme (code M) (Base 38)",

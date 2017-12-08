@@ -15,22 +15,18 @@
  */ 
 package RingProgressIndicator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
+import com.sun.javafx.css.converters.SizeConverter;
+import javafx.beans.property.*;
 import javafx.css.CssMetaData;
 import javafx.css.Styleable;
 import javafx.css.StyleableDoubleProperty;
 import javafx.css.StyleableProperty;
+
 import javafx.scene.control.Control;
 
-import com.sun.javafx.css.converters.SizeConverter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 abstract class ProgressCircleIndicator extends Control {
     private static final int INDETERMINATE_PROGRESS = -1;

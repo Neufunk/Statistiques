@@ -1,5 +1,6 @@
 package SoinsInfirmiers;
 
+
 import javafx.scene.control.Alert;
 import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
 import org.apache.poi.hssf.util.CellReference;
@@ -8,6 +9,7 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class IteratorExcel {
 
@@ -18,8 +20,6 @@ public class IteratorExcel {
     private Cell masterCell, masterTitleCell;
     private Cell cellA, cellB, cellC, cellD, cellE, titleCellA, titleCellB, titleCellC,
             titleCellD, titleCellE;
-    private Cell janvierCell, fevrierCell, marsCell, avrilCell, maiCell, juinCell, juilletCell,
-            aoutCell, septembreCell, octobreCell, novembreCell, decembreCell;
 
     private String contentTitleMasterCell = "";
     private String contentTitleCellA = "";
@@ -109,7 +109,6 @@ public class IteratorExcel {
         CellReference cellReference1 = new CellReference(column + masterRow);
         Row masterRowB = selectionSheet.getRow(cellReference1.getRow());
         masterCell = masterRowB.getCell(cellReference1.getCol());
-
         CellReference titleCellReference1 = new CellReference("B" + masterRow);
         Row masterRowC = selectionSheet.getRow(titleCellReference1.getRow());
         masterTitleCell = masterRowC.getCell(titleCellReference1.getCol());
@@ -155,7 +154,7 @@ public class IteratorExcel {
             Row titleRowE = selectionSheet.getRow(titleCellReference6.getRow());
             titleCellE = titleRowE.getCell(titleCellReference6.getCol());
         }
-        // TODO : Case CellValue.ERROR
+
         if (masterCell != null) {
             contentMasterCell = masterCell.getNumericCellValue();
             contentTitleMasterCell = masterTitleCell.getStringCellValue();
@@ -182,40 +181,40 @@ public class IteratorExcel {
         }
     }
 
-    public double getContentMasterCell() {
+    double getContentMasterCell() {
         return contentMasterCell;
     }
-    public double getContentCellA() {
+    double getContentCellA() {
         return contentCellA;
     }
-    public double getContentCellB() {
+    double getContentCellB() {
         return contentCellB;
     }
-    public double getContentCellC() {
+    double getContentCellC() {
         return contentCellC;
     }
-    public double getContentCellD() {
+    double getContentCellD() {
         return contentCellD;
     }
-    public double getContentCellE() {
+    double getContentCellE() {
         return contentCellE;
     }
-    public String getContentTitleMasterCell() {
+    String getContentTitleMasterCell() {
         return contentTitleMasterCell;
     }
-    public String getContentTitleCellA() {
+    String getContentTitleCellA() {
         return contentTitleCellA;
     }
-    public String getContentTitleCellB() {
+    String getContentTitleCellB() {
         return contentTitleCellB;
     }
-    public String getContentTitleCellC() {
+    String getContentTitleCellC() {
         return contentTitleCellC;
     }
-    public String getContentTitleCellD() {
+    String getContentTitleCellD() {
         return contentTitleCellD;
     }
-    public String getContentTitleCellE() {
+    String getContentTitleCellE() {
         return contentTitleCellE;
     }
 
@@ -238,40 +237,40 @@ public class IteratorExcel {
         masterTitleCell = title.getCell(titleCellReference.getCol());
         CellReference cellReference1 = new CellReference("D" + masterRow);
         Row janvier = selectionSheet.getRow(cellReference1.getRow());
-        janvierCell = janvier.getCell(cellReference1.getCol());
+        Cell janvierCell = janvier.getCell(cellReference1.getCol());
         CellReference cellReference2 = new CellReference("E" + masterRow);
         Row fevrier = selectionSheet.getRow(cellReference2.getRow());
-        fevrierCell = fevrier.getCell(cellReference2.getCol());
+        Cell fevrierCell = fevrier.getCell(cellReference2.getCol());
         CellReference cellReference3 = new CellReference("F" + masterRow);
         Row mars = selectionSheet.getRow(cellReference3.getRow());
-        marsCell = mars.getCell(cellReference3.getCol());
+        Cell marsCell = mars.getCell(cellReference3.getCol());
         CellReference cellReference4 = new CellReference("G" + masterRow);
         Row avril = selectionSheet.getRow(cellReference4.getRow());
-        avrilCell = avril.getCell(cellReference4.getCol());
+        Cell avrilCell = avril.getCell(cellReference4.getCol());
         CellReference cellReference5 = new CellReference("H" + masterRow);
         Row mai = selectionSheet.getRow(cellReference5.getRow());
-        maiCell = mai.getCell(cellReference5.getCol());
+        Cell maiCell = mai.getCell(cellReference5.getCol());
         CellReference cellReference6 = new CellReference("I" + masterRow);
         Row juin = selectionSheet.getRow(cellReference6.getRow());
-        juinCell = juin.getCell(cellReference6.getCol());
+        Cell juinCell = juin.getCell(cellReference6.getCol());
         CellReference cellReference7 = new CellReference("J" + masterRow);
         Row juillet = selectionSheet.getRow(cellReference7.getRow());
-        juilletCell = juillet.getCell(cellReference7.getCol());
+        Cell juilletCell = juillet.getCell(cellReference7.getCol());
         CellReference cellReference8 = new CellReference("K" + masterRow);
         Row aout = selectionSheet.getRow(cellReference8.getRow());
-        aoutCell = aout.getCell(cellReference8.getCol());
+        Cell aoutCell = aout.getCell(cellReference8.getCol());
         CellReference cellReference9 = new CellReference("L" + masterRow);
         Row septembre = selectionSheet.getRow(cellReference9.getRow());
-        septembreCell = septembre.getCell(cellReference9.getCol());
+        Cell septembreCell = septembre.getCell(cellReference9.getCol());
         CellReference cellReference10 = new CellReference("M" + masterRow);
         Row octobre = selectionSheet.getRow(cellReference10.getRow());
-        octobreCell = octobre.getCell(cellReference10.getCol());
+        Cell octobreCell = octobre.getCell(cellReference10.getCol());
         CellReference cellReference11 = new CellReference("N" + masterRow);
         Row novembre = selectionSheet.getRow(cellReference11.getRow());
-        novembreCell = novembre.getCell(cellReference11.getCol());
+        Cell novembreCell = novembre.getCell(cellReference11.getCol());
         CellReference cellReference12 = new CellReference("O" + masterRow);
         Row decembre = selectionSheet.getRow(cellReference12.getRow());
-        decembreCell = decembre.getCell(cellReference12.getCol());
+        Cell decembreCell = decembre.getCell(cellReference12.getCol());
 
         contentTitleMasterCell = masterTitleCell.getStringCellValue();
         contentJanvierCell = janvierCell.getNumericCellValue();
@@ -288,82 +287,59 @@ public class IteratorExcel {
         contentDecembreCell = decembreCell.getNumericCellValue();
     }
 
-    public double getContentJanvierCell(){
+    double getContentJanvierCell(){
         return contentJanvierCell;
     }
-    public double getContentFevrierCell(){
+    double getContentFevrierCell(){
         return contentFevrierCell;
     }
-    public double getContentMarsCell(){
+    double getContentMarsCell(){
         return contentMarsCell;
     }
-    public double getContentAvrilCell(){
+    double getContentAvrilCell(){
         return contentAvrilCell;
     }
-    public double getContentMaiCell(){
+    double getContentMaiCell(){
         return contentMaiCell;
     }
-    public double getContentJuinCell(){
+    double getContentJuinCell(){
         return contentJuinCell;
     }
-    public double getContentJuilletCell(){
+    double getContentJuilletCell(){
         return contentJuilletCell;
     }
-    public double getContentAoutCell(){
+    double getContentAoutCell(){
         return contentAoutCell;
     }
-    public double getContentSeptembreCell(){
+    double getContentSeptembreCell(){
         return contentSeptembreCell;
     }
-    public double getContentOctobreCell(){
+    double getContentOctobreCell(){
         return contentOctobreCell;
     }
-    public double getContentNovembreCell(){
+    double getContentNovembreCell(){
         return contentNovembreCell;
     }
-    public double getContentDecembreCell(){
+    double getContentDecembreCell(){
         return contentDecembreCell;
     }
 
-    public void fileNotFound(Exception e0) {
+    void fileNotFound(Exception e0) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Fichier occupé ou introuvable");
         alert.setHeaderText("Fichier occupé ou introuvable : "+e0.getLocalizedMessage());
-        alert.setContentText("STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
+        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e0.getStackTrace()) + "\n" +
                 "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "METHOD : \t\t\t" + this.getClass().toString() + ".fileNotFound()");
         alert.showAndWait();
     }
 
-    public void illegalState(Exception e0){
-        e0.printStackTrace();
-        String e1 = e0.toString();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur dans le tableau Excel");
-        alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
-                "CAUSE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - illegalState()");
-        alert.showAndWait();
-    }
-
-    public void nullPointerException(Exception e0){
-        e0.printStackTrace();
-        String e1 = e0.toString();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Fichier occupé ou introuvable");
-        alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + e0.getStackTrace() + "\n" +
-                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - nullPointer()");
-        alert.showAndWait();
-    }
-
-    public void closeConnection() throws IOException {
+    void closeConnection() throws IOException {
         wb.close();
         wb2.close();
         wb3.close();
     }
 
-    public void resetVariables() {
-
+    void resetVariables() {
         wb = null;
         wb2 = null;
         wb3 = null;

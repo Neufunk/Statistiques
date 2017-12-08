@@ -12,59 +12,54 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" prefHeight="720" prefWidth="1280" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
-   <children>
-      <AnchorPane fx:id="pane2" layoutX="18.0" layoutY="324.0" prefHeight="382.0" prefWidth="1249.0" style="-fx-background-color: WHITE;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <TableView fx:id="tableView" fixedCellSize="30.0" focusTraversable="false" layoutX="14.0" layoutY="55.0" prefHeight="319.0" prefWidth="610.0" tableMenuButtonVisible="true" />
-            <TableView fx:id="tableView2" fixedCellSize="30.0" focusTraversable="false" layoutX="636.0" layoutY="55.0" prefHeight="319.0" prefWidth="600.0" tableMenuButtonVisible="true" />
-            <Label fx:id="yearLabel1" layoutX="299.0" layoutY="19.0" text="Label" visible="false">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font></Label>
-            <Label fx:id="yearLabel2" layoutX="916.0" layoutY="19.0" text="Label" visible="false">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font></Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="pane1" layoutX="1051.0" layoutY="37.0" prefHeight="267.0" prefWidth="200.0" style="-fx-background-color: WHITE;">
-         <children>
-            <JFXToggleButton fx:id="toggleButton1" focusTraversable="false" layoutX="32.0" layoutY="153.0" onAction="#toggleButtonDirectriceListener" prefHeight="56.0" prefWidth="136.0" selected="true" style="-fx-background-color: #FFFFFF;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae">
-               <font>
-                  <Font name="System Bold" size="11.0" />
-               </font>
-            </JFXToggleButton>
-            <JFXButton fx:id="updateButton" buttonType="RAISED" focusTraversable="false" layoutX="60.0" layoutY="95.0" onAction="#onUpdateButtonClick" prefHeight="39.0" prefWidth="81.0" style="-fx-background-color: #893209;" text="Update" textFill="WHITE" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="14.0" prefHeight="32.0" prefWidth="129.0" text="MISE À JOUR" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-         </children>
-         <effect>
-            <DropShadow />
-         </effect>
-      </AnchorPane>
-      <AnchorPane fx:id="pane0" layoutX="405.0" layoutY="37.0" prefHeight="267.0" prefWidth="449.0" style="-fx-background-color: WHITE;">
-         <children>
-            <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="45.0" onAction="#displaySecteurs" prefHeight="22.0" prefWidth="194.0" promptText="Centre" unFocusColor="#00707e" />
-            <JFXCheckBox fx:id="antenneCheckbox" layoutX="97.0" layoutY="99.0" onAction="#displaySecteurs" />
-            <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="95.0" prefHeight="22.0" prefWidth="194.0" promptText="Selectionnez un centre" unFocusColor="#00707e" />
-            <JFXButton fx:id="generateButton" buttonType="RAISED" focusTraversable="false" layoutX="195.0" layoutY="197.0" onAction="#onGenerateButtonClick" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="/ui/CSS/Theme.css" text="Exécuter" textFill="WHITE" />
-            <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="145.0" prefHeight="22.0" prefWidth="194.0" promptText="Période" unFocusColor="#00707e" />
-            <JFXToggleButton fx:id="toggleButton" focusTraversable="false" onAction="#toggleButtonListener" prefHeight="56.0" prefWidth="117.0" selected="true" style="-fx-background-color: #FFFFFF;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae">
-               <font>
-                  <Font name="System Bold" size="11.0" />
-               </font></JFXToggleButton>
-         </children>
-         <effect>
-            <DropShadow />
-         </effect>
-      </AnchorPane>
-      <VBox fx:id="menuPane" layoutX="1.0" />
-      <AnchorPane fx:id="maskPane" layoutX="1.0" opacity="0.1" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
-   </children>
+   <AnchorPane layoutX="18.0" layoutY="324.0" prefHeight="382.0" prefWidth="1249.0" style="-fx-background-color: WHITE;">
+      <effect>
+         <DropShadow />
+      </effect>
+      <TableView fx:id="tableView" fixedCellSize="30.0" focusTraversable="false" layoutX="14.0" layoutY="55.0" prefHeight="319.0" prefWidth="610.0" tableMenuButtonVisible="true" />
+      <TableView fx:id="tableView2" fixedCellSize="30.0" focusTraversable="false" layoutX="636.0" layoutY="55.0" prefHeight="319.0" prefWidth="600.0" tableMenuButtonVisible="true" />
+      <Label fx:id="yearLabel1" layoutX="299.0" layoutY="19.0" text="Label" visible="false">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="yearLabel2" layoutX="916.0" layoutY="19.0" text="Label" visible="false">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+   </AnchorPane>
+   <AnchorPane layoutX="1051.0" layoutY="37.0" prefHeight="267.0" prefWidth="200.0" style="-fx-background-color: WHITE;">
+      <effect>
+         <DropShadow />
+      </effect>
+      <JFXToggleButton fx:id="toggleButton1" focusTraversable="false" layoutX="32.0" layoutY="153.0" onAction="#toggleButtonDirectriceListener" prefHeight="56.0" prefWidth="136.0" selected="true" style="-fx-background-color: #FFFFFF;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </JFXToggleButton>
+      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="60.0" layoutY="95.0" onAction="#onUpdateButtonClick" prefHeight="39.0" prefWidth="81.0" style="-fx-background-color: #893209;" text="Update" textFill="WHITE" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="14.0" prefHeight="32.0" prefWidth="129.0" text="MISE À JOUR" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </AnchorPane>
+   <AnchorPane layoutX="405.0" layoutY="37.0" prefHeight="267.0" prefWidth="449.0" style="-fx-background-color: WHITE;">
+      <effect>
+         <DropShadow />
+      </effect>
+      <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="45.0" onAction="#displaySecteurs" prefHeight="22.0" prefWidth="194.0" promptText="Centre" unFocusColor="#00707e" />
+      <JFXCheckBox fx:id="antenneCheckbox" layoutX="97.0" layoutY="99.0" onAction="#displaySecteurs" />
+      <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="95.0" prefHeight="22.0" prefWidth="194.0" promptText="Selectionnez un centre" unFocusColor="#00707e" />
+      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="195.0" layoutY="197.0" onAction="#onGenerateButtonClick" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="/ui/CSS/Theme.css" text="Exécuter" textFill="WHITE" />
+      <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" layoutX="138.0" layoutY="145.0" prefHeight="22.0" prefWidth="194.0" promptText="Période" unFocusColor="#00707e" />
+      <JFXToggleButton fx:id="toggleButton" focusTraversable="false" onAction="#toggleButtonListener" prefHeight="56.0" prefWidth="117.0" selected="true" style="-fx-background-color: #FFFFFF;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </JFXToggleButton>
+   </AnchorPane>
+   <VBox fx:id="menuPane" layoutX="1.0" />
+   <AnchorPane fx:id="maskPane" layoutX="1.0" opacity="0.1" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000;" visible="false" />
 </AnchorPane>

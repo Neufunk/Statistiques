@@ -73,7 +73,6 @@ public class ControllerContingent implements Initializable {
     @FXML
     private VBox menuPane;
 
-    private AVJ.Data data = new AVJ.Data();
     private Database database = new Database();
     private Effects fx = new Effects();
     private static Stage progressStage = new Stage();
@@ -99,6 +98,7 @@ public class ControllerContingent implements Initializable {
     }
 
     private void initializeCombo() {
+        AVJ.Data data = new AVJ.Data();
         comboCentre.setItems(data.centerList);
         comboPeriode.setItems(data.periode);
     }
@@ -125,6 +125,9 @@ public class ControllerContingent implements Initializable {
             comboSecteur.setDisable(true);
             comboSecteur.getSelectionModel().clearSelection();
             comboSecteur.setPromptText("Secteur entier");
+        } else if (!antenneCheckbox.isSelected() && comboCentre.getValue() == null) {
+            comboSecteur.setDisable(true);
+            comboSecteur.setPromptText("Selectionnez un centre");
         } else {
             comboSecteur.setPromptText("Secteurs");
             comboSecteur.setDisable(false);
@@ -183,11 +186,11 @@ public class ControllerContingent implements Initializable {
                                     switch (centre) {
                                         case "Namur":
                                             iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect, connection);
-                                            progress+=1;
+                                            progress += 1;
                                             break;
                                         case "Philippeville":
                                             iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect, connection);
-                                            progress+=1;
+                                            progress += 1;
                                             break;
                                     }
                                 }
