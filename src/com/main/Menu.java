@@ -1,7 +1,6 @@
 package main;
 
 import SoinsInfirmiers.Data;
-import SoinsInfirmiers.Pdf;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Menu {
+
+    public static Stage pdfStage = new Stage();
 
     public void loadMenuBar(Pane pane) {
         try {
@@ -39,7 +40,7 @@ public class Menu {
     }
 
     public void changeLogs(){
-        File file = new File("C:\\Users\\johnathanv\\IdeaProjects\\Statistiques\\src\\resources\\txt\\Changelog.txt");
+        File file = new File("/txt/Changelog.txt");
         if (!Desktop.isDesktopSupported()) {
             System.out.println("OS non supporté");
             return;
@@ -79,8 +80,15 @@ public class Menu {
     }
 
     public void pdfActivite(){
-        Pdf pdf = new Pdf();
-        pdf.buildPdf();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpActivite.fxml"));
+            pdfStage.setScene(new Scene(root));
+            pdfStage.setTitle("Rapport d'activité et suivi du personnel");
+            pdfStage.setResizable(false);
+            pdfStage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     public void openContingentPage(){

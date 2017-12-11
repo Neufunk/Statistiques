@@ -3,21 +3,15 @@ package SoinsInfirmiers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSpinner;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import main.Effects;
-import main.Main;
 import main.Menu;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -68,7 +62,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     private Category category = new Category();
     private Indicateur indicateur = new Indicateur();
     private Centre centre = new Centre();
-    private Effects effects = new Effects();
     private IteratorExcel iteratorExcel0 = new IteratorExcel();
     private IteratorExcel iteratorExcel1 = new IteratorExcel();
     private IteratorExcel iteratorExcel2 = new IteratorExcel();
@@ -86,9 +79,9 @@ public class ControllerComparaisonAnnuelle implements Initializable {
 
     private void initializeCombo() {
         comboCentre.setItems(data.centerList);
-        comboYear0.setItems(Data.yearList);
-        comboYear1.setItems(Data.yearList);
-        comboYear2.setItems(Data.yearList);
+        comboYear0.setItems(data.yearList);
+        comboYear1.setItems(data.yearList);
+        comboYear2.setItems(data.yearList);
         comboCategorie.setItems(data.categorieList);
         anchorPane0.addEventHandler(MouseEvent.ANY, (e) -> {
             if (comboCategorie.getValue() != null) {
@@ -132,8 +125,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
 
     private void onGenerateButtonClick() {
         generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (!checkEmpty()) {
-            } else {
+            if (checkEmpty()) {
                 generateAll();
             }
         });
