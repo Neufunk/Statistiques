@@ -27,13 +27,13 @@ import java.util.ResourceBundle;
 public class ControllerStatistiquesSI implements Initializable {
 
     @FXML
-    private JFXComboBox comboCentre;
+    private JFXComboBox<String> comboCentre;
     @FXML
-    private JFXComboBox comboPeriode;
+    private JFXComboBox<String> comboPeriode;
     @FXML
-    private JFXComboBox comboIndic;
+    private JFXComboBox<String> comboIndic;
     @FXML
-    private JFXComboBox comboYear;
+    private JFXComboBox<Integer> comboYear;
     @FXML
     private PieChart roundGraph;
     @FXML
@@ -45,7 +45,7 @@ public class ControllerStatistiquesSI implements Initializable {
     @FXML
     private JFXSpinner spinner;
     @FXML
-    private JFXComboBox comboCategorie;
+    private JFXComboBox<String> comboCategorie;
     @FXML
     private Label noGraphicLabel;
     @FXML
@@ -113,7 +113,7 @@ public class ControllerStatistiquesSI implements Initializable {
         Category category = new Category();
         anchorPane0.addEventHandler(MouseEvent.ANY, (e) -> {
             if (comboCategorie.getValue() != null) {
-                category.setCategorie(comboCategorie.getValue().toString());
+                category.setCategorie(comboCategorie.getValue());
                 comboIndic.setItems(category.getCategorie());
             }
         });
@@ -146,10 +146,10 @@ public class ControllerStatistiquesSI implements Initializable {
     }
 
     private void generate() {
-        year.toPath((Integer)comboYear.getValue());
-        centre.toExcelSheet(comboCentre.getValue().toString());
-        periode.toExcelColumn(comboPeriode.getValue().toString());
-        indicateur.toExcelRow(comboIndic.getValue().toString());
+        year.toPath(comboYear.getValue());
+        centre.toExcelSheet(comboCentre.getValue());
+        periode.toExcelColumn(comboPeriode.getValue());
+        indicateur.toExcelRow(comboIndic.getValue());
         iteratorExcel.setPath(year.getPath());
         if (indicateur.getWithFileD()) {
             iteratorExcel.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
@@ -189,7 +189,7 @@ public class ControllerStatistiquesSI implements Initializable {
             spinner.setVisible(false);
             roundGraph.getData().clear();
             noGraphicLabel.setVisible(false);
-            graphicTitle.setText(comboIndic.getValue().toString());
+            graphicTitle.setText(comboIndic.getValue());
             String[] graphicArray = {iteratorExcel.getContentTitleCellA(), iteratorExcel.getContentTitleCellB(),
                     iteratorExcel.getContentTitleCellC(), iteratorExcel.getContentTitleCellD(), iteratorExcel.getContentTitleCellE()};
             Double[] valueArray = {iteratorExcel.getContentCellA(), iteratorExcel.getContentCellB(),
@@ -217,7 +217,7 @@ public class ControllerStatistiquesSI implements Initializable {
         effects.setFadeTransition(valuePane, 1000, 0, 1);
         labelPane.setVisible(true);
         valuePane.setVisible(true);
-        monthLabel.setText(comboPeriode.getValue().toString());
+        monthLabel.setText(comboPeriode.getValue());
         monthLabel.setVisible(true);
         Graphic setData = new Graphic();
         setData.setRawDataName(labelMasterIndic, iteratorExcel.getContentTitleMasterCell());
@@ -270,7 +270,7 @@ public class ControllerStatistiquesSI implements Initializable {
                 alert.setContentText("Impossible d'ouvrir le fichier.");
                 alert.showAndWait();
             } else {
-                year.toPath((Integer) comboYear.getValue());
+                year.toPath(comboYear.getValue());
                 File file = new File(year.getPath() + year.getFileA());
                 if (!Desktop.isDesktopSupported()) {
                     System.out.println("OS non supporté");

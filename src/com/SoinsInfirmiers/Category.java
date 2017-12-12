@@ -3,10 +3,10 @@ package SoinsInfirmiers;
 import javafx.collections.ObservableList;
 
 class Category {
-    private ObservableList list;
+    private ObservableList<String> list;
     private Data data = new Data();
 
-     void setCategorie(String selectedCategorie){
+     void setCategorie(String selectedCategorie) {
          switch (selectedCategorie) {
              case "SUIVI DU PERSONNEL INFIRMIER":
                  list = data.indicListSuiviDuPersonnel;

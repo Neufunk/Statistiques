@@ -8,8 +8,12 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import static SoinsInfirmiers.PopUpActivite.centreVal;
+import static SoinsInfirmiers.PopUpActivite.monthVal;
+import static SoinsInfirmiers.PopUpActivite.yearVal;
+
 class Pdf {
-    private static final String INTERSTATE = "/fonts/Interstate-regular.ttf";
+    private static final String INTERSTATE = "/fonts/Interstate-Regular.ttf";
 
     private static Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD);
@@ -20,11 +24,12 @@ class Pdf {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
             Font.BOLD);
 
+    double[] answerArr = new double[19];
+
     void buildActivitePdf() throws Exception {
         ActiviteSuiviPersonnel activiteSuiviPersonnel = new ActiviteSuiviPersonnel();
         activiteSuiviPersonnel.buildPdf();
     }
-
 
     private void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
@@ -78,7 +83,12 @@ class Pdf {
                     smallBold);
             details.setAlignment(Element.ALIGN_RIGHT);
             preface.add(details);
-            addEmptyLine(preface, 3);
+            Paragraph periode = new Paragraph(centreVal + " " + monthVal + " " +
+                    yearVal, titleFont);
+            periode.setAlignment(Element.ALIGN_CENTER);
+            addEmptyLine(preface, 5);
+            preface.add(periode);
+
 
             document.add(preface);
         }
@@ -99,8 +109,11 @@ class Pdf {
             Chapter chapter = new Chapter(new Paragraph(anchor), 2);
 
             Paragraph paragraph = new Paragraph();
+            addEmptyLine(paragraph, 3);
+            createSuiviPersonnelTable(paragraph);
             chapter.add(paragraph);
             document.add(chapter);
+
         }
 
         private void createActiviteTable(Paragraph paragraph) throws BadElementException {
@@ -109,23 +122,50 @@ class Pdf {
             PdfPCell title1 = new PdfPCell(new Phrase("Recette totale OA / Jours prestés", whiteFont));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
             title1.setBackgroundColor(BaseColor.DARK_GRAY);
-            PdfPCell cell = new PdfPCell(new Phrase("result"));
+
+            PdfPCell cell = new PdfPCell(new Phrase("Facturation Totale : " + String.valueOf(answerArr[0])));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPCell cell2 = new PdfPCell(new Phrase("Tarification OA : " + String.valueOf(answerArr[1])));
+            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPCell cell3 = new PdfPCell(new Phrase("Tarification autre : " + String.valueOf(answerArr[2])));
+            cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPCell cell4 = new PdfPCell(new Phrase("TM : " + String.valueOf(answerArr[3])));
+            cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPCell cell5 = new PdfPCell(new Phrase("Facturation OA / Jour presté avec soin : " + String.valueOf(answerArr[4])));
+            cell5.setHorizontalAlignment(Element.ALIGN_CENTER);
+
             table.addCell(title1);
             table.addCell(cell);
+            table.addCell(cell2);
+            table.addCell(cell3);
+            table.addCell(cell4);
+            table.addCell(cell5);
 
             /* Tableau 2 */
             PdfPTable table2 = new PdfPTable(2);
             title1 = new PdfPCell(new Phrase("Recette OA / Visite", whiteFont));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
             title1.setBackgroundColor(BaseColor.DARK_GRAY);
-            table2.addCell(title1);
+
             PdfPCell title2 = new PdfPCell(new Phrase("Nbre Visites / Jours prestés avec soins", whiteFont));
             title2.setHorizontalAlignment(Element.ALIGN_CENTER);
             title2.setBackgroundColor(BaseColor.DARK_GRAY);
+
+            double result = (answerArr[1] / answerArr[12]);
+            PdfPCell cell6 = new PdfPCell(new Phrase(String.valueOf(result)));
+            cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPCell cell7 = new PdfPCell(new Phrase(String.valueOf(answerArr[5])));
+            cell7.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            table2.addCell(title1);
             table2.addCell(title2);
-            table2.addCell("result");
-            table2.addCell("result");
+            table2.addCell(cell6);
+            table2.addCell(cell7);
 
             /* Tableau 3 */
             PdfPTable table3 = new PdfPTable(4);
@@ -149,16 +189,75 @@ class Pdf {
             title4.setBackgroundColor(BaseColor.DARK_GRAY);
             table3.addCell(title4);
 
-            table3.addCell("result");
-            table3.addCell("result");
-            table3.addCell("result");
-            table3.addCell("result");
+            table3.addCell("Nombre patients : " + String.valueOf(answerArr[6]));
+            table3.addCell("Total toilettes NOM/total visites : " + String.valueOf(answerArr[9] * 100 + "%"));
+            table3.addCell("Nbre patients FF palliatifs : " + String.valueOf(answerArr[11]));
+            table3.addCell("Nombre visites : " + String.valueOf(answerArr[12]));
+            table3.addCell("% NOM : " + String.valueOf(answerArr[7] * 100 + "%"));
+            table3.addCell("Total toilettes/total visites : " + String.valueOf(answerArr[10]*100 + "%"));
+            table3.addCell("");
+            table3.addCell("Nombre patients : " + String.valueOf(answerArr[6]));
+            table3.addCell("%FF : " + String.valueOf(answerArr[8] * 100 + "%"));
+            table3.addCell("");
+            table3.addCell("");
+            table3.addCell("");
 
             paragraph.add(table);
             addEmptyLine(paragraph, 2);
             paragraph.add(table2);
             addEmptyLine(paragraph, 2);
             paragraph.add(table3);
+        }
+
+        private void createSuiviPersonnelTable(Paragraph paragraph) throws BadElementException {
+            /* Tableau 1 */
+            PdfPTable table = new PdfPTable(1);
+            PdfPCell title = new PdfPCell(new Phrase("Total jours prestés Inf", whiteFont));
+            title.setHorizontalAlignment(Element.ALIGN_CENTER);
+            title.setBackgroundColor(BaseColor.DARK_GRAY);
+            table.addCell(title);
+
+            PdfPCell cell = new PdfPCell(new Phrase(String.valueOf(answerArr[13])));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(cell);
+
+            /* Tableau 2 */
+            PdfPTable table2 = new PdfPTable(1);
+            PdfPCell title2 = new PdfPCell(new Phrase("Solde récup fin de mois", whiteFont));
+            title2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            title2.setBackgroundColor(BaseColor.DARK_GRAY);
+            table2.addCell(title2);
+
+            PdfPCell cell2 = new PdfPCell(new Phrase(String.valueOf(answerArr[14])));
+            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table2.addCell(cell2);
+
+            /* Tableau 3 */
+            PdfPTable table3 = new PdfPTable(1);
+            PdfPCell title3 = new PdfPCell(new Phrase("Total jours payés", whiteFont));
+            title3.setHorizontalAlignment(Element.ALIGN_CENTER);
+            title3.setBackgroundColor(BaseColor.DARK_GRAY);
+            table3.addCell(title3);
+
+            PdfPCell cell3 = new PdfPCell(new Phrase(String.valueOf(answerArr[15])));
+            cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table3.addCell(cell3);
+            PdfPCell cell4 = new PdfPCell(new Phrase("% SMG : " + String.valueOf(answerArr[16]*100 + "%")));
+            cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table3.addCell(cell4);
+            PdfPCell cell5 = new PdfPCell(new Phrase("% Fériés, VA, ... : " + String.valueOf(answerArr[17]*100 + "%")));
+            cell5.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table3.addCell(cell5);
+            PdfPCell cell6 = new PdfPCell(new Phrase("% prestés : " + String.valueOf(answerArr[18]*100 + "%")));
+            cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table3.addCell(cell6);
+
+            paragraph.add(table);
+            addEmptyLine(paragraph, 3);
+            paragraph.add(table2);
+            addEmptyLine(paragraph, 3);
+            paragraph.add(table3);
+            addEmptyLine(paragraph, 3);
         }
     }
 

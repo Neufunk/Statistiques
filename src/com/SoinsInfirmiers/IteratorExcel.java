@@ -105,14 +105,14 @@ public class IteratorExcel {
         HSSFFormulaEvaluator[] evaluators = {evaluator, evaluator2, evaluator3};
         HSSFFormulaEvaluator.setupEnvironment(workbookNames, evaluators);
         Sheet selectionSheet = wb.getSheetAt(sheet);
-
-        CellReference cellReference1 = new CellReference(column + masterRow);
-        Row masterRowB = selectionSheet.getRow(cellReference1.getRow());
-        masterCell = masterRowB.getCell(cellReference1.getCol());
-        CellReference titleCellReference1 = new CellReference("B" + masterRow);
-        Row masterRowC = selectionSheet.getRow(titleCellReference1.getRow());
-        masterTitleCell = masterRowC.getCell(titleCellReference1.getCol());
-
+         if (masterRow != 0) {
+            CellReference cellReference1 = new CellReference(column + masterRow);
+            Row masterRowB = selectionSheet.getRow(cellReference1.getRow());
+            masterCell = masterRowB.getCell(cellReference1.getCol());
+            CellReference titleCellReference1 = new CellReference("B" + masterRow);
+            Row masterRowC = selectionSheet.getRow(titleCellReference1.getRow());
+            masterTitleCell = masterRowC.getCell(titleCellReference1.getCol());
+         }
         if (rowA != 0) {
             CellReference cellReference2 = new CellReference(column + rowA);
             Row rowAA = selectionSheet.getRow(cellReference2.getRow());

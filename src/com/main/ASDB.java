@@ -15,11 +15,10 @@ import javafx.util.Callback;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class ASDB implements Initializable {
-
-    Database database = new Database(); // TODO : Instance of Databse in each Methods instead of Classe
 
     @FXML
     private JFXTextField tableNameField;
@@ -64,9 +63,8 @@ public class ASDB implements Initializable {
     @FXML
     private TextArea issueTabTextAreaQuery;
 
-
-    private ObservableList<ObservableList> data;
-    AVJ.Data dataList = new Data();
+    private Database database = new Database();
+    private AVJ.Data dataList = new Data();
 
     public void initialize(URL location, ResourceBundle resources) {
         initializeCombo();
@@ -74,7 +72,7 @@ public class ASDB implements Initializable {
 
     private void initializeCombo(){
         database.connect();
-        ObservableList<String> sectorsList = database.loadColumnToCombo("secteurs", "secteur_name", "secteur_name");
+        ObservableList sectorsList = database.loadColumnToCombo("secteurs", "secteur_name", "secteur_name");
         workerTabSectorCombo.setItems(sectorsList);
         sectorTabSectorCombo.setItems(sectorsList);
 
@@ -97,7 +95,7 @@ public class ASDB implements Initializable {
                 "FROM secteurs " +
                 "LEFT JOIN travailleurs " +
                 "ON secteurs.worker_id = travailleurs.id " +
-                "WHERE secteur_name ='"+workerTabSectorCombo.getValue().toString()+"' " +
+                "WHERE secteur_name ='"+workerTabSectorCombo.getValue()+"' " +
                 "ORDER BY secteur_name ASC ";
         try {
             Statement statement = conn.createStatement();
@@ -106,7 +104,7 @@ public class ASDB implements Initializable {
                 workerTabIdInput.setText(rs.getString("WorkerID"));
                 workerTabFirstNameInput.setText(rs.getString("prenom"));
                 workerTabLastNameInput.setText(rs.getString("nom"));
-                workerTabSectorIdInput.setText(rs.getString("id"));;
+                workerTabSectorIdInput.setText(rs.getString("id"));
                 workerTabCentreInput.setText(rs.getString("antenne"));
             }
         } catch (SQLException e) {
@@ -307,7 +305,7 @@ public class ASDB implements Initializable {
                 "FROM secteurs " +
                 "LEFT JOIN travailleurs " +
                 "ON secteurs.worker_id = travailleurs.id " +
-                "WHERE secteur_name ='"+sectorTabSectorCombo.getValue().toString()+"' " +
+                "WHERE secteur_name ='"+sectorTabSectorCombo.getValue()+"' " +
                 "ORDER BY secteur_name ASC ";
         Connection conn = database.connect();
         try {
@@ -383,12 +381,12 @@ public class ASDB implements Initializable {
     */
     public void displayTable() {
         issueDataList.getColumns().clear();
-        Connection c;
-        data = FXCollections.observableArrayList();
+        Connection conn;
+        ObservableList<ObservableList> data = FXCollections.observableArrayList();
         try {
-            c = database.connect();
+            conn = database.connect();
             String SQL = "SELECT * FROM " + tableNameField.getText();
-            ResultSet rs = c.createStatement().executeQuery(SQL);
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
 
             //TABLE COLUMN ADDED DYNAMICALLY
 
@@ -467,7 +465,7 @@ public class ASDB implements Initializable {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
         alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e.getStackTrace()) + "\n" +
                 "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString());
         alert.showAndWait();
     }
