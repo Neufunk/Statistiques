@@ -6,7 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import main.Menu;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -49,12 +51,13 @@ public class PopUpActivite implements Initializable {
     }
 
     public void onButtonClick() {
-        initIterator();
         Boolean flag;
         try {
+            initIterator();
             pdf.buildActivitePdf();
             flag = true;
         } catch (Exception e) {
+            e.printStackTrace();
             flag = false;
         }
         if (flag){
@@ -67,8 +70,8 @@ public class PopUpActivite implements Initializable {
         }
     }
 
-    private void initIterator(){
-        int[] rowIndex = {51, 52, 55, 56, 65, 28, 73, 74, 75, 46, 47, 79, 20, 11, 17, 6, 7, 8, 9};
+    private void initIterator() throws IOException, InvalidFormatException {
+        int[] rowIndex = {51, 52, 55, 56, 65, 28, 73, 74, 75, 46, 54, 79, 20, 11, 17, 6, 7, 8, 9, 38, 39, 40};
         centreVal = comboCentre.getValue();
         monthVal = comboMonth.getValue();
         yearVal = String.valueOf(comboYear.getValue());
@@ -81,16 +84,8 @@ public class PopUpActivite implements Initializable {
         iteratorExcel.setColumn(periode.getColumn());
         for (int i = 0; i < rowIndex.length; i++) {
             iteratorExcel.setMasterRow(rowIndex[i]);
-            startIteration();
-            pdf.answerArr[i] = iteratorExcel.getContentMasterCell();
-        }
-    }
-
-    private void startIteration(){
-        try {
             iteratorExcel.startIteration();
-        } catch (Exception e) {
-            e.printStackTrace();
+            pdf.answerArr[i] = iteratorExcel.getContentMasterCell();
         }
     }
 

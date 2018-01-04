@@ -311,9 +311,9 @@ public class ControllerContingent implements Initializable {
             // LAST YEAR TABLE
             Calendar now = Calendar.getInstance();
             int currentYear = now.get(Calendar.YEAR);
-            String lastYear = String.valueOf(currentYear - 1);
+            String lastYear = String.valueOf(currentYear - 2);
             if (toggleButton.isSelected()) {
-                lastYear = String.valueOf(currentYear - 2);
+                lastYear = String.valueOf(currentYear - 1);
             }
             String sql2 = database.loadContingent38(centre, secteur, periode, lastYear, getCheckboxState());
             ResultSet rs2 = c.createStatement().executeQuery(sql2);

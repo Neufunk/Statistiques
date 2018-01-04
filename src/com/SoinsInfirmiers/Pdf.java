@@ -23,8 +23,9 @@ class Pdf {
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
             Font.BOLD);
+    private BaseColor blueASD = new BaseColor(0, 110, 130);
 
-    double[] answerArr = new double[19];
+    double[] answerArr = new double[22];
 
     void buildActivitePdf() throws Exception {
         ActiviteSuiviPersonnel activiteSuiviPersonnel = new ActiviteSuiviPersonnel();
@@ -63,7 +64,7 @@ class Pdf {
         private void addTitlePage(Document document) throws DocumentException {
             Paragraph preface = new Paragraph();
             try {
-                final String IMG = "C:\\Users\\johnathanv\\IdeaProjects\\Statistiques\\src\\resources\\img\\asd_logo.png";
+                final String IMG = "/img/asd_logo.png";
                 Image img = Image.getInstance(IMG);
                 img.setAlignment(Element.ALIGN_LEFT);
                 img.scaleAbsolute(195f, 75f);
@@ -121,7 +122,7 @@ class Pdf {
             PdfPTable table = new PdfPTable(1);
             PdfPCell title1 = new PdfPCell(new Phrase("Recette totale OA / Jours prestés", whiteFont));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title1.setBackgroundColor(BaseColor.DARK_GRAY);
+            title1.setBackgroundColor(blueASD);
 
             PdfPCell cell = new PdfPCell(new Phrase("Facturation Totale : " + String.valueOf(answerArr[0])));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -169,12 +170,12 @@ class Pdf {
 
             /* Tableau 3 */
             PdfPTable table3 = new PdfPTable(4);
-            title1 = new PdfPCell(new Phrase("% Non Forfait", whiteFont));
+            title1 = new PdfPCell(new Phrase("Profil patients", whiteFont));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
             title1.setBackgroundColor(BaseColor.DARK_GRAY);
             table3.addCell(title1);
 
-            title2 = new PdfPCell(new Phrase("% Toilettes Nom", whiteFont));
+            title2 = new PdfPCell(new Phrase("Toilettes Nom", whiteFont));
             title2.setHorizontalAlignment(Element.ALIGN_CENTER);
             title2.setBackgroundColor(BaseColor.DARK_GRAY);
             table3.addCell(title2);
@@ -184,7 +185,7 @@ class Pdf {
             title3.setBackgroundColor(BaseColor.DARK_GRAY);
             table3.addCell(title3);
 
-            PdfPCell title4 = new PdfPCell(new Phrase("Nbre Visite + Nbre Patients", whiteFont));
+            PdfPCell title4 = new PdfPCell(new Phrase("Visites / Forfaits", whiteFont));
             title4.setHorizontalAlignment(Element.ALIGN_CENTER);
             title4.setBackgroundColor(BaseColor.DARK_GRAY);
             table3.addCell(title4);
@@ -192,21 +193,41 @@ class Pdf {
             table3.addCell("Nombre patients : " + String.valueOf(answerArr[6]));
             table3.addCell("Total toilettes NOM/total visites : " + String.valueOf(answerArr[9] * 100 + "%"));
             table3.addCell("Nbre patients FF palliatifs : " + String.valueOf(answerArr[11]));
-            table3.addCell("Nombre visites : " + String.valueOf(answerArr[12]));
+            table3.addCell("FFA : " + String.valueOf(answerArr[19]));
             table3.addCell("% NOM : " + String.valueOf(answerArr[7] * 100 + "%"));
-            table3.addCell("Total toilettes/total visites : " + String.valueOf(answerArr[10]*100 + "%"));
-            table3.addCell("");
-            table3.addCell("Nombre patients : " + String.valueOf(answerArr[6]));
+            table3.addCell("Nombre toilettes");
+            table3.addCell("Facturation Palliatifs : " + String.valueOf(answerArr[10]));
+            table3.addCell("FFB : " + String.valueOf(answerArr[20]));
             table3.addCell("%FF : " + String.valueOf(answerArr[8] * 100 + "%"));
             table3.addCell("");
             table3.addCell("");
+            table3.addCell("FFC : " + String.valueOf(answerArr[21]));
+            table3.addCell("test");
             table3.addCell("");
+            table3.addCell("");
+            table3.addCell("");
+
+            /* Tableau 4 */
+            PdfPTable table4 = new PdfPTable(1);
+            title1 = new PdfPCell(new Phrase("Nbre Visite + Nbre Patients", whiteFont));
+            title1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            title1.setBackgroundColor(BaseColor.DARK_GRAY);
+            title1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table4.addCell(title1);
+            PdfPCell cell1Table4 = new PdfPCell(new Phrase("Nombre visites : " + String.valueOf(answerArr[12])));
+            cell1Table4.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table4.addCell(cell1Table4);
+            PdfPCell cell2Table4 = new PdfPCell(new Phrase("Nombre patients : " + String.valueOf(answerArr[6])));
+            cell2Table4.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table4.addCell(cell2Table4);
 
             paragraph.add(table);
             addEmptyLine(paragraph, 2);
             paragraph.add(table2);
             addEmptyLine(paragraph, 2);
             paragraph.add(table3);
+            addEmptyLine(paragraph, 2);
+            paragraph.add(table4);
         }
 
         private void createSuiviPersonnelTable(Paragraph paragraph) throws BadElementException {

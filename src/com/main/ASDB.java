@@ -352,6 +352,48 @@ public class ASDB implements Initializable {
         database.closeConnection();
     }
 
+    public void addSector() {
+        String sql = "INSERT INTO secteurs (id, secteur_name, antenne) " +
+                "VALUES ('" + sectorTabSectorIdInput.getText() + "', '" + sectorTabSectorInput.getText() + "', '" + sectorTabCentreInput.getText() + "')";
+        Connection conn = database.connect();
+        try {
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(sql);
+
+            searchBySecteursCombo2();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SECTEUR AJOUTÉ");
+            alert.setHeaderText("Secteur : ID #" + sectorTabSectorIdInput.getText() + " - " +
+                    sectorTabSectorInput.getText() + " " + sectorTabCentreInput.getText() +
+                    "\n Correctement ajouté à la base de donnée.");
+            alert.setContentText("");
+            alert.show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            displayError(e);
+        }
+    }
+
+    public void updateSector(){
+        String sql = "UPDATE secteurs " +
+                "SET secteur_name = '" + sectorTabSectorInput.getText() + "', antenne = '" + sectorTabCentreInput.getText() + "' " +
+                "WHERE id = '" + sectorTabSectorIdInput.getText() + "'";
+        Connection conn = database.connect();
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            displayError(e);
+        }
+        initializeCombo();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Secteur mis à jour");
+        alert.setContentText("ID : "+ sectorTabSectorIdInput.getText() + sectorTabSectorInput.getText() + " - " +
+                sectorTabCentreInput + " a correctement été mis à jour dans la base de donnée.");
+        alert.showAndWait();
+    }
+
     public void deleteSector(){
         int id = Integer.parseInt(sectorTabSectorIdInput.getText());
         String sql = "DELETE FROM secteurs "+

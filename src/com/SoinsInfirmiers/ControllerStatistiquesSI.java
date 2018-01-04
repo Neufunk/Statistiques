@@ -153,7 +153,7 @@ public class ControllerStatistiquesSI implements Initializable {
         iteratorExcel.setPath(year.getPath());
         if (indicateur.getWithFileD()) {
             iteratorExcel.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
-        }else {
+        } else {
             iteratorExcel.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
         }
         iteratorExcel.setSheet(centre.getSheet());
