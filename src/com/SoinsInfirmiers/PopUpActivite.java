@@ -9,6 +9,8 @@ import main.Menu;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,14 +30,14 @@ public class PopUpActivite implements Initializable {
     @FXML
     private Label label2;
 
-    IteratorExcel iteratorExcel = new IteratorExcel();
-    Pdf pdf = new Pdf();
-    Year year = new Year();
-    Periode periode = new Periode();
-    Centre centre = new Centre();
-    public static String centreVal;
-    public static String monthVal;
-    public static String yearVal;
+    private IteratorExcel iteratorExcel = new IteratorExcel();
+    private Pdf pdf = new Pdf();
+    private Year year = new Year();
+    private Periode periode = new Periode();
+    private Centre centre = new Centre();
+    private static String centreVal;
+    private static String monthVal;
+    private static String yearVal;
 
 
     @Override
@@ -85,11 +87,31 @@ public class PopUpActivite implements Initializable {
         for (int i = 0; i < rowIndex.length; i++) {
             iteratorExcel.setMasterRow(rowIndex[i]);
             iteratorExcel.startIteration();
-            pdf.answerArr[i] = iteratorExcel.getContentMasterCell();
+            pdf.answerArr[i] = round(iteratorExcel.getContentMasterCell(), 2);
         }
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public void onCloseClick() {
         Menu.pdfStage.close();
+    }
+
+    String getCentreVal() {
+        return centreVal;
+    }
+
+    String getMonthVal() {
+        return monthVal;
+    }
+
+    String getYearVal() {
+        return yearVal;
     }
 }
