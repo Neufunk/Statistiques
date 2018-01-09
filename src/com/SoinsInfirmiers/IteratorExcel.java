@@ -8,11 +8,10 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class IteratorExcel {
+class IteratorExcel {
 
     private Workbook wb;
     private Workbook wb2;

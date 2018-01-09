@@ -10,17 +10,11 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
 class Pdf {
-    private static Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-            Font.BOLD);
-    private static Font whiteFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-            Font.NORMAL, BaseColor.WHITE);
-    private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-            Font.BOLD);
-    private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
-            Font.BOLD);
+
     private BaseColor blueASD = new BaseColor(0, 110, 130);
 
-    double[] answerArr = new double[22];
+    double[] answerArr = new double[26];
+    double[] answerArrFileB = new double[2];
 
     private Font setInterstateFont(int size, String color) {
         BaseFont baseFont;
@@ -104,7 +98,9 @@ class Pdf {
         void buildPdf() throws Exception {
             Document document = new Document();
             String currentUser = System.getProperty("user.name");
-            String file = "C:/users/" + currentUser + "/Desktop/Rapport_Activite.pdf";
+            String file = "C:/users/" + currentUser + "/Desktop/" +
+                    "Rapport_Activite_" + popUpActivite.getCentreVal() + "_" + popUpActivite.getMonthVal() +
+                    "_" + popUpActivite.getYearVal() + ".pdf";
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             addMetaData(document, "Rapport d'activité");
@@ -130,7 +126,7 @@ class Pdf {
 
             addEmptyLine(preface, 11);
 
-            Paragraph title = new Paragraph("RAPPORT D'ACTIVITÉ ET SUIVI DU PERSONNEL", setInterstateFont(18, "black"));
+            Paragraph title = new Paragraph("RAPPORT D'ACTIVITÉ ET SUIVI DU PERSONNEL", setInterstateFont(19, "black"));
             title.setAlignment(Element.ALIGN_CENTER);
             preface.add(title);
 
@@ -207,11 +203,11 @@ class Pdf {
             table2.setWidthPercentage(100);
             title1 = new PdfPCell(new Phrase("Recette OA / Visite", setInterstateFont(10, "white")));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title1.setBackgroundColor(BaseColor.DARK_GRAY);
+            title1.setBackgroundColor(blueASD);
 
             PdfPCell title2 = new PdfPCell(new Phrase("Nbre Visites / Jours prestés avec soins", setInterstateFont(10, "white")));
             title2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title2.setBackgroundColor(BaseColor.DARK_GRAY);
+            title2.setBackgroundColor(blueASD);
 
             double result = new BigDecimal(answerArr[1] / answerArr[12]).setScale(1, RoundingMode.HALF_UP).doubleValue();
             PdfPCell cell6 = new PdfPCell(new Phrase(String.valueOf(result)));
@@ -230,22 +226,22 @@ class Pdf {
             table3.setWidthPercentage(100);
             title1 = new PdfPCell(new Phrase("Profil patients", setInterstateFont(10, "white")));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title1.setBackgroundColor(BaseColor.DARK_GRAY);
+            title1.setBackgroundColor(blueASD);
             table3.addCell(title1);
 
             title2 = new PdfPCell(new Phrase("Toilettes Nom", setInterstateFont(10, "white")));
             title2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title2.setBackgroundColor(BaseColor.DARK_GRAY);
+            title2.setBackgroundColor(blueASD);
             table3.addCell(title2);
 
             PdfPCell title3 = new PdfPCell(new Phrase("% Palliatifs", setInterstateFont(10, "white")));
             title3.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title3.setBackgroundColor(BaseColor.DARK_GRAY);
+            title3.setBackgroundColor(blueASD);
             table3.addCell(title3);
 
             PdfPCell title4 = new PdfPCell(new Phrase("Visites / Forfaits", setInterstateFont(10, "white")));
             title4.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title4.setBackgroundColor(BaseColor.DARK_GRAY);
+            title4.setBackgroundColor(blueASD);
             table3.addCell(title4);
 
             table3.addCell("Nombre patients : " + format(answerArr[6]));
@@ -253,14 +249,14 @@ class Pdf {
             table3.addCell("Nbre patients FF palliatifs : " + format(answerArr[11]));
             table3.addCell("FFA : " + format(answerArr[19]));
             table3.addCell("% NOM : " + String.valueOf(answerArr[7] * 100 + "%"));
-            table3.addCell("Toilettes : ");
+            table3.addCell("Toilettes : " + format(answerArrFileB[0]));
             table3.addCell("Facturation Palliatifs : " + format(answerArr[10]));
             table3.addCell("FFB : " + format(answerArr[20]));
             table3.addCell("% FF : " + String.valueOf(answerArr[8] * 100 + "%"));
             table3.addCell("");
             table3.addCell("");
             table3.addCell("FFC : " + format(answerArr[21]));
-            table3.addCell("Actes techniques : ");
+            table3.addCell("Actes techniques : " + format(answerArrFileB[1]));
             table3.addCell("");
             table3.addCell("");
             table3.addCell("");
@@ -270,12 +266,14 @@ class Pdf {
             table4.setWidthPercentage(100);
             title1 = new PdfPCell(new Phrase("Nbre Visite + Nbre Patients", setInterstateFont(10, "white")));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title1.setBackgroundColor(BaseColor.DARK_GRAY);
+            title1.setBackgroundColor(blueASD);
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table4.addCell(title1);
+
             PdfPCell cell1Table4 = new PdfPCell(new Phrase("Nombre visites : " + format(answerArr[12])));
             cell1Table4.setHorizontalAlignment(Element.ALIGN_CENTER);
             table4.addCell(cell1Table4);
+
             PdfPCell cell2Table4 = new PdfPCell(new Phrase("Nombre patients : " + format(answerArr[6])));
             cell2Table4.setHorizontalAlignment(Element.ALIGN_CENTER);
             table4.addCell(cell2Table4);
@@ -294,7 +292,7 @@ class Pdf {
             PdfPTable table = new PdfPTable(1);
             PdfPCell title = new PdfPCell(new Phrase("Total jours prestés Inf", setInterstateFont(10, "white")));
             title.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title.setBackgroundColor(BaseColor.DARK_GRAY);
+            title.setBackgroundColor(blueASD);
             table.addCell(title);
 
             PdfPCell cell = new PdfPCell(new Phrase(format(answerArr[13])));
@@ -305,7 +303,7 @@ class Pdf {
             PdfPTable table2 = new PdfPTable(1);
             PdfPCell title2 = new PdfPCell(new Phrase("Solde récup fin de mois", setInterstateFont(10, "white")));
             title2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title2.setBackgroundColor(BaseColor.DARK_GRAY);
+            title2.setBackgroundColor(blueASD);
             table2.addCell(title2);
 
             PdfPCell cell2 = new PdfPCell(new Phrase(format(answerArr[14])));
@@ -316,7 +314,7 @@ class Pdf {
             PdfPTable table3 = new PdfPTable(1);
             PdfPCell title3 = new PdfPCell(new Phrase("Total jours payés", setInterstateFont(10, "white")));
             title3.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title3.setBackgroundColor(BaseColor.DARK_GRAY);
+            title3.setBackgroundColor(blueASD);
             table3.addCell(title3);
 
             PdfPCell cell3 = new PdfPCell(new Phrase(format(answerArr[15])));
@@ -332,12 +330,32 @@ class Pdf {
             cell6.setHorizontalAlignment(Element.ALIGN_LEFT);
             table3.addCell(cell6);
 
+            //* Tableau 4 */
+            PdfPTable table4 = new PdfPTable(1);
+            PdfPCell title4 = new PdfPCell(new Phrase("Total presté", setInterstateFont(10, "white")));
+            title4.setHorizontalAlignment(Element.ALIGN_CENTER);
+            title4.setBackgroundColor(blueASD);
+            table4.addCell(title4);
+            PdfPCell cell7 = new PdfPCell(new Phrase("Sans soins : " + format(answerArr[22]*100) + "%"));
+            cell7.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table4.addCell(cell7);
+            PdfPCell cell8 = new PdfPCell(new Phrase("\t - Dont sans soins IC : " + format(answerArr[23]*100) + "%"));
+            cell8.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table4.addCell(cell8);
+            PdfPCell cell9 = new PdfPCell(new Phrase("\t - Dont sans soins Inf. : " + format(answerArr[24]*100) +"%"));
+            cell8.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table4.addCell(cell9);
+            PdfPCell cell10 = new PdfPCell(new Phrase("Avec soins : " + format(answerArr[25]*100) +"%"));
+            cell8.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table4.addCell(cell10);
+
             paragraph.add(table);
             addEmptyLine(paragraph, 3);
             paragraph.add(table2);
             addEmptyLine(paragraph, 3);
             paragraph.add(table3);
             addEmptyLine(paragraph, 3);
+            paragraph.add(table4);
         }
     }
 

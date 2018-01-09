@@ -39,7 +39,6 @@ public class PopUpActivite implements Initializable {
     private static String monthVal;
     private static String yearVal;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadCombo();
@@ -56,15 +55,19 @@ public class PopUpActivite implements Initializable {
         Boolean flag;
         try {
             initIterator();
+            processFileA();
+            processFileB();
             pdf.buildActivitePdf();
             flag = true;
         } catch (Exception e) {
             e.printStackTrace();
+            iteratorExcel.fileNotFound(e);
             flag = false;
         }
         if (flag){
             label.setText("PDF généré avec succès");
-            label2.setText("C:/users/" + System.getProperty("user.name") + "/Desktop/Rapport_Activite.pdf");
+            label2.setText("C:/users/" + System.getProperty("user.name") +
+                    "/Desktop/Rapport_Activite_" + centreVal + "_" + monthVal + "_" + yearVal+".pdf");
             closeButton.setVisible(true);
             button.setVisible(false);
         } else {
@@ -72,8 +75,7 @@ public class PopUpActivite implements Initializable {
         }
     }
 
-    private void initIterator() throws IOException, InvalidFormatException {
-        int[] rowIndex = {51, 52, 55, 56, 65, 28, 73, 74, 75, 46, 54, 79, 20, 11, 17, 6, 7, 8, 9, 38, 39, 40};
+    private void initIterator() {
         centreVal = comboCentre.getValue();
         monthVal = comboMonth.getValue();
         yearVal = String.valueOf(comboYear.getValue());
@@ -83,11 +85,27 @@ public class PopUpActivite implements Initializable {
         iteratorExcel.setSheet(centre.getSheet());
         iteratorExcel.setPath(year.getPath());
         iteratorExcel.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
+    }
+
+    private void processFileA() throws IOException, InvalidFormatException {
+        int[] rowIndex = {51, 52, 55, 56, 65, 28, 73, 74, 75, 46, 54, 79, 20, 11, 17, 6, 7, 8, 9, 38, 39, 40, 101, 102, 103, 104};
         iteratorExcel.setColumn(periode.getColumn());
         for (int i = 0; i < rowIndex.length; i++) {
             iteratorExcel.setMasterRow(rowIndex[i]);
             iteratorExcel.startIteration();
             pdf.answerArr[i] = round(iteratorExcel.getContentMasterCell(), 2);
+        }
+    }
+
+    private void processFileB() throws IOException, InvalidFormatException {
+        int[] rowIndexFileB = {13, 14};
+        periode.toExcelColumnFileB(comboMonth.getValue());
+        iteratorExcel.setColumn(periode.getColumn());
+        iteratorExcel.setFiles(year.getFileB(), year.getFileA(), year.getFileC());
+        for (int i = 0; i < rowIndexFileB.length; i++) {
+            iteratorExcel.setMasterRow(rowIndexFileB[i]);
+            iteratorExcel.startIteration();
+            pdf.answerArrFileB[i] = round(iteratorExcel.getContentMasterCell(), 2);
         }
     }
 

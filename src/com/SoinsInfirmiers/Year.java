@@ -12,48 +12,49 @@ class Year {
     private String path;
 
     void toPath(int year) {
-        if (year == 2017) {
-            fileA = "Namur 2017.xls";
-            fileB = "Données Namur 2017.xls";
-            fileC = "Suivi pers. CJB Namur 2017.xls";
-            fileD = "Indicateurs 2017.xls";
-            path = "P:/PROVINCE et statistiques FASD/";
-        } else if (year == 2016) {
-            fileA = "Namur 2016 new.xls";
-            fileB = "Données Namur 2016 new.xls";
-            fileC = "Suivi pers. CJB Namur 2016 new.xls";
-            fileD = "Indicateurs 2016.xls";
-            path = "P:/PROVINCE et statistiques FASD/";
-        } else if (year == 2015) {
-            fileA = "Namur 2015 new.xls";
-            fileB = "Données Namur 2015 new.xls";
-            fileC = "Suivi pers. CJB Namur 2015 new.xls";
-            fileD = "Indicateurs 2015.xls";
-            path = "P:/PROVINCE et statistiques FASD/";
-        } else if (year == 1337) {
-            fileA = "debug.xls";
-            fileB = "Données Namur 2016 new.xls";
-            fileC = "Suivi pers. CJB Namur 2016 new.xls";
-            fileD = "Indicateurs 2016.xls";
-            path = "E:/Developpement/IntelliJ/";
-        } else if (year == 2018) {
-            fileA = "Namur 2018 new.xls";
-            fileB = "Données Namur 2018 new.xls";
-            fileC = "Suivi pers. CJB Namur 2018 new.xls";
-            fileD = "Indicateurs 2018.xls";
-            path = "P:/PROVINCE et statistiques FASD/";
-        } else if (year == 2019) {
-            fileA = "Namur 2019 new.xls";
-            fileB = "Données Namur 2019 new.xls";
-            fileC = "Suivi pers. CJB Namur 2019 new.xls";
-            fileD = "Indicateurs 2019.xls";
-            path = "P:/PROVINCE et statistiques FASD/";
-        } else if (year == 2020) {
-            fileA = "Namur 2020 new.xls";
-            fileB = "Données Namur 2020 new.xls";
-            fileC = "Suivi pers. CJB Namur 2020 new.xls";
-            fileD = "Indicateurs 2020.xls";
-            path = "P:/PROVINCE et statistiques FASD/";
+        switch (year) {
+            case 2017:
+                fileA = "Namur 2017.xls";
+                fileB = "Données Namur 2017.xls";
+                fileC = "Suivi pers. CJB Namur 2017.xls";
+                fileD = "Indicateurs 2017.xls";
+                path = "P:/PROVINCE et statistiques FASD/";
+                break;
+            case 2016:
+                fileA = "Namur 2016 new.xls";
+                fileB = "Données Namur 2016 new.xls";
+                fileC = "Suivi pers. CJB Namur 2016 new.xls";
+                fileD = "Indicateurs 2016.xls";
+                path = "P:/PROVINCE et statistiques FASD/";
+                break;
+            case 2015:
+                fileA = "Namur 2015 new.xls";
+                fileB = "Données Namur 2015 new.xls";
+                fileC = "Suivi pers. CJB Namur 2015 new.xls";
+                fileD = "Indicateurs 2015.xls";
+                path = "P:/PROVINCE et statistiques FASD/";
+                break;
+            case 2018:
+                fileA = "Namur 2018 new.xls";
+                fileB = "Données Namur 2018 new.xls";
+                fileC = "Suivi pers. CJB Namur 2018 new.xls";
+                fileD = "Indicateurs 2018.xls";
+                path = "P:/PROVINCE et statistiques FASD/";
+                break;
+            case 2019:
+                fileA = "Namur 2019 new.xls";
+                fileB = "Données Namur 2019 new.xls";
+                fileC = "Suivi pers. CJB Namur 2019 new.xls";
+                fileD = "Indicateurs 2019.xls";
+                path = "P:/PROVINCE et statistiques FASD/";
+                break;
+            case 2020:
+                fileA = "Namur 2020 new.xls";
+                fileB = "Données Namur 2020 new.xls";
+                fileC = "Suivi pers. CJB Namur 2020 new.xls";
+                fileD = "Indicateurs 2020.xls";
+                path = "P:/PROVINCE et statistiques FASD/";
+                break;
         }
     }
 
@@ -84,5 +85,6 @@ class Year {
     String getPath() {
         return path;
     }
+
 
 }

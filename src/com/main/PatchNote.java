@@ -3,11 +3,12 @@ package main;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 
-public class PatchNote {
+class PatchNote {
 
-    public void patchNote() {
+    void patchNote() {
         try {
             Properties prop = new Properties();
             prop.load(getClass().getResourceAsStream("/properties/Patchnote.properties"));
@@ -27,7 +28,7 @@ public class PatchNote {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
         alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + e.getStackTrace() + "\n" +
+        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e.getStackTrace()) + "\n" +
                 "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - displayFormatException()");
         alert.showAndWait();
     }

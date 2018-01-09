@@ -40,7 +40,8 @@ public class Menu {
     }
 
     public void changeLogs(){
-        File file = new File("/txt/Changelog.txt");
+        String changelog = "/txt/Changelog.txt";
+        File file = new File(changelog);
         if (!Desktop.isDesktopSupported()) {
             System.out.println("OS non supporté");
             return;

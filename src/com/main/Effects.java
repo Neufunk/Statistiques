@@ -8,7 +8,7 @@ import javafx.util.Duration;
 
 public class Effects {
 
-    BoxBlur boxBlur = new BoxBlur();
+    private BoxBlur boxBlur = new BoxBlur();
 
     public void setFadeTransition(Node node, double duration, double fromValue, double toValue){
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), node);

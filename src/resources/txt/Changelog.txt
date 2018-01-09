@@ -1,5 +1,12 @@
 ﻿CHANGELOG
 ---------
+Patchnote-0.3.2 = 08/01/2018
+  - Rapport d'activité ajusté fonctionnel
+  - Intégration de la police INTERSTATE
+  - Secteurs de Philippevilles-Florennes fusionnés.
+
+Patchnote-0.3.1 = 12/12/2017
+  - Rapport d'activité integré
 
 Patchnote-0.3.0 = 06/12/2017
   - Refactorisation complète du système de fichiers

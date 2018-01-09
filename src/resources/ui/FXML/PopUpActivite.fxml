@@ -5,24 +5,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="214.0" prefWidth="416.0" style="-fx-background-color: #160f29;"
-            xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="SoinsInfirmiers.PopUpActivite">
+<AnchorPane prefHeight="214.0" prefWidth="416.0" style="-fx-background-color: #160f29;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.PopUpActivite">
    <AnchorPane layoutY="-1.0" prefHeight="78.0" prefWidth="416.0" style="-fx-background-color: #006886;">
-      <ComboBox fx:id="comboYear" layoutX="279.0" layoutY="14.0" prefHeight="31.0" prefWidth="112.0"
-                promptText="Année" style="-fx-background-color: white;"/>
-      <ComboBox fx:id="comboMonth" layoutX="152.0" layoutY="14.0" prefHeight="31.0" prefWidth="112.0"
-                promptText="Mois" style="-fx-background-color: white;"/>
-      <ComboBox fx:id="comboCentre" layoutX="24.0" layoutY="14.0" prefHeight="31.0" prefWidth="112.0"
-                promptText="Centre" style="-fx-background-color: white;"/>
+      <ComboBox fx:id="comboYear" layoutX="279.0" layoutY="14.0" prefHeight="31.0" prefWidth="112.0" promptText="Année" style="-fx-background-color: white;" />
+      <ComboBox fx:id="comboMonth" layoutX="152.0" layoutY="14.0" prefHeight="31.0" prefWidth="112.0" promptText="Mois" style="-fx-background-color: white;" />
+      <ComboBox fx:id="comboCentre" layoutX="24.0" layoutY="14.0" prefHeight="31.0" prefWidth="112.0" promptText="Centre" style="-fx-background-color: white;" />
    </AnchorPane>
    <AnchorPane layoutY="173.0" prefHeight="44.0" prefWidth="416.0" style="-fx-background-color: #e2574c;">
-      <JFXButton fx:id="button" focusTraversable="false" layoutX="165.0" layoutY="7.0" onAction="#onButtonClick"
-                 prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #FFF;" text="Générer"/>
-      <JFXButton fx:id="closeButton" focusTraversable="false" layoutX="165.0" layoutY="7.0" onAction="#onCloseClick"
-                 prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #332c45;" text="Fermer"
-                 textFill="WHITE" visible="false"/>
+      <JFXButton fx:id="button" focusTraversable="false" layoutX="165.0" layoutY="7.0" onAction="#onButtonClick" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #FFF;" text="Générer" />
+      <JFXButton fx:id="closeButton" focusTraversable="false" layoutX="165.0" layoutY="7.0" onAction="#onCloseClick" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #332c45;" text="Fermer" textFill="WHITE" visible="false" />
    </AnchorPane>
-   <Label fx:id="label" layoutX="71.0" layoutY="95.0" prefHeight="31.0" prefWidth="262.0" textFill="WHITE"/>
-   <Label fx:id="label2" layoutX="71.0" layoutY="132.0" prefHeight="22.0" prefWidth="262.0" textFill="WHITE"/>
+   <Label fx:id="label" layoutX="71.0" layoutY="95.0" prefHeight="31.0" prefWidth="262.0" textFill="WHITE" />
+   <Label fx:id="label2" layoutX="16.0" layoutY="132.0" prefHeight="22.0" prefWidth="390.0" textFill="WHITE" />
 </AnchorPane>
