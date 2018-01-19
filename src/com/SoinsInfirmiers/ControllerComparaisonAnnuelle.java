@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
@@ -45,6 +46,8 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     private AnchorPane anchorPane0;
     @FXML
     private LineChart lineGraph;
+    @FXML
+    private NumberAxis yAxis;
     @FXML
     private JFXSpinner idleSpinner;
     @FXML
@@ -263,8 +266,9 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         }
     }
 
-    private void buildLineGraphic() {
+    public void buildLineGraphic() {
         if (indicateur.getwithLineGraphic()) {
+            yAxis.setForceZeroInRange(false);
             lineGraph.getData().clear();
             iteratorExcel0.resetVariables();
             iteratorExcel1.resetVariables();
@@ -329,23 +333,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         lineGraph.setVisible(false);
         noGraphicLabel.setVisible(true);
         idleSpinner.setVisible(false);
-    }
-
-    private void closeConnection() {
-        try {
-            if (comboYear0.getValue() != null) {
-                iteratorExcel0.closeConnection();
-            }
-            if (comboYear1.getValue() != null) {
-                iteratorExcel1.closeConnection();
-            }
-            if (comboYear2.getValue() != null) {
-                iteratorExcel2.closeConnection();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
 

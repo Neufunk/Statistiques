@@ -6,14 +6,16 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 
+import java.util.Objects;
+
 class Graphic {
 
-    ObservableList<PieChart.Data>pieChartData = FXCollections.observableArrayList();
-    XYChart.Series lineChartData = new XYChart.Series();
+    private ObservableList<PieChart.Data>pieChartData = FXCollections.observableArrayList();
+    private XYChart.Series lineChartData = new XYChart.Series();
 
     //PIE GRAPHIC
     void buildPieGraphic(String title, double value){
-        if (title != "" && value > 0){
+        if (!Objects.equals(title, "") && value > 0){
             pieChartData.add(new PieChart.Data(title, value*100));
         }
     }
@@ -24,9 +26,9 @@ class Graphic {
 
 
     //LINEGRAPHIC
-    void buildLineGraphic(String title, double value, String xName) {
-        lineChartData.setName(xName);
-        if (title != "" && value > 0) {
+    void buildLineGraphic(String title, double value, String name) {
+        lineChartData.setName(name);
+        if (!Objects.equals(title, "") && value > 0) {
             if (value < 1 && value > 0) {
                 float floatValue = (float) value * 100;
                 lineChartData.getData().add(new XYChart.Data<>(title, floatValue));
@@ -47,7 +49,7 @@ class Graphic {
 
     //RAW DATA
     void setRawDataName(Label label, String title){
-        if (title != ""){
+        if (!Objects.equals(title, "")){
             label.setText(title);
             label.setVisible(true);
         }else{

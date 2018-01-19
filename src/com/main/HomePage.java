@@ -40,6 +40,7 @@ public class HomePage implements Initializable {
     }
 
     private void onButtonAvjClick(){
+        Tooltip.install(avjButton, new Tooltip("Département Aide à la Vie Journalière"));
         avjButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> openContingentPage());
     }
 
