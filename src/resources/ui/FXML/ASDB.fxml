@@ -136,7 +136,7 @@
                                 <VBox.margin>
                                     <Insets />
                                 </VBox.margin>
-                                <JFXButton onAction="#clearFieldsWorkerTab" styleClass="setup-button" stylesheets="/ui/CSS/Theme.css" text="Renew" textFill="WHITE">
+                                <JFXButton onAction="#clearFieldsWorkerTab" styleClass="setup-button" stylesheets="/ui/CSS/Buttons.css" text="Renew" textFill="WHITE">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <Image url="/img/renew.png" />
@@ -149,7 +149,7 @@
                                         <Insets left="100.0" right="150.0" />
                                     </HBox.margin>
                                 </JFXButton>
-                                <JFXButton onAction="#updateWorkerDatabase" styleClass="setup-button" stylesheets="/ui/CSS/Theme.css" text="Update" textFill="WHITE">
+                                <JFXButton onAction="#updateWorkerDatabase" styleClass="setup-button" stylesheets="/ui/CSS/Buttons.css" text="Update" textFill="WHITE">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <Image url="/img/return.png" />
@@ -159,7 +159,7 @@
                                         <Insets />
                                     </HBox.margin>
                                 </JFXButton>
-                                <JFXButton onAction="#addWorker" styleClass="add-button" stylesheets="/ui/CSS/Theme.css" text="Add" textFill="WHITE">
+                                <JFXButton onAction="#addWorker" styleClass="add-button" stylesheets="/ui/CSS/Buttons.css" text="Add" textFill="WHITE">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <Image url="/img/addCross.png" />
@@ -172,7 +172,7 @@
                                         <Insets left="20.0" />
                                     </HBox.margin>
                                 </JFXButton>
-                                <JFXButton onAction="#deleteWorker" styleClass="delete-button" stylesheets="/ui/CSS/Theme.css" text="Delete" textFill="WHITE">
+                                <JFXButton onAction="#deleteWorker" styleClass="delete-button" stylesheets="/ui/CSS/Buttons.css" text="Delete" textFill="WHITE">
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <Image url="/img/trash.png" />
@@ -192,7 +192,7 @@
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
-                            <JFXButton styleClass="setup-button" stylesheets="/ui/CSS/Theme.css" text="Renew" textFill="WHITE">
+                            <JFXButton styleClass="setup-button" stylesheets="/ui/CSS/Buttons.css" text="Renew" textFill="WHITE">
                                 <graphic>
                                     <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="/img/renew.png" />
@@ -205,7 +205,7 @@
                                     <Insets left="100.0" right="150.0" />
                                 </HBox.margin>
                             </JFXButton>
-                            <JFXButton onAction="#updateSector" styleClass="setup-button" stylesheets="/ui/CSS/Theme.css" text="Update" textFill="WHITE">
+                            <JFXButton onAction="#updateSector" styleClass="setup-button" stylesheets="/ui/CSS/Buttons.css" text="Update" textFill="WHITE">
                                 <graphic>
                                     <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="/img/return.png" />
@@ -215,7 +215,7 @@
                                     <Insets />
                                 </HBox.margin>
                             </JFXButton>
-                            <JFXButton onAction="#addSector" styleClass="add-button" stylesheets="/ui/CSS/Theme.css" text="Add" textFill="WHITE">
+                            <JFXButton onAction="#addSector" styleClass="add-button" stylesheets="/ui/CSS/Buttons.css" text="Add" textFill="WHITE">
                                 <graphic>
                                     <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="/img/addCross.png" />
@@ -228,7 +228,7 @@
                                     <Insets left="20.0" />
                                 </HBox.margin>
                             </JFXButton>
-                            <JFXButton onAction="#deleteSector" styleClass="delete-button" stylesheets="/ui/CSS/Theme.css" text="Delete" textFill="WHITE">
+                            <JFXButton onAction="#deleteSector" styleClass="delete-button" stylesheets="/ui/CSS/Buttons.css" text="Delete" textFill="WHITE">
                                 <graphic>
                                     <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
 
@@ -313,7 +313,7 @@
                                 </VBox>
                             </HBox>
                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                <JFXButton styleClass="setup-button" stylesheets="/ui/CSS/Theme.css" text="Issue">
+                                <JFXButton styleClass="setup-button" stylesheets="/ui/CSS/Buttons.css" text="Issue">
                                     <graphic>
                                         <ImageView fx:id="issueButton" fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
                                     </graphic>
@@ -337,7 +337,7 @@
                             </top>
                             <bottom>
                                 <HBox alignment="CENTER" prefHeight="69.0" prefWidth="557.0" BorderPane.alignment="CENTER">
-                                    <JFXButton onAction="#clearTable" styleClass="setup-button" stylesheets="/ui/CSS/Theme.css" text="Renew" textFill="WHITE">
+                                    <JFXButton onAction="#clearTable" styleClass="setup-button" stylesheets="/ui/CSS/Buttons.css" text="Renew" textFill="WHITE">
                                         <HBox.margin>
                                             <Insets right="20.0" />
                                         </HBox.margin>
@@ -347,7 +347,7 @@
                                             </ImageView>
                                         </graphic>
                                     </JFXButton>
-                                    <JFXButton styleClass="setup-button" stylesheets="/ui/CSS/Theme.css" text="Update" textFill="WHITE">
+                                    <JFXButton styleClass="setup-button" stylesheets="/ui/CSS/Buttons.css" text="Update" textFill="WHITE">
                                         <HBox.margin>
                                             <Insets right="20.0" />
                                         </HBox.margin>

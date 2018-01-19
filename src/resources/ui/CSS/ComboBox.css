@@ -1,0 +1,6 @@
+.jfx-combo-box {
+	-fx-selection-bar: #006782;
+}
+.jfx-combo-box .cell:selected {
+    -fx-text-fill: BLACK;
+}

@@ -93,12 +93,12 @@ public class PopUpActivite implements Initializable {
         for (int i = 0; i < rowIndex.length; i++) {
             iteratorExcel.setMasterRow(rowIndex[i]);
             iteratorExcel.startIteration();
-            pdf.answerArr[i] = round(iteratorExcel.getContentMasterCell(), 2);
+            pdf.answerArr[i] = iteratorExcel.getContentMasterCell();
         }
     }
 
     private void processFileB() throws IOException, InvalidFormatException {
-        int[] rowIndexFileB = {13, 14};
+        int[] rowIndexFileB = {13, 14, 15};
         periode.toExcelColumnFileB(comboMonth.getValue());
         iteratorExcel.setColumn(periode.getColumn());
         iteratorExcel.setFiles(year.getFileB(), year.getFileA(), year.getFileC());

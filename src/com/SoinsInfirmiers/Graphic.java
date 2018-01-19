@@ -6,25 +6,25 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 
-public class Graphic {
+class Graphic {
 
     ObservableList<PieChart.Data>pieChartData = FXCollections.observableArrayList();
     XYChart.Series lineChartData = new XYChart.Series();
 
     //PIE GRAPHIC
-    public void buildPieGraphic(String title, double value){
+    void buildPieGraphic(String title, double value){
         if (title != "" && value > 0){
             pieChartData.add(new PieChart.Data(title, value*100));
         }
     }
 
-    public ObservableList<PieChart.Data> getPieChartData(){
+    ObservableList<PieChart.Data> getPieChartData(){
         return pieChartData;
     }
 
 
     //LINEGRAPHIC
-    public void buildLineGraphic(String title, double value, String xName) {
+    void buildLineGraphic(String title, double value, String xName) {
         lineChartData.setName(xName);
         if (title != "" && value > 0) {
             if (value < 1 && value > 0) {
@@ -36,17 +36,17 @@ public class Graphic {
         }
     }
 
-    public XYChart.Series getLineChartData(){
+    XYChart.Series getLineChartData(){
         return lineChartData;
     }
 
-    public void clear(){
+    void clear(){
         lineChartData.getData().clear();
     }
 
 
     //RAW DATA
-    public void setRawDataName(Label label, String title){
+    void setRawDataName(Label label, String title){
         if (title != ""){
             label.setText(title);
             label.setVisible(true);
@@ -56,7 +56,7 @@ public class Graphic {
         }
     }
 
-    public void setMasterRawDataValue(Label label, double value){
+    void setMasterRawDataValue(Label label, double value){
         if (value == 0) {
             label.setText("");
             label.setVisible(false);
@@ -80,7 +80,7 @@ public class Graphic {
         }
     }
 
-    public void setRawDataValue(Label label, double value){
+    void setRawDataValue(Label label, double value){
         if (value > 1) {
             float floatValue = (float) value;
             String strValue = String.format("%,.2f", floatValue);

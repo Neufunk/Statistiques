@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1290.0" style="-fx-background-color: #FAFAFA;" stylesheets="@../CSS/Theme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.HomePage">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1290.0" style="-fx-background-color: #FAFAFA;" stylesheets="@../CSS/Buttons.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.HomePage">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -47,7 +47,7 @@
         <padding>
             <Insets left="50.0" right="50.0" />
         </padding>
-        <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" focusTraversable="false" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../CSS/Theme.css" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+        <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" focusTraversable="false" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
             <font>
                 <Font name="System Bold" size="25.0" />
             </font>
@@ -55,7 +55,7 @@
             <Insets />
          </opaqueInsets>
         </JFXButton>
-        <JFXButton id="siButton" fx:id="siButton" buttonType="RAISED" focusTraversable="false" prefHeight="134.0" prefWidth="245.0" styleClass="blue-button" stylesheets="@../CSS/Theme.css" text="SI" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+        <JFXButton id="siButton" fx:id="siButton" buttonType="RAISED" focusTraversable="false" prefHeight="134.0" prefWidth="245.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="SI" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
             <font>
                 <Font name="System Bold" size="25.0" />
             </font>
@@ -80,8 +80,8 @@
             </font>
         </Label>
     </VBox>
-   <VBox fx:id="menuPane" stylesheets="@../CSS/Theme.css" GridPane.columnSpan="3" GridPane.rowIndex="2" />
-    <JFXButton id="close-button" fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" focusTraversable="false" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" styleClass="close-button" stylesheets="@../CSS/Theme.css" text="FERMER" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+   <VBox fx:id="menuPane" stylesheets="@../CSS/Buttons.css" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+    <JFXButton id="close-button" fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" focusTraversable="false" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="FERMER" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
         <GridPane.margin>
           <Insets bottom="30.0" right="30.0" />
         </GridPane.margin>

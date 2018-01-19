@@ -84,6 +84,8 @@ public class ControllerContingent implements Initializable {
     private static TextArea shellTextArea = new TextArea();
     private Stage eventShell = new Stage();
     private Button cancelButton = new Button("Annuler");
+    private String namPath;
+    private String philPath;
 
     public void initialize(URL location, ResourceBundle resources) {
         Menu menu = new Menu();
@@ -174,15 +176,7 @@ public class ControllerContingent implements Initializable {
                                     String name = rs.getString("prenom");
                                     String sect = rs.getString("secteur_name");
                                     String centre = rs.getString("antenne");
-                                    String namPath;
-                                    String philPath;
-                                    if (toggleButton1.isSelected()) {
-                                        namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                        philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                    } else {
-                                        namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                        philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-                                    }
+                                    directriceSelection();
                                     switch (centre) {
                                         case "Namur":
                                             iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect, connection);
@@ -224,10 +218,10 @@ public class ControllerContingent implements Initializable {
                 case SUCCEEDED:
                     closeProgressWindow();
                     database.closeConnection();
-                    eventShell.setTitle("EventShell - Updated");
+                    eventShell.setTitle("EventShell - Update terminée");
                     updateFinishedAlert();
-                    shellTextArea.appendText("SUCCEEDED");
-                    System.out.println("SUCCEEDED");
+                    shellTextArea.appendText("TERMINÉ");
+                    System.out.println("TERMINÉ");
                     break;
             }
         });
@@ -237,9 +231,20 @@ public class ControllerContingent implements Initializable {
     private void updateFinishedAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Mise à jour terminée");
-        alert.setHeaderText("La mise à jour de la base de données s'est terminée sans erreur. \n Si des secteurs n'ont pas pu être mis à jour, ils apparaitront plus bas");
+        alert.setHeaderText("La mise à jour de la base de données s'est terminée sans erreur. \n " +
+                "Si des secteurs n'ont pas pu être mis à jour, ils apparaitront plus bas");
         alert.setContentText(getNonUpdated());
         alert.show();
+    }
+
+    private void directriceSelection(){
+        if (toggleButton1.isSelected()) {
+            namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+            philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+        } else {
+            namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+            philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+        }
     }
 
     private String getCurrentYear() {
@@ -273,10 +278,14 @@ public class ControllerContingent implements Initializable {
 
     private void displayTable() {
         tableView.getColumns().clear();
+        tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         tableView2.getColumns().clear();
+        tableView2.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         displayYearLabel();
+
         ObservableList<ObservableList> observableList = FXCollections.observableArrayList();
         ObservableList<ObservableList> observableList2 = FXCollections.observableArrayList();
+
         try {
             Connection c = database.connect();
             String centre = comboCentre.getValue().toString();
@@ -286,16 +295,20 @@ public class ControllerContingent implements Initializable {
             }
             String periode = comboPeriode.getValue().toString();
             String year = getCurrentYear();
+
             // CURRENT YEAR TABLE
             String sql = database.loadContingent38(centre, secteur, periode, year, getCheckboxState());
             ResultSet rs = c.createStatement().executeQuery(sql);
 
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
                 final int j = i;
-                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                TableColumn col = new TableColumn(capitalize(rs.getMetaData().getColumnName(i + 1), 1));
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
                 col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView.getColumns().addAll(col);
+                if (centre.equals("ASD")) {
+                    tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                }
                 System.out.println("Column [" + i + "] ");
             }
             while (rs.next()) {
@@ -308,6 +321,7 @@ public class ControllerContingent implements Initializable {
                 System.out.println("Row [1] ajoutée " + row);
                 observableList.add(row);
             }
+
             // LAST YEAR TABLE
             Calendar now = Calendar.getInstance();
             int currentYear = now.get(Calendar.YEAR);
@@ -320,10 +334,13 @@ public class ControllerContingent implements Initializable {
 
             for (int i = 0; i < rs2.getMetaData().getColumnCount(); i++) {
                 final int j = i;
-                TableColumn col = new TableColumn(rs2.getMetaData().getColumnName(i + 1));
+                TableColumn col = new TableColumn(capitalize(rs2.getMetaData().getColumnName(i + 1), 1));
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
                 col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView2.getColumns().addAll(col);
+                if (centre.equals("ASD")) {
+                    tableView2.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                }
                 System.out.println("Column [" + i + "] ");
             }
             while (rs2.next()) {
@@ -346,6 +363,10 @@ public class ControllerContingent implements Initializable {
         }
     }
 
+    private void moveRows(){
+
+    }
+
     private boolean checkEmpty() {
         if (comboCentre.getValue() == null) {
             showEmptyDialog("un centre");
@@ -359,6 +380,11 @@ public class ControllerContingent implements Initializable {
         } else {
             return true;
         }
+    }
+
+    private String capitalize(String string, int numberOfLetter){
+        String answer = string.substring(0, numberOfLetter).toUpperCase() + string.substring(numberOfLetter);
+        return answer;
     }
 
     private void showEmptyDialog(String string) {

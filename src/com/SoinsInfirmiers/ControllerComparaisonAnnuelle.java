@@ -6,12 +6,12 @@ import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import main.Effects;
 import main.Menu;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -74,7 +74,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         onGenerateButtonClick();
         onClearButtonClick();
         onRedCrossClick();
-
     }
 
     private void initializeCombo() {
@@ -160,7 +159,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         iteratorExcel0.resetVariables();
         iteratorExcel1.resetVariables();
         iteratorExcel2.resetVariables();
-        indicateur.resetVariables();
     }
 
     private void generateYear0() {
@@ -215,21 +213,17 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             lineGraph.getData().clear();
             lineGraph.setVisible(false);
             idleSpinner.setVisible(true);
-            return;
         } catch (IllegalStateException e2) {
             System.out.print("Division par zéro !");
-            return;
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
             System.out.print("IO / InvalidFormat");
-            return;
         } catch (NullPointerException e3) {
             lineGraph.setTitle("");
             lineGraph.getData().clear();
             lineGraph.setVisible(false);
             noGraphicLabel.setVisible(true);
             idleSpinner.setVisible(false);
-            return;
         }
     }
 
@@ -239,19 +233,15 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         } catch (FileNotFoundException e0) {
             iteratorExcel1.fileNotFound(e0);
             lineGraph.getData().clear();
-            return;
         } catch (IllegalStateException e2) {
             System.out.print("Erreur");
-            return;
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
-            return;
         } catch (NullPointerException e3) {
             lineGraph.setTitle("");
             lineGraph.getData().clear();
             lineGraph.setVisible(false);
             noGraphicLabel.setVisible(true);
-            return;
         }
     }
 
@@ -261,19 +251,15 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         } catch (FileNotFoundException e0) {
             iteratorExcel2.fileNotFound(e0);
             lineGraph.getData().clear();
-            return;
         } catch (IllegalStateException e2) {
             System.out.print("Erreur");
-            return;
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
-            return;
         } catch (NullPointerException e3) {
             lineGraph.setTitle("");
             lineGraph.getData().clear();
             lineGraph.setVisible(false);
             noGraphicLabel.setVisible(true);
-            return;
         }
     }
 
@@ -292,6 +278,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             Graphic serie3 = new Graphic();
             String[] month = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
+
             if (comboYear0.getValue() != null) {
                 double[] value = {iteratorExcel0.getContentJanvierCell(), iteratorExcel0.getContentFevrierCell(),
                         iteratorExcel0.getContentMarsCell(), iteratorExcel0.getContentAvrilCell(),
@@ -305,6 +292,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             } else {
                 serie1.clear();
             }
+
             if (comboYear1.getValue() != null) {
                 double[] value2 = {iteratorExcel1.getContentJanvierCell(), iteratorExcel1.getContentFevrierCell(),
                         iteratorExcel1.getContentMarsCell(), iteratorExcel1.getContentAvrilCell(),
@@ -318,6 +306,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             } else {
                 serie2.clear();
             }
+
             if (comboYear2.getValue() != null) {
                 double[] value3 = {iteratorExcel2.getContentJanvierCell(), iteratorExcel2.getContentFevrierCell(),
                         iteratorExcel2.getContentMarsCell(), iteratorExcel2.getContentAvrilCell(),

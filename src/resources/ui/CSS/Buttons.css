@@ -64,3 +64,13 @@
         -fx-scale-y: 1.01;
         -fx-scale-z: 1.01;
 }
+.purple-button {
+    -fx-background-color:  #893209;
+    -fx-text-fill: white;
+}
+.purple-button:hover {
+    -fx-background-color: #c0450c;
+        -fx-scale-x: 1.01;
+        -fx-scale-y: 1.01;
+        -fx-scale-z: 1.01;
+}

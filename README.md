@@ -21,10 +21,10 @@ May 05, 2017
     
 All the above .JAR are included in the project /lib folder.
 
+### IMAGES :
+
+![Home](https://github.com/Neufunk/Statistiques/blob/master/src/resources/img/Capture.PNG)
+
 ### GITHUB :
 
 https://github.com/Neufunk/Statistiques
-
-### IMAGES
-
-![Home](https://github.com/Neufunk/Statistiques/blob/master/src/resources/img/Capture.PNG)
