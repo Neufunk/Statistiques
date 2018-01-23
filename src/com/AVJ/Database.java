@@ -80,7 +80,8 @@ public class Database {
             additionPeriode = "Décembre";
         }
         if (checkboxState) {
-            sql = "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, antenne " +
+            sql = "SELECT * FROM (" +
+                    "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -92,7 +93,9 @@ public class Database {
                     "'Nbre H Prestées (code PR) (Base 38)', " +
                     "'Ecart H Dispo et H prestées (Base 38)') " +
                     "GROUP BY indicateur, antenne, annee, mois " +
+
                     "UNION ALL " +
+
                     "SELECT annee, '', indicateur, ROUND(SUM(valeur),2) AS valeur, antenne " +
                     "FROM pot_depart_conges " +
                     "INNER JOIN secteurs " +
@@ -100,7 +103,9 @@ public class Database {
                     "WHERE antenne = '" + centre + "' " +
                     "AND annee = '" + annee + "' " +
                     "GROUP BY indicateur, antenne, annee " +
+
                     "UNION ALL " +
+
                     "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, antenne " +
                     "FROM conges_pris " +
                     "INNER JOIN secteurs " +
@@ -109,16 +114,57 @@ public class Database {
                     "AND mois = '" + additionPeriode + "'" +
                     "AND annee = '" + annee + "'" +
                     "GROUP BY indicateur, antenne, annee, mois " +
+
                     "UNION ALL " +
+
+                    "SELECT pot_depart_conges.annee, conges_pris.mois AS mois, 'Solde congés', " +
+                    "(SELECT ROUND(SUM(valeur),2) AS valeur " +
+                    "FROM pot_depart_conges " +
+                    "INNER JOIN secteurs " +
+                    "ON pot_depart_conges.numero_secteur = secteurs.id " +
+                    "WHERE annee = '" + annee + "' AND antenne = '" + centre + "')" +
+                    "-" +
+                    "(SELECT ROUND(SUM(valeur),2) AS valeur " +
+                    "FROM conges_pris " +
+                    "INNER JOIN secteurs " +
+                    "ON conges_pris.numero_secteur = secteurs.id " +
+                    "WHERE annee = '" + annee + "' " +
+                    "AND antenne = '" + centre + "' " +
+                    "AND mois = '" + additionPeriode + "') AS Soustraction, " +
+                    "antenne " +
+                    "FROM pot_depart_conges " +
+                    "INNER JOIN secteurs " +
+                    "ON pot_depart_conges.numero_secteur = secteurs.id " +
+                    "INNER JOIN conges_pris " +
+                    "ON pot_depart_conges.numero_secteur = conges_pris.numero_secteur " +
+                    "WHERE antenne = '" + centre + "' " +
+                    "AND mois = '" + periode + "' " +
+                    "AND pot_depart_conges.annee = '" + annee + "' " +
+                    "GROUP BY pot_depart_conges.indicateur, antenne, pot_depart_conges.annee, mois " +
+
+                    "UNION ALL " +
+
                     "SELECT annee, '', indicateur, ROUND(SUM(valeur),2) AS valeur, antenne " +
                     "FROM solde_heures_recup " +
                     "INNER JOIN secteurs " +
                     "ON solde_heures_recup.numero_secteur = secteurs.id " +
                     "WHERE antenne = '" + centre + "' " +
                     "AND annee = '" + annee + "' " +
-                    "GROUP BY indicateur, antenne, annee ";
+                    "GROUP BY indicateur, antenne, annee " +
+                    ") alias " +
+                    "order by case indicateur " +
+                    "WHEN 'Total Heures dispo par mois (Base 38)' THEN 1 " +
+                    "WHEN 'Nbre H Prestées (code PR) (Base 38)'   THEN 2 " +
+                    "WHEN 'Ecart H Dispo et H prestées (Base 38)' THEN 3 " +
+                    "WHEN 'Nbre H Absentéisme (code M) (Base 38)' THEN 4 " +
+                    "WHEN 'Pot départ congés' THEN 5 " +
+                    "WHEN 'congés pris' THEN 6 " +
+                    "WHEN 'solde congés'THEN 7 " +
+                    "WHEN 'Solde heures récup' THEN 8 " +
+                    "end asc";
         } else if (centre.equals("ASD")) {
-            sql = "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur " +
+            sql = "SELECT * FROM (" +
+                    "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -129,14 +175,18 @@ public class Database {
                     "'Nbre H Prestées (code PR) (Base 38)', " +
                     "'Ecart H Dispo et H prestées (Base 38)') " +
                     "GROUP BY annee, mois, indicateur " +
+
                     "UNION ALL " +
+
                     "SELECT annee, '', indicateur, ROUND(SUM(valeur),2) AS valeur " +
                     "FROM pot_depart_conges " +
                     "INNER JOIN secteurs " +
                     "ON pot_depart_conges.numero_secteur = secteurs.id " +
                     "AND annee = '" + annee + "' " +
                     "GROUP BY indicateur, annee " +
+
                     "UNION ALL " +
+
                     "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur " +
                     "FROM conges_pris " +
                     "INNER JOIN secteurs " +
@@ -144,15 +194,53 @@ public class Database {
                     "WHERE mois = '" + additionPeriode + "' " +
                     "AND annee = '" + annee + "' " +
                     "GROUP BY indicateur, annee, mois " +
+
                     "UNION ALL " +
+
+                    "SELECT pot_depart_conges.annee, conges_pris.mois AS mois, 'Congés Restants', " +
+                    "(SELECT ROUND(SUM(valeur),2) AS valeur " +
+                    "FROM pot_depart_conges " +
+                    "INNER JOIN secteurs " +
+                    "ON pot_depart_conges.numero_secteur = secteurs.id " +
+                    "WHERE annee = '" + annee + "')" +
+                    "-" +
+                    "(SELECT ROUND(SUM(valeur),2) AS valeur " +
+                    "FROM conges_pris " +
+                    "INNER JOIN secteurs " +
+                    "ON conges_pris.numero_secteur = secteurs.id " +
+                    "WHERE annee = '" + annee + "' " +
+                    "AND mois = '" + additionPeriode + "') AS Soustraction " +
+                    "FROM pot_depart_conges " +
+                    "INNER JOIN secteurs " +
+                    "ON pot_depart_conges.numero_secteur = secteurs.id " +
+                    "INNER JOIN conges_pris " +
+                    "ON pot_depart_conges.numero_secteur = conges_pris.numero_secteur " +
+                    "WHERE mois = '" + periode + "' " +
+                    "AND pot_depart_conges.annee = '" + annee + "' " +
+                    "GROUP BY pot_depart_conges.indicateur, pot_depart_conges.annee, mois " +
+
+                    "UNION ALL " +
+
                     "SELECT annee, '', indicateur, ROUND(SUM(valeur),2) AS valeur " +
                     "FROM solde_heures_recup " +
                     "INNER JOIN secteurs " +
                     "ON solde_heures_recup.numero_secteur = secteurs.id " +
                     "AND annee = '" + annee + "' " +
-                    "GROUP BY indicateur, annee";
+                    "GROUP BY indicateur, annee " +
+                    ") alias " +
+                    "order by case indicateur " +
+                    "WHEN 'Total Heures dispo par mois (Base 38)' THEN 1 " +
+                    "WHEN 'Nbre H Prestées (code PR) (Base 38)'   THEN 2 " +
+                    "WHEN 'Ecart H Dispo et H prestées (Base 38)' THEN 3 " +
+                    "WHEN 'Nbre H Absentéisme (code M) (Base 38)' THEN 4 " +
+                    "WHEN 'Pot départ congés' THEN 5 " +
+                    "WHEN 'congés pris' THEN 6 " +
+                    "WHEN 'solde congés'THEN 7 " +
+                    "WHEN 'Solde heures récup' THEN 8 " +
+                    "END asc";
         } else {
-            sql = "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, secteur_name, antenne " +
+            sql = "SELECT * FROM ( " +
+                    "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, secteur_name, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
@@ -164,7 +252,9 @@ public class Database {
                     "'Nbre H Prestées (code PR) (Base 38)', " +
                     "'Ecart H Dispo et H prestées (Base 38)') " +
                     "GROUP BY annee, mois, indicateur, antenne, secteur_name " +
+
                     "UNION ALL " +
+
                     "SELECT annee, '', indicateur, ROUND(SUM(valeur),2) AS valeur, secteur_name, antenne " +
                     "FROM pot_depart_conges " +
                     "INNER JOIN secteurs " +
@@ -172,7 +262,9 @@ public class Database {
                     "WHERE secteur_name = '" + secteur + "'" +
                     "AND annee = '" + annee + "'" +
                     "GROUP BY indicateur, antenne, annee, secteur_name " +
+
                     "UNION ALL " +
+
                     "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, secteur_name, antenne " +
                     "FROM conges_pris " +
                     "INNER JOIN secteurs " +
@@ -181,14 +273,56 @@ public class Database {
                     "AND mois = '" + additionPeriode + "'" +
                     "AND annee = '" + annee + "'" +
                     "GROUP BY indicateur, antenne, annee, mois, secteur_name " +
+
                     "UNION ALL " +
+
+                    "SELECT pot_depart_conges.annee, conges_pris.mois AS mois, 'Congés Restants', " +
+                    "(SELECT ROUND(SUM(valeur),2) AS valeur " +
+                    "FROM pot_depart_conges " +
+                    "INNER JOIN secteurs " +
+                    "ON pot_depart_conges.numero_secteur = secteurs.id " +
+                    "WHERE annee = '" + annee + "' AND antenne = '" + centre + "' AND secteur_name = '" + secteur +"')" +
+                    "-" +
+                    "(SELECT ROUND(SUM(valeur),2) AS valeur " +
+                    "FROM conges_pris " +
+                    "INNER JOIN secteurs " +
+                    "ON conges_pris.numero_secteur = secteurs.id " +
+                    "WHERE annee = '" + annee + "' " +
+                    "AND antenne = '" + centre + "' " +
+                    "AND secteur_name = '" + secteur + "' " +
+                    "AND mois = '" + additionPeriode + "') AS Soustraction, " +
+                    "secteur_name, antenne " +
+                    "FROM pot_depart_conges " +
+                    "INNER JOIN secteurs " +
+                    "ON pot_depart_conges.numero_secteur = secteurs.id " +
+                    "INNER JOIN conges_pris " +
+                    "ON pot_depart_conges.numero_secteur = conges_pris.numero_secteur " +
+                    "WHERE antenne = '" + centre + "' " +
+                    "AND mois = '" + additionPeriode + "' " +
+                    "AND secteur_name = '" + secteur + "' " +
+                    "AND pot_depart_conges.annee = '" + annee + "' " +
+                    "GROUP BY pot_depart_conges.indicateur, secteur_name, antenne, pot_depart_conges.annee, mois " +
+
+                    "UNION ALL " +
+
                     "SELECT annee, '', indicateur, ROUND(SUM(valeur),2) AS valeur, secteur_name, antenne " +
                     "FROM solde_heures_recup " +
                     "INNER JOIN secteurs " +
                     "ON solde_heures_recup.numero_secteur = secteurs.id " +
-                    "WHERE secteur_name = '" + secteur + "'" +
-                    "AND annee = '" + annee + "'" +
-                    "GROUP BY indicateur, antenne, annee, secteur_name ";
+                    "WHERE secteur_name = '" + secteur + "' " +
+                    "AND annee = '" + annee + "' " +
+                    "GROUP BY indicateur, antenne, annee, secteur_name " +
+                    ") alias " +
+                    "order by case indicateur " +
+                    "WHEN 'Total Heures dispo par mois (Base 38)' THEN 1 " +
+                    "WHEN 'Nbre H Prestées (code PR) (Base 38)'   THEN 2 " +
+                    "WHEN 'Ecart H Dispo et H prestées (Base 38)' THEN 3 " +
+                    "WHEN 'Nbre H Absentéisme (code M) (Base 38)' THEN 4 " +
+                    "WHEN 'Pot départ congés' THEN 5 " +
+                    "WHEN 'congés pris' THEN 6 " +
+                    "WHEN 'solde congés'THEN 7 " +
+                    "WHEN 'Solde heures récup' THEN 8 " +
+                    "end asc";
         }
         return sql;
     }

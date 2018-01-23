@@ -306,7 +306,7 @@ public class ControllerContingent implements Initializable {
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
                 col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView.getColumns().addAll(col);
-                if (centre.equals("ASD")) {
+                if (centre.equals("ASD") || getCheckboxState()) {
                     tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
                 }
                 System.out.println("Column [" + i + "] ");
@@ -338,7 +338,7 @@ public class ControllerContingent implements Initializable {
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
                 col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView2.getColumns().addAll(col);
-                if (centre.equals("ASD")) {
+                if (centre.equals("ASD") || getCheckboxState()) {
                     tableView2.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
                 }
                 System.out.println("Column [" + i + "] ");
@@ -361,10 +361,6 @@ public class ControllerContingent implements Initializable {
             System.out.println("Erreur lors de la construction des données");
             displayError(e);
         }
-    }
-
-    private void moveRows(){
-
     }
 
     private boolean checkEmpty() {

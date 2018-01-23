@@ -8,7 +8,7 @@
 .table-view .column-header-background .filler {
     -fx-background-color: -fx-blue-asd;
     -fx-stroke: transparent;
-    -fx-size: 37;
+    -fx-size: 35;
     -fx-alignment: CENTER ;
     -fx-text-alignment: center;
 }
@@ -22,14 +22,14 @@
     -fx-text-fill: #ffffff;
 }
 .table-row-cell:filled:hover {
-    -fx-size: 37;
+    -fx-size: 35;
     -fx-alignment: CENTER;
     -fx-text-alignment: center;
 }
 .table-view:row-selection {
     -fx-background-color: transparent;
     -fx-text-fill: white;
-    -fx-fixed-cell-size: 37;
+    -fx-fixed-cell-size: 35;
     -fx-alignment: CENTER;
     -fx-text-alignment: center;
 

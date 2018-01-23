@@ -32,8 +32,4 @@ public class Effects {
         boxBlur.setIterations(0);
         node.setEffect(boxBlur);
     }
-
-    public void setDropShadow(Stage stage){
-
-    }
 }

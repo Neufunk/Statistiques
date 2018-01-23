@@ -2,7 +2,7 @@ package SoinsInfirmiers;
 
 import javafx.scene.control.Alert;
 
-public class Indicateur {
+class Indicateur {
 
     private int masterRow;
     private int rowA = 0;
@@ -12,10 +12,10 @@ public class Indicateur {
     private int rowE = 0;
     private int rowF = 0;
     private boolean withGraphic = false;
-    boolean withFileD = false;
+    private boolean withFileD = false;
     private boolean withLineGraphic = true;
 
-    public void toExcelRow(String indicateur) {
+    void toExcelRow(String indicateur) {
         switch (indicateur) {
             case "Total de jours payés":
                 masterRow = 6;
@@ -233,7 +233,7 @@ public class Indicateur {
         }
     }
 
-    public void showEmptyDialog(){
+    void showEmptyDialog(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("NullPointerException");
         alert.setHeaderText("Veuillez choisir un indicateur");
@@ -241,7 +241,7 @@ public class Indicateur {
         alert.showAndWait();
     }
 
-    public void resetVariables(){
+    void resetVariables(){
         masterRow = 0;
         rowA = 0;
         rowB = 0;

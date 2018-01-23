@@ -7,8 +7,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class FirstPreloader extends Preloader {
-    ProgressBar bar;
-    Stage stage;
+    private ProgressBar bar;
+    private Stage stage;
 
     private Scene createPreloaderScene() {
         bar = new ProgressBar();

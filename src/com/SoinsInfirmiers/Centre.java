@@ -3,11 +3,11 @@ package SoinsInfirmiers;
 
 import javafx.scene.control.Alert;
 
-public class Centre {
+class Centre {
 
     private int sheet;
 
-    public void toExcelSheet(String centre) {
+    void toExcelSheet(String centre) {
         switch (centre) {
             case "Global":
                 sheet = 5;
@@ -33,7 +33,7 @@ public class Centre {
         }
     }
 
-    public void showEmptyDialog(){
+    void showEmptyDialog(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("NullPointerException");
         alert.setHeaderText("Veuillez sélectionner un centre");
@@ -41,7 +41,7 @@ public class Centre {
         alert.showAndWait();
     }
 
-    public int getSheet() {
+    int getSheet() {
         return sheet;
     }
 

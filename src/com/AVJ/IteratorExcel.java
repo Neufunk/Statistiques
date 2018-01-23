@@ -96,7 +96,7 @@ class IteratorExcel extends ControllerContingent {
         String[] columnArr = {"E", "F", "G", "H"};
         int rowStart = 8;
         int rowEnd = 37;
-        int result = 0;
+        double result = 0;
         Workbook workbook = WorkbookFactory.create(new File(path + year + "\\" + firstName + "\\" + fileName + secteur + ".xlsm"));
         Sheet selectionSheet = workbook.getSheet("Compteurs");
         for (String column : columnArr) {

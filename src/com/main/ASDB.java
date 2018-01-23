@@ -185,7 +185,6 @@ public class ASDB implements Initializable {
             e.printStackTrace();
             displayError(e);
         }
-
     }
 
     public void searchByLastNameWorkerDatabase() {
