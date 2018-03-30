@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -25,6 +26,8 @@ public class HomePage implements Initializable {
     private JFXButton avjButton;
     @FXML
     private VBox menuPane;
+    @FXML
+    private GridPane gridPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -32,6 +35,8 @@ public class HomePage implements Initializable {
         onButtonAvjClick();
         Menu menu = new Menu();
         menu.loadMenuBar(menuPane);
+        Effects effects = new Effects();
+        effects.setFadeTransition(gridPane, 2500, 0, 100);
     }
 
     private void onButtonSiClick(){
@@ -47,9 +52,10 @@ public class HomePage implements Initializable {
     private void openIndicateursPage(){
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/StatistiquesSI.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(Data.pageTitle0);
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectSi.fxml"));
+            Scene scene = stage.getScene();
+            scene.setRoot(root);
+            stage.setTitle(Data.pageTitle2);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -58,15 +64,16 @@ public class HomePage implements Initializable {
     private void openContingentPage(){
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Contingent.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.pageTitle0);
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectAVJ.fxml"));
+            Scene scene = stage.getScene();
+            scene.setRoot(root);
+            stage.setTitle(AVJ.Data.pageTitle1);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
     }
 
-    public void closeButtonAction() throws InterruptedException {
+    public void closeButtonAction() {
         System.exit(0);
     }
 

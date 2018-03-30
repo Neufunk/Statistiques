@@ -63,8 +63,6 @@ public class ControllerContingent implements Initializable {
     @FXML
     private JFXToggleButton toggleButton;
     @FXML
-    private JFXToggleButton toggleButton1;
-    @FXML
     private Label yearLabel1;
     @FXML
     private Label yearLabel2;
@@ -84,8 +82,8 @@ public class ControllerContingent implements Initializable {
     private static TextArea shellTextArea = new TextArea();
     private Stage eventShell = new Stage();
     private Button cancelButton = new Button("Annuler");
-    private String namPath;
-    private String philPath;
+    private String namPath = "\\\\130.15.0.1\\Public\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+    private String philPath = "\\\\130.17.0.1\\Public\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
 
     public void initialize(URL location, ResourceBundle resources) {
         Menu menu = new Menu();
@@ -93,7 +91,6 @@ public class ControllerContingent implements Initializable {
         initializeCombo();
         onCancelButtonClick();
         toggleButtonListener();
-        toggleButtonDirectriceListener();
         if (progressStage.getOwner() != Main.getPrimaryStage()) {
             progressWindowProperties();
         }
@@ -107,14 +104,6 @@ public class ControllerContingent implements Initializable {
 
     public void toggleButtonListener() {
         toggleButton.setText(getCurrentYear());
-    }
-
-    public void toggleButtonDirectriceListener() {
-        if (toggleButton1.isSelected()) {
-            toggleButton1.setText("Laurence");
-        } else {
-            toggleButton1.setText("Sarah");
-        }
     }
 
     public void displaySecteurs() {
@@ -176,7 +165,7 @@ public class ControllerContingent implements Initializable {
                                     String name = rs.getString("prenom");
                                     String sect = rs.getString("secteur_name");
                                     String centre = rs.getString("antenne");
-                                    directriceSelection();
+                                    // directriceSelection();
                                     switch (centre) {
                                         case "Namur":
                                             iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect, connection);
@@ -235,16 +224,6 @@ public class ControllerContingent implements Initializable {
                 "Si des secteurs n'ont pas pu être mis à jour, ils apparaitront plus bas");
         alert.setContentText(getNonUpdated());
         alert.show();
-    }
-
-    private void directriceSelection(){
-        if (toggleButton1.isSelected()) {
-            namPath = "P:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-            philPath = "W:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-        } else {
-            namPath = "W:\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-            philPath = "P:\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-        }
     }
 
     private String getCurrentYear() {

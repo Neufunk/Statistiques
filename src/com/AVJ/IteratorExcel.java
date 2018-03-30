@@ -43,7 +43,6 @@ class IteratorExcel extends ControllerContingent {
             "Septembre", "Octobre", "Novembre", "Décembre", "Total"};
 
     void startIteration(String path, String year, String firstName, String secteur, Connection connection) {
-        progress += 1;
         String fileName = setFileName(secteur);
         secteurLabel = fileName + secteur;
         textField.setText(secteurLabel);
@@ -53,13 +52,13 @@ class IteratorExcel extends ControllerContingent {
             iteratePotDepartConges(path, year, firstName, secteur, fileName, connection);
             iterateCongesPris(path, year, firstName, secteur, fileName, connection);
             iterateSoldeHeuresRecup(path, year, firstName, secteur, fileName, connection);
-            progress += 2;
             sectorCount++;
-            addShell("#" + sectorCount + "/22 - " + fileName + secteur + " - MIS À JOUR");
+            addShell("#" + sectorCount + "/21 - " + fileName + secteur + " - MIS À JOUR");
+            progress += 1;
         } catch (Exception e) {
+            progress+=2;
             sectorCount++;
-            progress += 2;
-            addShell("!!! - #" + sectorCount + "/22 - " + fileName + secteur + " - NON MIS À JOUR >> " + e.getMessage());
+            addShell("!!! - #" + sectorCount + "/21 - " + fileName + secteur + " - NON MIS À JOUR >> " + e.getMessage());
             e.printStackTrace();
             nonUpdated.add(fileName + secteur);
         }
@@ -108,6 +107,7 @@ class IteratorExcel extends ControllerContingent {
                 result += cell.getNumericCellValue();
             }
             database.updatePotDepartConges(connection, getCurrentYear(), secteur, result);
+            progress+=1;
         }
         System.out.println("#" + sectorCount + ". " + fileName + secteur + " - Pot Départ Congés : " + result);
         closeWorkbook(workbook);

@@ -30,14 +30,13 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXML/HomePage.fxml"));
             Parent root = loader.load();
             primaryStage.setScene(new Scene(root, 1290, 720));
-            primaryStage.setResizable(false);
+            primaryStage.setResizable(true);
             primaryStage.show();
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/graphique.png")));
 
         } catch (Exception e) {
             displayError(e);
         }
-
     }
 
     private void displayError(Exception e){

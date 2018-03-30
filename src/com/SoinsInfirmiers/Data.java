@@ -10,6 +10,7 @@ public class Data {
     public static String homePageTitle = "Aide & Soins à Domicile - Statistiques - v"+ Version.versionNumber;
     public static String pageTitle0 = "Soins Infirmiers - Indicateurs annuels - v"+Version.versionNumber;
     public static String pageTitle1 = "Soins Infirmiers - Evolution d'un indicateur - v"+Version.versionNumber;
+    public static String pageTitle2 = "Soins Infirmiers - Sélection - v"+Version.versionNumber;
 
     // Centres
     ObservableList<String> centerList = FXCollections

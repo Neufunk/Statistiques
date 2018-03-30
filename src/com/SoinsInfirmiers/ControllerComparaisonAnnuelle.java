@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
@@ -45,7 +44,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     @FXML
     private AnchorPane anchorPane0;
     @FXML
-    private LineChart lineGraph;
+    private LineChart lineChart;
     @FXML
     private NumberAxis yAxis;
     @FXML
@@ -68,6 +67,9 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     private IteratorExcel iteratorExcel0 = new IteratorExcel();
     private IteratorExcel iteratorExcel1 = new IteratorExcel();
     private IteratorExcel iteratorExcel2 = new IteratorExcel();
+    private Graphic serie1 = new Graphic();
+    private Graphic serie2 = new Graphic();
+    private Graphic serie3 = new Graphic();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -101,9 +103,9 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             comboYear2.getSelectionModel().clearSelection();
             comboCategorie.getSelectionModel().clearSelection();
             comboIndic.getSelectionModel().clearSelection();
-            lineGraph.setTitle("");
-            lineGraph.getData().clear();
-            lineGraph.setVisible(false);
+            lineChart.setTitle("");
+            lineChart.getData().clear();
+            lineChart.setVisible(false);
             noGraphicLabel.setVisible(false);
             idleSpinner.setVisible(true);
 
@@ -176,7 +178,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         }
         iteratorExcel0.setMasterRow(indicateur.getMasterRow());
         startIteration();
-
     }
 
     private void generateYear1() {
@@ -212,9 +213,9 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             iteratorExcel0.allYearIteration();
         } catch (FileNotFoundException e0) {
             iteratorExcel0.fileNotFound(e0);
-            lineGraph.setTitle("");
-            lineGraph.getData().clear();
-            lineGraph.setVisible(false);
+            lineChart.setTitle("");
+            lineChart.getData().clear();
+            lineChart.setVisible(false);
             idleSpinner.setVisible(true);
         } catch (IllegalStateException e2) {
             System.out.print("Division par zéro !");
@@ -222,9 +223,9 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             e1.printStackTrace();
             System.out.print("IO / InvalidFormat");
         } catch (NullPointerException e3) {
-            lineGraph.setTitle("");
-            lineGraph.getData().clear();
-            lineGraph.setVisible(false);
+            lineChart.setTitle("");
+            lineChart.getData().clear();
+            lineChart.setVisible(false);
             noGraphicLabel.setVisible(true);
             idleSpinner.setVisible(false);
         }
@@ -235,15 +236,15 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             iteratorExcel1.allYearIteration();
         } catch (FileNotFoundException e0) {
             iteratorExcel1.fileNotFound(e0);
-            lineGraph.getData().clear();
+            lineChart.getData().clear();
         } catch (IllegalStateException e2) {
             System.out.print("Erreur");
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
         } catch (NullPointerException e3) {
-            lineGraph.setTitle("");
-            lineGraph.getData().clear();
-            lineGraph.setVisible(false);
+            lineChart.setTitle("");
+            lineChart.getData().clear();
+            lineChart.setVisible(false);
             noGraphicLabel.setVisible(true);
         }
     }
@@ -253,15 +254,15 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             iteratorExcel2.allYearIteration();
         } catch (FileNotFoundException e0) {
             iteratorExcel2.fileNotFound(e0);
-            lineGraph.getData().clear();
+            lineChart.getData().clear();
         } catch (IllegalStateException e2) {
             System.out.print("Erreur");
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
         } catch (NullPointerException e3) {
-            lineGraph.setTitle("");
-            lineGraph.getData().clear();
-            lineGraph.setVisible(false);
+            lineChart.setTitle("");
+            lineChart.getData().clear();
+            lineChart.setVisible(false);
             noGraphicLabel.setVisible(true);
         }
     }
@@ -269,17 +270,17 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     public void buildLineGraphic() {
         if (indicateur.getwithLineGraphic()) {
             yAxis.setForceZeroInRange(false);
-            lineGraph.getData().clear();
+            lineChart.getData().clear();
             iteratorExcel0.resetVariables();
             iteratorExcel1.resetVariables();
             iteratorExcel2.resetVariables();
+            serie1.clear();
+            serie2.clear();
+            serie3.clear();
             indicateur.resetVariables();
-            lineGraph.setVisible(true);
+            lineChart.setVisible(true);
             noGraphicLabel.setVisible(false);
             idleSpinner.setVisible(false);
-            Graphic serie1 = new Graphic();
-            Graphic serie2 = new Graphic();
-            Graphic serie3 = new Graphic();
             String[] month = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
 
@@ -292,7 +293,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
                 for (int i = 0; i < month.length; i++) {
                     serie1.buildLineGraphic(month[i], value[i], comboYear0.getValue().toString());
                 }
-                lineGraph.getData().add(serie1.getLineChartData());
+                lineChart.getData().add(serie1.getLineChartData());
             } else {
                 serie1.clear();
             }
@@ -306,7 +307,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
                 for (int i = 0; i < month.length; i++) {
                     serie2.buildLineGraphic(month[i], value2[i], comboYear1.getValue().toString());
                 }
-                lineGraph.getData().add(serie2.getLineChartData());
+                lineChart.getData().add(serie2.getLineChartData());
             } else {
                 serie2.clear();
             }
@@ -320,7 +321,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
                 for (int i = 0; i < month.length; i++) {
                     serie3.buildLineGraphic(month[i], value3[i], comboYear2.getValue().toString());
                 }
-                lineGraph.getData().add(serie3.getLineChartData());
+                lineChart.getData().add(serie3.getLineChartData());
             } else {
                 serie3.clear();
             }
@@ -330,9 +331,10 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     }
 
     private void unmountLineGraphic() {
-        lineGraph.setVisible(false);
+        lineChart.setVisible(false);
         noGraphicLabel.setVisible(true);
         idleSpinner.setVisible(false);
     }
+
 }
 

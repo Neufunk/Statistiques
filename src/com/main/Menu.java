@@ -27,7 +27,7 @@ public class Menu {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/HomePage.fxml"));
-            stage.setScene(new Scene(root));
+            changeScene(root);
             stage.setTitle(AVJ.Data.homePageTitle);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -62,7 +62,7 @@ public class Menu {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/StatistiquesSI.fxml"));
-            stage.setScene(new Scene(root));
+            changeScene(root);
             stage.setTitle(Data.pageTitle0);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -73,7 +73,7 @@ public class Menu {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/TableauxAnnuels.fxml"));
-            stage.setScene(new Scene(root));
+            changeScene(root);
             stage.setTitle(Data.pageTitle1);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -96,7 +96,7 @@ public class Menu {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Contingent.fxml"));
-            stage.setScene(new Scene(root));
+            changeScene(root);
             stage.setTitle(AVJ.Data.pageTitle0);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -113,6 +113,12 @@ public class Menu {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+    }
+
+    private void changeScene(Parent root){
+        Stage stage = Main.getPrimaryStage();
+        Scene scene = stage.getScene();
+        scene.setRoot(root);
     }
 
     public void closeButtonAction() throws InterruptedException {

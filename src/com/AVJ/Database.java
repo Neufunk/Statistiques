@@ -20,7 +20,7 @@ public class Database {
             Class.forName("org.postgresql.Driver");
             System.out.println("Driver O.K.");
 
-            String url = "jdbc:postgresql://130.15.0.89/statistiques";
+            String url = "jdbc:postgresql://130.15.0.3/statistiques";
             String user = "java_user";
             String passwd = "fasd";
 
@@ -240,7 +240,7 @@ public class Database {
                     "END asc";
         } else {
             sql = "SELECT * FROM ( " +
-                    "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, secteur_name, antenne " +
+                    "SELECT annee, mois, indicateur, ROUND(SUM(valeur),2) AS valeur, secteur_name AS Secteur, antenne " +
                     "FROM contingent " +
                     "INNER JOIN secteurs " +
                     "ON contingent.numero_secteur = secteurs.id " +
