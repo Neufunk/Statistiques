@@ -7,57 +7,42 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
-   <VBox fx:id="menuPane" prefHeight="30.0" prefWidth="1216.0" style="-fx-background-color: #FAFAFA;" />
-   <JFXToggleButton fx:id="toggleButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" focusTraversable="false" onAction="#toggleButtonListener" prefHeight="56.0" prefWidth="117.0" selected="true" style="-fx-background-color: #FAFAFA;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae" VBox.vgrow="ALWAYS">
-      <font>
-         <Font name="System Bold" size="11.0" />
-      </font>
+<VBox prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
+   <VBox fx:id="menuPane" prefHeight="59.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" />
+   <GridPane alignment="CENTER" prefHeight="168.0" prefWidth="948.0" VBox.vgrow="ALWAYS">
       <VBox.margin>
-         <Insets left="150.0" top="20.0" />
+         <Insets top="20.0" />
       </VBox.margin>
-   </JFXToggleButton>
-   <VBox alignment="CENTER" fillWidth="false" style="-fx-background-color: #FFFFFF;">
-      <VBox.margin>
-         <Insets left="200.0" right="200.0" />
-      </VBox.margin>
-      <effect>
-         <DropShadow />
-      </effect>
-      <opaqueInsets>
-         <Insets />
-      </opaqueInsets>
-      <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" onAction="#displaySecteurs" promptText="Centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e">
-         <VBox.margin>
-            <Insets bottom="20.0" top="20.0" />
-         </VBox.margin>
-      </JFXComboBox>
-      <JFXCheckBox fx:id="antenneCheckbox" alignment="TOP_LEFT" onAction="#displaySecteurs" text="Secteur entier ? ">
-         <VBox.margin>
-            <Insets bottom="20.0" />
-         </VBox.margin>
-      </JFXCheckBox>
-      <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true" promptText="Selectionnez un centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" VBox.vgrow="ALWAYS">
-         <VBox.margin>
-            <Insets bottom="25.0" />
-         </VBox.margin>
-      </JFXComboBox>
-      <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" promptText="Période" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e">
-         <VBox.margin>
-            <Insets bottom="25.0" />
-         </VBox.margin>
-      </JFXComboBox>
-      <JFXButton buttonType="RAISED" focusTraversable="false" onAction="#onGenerateButtonClick" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="/ui/CSS/Buttons.css" text="Exécuter" textFill="WHITE" VBox.vgrow="ALWAYS">
-         <VBox.margin>
-            <Insets bottom="20.0" />
-         </VBox.margin>
-      </JFXButton>
-   </VBox>
+      <columnConstraints>
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="10.0" prefWidth="532.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="748.0" minWidth="10.0" prefWidth="206.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="737.0" minWidth="10.0" prefWidth="542.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints maxHeight="36.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="88.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="28.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+      <children>
+         <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" onAction="#displaySecteurs" promptText="Centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+         <JFXCheckBox fx:id="antenneCheckbox" alignment="TOP_LEFT" onAction="#displaySecteurs" text="Secteur entier ? " GridPane.columnIndex="2" GridPane.halignment="LEFT" />
+         <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true" promptText="Selectionnez un centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" promptText="Période" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+         <JFXButton buttonType="RAISED" focusTraversable="false" onAction="#onGenerateButtonClick" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="/ui/CSS/Buttons.css" text="Exécuter" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+         <JFXToggleButton fx:id="toggleButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" focusTraversable="false" onAction="#toggleButtonListener" prefHeight="56.0" prefWidth="117.0" selected="true" style="-fx-background-color: #FAFAFA;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae" GridPane.halignment="RIGHT">
+            <font>
+               <Font name="System Bold" size="11.0" />
+            </font>
+         </JFXToggleButton>
+      </children>
+   </GridPane>
    <Label fx:id="yearLabel1" text="Label" visible="false">
       <font>
          <Font name="System Bold" size="15.0" />
@@ -68,11 +53,11 @@
          <Font name="System Bold" size="15.0" />
       </font>
    </Label>
-   <HBox VBox.vgrow="ALWAYS">
+   <HBox prefHeight="526.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
       <padding>
          <Insets bottom="10.0" left="10.0" right="10.0" />
       </padding>
-      <TableView fx:id="tableView" fixedCellSize="30.0" maxHeight="2000.0" maxWidth="2000.0" minHeight="10.0" minWidth="10.0" stylesheets="@../CSS/TableView.css" tableMenuButtonVisible="true" HBox.hgrow="ALWAYS" />
-      <TableView fx:id="tableView2" fixedCellSize="30.0" minHeight="10.0" minWidth="10.0" stylesheets="@../CSS/TableView.css" tableMenuButtonVisible="true" HBox.hgrow="ALWAYS" />
+      <TableView fx:id="tableView" fixedCellSize="30.0" maxHeight="2000.0" maxWidth="2000.0" minHeight="10.0" minWidth="10.0" prefHeight="517.0" prefWidth="600.0" stylesheets="@../CSS/TableView.css" tableMenuButtonVisible="true" HBox.hgrow="ALWAYS" />
+      <TableView fx:id="tableView2" fixedCellSize="30.0" minHeight="10.0" minWidth="10.0" prefHeight="482.0" prefWidth="600.0" stylesheets="@../CSS/TableView.css" tableMenuButtonVisible="true" HBox.hgrow="ALWAYS" />
    </HBox>
 </VBox>

@@ -16,6 +16,7 @@ import java.util.Calendar;
 public class Menu {
 
     public static Stage pdfStage = new Stage();
+    public static Stage connectionTestStage = new Stage();
 
     public void loadMenuBar(Pane pane) {
         try {
@@ -118,12 +119,12 @@ public class Menu {
     }
 
     public void openConnectionTest(){
-        Stage stage = new Stage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ConnectionTest.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle("Tester les connexions");
-            stage.show();
+            connectionTestStage.setResizable(false);
+            connectionTestStage.setScene(new Scene(root));
+            connectionTestStage.setTitle("Tester les connexions");
+            connectionTestStage.show();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
