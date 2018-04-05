@@ -4,12 +4,14 @@ import SoinsInfirmiers.Data;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 public class Menu {
 
@@ -83,7 +85,7 @@ public class Menu {
     public void pdfActivite(){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpActivite.fxml"));
-            pdfStage.setScene(new Scene(root));
+            pdfStage.setScene(new Scene(root, 370, 205));
             pdfStage.setTitle("Rapport d'activité et suivi du personnel");
             pdfStage.setResizable(false);
             pdfStage.show();
@@ -115,10 +117,56 @@ public class Menu {
         }
     }
 
+    public void openConnectionTest(){
+        Stage stage = new Stage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ConnectionTest.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tester les connexions");
+            stage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
     private void changeScene(Parent root){
         Stage stage = Main.getPrimaryStage();
         Scene scene = stage.getScene();
         scene.setRoot(root);
+    }
+
+    public void openSelectSi(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectSi.fxml"));
+            Scene scene = stage.getScene();
+            scene.setRoot(root);
+            stage.setTitle(Data.pageTitle2);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openSelectAvj(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectAVJ.fxml"));
+            Scene scene = stage.getScene();
+            scene.setRoot(root);
+            stage.setTitle(AVJ.Data.pageTitle1);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openAboutWindow() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        alert.setTitle("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
+        alert.setHeaderText("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
+        alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
+                "Coded and designed by JOHNATHAN VANBENEDEN");
+        alert.show();
     }
 
     public void closeButtonAction() throws InterruptedException {

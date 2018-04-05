@@ -54,7 +54,7 @@ public class ControllerSelectSi implements Initializable {
     public void pdfActivite(){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpActivite.fxml"));
-            pdfStage.setScene(new Scene(root));
+            pdfStage.setScene(new Scene(root, 370, 205));
             pdfStage.setTitle("Rapport d'activité et suivi du personnel");
             pdfStage.setResizable(false);
             pdfStage.show();

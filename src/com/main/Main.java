@@ -34,7 +34,7 @@ public class Main extends Application {
             primaryStage.show();
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/graphique.png")));
 
-        } catch (Exception e) {
+            } catch (Exception e) {
             displayError(e);
         }
     }

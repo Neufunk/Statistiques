@@ -1,5 +1,13 @@
 ﻿CHANGELOG
 ---------
+
+Patchnote-1.1 - 05/04/2018
+  - Ajout des écrans de sélection \n\
+  - Ajout de la fonctionalité de test des connexions
+
+Patchnote-1.0 = 10/01/2018
+  - Lancement 1.0
+
 Patchnote-0.3.2 = 08/01/2018
   - Rapport d'activité ajusté fonctionnel
   - Intégration de la police INTERSTATE

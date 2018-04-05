@@ -16,6 +16,7 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.sql.*;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class ASDB implements Initializable {
@@ -471,10 +472,11 @@ public class ASDB implements Initializable {
     /* Menu Bar */
     public void aboutWindow() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
         alert.setTitle("ASDB Engine - 1.0");
         alert.setHeaderText("Aide & Soins à Domicile Database Engine");
-        alert.setContentText("2017 - Aide & Soins à Domicile en province de Namur\n" +
-                " Coded and designed by Johnathan Vanbeneden");
+        alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
+                " Coded and designed by JOHNATHAN VANBENEDEN");
         alert.show();
     }
 

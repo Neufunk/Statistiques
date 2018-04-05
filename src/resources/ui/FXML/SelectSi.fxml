@@ -71,10 +71,13 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="orange-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false">
+            <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="purple-button" stylesheets="@../CSS/Buttons.css" text="Comparaison communale">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
+               <font>
+                  <Font name="Interstate-Bold" size="15.0" />
+               </font>
             </JFXButton>
             <JFXButton alignment="CENTER" contentDisplay="CENTER" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="purple-button" stylesheets="@../CSS/Buttons.css" text=" " textAlignment="CENTER" visible="false">
                <HBox.margin>
@@ -104,10 +107,13 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false">
+            <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Rapport Vinciane">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
+               <font>
+                  <Font name="Interstate-Bold" size="15.0" />
+               </font>
             </JFXButton>
             <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="purple-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false">
                <HBox.margin>

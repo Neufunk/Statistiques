@@ -35,8 +35,6 @@ public class HomePage implements Initializable {
         onButtonAvjClick();
         Menu menu = new Menu();
         menu.loadMenuBar(menuPane);
-        Effects effects = new Effects();
-        effects.setFadeTransition(gridPane, 2500, 0, 100);
     }
 
     private void onButtonSiClick(){

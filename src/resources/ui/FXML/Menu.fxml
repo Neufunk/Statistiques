@@ -7,7 +7,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="0.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Menu">
+<AnchorPane prefHeight="0.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Menu">
     <MenuBar layoutY="2.0" opacity="0.9" prefHeight="0.0" prefWidth="663.0" stylesheets="@../CSS/Menu.css">
         <cursor>
             <Cursor fx:constant="DEFAULT" />
@@ -30,11 +30,13 @@
             <MenuItem disable="true" mnemonicParsing="false" text="Préférences" />
         </Menu>
         <Menu mnemonicParsing="false" text="Département AVJ">
+         <MenuItem mnemonicParsing="false" onAction="#openSelectAvj" text="Menu" />
             <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
         </Menu>
         <Menu mnemonicParsing="false" text="Département SI">
+         <MenuItem mnemonicParsing="false" onAction="#openSelectSi" text="Menu" />
             <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Evolution par indicateur" />
             <MenuItem mnemonicParsing="false" onAction="#openComparaisonPage" text="Comparaison annuelle" />
             <MenuItem disable="true" mnemonicParsing="false" text="Patients / Visites par Commune" />
@@ -48,12 +50,13 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Outils">
             <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+         <MenuItem mnemonicParsing="false" onAction="#openConnectionTest" text="Tester les connexions" />
         </Menu>
         <Menu mnemonicParsing="false" text="?">
             <MenuItem disable="true" mnemonicParsing="false" text="Aide" />
             <MenuItem disable="true" mnemonicParsing="false" text="Signaler un bug" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem disable="true" mnemonicParsing="false" text="À propos de Statistiques" />
+            <MenuItem mnemonicParsing="false" onAction="#openAboutWindow" text="À propos de Statistiques" />
         </Menu>
     </MenuBar>
 </AnchorPane>
