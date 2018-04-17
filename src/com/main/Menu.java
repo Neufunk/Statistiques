@@ -2,6 +2,7 @@ package main;
 
 import SoinsInfirmiers.Data;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,7 +17,9 @@ import java.util.Calendar;
 public class Menu {
 
     public static Stage pdfStage = new Stage();
-    public static Stage connectionTestStage = new Stage();
+    static Stage connectionTestStage = new Stage();
+    private Print print = new Print();
+    private static Node printableNode;
 
     public void loadMenuBar(Pane pane) {
         try {
@@ -24,6 +27,10 @@ public class Menu {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setPrintableNode(Node printableNode) {
+        Menu.printableNode = printableNode;
     }
 
     public void openHomepage() {
@@ -43,7 +50,7 @@ public class Menu {
     }
 
     public void changeLogs(){
-        String changelog = "/txt/Changelog.txt";
+        String changelog = "P:\\STATISTIQUES\\Changelog.txt";
         File file = new File(changelog);
         if (!Desktop.isDesktopSupported()) {
             System.out.println("OS non supporté");
@@ -58,7 +65,7 @@ public class Menu {
     }
 
     public void print() {
-        // TODO
+        print.printSetup(printableNode, Main.getPrimaryStage());
     }
 
     public void openIndicateursPage(){
@@ -122,7 +129,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ConnectionTest.fxml"));
             connectionTestStage.setResizable(false);
-            connectionTestStage.setScene(new Scene(root));
+            connectionTestStage.setScene(new Scene(root, 280, 350));
             connectionTestStage.setTitle("Tester les connexions");
             connectionTestStage.show();
         } catch (IOException e1) {
@@ -170,7 +177,7 @@ public class Menu {
         alert.show();
     }
 
-    public void closeButtonAction() throws InterruptedException {
+    public void closeButtonAction() {
         System.exit(0);
     }
 

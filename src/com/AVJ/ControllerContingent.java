@@ -55,6 +55,8 @@ public class ControllerContingent implements Initializable {
     @FXML
     private AnchorPane mainPane;
     @FXML
+    private VBox mainVBox;
+    @FXML
     public AnchorPane maskPane;
     @FXML
     private TableView<ObservableList> tableView;
@@ -88,6 +90,7 @@ public class ControllerContingent implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Menu menu = new Menu();
         menu.loadMenuBar(menuPane);
+        menu.setPrintableNode(mainVBox);
         initializeCombo();
         onCancelButtonClick();
         toggleButtonListener();

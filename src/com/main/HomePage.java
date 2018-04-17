@@ -48,15 +48,15 @@ public class HomePage implements Initializable {
     }
 
     private void openIndicateursPage(){
-        Stage stage = Main.getPrimaryStage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectSi.fxml"));
-            Scene scene = stage.getScene();
-            scene.setRoot(root);
-            stage.setTitle(Data.pageTitle2);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+            Stage stage = Main.getPrimaryStage();
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectSi.fxml"));
+                Scene scene = stage.getScene();
+                scene.setRoot(root);
+                stage.setTitle(Data.pageTitle2);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
     }
 
     private void openContingentPage(){

@@ -1,12 +1,21 @@
 ﻿CHANGELOG
 ---------
 
-Patchnote-1.1 - 05/04/2018
-  - Ajout des écrans de sélection \n\
+Patchnote-1.1 - 06/04/2018
+  - Ajout des écrans de sélection
   - Ajout de la fonctionalité de test des connexions
+  - Correction du chemin du Patchnote
+  @ Responsive Design
+  @ Ajout Rapport Vinciane
+  @ Ajout comparaison par centre
+  @ Ajout comparaison par commune
 
-Patchnote-1.0 = 10/01/2018
+Patchnote-1.0 = Janvier 2018
   - Lancement 1.0
+  - Ajout de données au contingent
+  - Correction de bugs
+  - Correction de glitchs graphiques
+  - Traduction de tous les items
 
 Patchnote-0.3.2 = 08/01/2018
   - Rapport d'activité ajusté fonctionnel

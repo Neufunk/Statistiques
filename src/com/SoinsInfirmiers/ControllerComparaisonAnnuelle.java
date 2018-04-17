@@ -10,7 +10,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.Menu;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -41,8 +40,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     private JFXButton clearButton;
     @FXML
     private JFXComboBox comboCategorie;
-    @FXML
-    private AnchorPane anchorPane0;
     @FXML
     private LineChart lineChart;
     @FXML
@@ -87,12 +84,13 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         comboYear1.setItems(data.yearList);
         comboYear2.setItems(data.yearList);
         comboCategorie.setItems(data.categorieList);
-        anchorPane0.addEventHandler(MouseEvent.ANY, (e) -> {
-            if (comboCategorie.getValue() != null) {
-                category.setCategorie(comboCategorie.getValue().toString());
-                comboIndic.setItems(category.getCategorie());
-            }
-        });
+    }
+
+    public void setIndicateursInCombo() {
+        if (comboCategorie.getValue() != null) {
+            category.setCategorie(comboCategorie.getValue().toString());
+            comboIndic.setItems(category.getCategorie());
+        }
     }
 
     private void onClearButtonClick() {
@@ -108,7 +106,6 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             lineChart.setVisible(false);
             noGraphicLabel.setVisible(false);
             idleSpinner.setVisible(true);
-
         });
     }
 

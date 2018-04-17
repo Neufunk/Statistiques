@@ -47,12 +47,8 @@ public class ConnectionTest {
     @FXML
     private JFXButton closeButton;
 
-    public void onButtonClick(){
-        progress1.setVisible(true);
-        progress2.setVisible(true);
-        progress3.setVisible(true);
-        progress4.setVisible(true);
-        progress5.setVisible(true);
+    public void onButtonClick() {
+        progressSetVisible();
         new Thread(() -> {
             testDatabaseConnection("jdbc:postgresql://130.15.0.3/statistiques", "java_user", "fasd", "org.postgresql.Driver", progress1, done1, failed1);
             testServerConnection("130.15.0.1", progress2, done2, failed2);
@@ -64,7 +60,15 @@ public class ConnectionTest {
         closeButton.setVisible(true);
     }
 
-    private void testDatabaseConnection(String url, String user, String passwd, String driver, JFXSpinner progress, Label done, Label failed){
+    private void progressSetVisible() {
+        progress1.setVisible(true);
+        progress2.setVisible(true);
+        progress3.setVisible(true);
+        progress4.setVisible(true);
+        progress5.setVisible(true);
+    }
+
+    private void testDatabaseConnection(String url, String user, String passwd, String driver, JFXSpinner progress, Label done, Label failed) {
         try {
             System.out.println("\n---------------------------------- ");
             System.out.println("Test du driver...");
@@ -72,10 +76,10 @@ public class ConnectionTest {
             System.out.println("Driver O.K.");
             System.out.println("Connexion en cours...");
             Connection conn = DriverManager.getConnection(url, user, passwd);
-            System.out.println("Connexion effective !");
-            System.out.println("---------------------------------- \n");
+            System.out.println("Connexion réussie -> " + url + " !");
             conn.close();
             System.out.println("Connexion terminée !");
+            System.out.println("---------------------------------- ");
             progress.setVisible(false);
             done.setVisible(true);
         } catch (Exception e) {
@@ -85,13 +89,13 @@ public class ConnectionTest {
         }
     }
 
-    private void testServerConnection(String ip, JFXSpinner progress, Label done, Label failed){
+    private void testServerConnection(String ip, JFXSpinner progress, Label done, Label failed) {
         try {
             progress.setVisible(false);
-            if (InetAddress.getByName(ip).isReachable(7000)) {
+            if (InetAddress.getByName(ip).isReachable(5000)) {
                 done.setVisible(true);
+                System.out.println("Connexion à " + InetAddress.getByName(ip).getHostName() + " (" + ip + ") réussie");
                 System.out.println("\n -------------------------------\n");
-                System.out.println("Connexion à " + InetAddress.getByName(ip).getHostName() + " ("+ip+") réussie");
             } else {
                 failed.setVisible(true);
             }
@@ -101,7 +105,7 @@ public class ConnectionTest {
         }
     }
 
-    public void onCloseClick(){
+    public void onCloseClick() {
         Menu.connectionTestStage.close();
     }
 }

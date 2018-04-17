@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import main.Effects;
 import main.Menu;
@@ -40,8 +40,6 @@ public class ControllerStatistiquesSI implements Initializable {
     private JFXButton generateButton;
     @FXML
     private Label graphicTitle;
-    @FXML
-    private AnchorPane anchorPane0;
     @FXML
     private JFXSpinner spinner;
     @FXML
@@ -73,9 +71,9 @@ public class ControllerStatistiquesSI implements Initializable {
     @FXML
     private Label labelValueE;
     @FXML
-    private AnchorPane labelPane;
+    private GridPane labelPane;
     @FXML
-    private AnchorPane valuePane;
+    private GridPane valuePane;
     @FXML
     private ImageView xlsIcon;
     @FXML
@@ -110,13 +108,14 @@ public class ControllerStatistiquesSI implements Initializable {
         comboCentre.setItems(data.centerList);
         comboPeriode.setItems(data.periodList);
         comboCategorie.setItems(data.categorieList);
+    }
+
+    public void setIndicateursInCombo() {
         Category category = new Category();
-        anchorPane0.addEventHandler(MouseEvent.ANY, (e) -> {
-            if (comboCategorie.getValue() != null) {
-                category.setCategorie(comboCategorie.getValue());
-                comboIndic.setItems(category.getCategorie());
-            }
-        });
+        if (comboCategorie.getValue() != null) {
+            category.setCategorie(comboCategorie.getValue());
+            comboIndic.setItems(category.getCategorie());
+        }
     }
 
     private void onGenerateButtonClick() {
