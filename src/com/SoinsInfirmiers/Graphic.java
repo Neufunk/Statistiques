@@ -10,8 +10,8 @@ import java.util.Objects;
 
 class Graphic {
 
-    private ObservableList<PieChart.Data>pieChartData = FXCollections.observableArrayList();
-    private XYChart.Series lineChartData = new XYChart.Series();
+    private final ObservableList<PieChart.Data>pieChartData = FXCollections.observableArrayList();
+    private final XYChart.Series lineChartData = new XYChart.Series();
 
     //PIE GRAPHIC
     void buildPieGraphic(String title, double value){
@@ -29,7 +29,7 @@ class Graphic {
     void buildLineGraphic(String title, double value, String name) {
         lineChartData.setName(name);
         if (!Objects.equals(title, "") && value > 0) {
-            if (value < 1 && value > 0) {
+            if (value < 1) {
                 float floatValue = (float) value * 100;
                 lineChartData.getData().add(new XYChart.Data<>(title, floatValue));
             } else {

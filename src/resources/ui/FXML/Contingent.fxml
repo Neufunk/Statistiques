@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<!--suppress ALL -->
 <VBox fx:id="mainVBox" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
    <VBox fx:id="menuPane" prefHeight="59.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" />
    <GridPane alignment="CENTER" prefHeight="127.0" prefWidth="1267.0">

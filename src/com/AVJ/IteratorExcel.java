@@ -14,11 +14,11 @@ import java.util.Calendar;
 
 class IteratorExcel extends ControllerContingent {
 
-    private Database database = new Database();
-    private static ObservableList<String> nonUpdated = FXCollections.observableArrayList();
+    private final Database database = new Database();
+    private static final ObservableList<String> nonUpdated = FXCollections.observableArrayList();
     private int sectorCount = 0;
 
-    private String[] cellTab = {"C21", "C22", "C23", "C24", "C25", "C26", "C27", "C28",
+    private final String[] cellTab = {"C21", "C22", "C23", "C24", "C25", "C26", "C27", "C28",
             "D21", "D22", "D23", "D24", "D25", "D26", "D27", "D28",
             "E21", "E22", "E23", "E24", "E25", "E26", "E27", "E28",
             "F21", "F22", "F23", "F24", "F25", "F26", "F27", "F28",
@@ -32,14 +32,14 @@ class IteratorExcel extends ControllerContingent {
             "N21", "N22", "N23", "N24", "N25", "N26", "N27", "N28",
             "O21", "O22", "O23", "O24", "O25", "O26", "O27", "O28"};
 
-    private double[] cellResult = new double[104];
+    private final double[] cellResult = new double[104];
 
-    private String[] indicateurs = {"Total Heures dispo par mois (Base 40)", "Total Heures dispo par mois (Base 38)",
+    private final String[] indicateurs = {"Total Heures dispo par mois (Base 40)", "Total Heures dispo par mois (Base 38)",
             "Nbre H Absentéisme (code M) (Base 40)", "Nbre H Absentéisme (code M) (Base 38)",
             "Nbre H Prestées (code PR) (Base 40)", "Nbre H Prestées (code PR) (Base 38)",
             "Ecart H Dispo et H prestées (Base 40)", "Ecart H Dispo et H prestées (Base 38)"};
 
-    private String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
+    private final String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
             "Septembre", "Octobre", "Novembre", "Décembre", "Total"};
 
     void startIteration(String path, String year, String firstName, String secteur, Connection connection) {

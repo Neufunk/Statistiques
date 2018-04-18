@@ -3,12 +3,11 @@ package main;
 import javafx.animation.FadeTransition;
 import javafx.scene.Node;
 import javafx.scene.effect.BoxBlur;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Effects {
 
-    private BoxBlur boxBlur = new BoxBlur();
+    private final BoxBlur boxBlur = new BoxBlur();
 
     public void setFadeTransition(Node node, double duration, double fromValue, double toValue){
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), node);

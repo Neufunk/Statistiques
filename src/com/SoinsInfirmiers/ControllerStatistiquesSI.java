@@ -85,12 +85,12 @@ public class ControllerStatistiquesSI implements Initializable {
     @FXML
     private VBox menuPane;
 
-    private Year year = new Year();
-    private Centre centre = new Centre();
-    private Periode periode = new Periode();
-    private Indicateur indicateur = new Indicateur();
-    private IteratorExcel iteratorExcel = new IteratorExcel();
-    private Effects effects = new Effects();
+    private final Year year = new Year();
+    private final Centre centre = new Centre();
+    private final Periode periode = new Periode();
+    private final Indicateur indicateur = new Indicateur();
+    private final IteratorExcel iteratorExcel = new IteratorExcel();
+    private final Effects effects = new Effects();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

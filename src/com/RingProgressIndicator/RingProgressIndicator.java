@@ -55,7 +55,7 @@ public class RingProgressIndicator extends ProgressCircleIndicator {
     /**
      * thickness of the ring indicator.
      */
-    private DoubleProperty ringWidth = new StyleableDoubleProperty(22) {
+    private final DoubleProperty ringWidth = new StyleableDoubleProperty(22) {
         @Override
         public Object getBean() {
             return RingProgressIndicator.this;
@@ -87,7 +87,7 @@ public class RingProgressIndicator extends ProgressCircleIndicator {
             }
         };
 
-        public static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
+        static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
         static {
             final List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList<>(Control.getClassCssMetaData());
             styleables.addAll(ProgressCircleIndicator.getClassCssMetaData());

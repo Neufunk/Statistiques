@@ -17,7 +17,7 @@ public class FirstPreloader extends Preloader {
         return new Scene(p, 600, 800);
     }
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         this.stage = stage;
         stage.setScene(createPreloaderScene());
         stage.show();

@@ -64,32 +64,41 @@ class IteratorExcel {
     void setPath(String path) {
         this.path = path;
     }
+
     void setFiles(String fileA, String fileB, String fileC) {
         this.fileA = fileA;
         this.fileB = fileB;
         this.fileC = fileC;
     }
+
     void setSheet(int sheet) {
         this.sheet = sheet;
     }
+
     void setColumn(String column) {
         this.column = column;
     }
+
     void setMasterRow(int masterRow) {
         this.masterRow = masterRow;
     }
+
     void setRowA(int rowA) {
         this.rowA = rowA;
     }
+
     void setRowB(int rowB) {
         this.rowB = rowB;
     }
+
     void setRowC(int rowC) {
         this.rowC = rowC;
     }
+
     void setRowD(int rowD) {
         this.rowD = rowD;
     }
+
     void setRowE(int rowE) {
         this.rowE = rowE;
     }
@@ -105,14 +114,14 @@ class IteratorExcel {
         HSSFFormulaEvaluator[] evaluators = {evaluator, evaluator2, evaluator3};
         HSSFFormulaEvaluator.setupEnvironment(workbookNames, evaluators);
         Sheet selectionSheet = wb.getSheetAt(sheet);
-         if (masterRow != 0) {
+        if (masterRow != 0) {
             CellReference cellReference1 = new CellReference(column + masterRow);
             Row masterRowB = selectionSheet.getRow(cellReference1.getRow());
             masterCell = masterRowB.getCell(cellReference1.getCol());
             CellReference titleCellReference1 = new CellReference("B" + masterRow);
             Row masterRowC = selectionSheet.getRow(titleCellReference1.getRow());
             masterTitleCell = masterRowC.getCell(titleCellReference1.getCol());
-         }
+        }
         if (rowA != 0) {
             CellReference cellReference2 = new CellReference(column + rowA);
             Row rowAA = selectionSheet.getRow(cellReference2.getRow());
@@ -120,7 +129,6 @@ class IteratorExcel {
             CellReference titleCellReference2 = new CellReference("B" + rowA);
             Row titleRowA = selectionSheet.getRow(titleCellReference2.getRow());
             titleCellA = titleRowA.getCell(titleCellReference2.getCol());
-
         }
         if (rowB != 0) {
             CellReference cellReference3 = new CellReference(column + rowB);
@@ -154,7 +162,6 @@ class IteratorExcel {
             Row titleRowE = selectionSheet.getRow(titleCellReference6.getRow());
             titleCellE = titleRowE.getCell(titleCellReference6.getCol());
         }
-
         if (masterCell != null) {
             contentMasterCell = masterCell.getNumericCellValue();
             contentTitleMasterCell = masterTitleCell.getStringCellValue();
@@ -184,36 +191,47 @@ class IteratorExcel {
     double getContentMasterCell() {
         return contentMasterCell;
     }
+
     double getContentCellA() {
         return contentCellA;
     }
+
     double getContentCellB() {
         return contentCellB;
     }
+
     double getContentCellC() {
         return contentCellC;
     }
+
     double getContentCellD() {
         return contentCellD;
     }
+
     double getContentCellE() {
         return contentCellE;
     }
+
     String getContentTitleMasterCell() {
         return contentTitleMasterCell;
     }
+
     String getContentTitleCellA() {
         return contentTitleCellA;
     }
+
     String getContentTitleCellB() {
         return contentTitleCellB;
     }
+
     String getContentTitleCellC() {
         return contentTitleCellC;
     }
+
     String getContentTitleCellD() {
         return contentTitleCellD;
     }
+
     String getContentTitleCellE() {
         return contentTitleCellE;
     }
@@ -287,47 +305,58 @@ class IteratorExcel {
         contentDecembreCell = decembreCell.getNumericCellValue();
     }
 
-    double getContentJanvierCell(){
+    double getContentJanvierCell() {
         return contentJanvierCell;
     }
-    double getContentFevrierCell(){
+
+    double getContentFevrierCell() {
         return contentFevrierCell;
     }
-    double getContentMarsCell(){
+
+    double getContentMarsCell() {
         return contentMarsCell;
     }
-    double getContentAvrilCell(){
+
+    double getContentAvrilCell() {
         return contentAvrilCell;
     }
-    double getContentMaiCell(){
+
+    double getContentMaiCell() {
         return contentMaiCell;
     }
-    double getContentJuinCell(){
+
+    double getContentJuinCell() {
         return contentJuinCell;
     }
-    double getContentJuilletCell(){
+
+    double getContentJuilletCell() {
         return contentJuilletCell;
     }
-    double getContentAoutCell(){
+
+    double getContentAoutCell() {
         return contentAoutCell;
     }
-    double getContentSeptembreCell(){
+
+    double getContentSeptembreCell() {
         return contentSeptembreCell;
     }
-    double getContentOctobreCell(){
+
+    double getContentOctobreCell() {
         return contentOctobreCell;
     }
-    double getContentNovembreCell(){
+
+    double getContentNovembreCell() {
         return contentNovembreCell;
     }
-    double getContentDecembreCell(){
+
+    double getContentDecembreCell() {
         return contentDecembreCell;
     }
 
     void fileNotFound(Exception e0) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Fichier occupé ou introuvable");
-        alert.setHeaderText("Fichier occupé ou introuvable : "+e0.getLocalizedMessage());
+        alert.setHeaderText("Fichier occupé ou introuvable : " + e0.getLocalizedMessage());
         alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e0.getStackTrace()) + "\n" +
                 "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "METHOD : \t\t\t" + this.getClass().toString() + ".fileNotFound()");
         alert.showAndWait();

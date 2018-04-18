@@ -16,9 +16,9 @@ import java.util.Calendar;
 
 public class Menu {
 
-    public static Stage pdfStage = new Stage();
-    static Stage connectionTestStage = new Stage();
-    private Print print = new Print();
+    public static final Stage pdfStage = new Stage();
+    static final Stage connectionTestStage = new Stage();
+    private final Print print = new Print();
     private static Node printableNode;
 
     public void loadMenuBar(Pane pane) {
@@ -93,7 +93,7 @@ public class Menu {
     public void pdfActivite(){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpActivite.fxml"));
-            pdfStage.setScene(new Scene(root, 370, 205));
+            pdfStage.setScene(new Scene(root, 350, 380));
             pdfStage.setTitle("Rapport d'activité et suivi du personnel");
             pdfStage.setResizable(false);
             pdfStage.show();

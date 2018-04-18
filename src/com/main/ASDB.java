@@ -26,7 +26,7 @@ public class ASDB implements Initializable {
     @FXML
     private TableView<ObservableList> issueDataList;
     @FXML
-    public TabPane tabPane;
+    private TabPane tabPane;
     @FXML
     private TextField workerTabIdInput;
     @FXML
@@ -64,8 +64,8 @@ public class ASDB implements Initializable {
     @FXML
     private TextArea issueTabTextAreaQuery;
 
-    private Database database = new Database();
-    private AVJ.Data dataList = new Data();
+    private final Database database = new Database();
+    private final AVJ.Data dataList = new Data();
 
     public void initialize(URL location, ResourceBundle resources) {
         initializeCombo();
@@ -437,11 +437,7 @@ public class ASDB implements Initializable {
                 final int j = i;
                 TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
-                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                        return new SimpleStringProperty(param.getValue().get(j).toString());
-                    }
-                });
+                col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 issueDataList.getColumns().addAll(col);
                 System.out.println("Column [" + i + "] ");
             }

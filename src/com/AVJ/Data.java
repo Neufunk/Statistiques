@@ -6,19 +6,19 @@ import javafx.collections.ObservableList;
 
 public class Data {
 
-    public static String homePageTitle = "Aide & Soins à Domicile - Statistiques - v"+ Version.versionNumber;
-    public static String pageTitle0 = "Aide à la Vie Journalière - Contingent - v"+Version.versionNumber;
-    public static String pageTitle1 = "Aide à la Vie Journalière - Sélection - v"+Version.versionNumber;
-    public static String asdbTitle = "ASDB Engine";
+    public static final String homePageTitle = "Aide & Soins à Domicile - Statistiques - v"+ Version.versionNumber;
+    public static final String pageTitle0 = "Aide à la Vie Journalière - Contingent - v"+Version.versionNumber;
+    public static final String pageTitle1 = "Aide à la Vie Journalière - Sélection - v"+Version.versionNumber;
+    public static final String asdbTitle = "ASDB Engine";
 
-    ObservableList<String> centerList = FXCollections
+    final ObservableList<String> centerList = FXCollections
             .observableArrayList("ASD", "Namur", "Philippeville");
 
-    ObservableList<String> periode = FXCollections
+    final ObservableList<String> periode = FXCollections
             .observableArrayList( "Année Complète", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
                     "Septembre", "Octobre", "Novembre", "Décembre");
 
-    public ObservableList<String> queryList = FXCollections
+    public final ObservableList<String> queryList = FXCollections
             .observableArrayList("SELECT", "UPDATE", "INSERT", "DELETE");
 
 }

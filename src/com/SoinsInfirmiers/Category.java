@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 
 class Category {
     private ObservableList<String> list;
-    private Data data = new Data();
+    private final Data data = new Data();
 
      void setCategorie(String selectedCategorie) {
          switch (selectedCategorie) {

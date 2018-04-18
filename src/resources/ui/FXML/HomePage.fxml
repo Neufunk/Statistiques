@@ -73,15 +73,13 @@
          <Insets top="50.0" />
       </GridPane.margin>
     </GridPane>
-   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
-      <children>
-         <Label alignment="CENTER" contentDisplay="CENTER" text="STATISTIQUES">
-            <font>
-               <Font name="Interstate-Regular" size="31.0" />
-            </font>
-         </Label>
-      </children>
-   </HBox>
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
+        <Label alignment="CENTER" contentDisplay="CENTER" text="STATISTIQUES">
+           <font>
+               <Font name="Interstate-Regular" size="31.0"/>
+           </font>
+        </Label>
+    </HBox>
    <VBox fx:id="menuPane" stylesheets="@../CSS/Buttons.css" GridPane.columnSpan="3" GridPane.rowIndex="2" />
     <JFXButton id="close-button" fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" focusTraversable="false" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="FERMER" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
         <GridPane.margin>

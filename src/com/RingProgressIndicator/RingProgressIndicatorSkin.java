@@ -33,7 +33,7 @@ import javafx.util.Duration;
  * @author Andrea Vacondio
  *
  */
-public class RingProgressIndicatorSkin implements Skin<RingProgressIndicator> {
+class RingProgressIndicatorSkin implements Skin<RingProgressIndicator> {
 
     private final RingProgressIndicator indicator;
     private final Label percentLabel = new Label();

@@ -1,6 +1,8 @@
 package SoinsInfirmiers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -20,31 +22,36 @@ public class PopUpActivite implements Initializable {
     @FXML
     private JFXButton closeButton;
     @FXML
-    public ComboBox<Integer> comboYear;
+    private ComboBox<Integer> comboYear;
     @FXML
-    public ComboBox<String> comboMonth;
+    private ComboBox<String> comboMonth;
     @FXML
-    public ComboBox<String> comboCentre;
+    private ComboBox<String> comboCentre;
+    @FXML
+    private JFXSpinner spinner;
     @FXML
     private Label label;
     @FXML
     private Label label2;
+    @FXML
+    private Label label3;
 
-    private IteratorExcel iteratorExcel = new IteratorExcel();
-    private Pdf pdf = new Pdf();
-    private Year year = new Year();
-    private Periode periode = new Periode();
-    private Centre centre = new Centre();
+    private final IteratorExcel iteratorExcel = new IteratorExcel();
+    private final PdfActivite pdf = new PdfActivite();
+    private final Year year = new Year();
+    private final Periode periode = new Periode();
+    private final Centre centre = new Centre();
     private static String centreVal;
     private static String monthVal;
     private static String yearVal;
+    private Boolean flag = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadCombo();
     }
 
-    private void loadCombo(){
+    private void loadCombo() {
         Data data = new Data();
         comboYear.setItems(data.yearList);
         comboMonth.setItems(data.periodList);
@@ -52,27 +59,33 @@ public class PopUpActivite implements Initializable {
     }
 
     public void onButtonClick() {
-        Boolean flag;
-        try {
-            initIterator();
-            processFileA();
-            processFileB();
-            pdf.buildActivitePdf();
-            flag = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            iteratorExcel.fileNotFound(e);
-            flag = false;
-        }
-        if (flag){
-            label.setText("PDF généré avec succès");
-            label2.setText("C:/users/" + System.getProperty("user.name") +
-                    "/Desktop/Rapport_Activite_" + centreVal + "_" + monthVal + "_" + yearVal+".pdf");
-            closeButton.setVisible(true);
-            button.setVisible(false);
-        } else {
-            label.setText("Erreur lors de la génération du rapport PDF");
-        }
+        label3.setVisible(true);
+        button.setVisible(false);
+        spinner.setVisible(true);
+        new Thread(() -> {
+            try {
+                initIterator();
+                processFileA();
+                processFileB();
+                pdf.buildActivitePdf();
+                flag = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                iteratorExcel.fileNotFound(e);
+                flag = false;
+            }
+            Platform.runLater(() -> {
+                if (flag) {
+                    label.setText("PDF généré avec succès");
+                    label2.setText("C:/users/" + System.getProperty("user.name") +
+                            "/Desktop/Rapport_Activite_" + centreVal + "_" + monthVal + "_" + yearVal + ".pdf");
+                } else {
+                    label.setText("Erreur lors de la génération du rapport PDF");
+                }
+                spinner.setVisible(false);
+                closeButton.setVisible(true);
+            });
+        }).start();
     }
 
     private void initIterator() {

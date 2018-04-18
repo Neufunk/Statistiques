@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class ControllerComparaisonAnnuelle implements Initializable {
 
 
-    private Data data = new Data();
+    private final Data data = new Data();
 
     @FXML
     private JFXComboBox comboCentre;
@@ -57,16 +57,16 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     @FXML
     private VBox menuPane;
 
-    private Year year = new Year();
-    private Category category = new Category();
-    private Indicateur indicateur = new Indicateur();
-    private Centre centre = new Centre();
-    private IteratorExcel iteratorExcel0 = new IteratorExcel();
-    private IteratorExcel iteratorExcel1 = new IteratorExcel();
-    private IteratorExcel iteratorExcel2 = new IteratorExcel();
-    private Graphic serie1 = new Graphic();
-    private Graphic serie2 = new Graphic();
-    private Graphic serie3 = new Graphic();
+    private final Year year = new Year();
+    private final Category category = new Category();
+    private final Indicateur indicateur = new Indicateur();
+    private final Centre centre = new Centre();
+    private final IteratorExcel iteratorExcel0 = new IteratorExcel();
+    private final IteratorExcel iteratorExcel1 = new IteratorExcel();
+    private final IteratorExcel iteratorExcel2 = new IteratorExcel();
+    private final Graphic serie1 = new Graphic();
+    private final Graphic serie2 = new Graphic();
+    private final Graphic serie3 = new Graphic();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

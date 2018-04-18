@@ -31,10 +31,10 @@ import java.util.List;
 abstract class ProgressCircleIndicator extends Control {
     private static final int INDETERMINATE_PROGRESS = -1;
 
-    private ReadOnlyIntegerWrapper progress = new ReadOnlyIntegerWrapper(0);
-    private ReadOnlyBooleanWrapper indeterminate = new ReadOnlyBooleanWrapper(false);
+    private final ReadOnlyIntegerWrapper progress = new ReadOnlyIntegerWrapper(0);
+    private final ReadOnlyBooleanWrapper indeterminate = new ReadOnlyBooleanWrapper(false);
 
-    public ProgressCircleIndicator() {
+    ProgressCircleIndicator() {
         this.getStylesheets().add(ProgressCircleIndicator.class.getResource("/ui/CSS/RingProgress.css").toExternalForm());
     }
 
@@ -80,7 +80,7 @@ abstract class ProgressCircleIndicator extends Control {
         innerCircleRadiusProperty().set(value);
     }
 
-    public final DoubleProperty innerCircleRadiusProperty() {
+    private DoubleProperty innerCircleRadiusProperty() {
         return innerCircleRadius;
     }
 
@@ -91,7 +91,7 @@ abstract class ProgressCircleIndicator extends Control {
     /**
      * radius of the inner circle
      */
-    private DoubleProperty innerCircleRadius = new StyleableDoubleProperty(60) {
+    private final DoubleProperty innerCircleRadius = new StyleableDoubleProperty(60) {
         @Override
         public Object getBean() {
             return ProgressCircleIndicator.this;
@@ -123,7 +123,7 @@ abstract class ProgressCircleIndicator extends Control {
             }
         };
 
-        public static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
+        static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
         static {
             final List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList<>(Control.getClassCssMetaData());
             styleables.add(INNER_CIRCLE_RADIUS);
