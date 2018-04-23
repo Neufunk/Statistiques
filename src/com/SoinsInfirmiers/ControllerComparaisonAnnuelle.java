@@ -253,7 +253,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             iteratorExcel2.fileNotFound(e0);
             lineChart.getData().clear();
         } catch (IllegalStateException e2) {
-            System.out.print("Erreur");
+            System.out.print(e2.toString());
         } catch (IOException | InvalidFormatException e1) {
             e1.printStackTrace();
         } catch (NullPointerException e3) {
@@ -328,6 +328,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     }
 
     private void unmountLineGraphic() {
+        indicateur.resetVariables();
         lineChart.setVisible(false);
         noGraphicLabel.setVisible(true);
         idleSpinner.setVisible(false);

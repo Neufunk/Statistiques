@@ -38,9 +38,9 @@ public class PopUpActivite implements Initializable {
 
     private final IteratorExcel iteratorExcel = new IteratorExcel();
     private final PdfActivite pdf = new PdfActivite();
-    private final Year year = new Year();
-    private final Periode periode = new Periode();
-    private final Centre centre = new Centre();
+    private final Year YEAR = new Year();
+    private final Periode PERIODE = new Periode();
+    private final Centre CENTRE = new Centre();
     private static String centreVal;
     private static String monthVal;
     private static String yearVal;
@@ -62,6 +62,7 @@ public class PopUpActivite implements Initializable {
         label3.setVisible(true);
         button.setVisible(false);
         spinner.setVisible(true);
+
         new Thread(() -> {
             try {
                 initIterator();
@@ -92,17 +93,17 @@ public class PopUpActivite implements Initializable {
         centreVal = comboCentre.getValue();
         monthVal = comboMonth.getValue();
         yearVal = String.valueOf(comboYear.getValue());
-        centre.toExcelSheet(comboCentre.getValue());
-        year.toPath(comboYear.getValue());
-        periode.toExcelColumn(comboMonth.getValue());
-        iteratorExcel.setSheet(centre.getSheet());
-        iteratorExcel.setPath(year.getPath());
-        iteratorExcel.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
+        CENTRE.toExcelSheet(comboCentre.getValue());
+        YEAR.toPath(comboYear.getValue());
+        PERIODE.toExcelColumn(comboMonth.getValue());
+        iteratorExcel.setSheet(CENTRE.getSheet());
+        iteratorExcel.setPath(YEAR.getPath());
+        iteratorExcel.setFiles(YEAR.getFileA(), YEAR.getFileB(), YEAR.getFileC());
     }
 
     private void processFileA() throws IOException, InvalidFormatException {
         int[] rowIndex = {51, 52, 55, 56, 65, 28, 73, 74, 75, 46, 54, 79, 20, 11, 17, 6, 7, 8, 9, 38, 39, 40, 101, 102, 103, 104};
-        iteratorExcel.setColumn(periode.getColumn());
+        iteratorExcel.setColumn(PERIODE.getColumn());
         for (int i = 0; i < rowIndex.length; i++) {
             iteratorExcel.setMasterRow(rowIndex[i]);
             iteratorExcel.startIteration();
@@ -112,9 +113,9 @@ public class PopUpActivite implements Initializable {
 
     private void processFileB() throws IOException, InvalidFormatException {
         int[] rowIndexFileB = {13, 14, 15};
-        periode.toExcelColumnFileB(comboMonth.getValue());
-        iteratorExcel.setColumn(periode.getColumn());
-        iteratorExcel.setFiles(year.getFileB(), year.getFileA(), year.getFileC());
+        PERIODE.toExcelColumnFileB(comboMonth.getValue());
+        iteratorExcel.setColumn(PERIODE.getColumn());
+        iteratorExcel.setFiles(YEAR.getFileB(), YEAR.getFileA(), YEAR.getFileC());
         for (int i = 0; i < rowIndexFileB.length; i++) {
             iteratorExcel.setMasterRow(rowIndexFileB[i]);
             iteratorExcel.startIteration();

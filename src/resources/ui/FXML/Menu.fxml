@@ -38,14 +38,14 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Département SI">
          <MenuItem mnemonicParsing="false" onAction="#openSelectSi" text="Menu de sélection" />
-            <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Evolution par indicateur" />
-            <MenuItem mnemonicParsing="false" onAction="#openComparaisonPage" text="Comparaison annuelle" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Patients / Visites par Commune" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Répartition par âge" />
+            <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Indicateurs annuels" />
+            <MenuItem mnemonicParsing="false" onAction="#openComparaisonPage" text="Comparaison années" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Comparaison régions" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Comparaison communes" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <Menu mnemonicParsing="false" text="Rapports">
-                <MenuItem mnemonicParsing="false" onAction="#pdfActivite" text="Activité &amp; Suivi du personnel" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Indicateurs de gestion" />
+                <MenuItem mnemonicParsing="false" onAction="#pdfActivite" text="Rapport d'activité" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Rapport indicateurs de gestion" />
             </Menu>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem disable="true" mnemonicParsing="false" text="Paramètres" />

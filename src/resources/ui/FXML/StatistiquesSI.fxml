@@ -46,7 +46,7 @@
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
       </rowConstraints>
-      <Label text="STATISTIQUES SI" textFill="#006782" GridPane.columnIndex="1" GridPane.columnSpan="3"
+      <Label text="INDICATEURS ANNUELS" textFill="#006782" GridPane.columnIndex="1" GridPane.columnSpan="3"
              GridPane.halignment="CENTER">
          <font>
             <Font name="System Bold" size="36.0"/>

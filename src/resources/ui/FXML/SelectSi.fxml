@@ -31,7 +31,7 @@
          <Insets bottom="10.0"/>
       </padding>
       <JFXButton contentDisplay="TOP" onAction="#openIndicateursPage" prefHeight="240.0" prefWidth="240.0"
-                 styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Indicateurs" wrapText="true"
+                 styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Indicateurs annuels" wrapText="true"
                  HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets left="20.0" right="20.0"/>
@@ -47,7 +47,7 @@
       </JFXButton>
       <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#openComparaisonPage" prefHeight="240.0"
                  prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css"
-                 text="Comparaison annuelle" wrapText="true">
+                 text="Comparaison années" wrapText="true">
          <HBox.margin>
             <Insets right="20.0"/>
          </HBox.margin>
@@ -118,12 +118,12 @@
          </graphic>
       </JFXButton>
       <JFXButton contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="close-button"
-                 stylesheets="@../CSS/Buttons.css" text="Indicateurs de gestion">
+                 stylesheets="@../CSS/Buttons.css" text="Rapport indicateurs de gestion">
          <HBox.margin>
             <Insets right="20.0"/>
          </HBox.margin>
          <font>
-            <Font name="Interstate-Bold" size="15.0"/>
+            <Font name="Interstate-Bold" size="14.0"/>
          </font>
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
@@ -144,7 +144,7 @@
          </HBox.margin>
       </JFXButton>
       <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#openHomepage" prefHeight="240.0"
-                 prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Acceuil"
+                 prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Accueil"
                  textAlignment="CENTER" wrapText="true">
          <HBox.margin>
             <Insets right="20.0"/>

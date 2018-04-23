@@ -170,10 +170,11 @@ public class Menu {
     public void openAboutWindow() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        alert.setTitle("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
+        alert.setTitle("Logiciel Statistiques - AIDE & SOINS À DOMICILE VERSION " + Version.versionNumber);
         alert.setHeaderText("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
-                "Coded and designed by JOHNATHAN VANBENEDEN");
+                "Coded and designed by JOHNATHAN VANBENEDEN \n" +
+                "Version " + Version.versionNumber + " - Last build on " + Version.getCurrentDate());
         alert.show();
     }
 

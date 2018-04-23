@@ -73,19 +73,19 @@ public class ControllerContingent implements Initializable {
     @FXML
     private VBox menuPane;
 
-    private Database database = new Database();
-    private Effects fx = new Effects();
-    private static Stage progressStage = new Stage();
-    private RingProgressIndicator ringProgressIndicator = new RingProgressIndicator();
+    private final Database database = new Database();
+    private final Effects fx = new Effects();
+    private static final Stage progressStage = new Stage();
+    private final RingProgressIndicator ringProgressIndicator = new RingProgressIndicator();
     private volatile boolean runningThreadFlag = true;
     static int progress = 0;
     String secteurLabel = "Initialisation...";
-    static TextField textField = new TextField();
-    private static TextArea shellTextArea = new TextArea();
-    private Stage eventShell = new Stage();
-    private Button cancelButton = new Button("Annuler");
-    private String namPath = "\\\\130.15.0.1\\Public\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-    private String philPath = "\\\\130.17.0.1\\Public\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+    static final TextField textField = new TextField();
+    private static final TextArea shellTextArea = new TextArea();
+    private final Stage eventShell = new Stage();
+    private final Button cancelButton = new Button("Annuler");
+    private final String namPath = "\\\\130.15.0.1\\Public\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+    private final String philPath = "\\\\130.17.0.1\\Public\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
 
     public void initialize(URL location, ResourceBundle resources) {
         Menu menu = new Menu();
@@ -152,7 +152,7 @@ public class ControllerContingent implements Initializable {
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
-                    protected Void call() throws Exception {
+                    protected Void call() {
                         String sql = "SELECT * FROM travailleurs " +
                                 "INNER JOIN secteurs " +
                                 "ON travailleurs.id = secteurs.worker_id ";
@@ -361,8 +361,7 @@ public class ControllerContingent implements Initializable {
     }
 
     private String capitalize(String string, int numberOfLetter){
-        String answer = string.substring(0, numberOfLetter).toUpperCase() + string.substring(numberOfLetter);
-        return answer;
+        return string.substring(0, numberOfLetter).toUpperCase() + string.substring(numberOfLetter);
     }
 
     private void showEmptyDialog(String string) {
@@ -464,7 +463,7 @@ public class ControllerContingent implements Initializable {
     }
 
     class WorkerThread extends Thread {
-        RingProgressIndicator rpi;
+        final RingProgressIndicator rpi;
 
         // int progress = 0;
         WorkerThread(RingProgressIndicator rpi) {
