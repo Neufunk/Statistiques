@@ -10,7 +10,6 @@ class Indicateur {
     private int rowC = 0;
     private int rowD = 0;
     private int rowE = 0;
-    private int rowF = 0;
     private boolean withGraphic = false;
     private boolean withFileD = false;
     private boolean withLineGraphic = true;
@@ -159,7 +158,7 @@ class Indicateur {
                 break;
             case "Taux de rotation":
                 masterRow = 78;
-                withGraphic = true;
+                withGraphic = false;
                 break;
             case "FF palliatifs":
                 masterRow = 1;
@@ -248,7 +247,6 @@ class Indicateur {
         rowC = 0;
         rowD = 0;
         rowE = 0;
-        rowF = 0;
         withFileD = false;
         withLineGraphic = true;
     }
@@ -275,10 +273,6 @@ class Indicateur {
 
     int getRowE() {
         return rowE;
-    }
-
-    int getRowF() {
-        return rowF;
     }
 
     boolean getWithGraphic() {

@@ -15,11 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import main.Effects;
 import main.Menu;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -158,27 +156,20 @@ public class ControllerStatistiquesSI implements Initializable {
         iteratorExcel.setSheet(centre.getSheet());
         iteratorExcel.setColumn(periode.getColumn());
         iteratorExcel.setMasterRow(indicateur.getMasterRow());
-        iteratorExcel.setRowA(indicateur.getRowA());
-        iteratorExcel.setRowB(indicateur.getRowB());
-        iteratorExcel.setRowC(indicateur.getRowC());
-        iteratorExcel.setRowD(indicateur.getRowD());
-        iteratorExcel.setRowE(indicateur.getRowE());
+        int[] row = {indicateur.getRowA(), indicateur.getRowB(), indicateur.getRowC(), indicateur.getRowD(), indicateur.getRowE()};
+        iteratorExcel.setPieChartRow(row);
         startIteration();
         buildPieGraphic();
         buildRawData();
-        closeConnection();
         iteratorExcel.resetVariables();
         indicateur.resetVariables();
     }
 
     private void startIteration() {
         try {
-            iteratorExcel.startIteration();
-        } catch (FileNotFoundException e0) {
-            iteratorExcel.fileNotFound(e0);
-            // return;
-        } catch (IOException | InvalidFormatException e1) {
-            e1.printStackTrace();
+            iteratorExcel.pieChartIteration();
+        } catch (Exception e) {
+            iteratorExcel.fileNotFound(e);
         }
     }
 
@@ -189,10 +180,8 @@ public class ControllerStatistiquesSI implements Initializable {
             roundGraph.getData().clear();
             noGraphicLabel.setVisible(false);
             graphicTitle.setText(comboIndic.getValue());
-            String[] graphicArray = {iteratorExcel.getContentTitleCellA(), iteratorExcel.getContentTitleCellB(),
-                    iteratorExcel.getContentTitleCellC(), iteratorExcel.getContentTitleCellD(), iteratorExcel.getContentTitleCellE()};
-            Double[] valueArray = {iteratorExcel.getContentCellA(), iteratorExcel.getContentCellB(),
-                    iteratorExcel.getContentCellC(), iteratorExcel.getContentCellD(), iteratorExcel.getContentCellE()};
+            String[] graphicArray = iteratorExcel.getTitleArray();
+            double[] valueArray = iteratorExcel.getContentArray();
             for (int i = 0; i < graphicArray.length; i++) {
                 pieGraphic.buildPieGraphic(graphicArray[i], valueArray[i]);
             }
@@ -221,16 +210,14 @@ public class ControllerStatistiquesSI implements Initializable {
         Graphic setData = new Graphic();
         setData.setRawDataName(labelMasterIndic, iteratorExcel.getContentTitleMasterCell());
         Label[] indicLabel = {labelIndicA, labelIndicB, labelIndicC, labelIndicD, labelIndicE};
-        String[] dataName = {iteratorExcel.getContentTitleCellA(), iteratorExcel.getContentTitleCellB(),
-                iteratorExcel.getContentTitleCellC(), iteratorExcel.getContentTitleCellD(), iteratorExcel.getContentTitleCellE()};
+        String[] dataName = iteratorExcel.getTitleArray();
         for (int i = 0; i < indicLabel.length; i++) {
             setData.setRawDataName(indicLabel[i], dataName[i]);
         }
         setData.setMasterRawDataValue(labelMasterValue, iteratorExcel.getContentMasterCell());
 
         Label[] valueLabel = {labelValueA, labelValueB, labelValueC, labelValueD, labelValueE};
-        Double[] dataValue = {iteratorExcel.getContentCellA(), iteratorExcel.getContentCellB(),
-                iteratorExcel.getContentCellC(), iteratorExcel.getContentCellD(), iteratorExcel.getContentCellE()};
+        double[] dataValue = iteratorExcel.getContentArray();
         for (int i = 0; i < valueLabel.length; i++) {
             setData.setRawDataValue(valueLabel[i], dataValue[i]);
         }
@@ -249,14 +236,6 @@ public class ControllerStatistiquesSI implements Initializable {
                 generate();
             }
         });
-    }
-
-    private void closeConnection() {
-        try {
-            iteratorExcel.closeConnection();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
     }
 
     private void xlsIcon() {
@@ -285,4 +264,3 @@ public class ControllerStatistiquesSI implements Initializable {
         });
     }
 }
-

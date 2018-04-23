@@ -13,10 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import main.Menu;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -182,21 +179,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
     }
 
     private void startIteration(IteratorExcel iteratorExcel) {
-        try {
-            iteratorExcel.allYearIteration();
-        } catch (FileNotFoundException e0) {
-            iteratorExcel.fileNotFound(e0);
-            lineChart.setTitle("");
-            lineChart.getData().clear();
-            lineChart.setVisible(false);
-            idleSpinner.setVisible(true);
-        } catch (Exception e) {
-            lineChart.setTitle("");
-            lineChart.getData().clear();
-            lineChart.setVisible(false);
-            noGraphicLabel.setVisible(true);
-            idleSpinner.setVisible(false);
-        }
+        iteratorExcel.lineChartIteration();
     }
 
     public void buildLineGraphic() {
@@ -217,11 +200,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
 
             if (comboYear0.getValue() != null) {
-                double[] value = {iteratorExcel0.getContentJanvierCell(), iteratorExcel0.getContentFevrierCell(),
-                        iteratorExcel0.getContentMarsCell(), iteratorExcel0.getContentAvrilCell(),
-                        iteratorExcel0.getContentMaiCell(), iteratorExcel0.getContentJuinCell(), iteratorExcel0.getContentJuilletCell(),
-                        iteratorExcel0.getContentAoutCell(), iteratorExcel0.getContentSeptembreCell(),
-                        iteratorExcel0.getContentOctobreCell(), iteratorExcel0.getContentNovembreCell(), iteratorExcel0.getContentDecembreCell()};
+                double[] value = iteratorExcel0.getLineChartResult();
                 for (int i = 0; i < month.length; i++) {
                     serie1.buildLineGraphic(month[i], value[i], comboYear0.getValue().toString());
                 }
@@ -231,11 +210,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             }
 
             if (comboYear1.getValue() != null) {
-                double[] value2 = {iteratorExcel1.getContentJanvierCell(), iteratorExcel1.getContentFevrierCell(),
-                        iteratorExcel1.getContentMarsCell(), iteratorExcel1.getContentAvrilCell(),
-                        iteratorExcel1.getContentMaiCell(), iteratorExcel1.getContentJuinCell(), iteratorExcel1.getContentJuilletCell(),
-                        iteratorExcel1.getContentAoutCell(), iteratorExcel1.getContentSeptembreCell(),
-                        iteratorExcel1.getContentOctobreCell(), iteratorExcel1.getContentNovembreCell(), iteratorExcel1.getContentDecembreCell()};
+                double[] value2 = iteratorExcel1.getLineChartResult();
                 for (int i = 0; i < month.length; i++) {
                     serie2.buildLineGraphic(month[i], value2[i], comboYear1.getValue().toString());
                 }
@@ -245,11 +220,7 @@ public class ControllerComparaisonAnnuelle implements Initializable {
             }
 
             if (comboYear2.getValue() != null) {
-                double[] value3 = {iteratorExcel2.getContentJanvierCell(), iteratorExcel2.getContentFevrierCell(),
-                        iteratorExcel2.getContentMarsCell(), iteratorExcel2.getContentAvrilCell(),
-                        iteratorExcel2.getContentMaiCell(), iteratorExcel2.getContentJuinCell(), iteratorExcel2.getContentJuilletCell(),
-                        iteratorExcel2.getContentAoutCell(), iteratorExcel2.getContentSeptembreCell(),
-                        iteratorExcel2.getContentOctobreCell(), iteratorExcel2.getContentNovembreCell(), iteratorExcel2.getContentDecembreCell()};
+                double[] value3 = iteratorExcel2.getLineChartResult();
                 for (int i = 0; i < month.length; i++) {
                     serie3.buildLineGraphic(month[i], value3[i], comboYear2.getValue().toString());
                 }
