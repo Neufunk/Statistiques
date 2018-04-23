@@ -11,7 +11,7 @@ import java.util.Objects;
 class Graphic {
 
     private final ObservableList<PieChart.Data>pieChartData = FXCollections.observableArrayList();
-    private final XYChart.Series lineChartData = new XYChart.Series();
+    private final XYChart.Series<String, Float> lineChartData = new XYChart.Series<>();
 
     //PIE GRAPHIC
     void buildPieGraphic(String title, double value){
@@ -33,12 +33,12 @@ class Graphic {
                 float floatValue = (float) value * 100;
                 lineChartData.getData().add(new XYChart.Data<>(title, floatValue));
             } else {
-                lineChartData.getData().add(new XYChart.Data<>(title, value));
+                lineChartData.getData().add(new XYChart.Data<>(title, (float) value));
             }
         }
     }
 
-    XYChart.Series getLineChartData(){
+    XYChart.Series<String, Float> getLineChartData(){
         return lineChartData;
     }
 

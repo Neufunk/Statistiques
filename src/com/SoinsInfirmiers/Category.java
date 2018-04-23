@@ -35,7 +35,7 @@ class Category {
          }
     }
 
-    ObservableList getCategorie(){
+    ObservableList<String> getCategorie(){
         return list;
     }
 }

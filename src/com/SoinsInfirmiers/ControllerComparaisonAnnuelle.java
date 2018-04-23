@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,27 +22,26 @@ import java.util.ResourceBundle;
 
 public class ControllerComparaisonAnnuelle implements Initializable {
 
-
     private final Data data = new Data();
 
     @FXML
-    private JFXComboBox comboCentre;
+    private JFXComboBox<String> comboCentre;
     @FXML
-    private JFXComboBox comboYear0;
+    private JFXComboBox<Integer> comboYear0;
     @FXML
-    private JFXComboBox comboYear1;
+    private JFXComboBox<Integer> comboYear1;
     @FXML
-    private JFXComboBox comboYear2;
+    private JFXComboBox<Integer> comboYear2;
     @FXML
-    private JFXComboBox comboIndic;
+    private JFXComboBox<String> comboIndic;
     @FXML
     private JFXButton generateButton;
     @FXML
     private JFXButton clearButton;
     @FXML
-    private JFXComboBox comboCategorie;
+    private JFXComboBox<String> comboCategorie;
     @FXML
-    private LineChart lineChart;
+    private LineChart<String, Float> lineChart;
     @FXML
     private NumberAxis yAxis;
     @FXML
@@ -88,25 +88,29 @@ public class ControllerComparaisonAnnuelle implements Initializable {
 
     public void setIndicateursInCombo() {
         if (comboCategorie.getValue() != null) {
-            category.setCategorie(comboCategorie.getValue().toString());
+            category.setCategorie(comboCategorie.getValue());
             comboIndic.setItems(category.getCategorie());
         }
     }
 
     private void onClearButtonClick() {
         clearButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            comboCentre.getSelectionModel().clearSelection();
-            comboYear0.getSelectionModel().clearSelection();
-            comboYear1.getSelectionModel().clearSelection();
-            comboYear2.getSelectionModel().clearSelection();
-            comboCategorie.getSelectionModel().clearSelection();
-            comboIndic.getSelectionModel().clearSelection();
+            clearCombos();
             lineChart.setTitle("");
             lineChart.getData().clear();
             lineChart.setVisible(false);
             noGraphicLabel.setVisible(false);
             idleSpinner.setVisible(true);
         });
+    }
+
+    private void clearCombos() {
+        comboCentre.getSelectionModel().clearSelection();
+        comboYear0.getSelectionModel().clearSelection();
+        comboYear1.getSelectionModel().clearSelection();
+        comboYear2.getSelectionModel().clearSelection();
+        comboCategorie.getSelectionModel().clearSelection();
+        comboIndic.getSelectionModel().clearSelection();
     }
 
     private void onRedCrossClick() {
@@ -149,13 +153,13 @@ public class ControllerComparaisonAnnuelle implements Initializable {
 
     private void generateAll() {
         if (comboYear0.getValue() != null) {
-            generateYear0();
+            generateYear(iteratorExcel0, comboYear0);
         }
         if (comboYear1.getValue() != null) {
-            generateYear1();
+            generateYear(iteratorExcel1, comboYear1);
         }
         if (comboYear2.getValue() != null) {
-            generateYear2();
+            generateYear(iteratorExcel2, comboYear2);
         }
         buildLineGraphic();
         iteratorExcel0.resetVariables();
@@ -163,63 +167,30 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         iteratorExcel2.resetVariables();
     }
 
-    private void generateYear0() {
-        centre.toExcelSheet(comboCentre.getValue().toString());
-        year.toPath((int) comboYear0.getValue());
-        indicateur.toExcelRow(comboIndic.getValue().toString());
-        iteratorExcel0.setSheet(centre.getSheet());
-        iteratorExcel0.setPath(year.getPath());
-        iteratorExcel0.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
+    private void generateYear(IteratorExcel iteratorExcel, ComboBox comboYear) {
+        centre.toExcelSheet(comboCentre.getValue());
+        year.toPath((int) comboYear.getValue());
+        indicateur.toExcelRow(comboIndic.getValue());
+        iteratorExcel.setSheet(centre.getSheet());
+        iteratorExcel.setPath(year.getPath());
+        iteratorExcel.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
         if (indicateur.getWithFileD()) {
-            iteratorExcel0.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
+            iteratorExcel.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
         }
-        iteratorExcel0.setMasterRow(indicateur.getMasterRow());
-        startIteration();
+        iteratorExcel.setMasterRow(indicateur.getMasterRow());
+        startIteration(iteratorExcel);
     }
 
-    private void generateYear1() {
-        centre.toExcelSheet(comboCentre.getValue().toString());
-        year.toPath((int) comboYear1.getValue());
-        indicateur.toExcelRow(comboIndic.getValue().toString());
-        iteratorExcel1.setSheet(centre.getSheet());
-        iteratorExcel1.setPath(year.getPath());
-        iteratorExcel1.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
-        if (indicateur.getWithFileD()) {
-            iteratorExcel1.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
-        }
-        iteratorExcel1.setMasterRow(indicateur.getMasterRow());
-        startIteration1();
-    }
-
-    private void generateYear2() {
-        centre.toExcelSheet(comboCentre.getValue().toString());
-        year.toPath((int) comboYear2.getValue());
-        indicateur.toExcelRow(comboIndic.getValue().toString());
-        iteratorExcel2.setSheet(centre.getSheet());
-        iteratorExcel2.setPath(year.getPath());
-        iteratorExcel2.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
-        if (indicateur.getWithFileD()) {
-            iteratorExcel2.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
-        }
-        iteratorExcel2.setMasterRow(indicateur.getMasterRow());
-        startIteration2();
-    }
-
-    private void startIteration() {
+    private void startIteration(IteratorExcel iteratorExcel) {
         try {
-            iteratorExcel0.allYearIteration();
+            iteratorExcel.allYearIteration();
         } catch (FileNotFoundException e0) {
-            iteratorExcel0.fileNotFound(e0);
+            iteratorExcel.fileNotFound(e0);
             lineChart.setTitle("");
             lineChart.getData().clear();
             lineChart.setVisible(false);
             idleSpinner.setVisible(true);
-        } catch (IllegalStateException e2) {
-            System.out.print("Division par zéro !");
-        } catch (IOException | InvalidFormatException e1) {
-            e1.printStackTrace();
-            System.out.print("IO / InvalidFormat");
-        } catch (NullPointerException e3) {
+        } catch (Exception e) {
             lineChart.setTitle("");
             lineChart.getData().clear();
             lineChart.setVisible(false);
@@ -228,45 +199,9 @@ public class ControllerComparaisonAnnuelle implements Initializable {
         }
     }
 
-    private void startIteration1() {
-        try {
-            iteratorExcel1.allYearIteration();
-        } catch (FileNotFoundException e0) {
-            iteratorExcel1.fileNotFound(e0);
-            lineChart.getData().clear();
-        } catch (IllegalStateException e2) {
-            System.out.print("Erreur");
-        } catch (IOException | InvalidFormatException e1) {
-            e1.printStackTrace();
-        } catch (NullPointerException e3) {
-            lineChart.setTitle("");
-            lineChart.getData().clear();
-            lineChart.setVisible(false);
-            noGraphicLabel.setVisible(true);
-        }
-    }
-
-    private void startIteration2() {
-        try {
-            iteratorExcel2.allYearIteration();
-        } catch (FileNotFoundException e0) {
-            iteratorExcel2.fileNotFound(e0);
-            lineChart.getData().clear();
-        } catch (IllegalStateException e2) {
-            System.out.print(e2.toString());
-        } catch (IOException | InvalidFormatException e1) {
-            e1.printStackTrace();
-        } catch (NullPointerException e3) {
-            lineChart.setTitle("");
-            lineChart.getData().clear();
-            lineChart.setVisible(false);
-            noGraphicLabel.setVisible(true);
-        }
-    }
-
     public void buildLineGraphic() {
         if (indicateur.getwithLineGraphic()) {
-            yAxis.setForceZeroInRange(false);
+            yAxis.setForceZeroInRange(false); // Important for chart scale
             lineChart.getData().clear();
             iteratorExcel0.resetVariables();
             iteratorExcel1.resetVariables();

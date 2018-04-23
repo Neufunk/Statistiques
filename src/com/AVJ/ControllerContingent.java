@@ -47,11 +47,11 @@ import static AVJ.IteratorExcel.getNonUpdated;
 public class ControllerContingent implements Initializable {
 
     @FXML
-    private JFXComboBox comboCentre;
+    private JFXComboBox<String> comboCentre;
     @FXML
-    private JFXComboBox comboSecteur;
+    private JFXComboBox<String> comboSecteur;
     @FXML
-    private JFXComboBox comboPeriode;
+    private JFXComboBox<String> comboPeriode;
     @FXML
     private AnchorPane mainPane;
     @FXML
@@ -110,7 +110,7 @@ public class ControllerContingent implements Initializable {
     }
 
     public void displaySecteurs() {
-        if (comboCentre.getValue() == "ASD") {
+        if (comboCentre.getValue().equals("ASD")) {
             comboSecteur.setPromptText("Province entière");
             comboSecteur.setDisable(true);
             antenneCheckbox.setDisable(true);
@@ -129,7 +129,7 @@ public class ControllerContingent implements Initializable {
         }
         database.connect();
         if (comboCentre.getValue() != null) {
-            comboSecteur.setItems(database.loadSectorsToCombo(comboCentre.getValue().toString()));
+            comboSecteur.setItems(database.loadSectorsToCombo(comboCentre.getValue()));
         }
         database.closeConnection();
     }
@@ -270,12 +270,12 @@ public class ControllerContingent implements Initializable {
 
         try {
             Connection c = database.connect();
-            String centre = comboCentre.getValue().toString();
+            String centre = comboCentre.getValue();
             String secteur = "";
             if (comboSecteur.getValue() != null) {
-                secteur = comboSecteur.getValue().toString();
+                secteur = comboSecteur.getValue();
             }
-            String periode = comboPeriode.getValue().toString();
+            String periode = comboPeriode.getValue();
             String year = getCurrentYear();
 
             // CURRENT YEAR TABLE
@@ -284,7 +284,7 @@ public class ControllerContingent implements Initializable {
 
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
                 final int j = i;
-                TableColumn col = new TableColumn(capitalize(rs.getMetaData().getColumnName(i + 1), 1));
+                TableColumn col = new TableColumn(capitalize(rs.getMetaData().getColumnName(i + 1)));
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
                 col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView.getColumns().addAll(col);
@@ -316,7 +316,7 @@ public class ControllerContingent implements Initializable {
 
             for (int i = 0; i < rs2.getMetaData().getColumnCount(); i++) {
                 final int j = i;
-                TableColumn col = new TableColumn(capitalize(rs2.getMetaData().getColumnName(i + 1), 1));
+                TableColumn col = new TableColumn(capitalize(rs2.getMetaData().getColumnName(i + 1)));
                 col.setCellFactory(TextFieldTableCell.forTableColumn());
                 col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
                 tableView2.getColumns().addAll(col);
@@ -349,7 +349,7 @@ public class ControllerContingent implements Initializable {
         if (comboCentre.getValue() == null) {
             showEmptyDialog("un centre");
             return false;
-        } else if (!antenneCheckbox.isSelected() && comboSecteur.getValue() == null && comboCentre.getValue() != "ASD") {
+        } else if (!antenneCheckbox.isSelected() && comboSecteur.getValue() == null && !comboCentre.getValue().equals("ASD")) {
             showEmptyDialog("un secteur");
             return false;
         } else if (comboPeriode.getValue() == null) {
@@ -360,8 +360,8 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    private String capitalize(String string, int numberOfLetter){
-        return string.substring(0, numberOfLetter).toUpperCase() + string.substring(numberOfLetter);
+    private String capitalize(String string){
+        return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
 
     private void showEmptyDialog(String string) {
@@ -481,8 +481,7 @@ public class ControllerContingent implements Initializable {
                 Platform.runLater(() ->
                         rpi.setProgress(progress));
                 if (progress > 100) {
-                    Platform.runLater(() ->
-                            ringProgressIndicator.makeIndeterminate());
+                    Platform.runLater(ringProgressIndicator::makeIndeterminate);
                     break;
                 }
             }
