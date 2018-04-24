@@ -7,9 +7,10 @@ import javafx.collections.ObservableList;
 public class Data {
     // Page titles
     public static final String homePageTitle = "Aide & Soins à Domicile - Statistiques - v"+ Version.versionNumber;
-    public static final String pageTitle1 = "Soins Infirmiers - Indicateurs annuels - v"+Version.versionNumber;
-    public static final String pageTitle0 = "Soins Infirmiers - Evolution d'un indicateur - v"+Version.versionNumber;
+    public static final String pageTitle1 = "Soins Infirmiers - Comparaison par Années - v"+Version.versionNumber;
+    public static final String pageTitle0 = "Soins Infirmiers - Indicateurs annuels - v"+Version.versionNumber;
     public static final String pageTitle2 = "Soins Infirmiers - Sélection - v"+Version.versionNumber;
+    public static final String pageTitle3 = "Soins Infirmiers - Comparaison par Centres - v"+Version.versionNumber;
 
     // Centres
     final ObservableList<String> centerList = FXCollections

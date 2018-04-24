@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerComparaisonCentres">
+    <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="655.0" minWidth="10.0" prefWidth="126.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="655.0" minWidth="10.0" prefWidth="139.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="655.0" minWidth="0.0" prefWidth="32.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="655.0" minWidth="0.0" prefWidth="151.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="494.0" minWidth="10.0" prefWidth="37.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="494.0" minWidth="10.0" prefWidth="173.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="86.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="164.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="376.0" minWidth="10.0" prefWidth="37.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="376.0" minWidth="10.0" prefWidth="148.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="403.0" minWidth="10.0" prefWidth="187.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="337.0" minHeight="10.0" prefHeight="48.0" vgrow="NEVER" />
+        <RowConstraints maxHeight="664.0" minHeight="10.0" prefHeight="43.0" vgrow="NEVER" />
+        <RowConstraints maxHeight="573.0" minHeight="10.0" prefHeight="56.0" vgrow="NEVER" />
+        <RowConstraints maxHeight="573.0" minHeight="10.0" prefHeight="38.0" vgrow="NEVER" />
+        <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="41.0" vgrow="NEVER" />
+        <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="56.0" vgrow="NEVER" />
+        <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="38.0" vgrow="NEVER" />
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="401.0" />
+    </rowConstraints>
+    <Label alignment="TOP_CENTER" text="COMPARAISON CENTRES" textAlignment="CENTER" textFill="#006782" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+        <font>
+          <Font name="System Bold" size="36.0" />
+        </font>
+    </Label>
+    <JFXComboBox id="comboCentre" fx:id="comboYear" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+    <JFXComboBox fx:id="comboCentre2" accessibleText="comboYear1" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+    <JFXComboBox fx:id="comboCentre3" accessibleText="comboYear2" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+    <JFXComboBox fx:id="comboCentre4" accessibleText="comboYear3" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+    <JFXComboBox id="comboIndic" fx:id="comboIndic" accessibleText="comboIndic" centerShape="false" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="543.0" promptText="Indicateur" scaleShape="false" unFocusColor="#006782" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
+    <JFXButton fx:id="generateButton" buttonType="RAISED" prefHeight="30.0" prefWidth="81.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Générer" textFill="WHITE" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+        <font>
+          <Font size="13.0" />
+        </font>
+    </JFXButton>
+    <JFXButton fx:id="clearButton" buttonType="RAISED" prefHeight="30.0" prefWidth="81.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Clear" textFill="WHITE" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+        <font>
+          <Font size="13.0" />
+        </font>
+    </JFXButton>
+    <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#96bb37" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" unFocusColor="#006782" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+    <ImageView fx:id="redCross2" fitHeight="16.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+        <cursor>
+          <Cursor fx:constant="HAND" />
+        </cursor>
+        <Image url="@../../img/RedCross.png" />
+    </ImageView>
+    <ImageView fx:id="redCross3" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+        <cursor>
+          <Cursor fx:constant="HAND" />
+        </cursor>
+        <Image url="@../../img/RedCross.png" />
+    </ImageView>
+    <ImageView fx:id="redCross4" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+        <cursor>
+          <Cursor fx:constant="HAND" />
+        </cursor>
+        <Image url="@../../img/RedCross.png" />
+    </ImageView>
+    <Label fx:id="noGraphicLabel" alignment="CENTER" prefHeight="32.0" prefWidth="245.0" text="Pas de graphique disponible pour cet indicateur" visible="false" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+    <JFXSpinner fx:id="idleSpinner" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+    <VBox fx:id="menuPane" prefHeight="200.0" prefWidth="100.0" GridPane.columnSpan="8" />
+    <LineChart fx:id="lineChart" animated="false" layoutX="1.0" layoutY="1.0" prefHeight="341.0" prefWidth="1124.0" stylesheets="/ui/CSS/LineChart.css" visible="false" GridPane.columnSpan="11" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <xAxis>
+          <CategoryAxis side="BOTTOM" />
+      </xAxis>
+      <yAxis>
+          <NumberAxis fx:id="yAxis" side="LEFT" />
+      </yAxis>
+    </LineChart>
+   <JFXComboBox fx:id="comboCentre5" accessibleText="comboYear3" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+   <ImageView fx:id="redCross5" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <image>
+         <Image url="@../../img/RedCross.png" />
+      </image>
+   </ImageView>
+   <JFXComboBox fx:id="comboCentre1" accessibleText="comboYear1" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+   <ImageView fx:id="redCross1" fitHeight="16.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <image>
+         <Image url="@../../img/RedCross.png" />
+      </image>
+   </ImageView>
+</GridPane>

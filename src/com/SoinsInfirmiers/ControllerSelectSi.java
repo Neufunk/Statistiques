@@ -24,8 +24,12 @@ public class ControllerSelectSi implements Initializable {
         menu.openIndicateursPage();
     }
 
-    public void openComparaisonPage() {
-        menu.openComparaisonPage();
+    public void openComparaisonAnnees() {
+        menu.openComparaisonAnnees();
+    }
+
+    public void openComparaisonCentres() {
+        menu.openComparaisonCentres();
     }
 
     public void pdfActivite() {

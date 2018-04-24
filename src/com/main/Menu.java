@@ -71,7 +71,7 @@ public class Menu {
     public void openIndicateursPage(){
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/StatistiquesSI.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/IndicateursAnnuels.fxml"));
             changeScene(root);
             stage.setTitle(Data.pageTitle0);
         } catch (IOException e1) {
@@ -79,12 +79,23 @@ public class Menu {
         }
     }
 
-    public void openComparaisonPage(){
+    public void openComparaisonAnnees(){
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/TableauxAnnuels.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonAnnees.fxml"));
             changeScene(root);
             stage.setTitle(Data.pageTitle1);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openComparaisonCentres(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonCentres.fxml"));
+            changeScene(root);
+            stage.setTitle(Data.pageTitle3);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -174,7 +185,7 @@ public class Menu {
         alert.setHeaderText("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Coded and designed by JOHNATHAN VANBENEDEN \n" +
-                "Version " + Version.versionNumber + " - Last build on " + Version.getCurrentDate());
+                "Version " + Version.versionNumber + " - Last build " + Version.getCurrentDate());
         alert.show();
     }
 

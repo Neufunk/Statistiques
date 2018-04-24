@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerStatistiquesSI implements Initializable {
+public class ControllerIndicateursAnnuels implements Initializable {
 
     @FXML
     private JFXComboBox<String> comboCentre;
@@ -156,8 +156,7 @@ public class ControllerStatistiquesSI implements Initializable {
         iteratorExcel.setSheet(centre.getSheet());
         iteratorExcel.setColumn(periode.getColumn());
         iteratorExcel.setMasterRow(indicateur.getMasterRow());
-        int[] row = {indicateur.getRowA(), indicateur.getRowB(), indicateur.getRowC(), indicateur.getRowD(), indicateur.getRowE()};
-        iteratorExcel.setPieChartRow(row);
+        iteratorExcel.setPieChartRow(new int[]{indicateur.getRowA(), indicateur.getRowB(), indicateur.getRowC(), indicateur.getRowD(), indicateur.getRowE()});
         startIteration();
         buildPieGraphic();
         buildRawData();

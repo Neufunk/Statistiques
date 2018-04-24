@@ -17,7 +17,7 @@ import main.Menu;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerComparaisonAnnuelle implements Initializable {
+public class ControllerComparaisonAnnées implements Initializable {
 
     private final Data data = new Data();
 

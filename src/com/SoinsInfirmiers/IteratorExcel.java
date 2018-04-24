@@ -54,7 +54,6 @@ class IteratorExcel {
 
     void pieChartIteration() {
         Sheet selectionSheet = createWoorkbook();
-
         if (masterRow != 0) {
             CellReference cellReference1 = new CellReference(column + masterRow);
             Row masterRowB = selectionSheet.getRow(cellReference1.getRow());
@@ -64,6 +63,7 @@ class IteratorExcel {
             Row masterRowC = selectionSheet.getRow(titleCellReference1.getRow());
             contentTitleMasterCell = masterRowC.getCell(titleCellReference1.getCol()).getStringCellValue();
         }
+
         if (pieChartRow != null) {
             for (int i = 0; i < pieChartRow.length; i++) {
                 if (pieChartRow[i] != 0) {
