@@ -5,8 +5,16 @@
 
 .default-color2.chart-series-line { -fx-stroke: #96bb37; }
 
+.default-color3.chart-series-line { -fx-stroke: #E1A634; }
+
+.default-color4.chart-series-line { -fx-stroke: #703572; }
+
 .default-color0.chart-line-symbol { -fx-background-color: #E91E63, white; }
 
 .default-color1.chart-line-symbol { -fx-background-color: #006782, white; }
 
 .default-color2.chart-line-symbol { -fx-background-color: #96bb37, white; }
+
+.default-color3.chart-line-symbol { -fx-background-color: #E1A634, white; }
+
+.default-color4.chart-line-symbol { -fx-background-color: #703572, white; }

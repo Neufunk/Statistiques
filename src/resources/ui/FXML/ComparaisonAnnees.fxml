@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerComparaisonAnnées">
+<GridPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerComparaisonAnnees">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="655.0" minWidth="0.0" prefWidth="150.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="655.0" minWidth="0.0" prefWidth="281.0" />
@@ -42,9 +42,9 @@
         </font>
     </Label>
     <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-    <JFXComboBox fx:id="comboYear0" accessibleText="comboYear1" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année 0" unFocusColor="#006782" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-    <JFXComboBox fx:id="comboYear1" accessibleText="comboYear2" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année 1" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-    <JFXComboBox fx:id="comboYear2" accessibleText="comboYear3" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année 2" unFocusColor="#006782" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+    <JFXComboBox fx:id="comboYear0" accessibleText="comboYear1" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+    <JFXComboBox fx:id="comboYear1" accessibleText="comboYear2" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+    <JFXComboBox fx:id="comboYear2" accessibleText="comboYear3" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="5" GridPane.rowIndex="3" />
     <JFXComboBox id="comboIndic" fx:id="comboIndic" accessibleText="comboIndic" centerShape="false" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="543.0" promptText="Indicateur" scaleShape="false" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
     <JFXButton fx:id="generateButton" buttonType="RAISED" prefHeight="30.0" prefWidth="81.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Générer" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="6">
         <font>

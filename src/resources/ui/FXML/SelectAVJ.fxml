@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
-          prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.161"
+          prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.161"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerSelectAVJ">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>

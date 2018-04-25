@@ -55,7 +55,7 @@ class Year {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Champ requis");
         alert.setHeaderText("Veuillez sélectionner une année");
-        alert.setContentText("avoid NullPointerException");
+        alert.setContentText("Year.showEmptyDialog()");
         alert.showAndWait();
     }
 
@@ -76,7 +76,7 @@ class Year {
     }
 
     String getPath() {
-        return "P:/PROVINCE et statistiques FASD/";
+        return "//130.15.0.1/Public/PROVINCE et statistiques FASD/";
     }
 
 

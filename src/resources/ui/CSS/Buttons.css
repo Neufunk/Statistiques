@@ -30,7 +30,6 @@
     -fx-scale-x: 1.01;
     -fx-scale-y: 1.01;
     -fx-scale-z: 1.01;
-
 }
 .blue-button {
     -fx-background-color:#006886;
@@ -73,4 +72,15 @@
         -fx-scale-x: 1.01;
         -fx-scale-y: 1.01;
         -fx-scale-z: 1.01;
+}
+.dark-button {
+    -fx-background-color:  #003333;
+    -fx-text-fill: white;
+}
+.dark-button:hover {
+    -fx-background-color:  #005555;
+    -fx-text-fill: white;
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-scale-z: 1.01;
 }

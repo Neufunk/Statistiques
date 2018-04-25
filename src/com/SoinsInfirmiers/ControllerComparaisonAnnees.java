@@ -17,7 +17,7 @@ import main.Menu;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerComparaisonAnnées implements Initializable {
+public class ControllerComparaisonAnnees implements Initializable {
 
     private final Data data = new Data();
 
@@ -198,7 +198,6 @@ public class ControllerComparaisonAnnées implements Initializable {
             idleSpinner.setVisible(false);
             String[] month = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
-
             if (comboYear0.getValue() != null) {
                 double[] value = iteratorExcel0.getLineChartResult();
                 for (int i = 0; i < month.length; i++) {

@@ -1,6 +1,13 @@
 ﻿CHANGELOG
 ---------
 
+Patchnote-1.2 - 25/04/2018
+  - Refactor de l'itération Excel (SoinsInfirmiers.IteratorExcel)
+  - Ajout de la fonction de comparaison par centre
+  - Ajout des chemins absolus pour être utilisé dans toutes les ASD
+  [WIP] Ajout Rapport Vinciane
+  [WIP] Ajout comparaison par commune
+
 Patchnote-1.1 - 06/04/2018 MàJ 18/04/2018
   - Ajout des écrans de sélection
   - Ajout de la fonctionalité de test des connexions
@@ -8,9 +15,6 @@ Patchnote-1.1 - 06/04/2018 MàJ 18/04/2018
   - Responsive Design
   - Optimisations
   - Refonte fenêtre 'Rapport d'activité'
-  @ Ajout Rapport Vinciane
-  @ Ajout comparaison par centre
-  @ Ajout comparaison par commune
 
 Patchnote-1.0 = Janvier 2018
   - Lancement 1.0

@@ -1,6 +1,6 @@
 /* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
 * {
-    -fx-my-menu-color: #FAFAFA;                  /* Change according to your needs */
+    -fx-my-menu-color: #FFFFFF;                  /* Change according to your needs */
     -fx-my-menu-color-highlighted: #006886;     /* Change according to your needs */
     -fx-my-menu-font-color: #000;             /* Change according to your needs */
     -fx-my-menu-font-color-highlighted: #fff; /* Change according to your needs */

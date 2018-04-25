@@ -185,7 +185,8 @@ public class Menu {
         alert.setHeaderText("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Coded and designed by JOHNATHAN VANBENEDEN \n" +
-                "Version " + Version.versionNumber + " - Last build " + Version.getCurrentDate());
+                "Version " + Version.versionNumber + " - Last build " + Version.getCurrentDate() +
+        " - Lines : 10.913 \nSDK 1.8.0_161 - Tested JRE : 1.8.0_151/161/172");
         alert.show();
     }
 

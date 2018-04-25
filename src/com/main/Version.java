@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Version {
 
-    public static final String versionNumber = "1.1";
+    public static final String versionNumber = "1.2";
 
     static String getCurrentDate() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");

@@ -15,66 +15,52 @@
 <?import javafx.scene.text.Font?>
 
 <!--suppress ALL -->
-<VBox fx:id="mainVBox" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
-   <VBox fx:id="menuPane" prefHeight="59.0" prefWidth="1280.0" style="-fx-background-color: #FAFAFA;" />
+
+<VBox fx:id="mainVBox" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
+   <VBox fx:id="menuPane" prefHeight="59.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" />
    <GridPane alignment="CENTER" prefHeight="127.0" prefWidth="1267.0">
       <VBox.margin>
-         <Insets top="20.0"/>
+         <Insets top="20.0" />
       </VBox.margin>
       <columnConstraints>
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="55.0" prefWidth="366.0"/>
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="130.0" prefWidth="153.0"/>
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="220.0" prefWidth="238.0"/>
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="130.0" prefWidth="150.0"/>
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="5.0" prefWidth="368.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="55.0" prefWidth="366.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="130.0" prefWidth="153.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="220.0" prefWidth="238.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="130.0" prefWidth="150.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="5.0" prefWidth="368.0" />
       </columnConstraints>
       <rowConstraints>
-         <RowConstraints maxHeight="36.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-         <RowConstraints maxHeight="76.0" minHeight="76.0" prefHeight="76.0" vgrow="SOMETIMES"/>
-         <RowConstraints maxHeight="55.0" minHeight="37.0" prefHeight="37.0" vgrow="SOMETIMES"/>
+         <RowConstraints maxHeight="36.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="76.0" minHeight="76.0" prefHeight="76.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="55.0" minHeight="37.0" prefHeight="37.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" onAction="#displaySecteurs"
-                   promptText="Centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e"
-                   GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1"
-                   GridPane.valignment="CENTER"/>
-      <JFXCheckBox fx:id="antenneCheckbox" alignment="CENTER" contentDisplay="CENTER" onAction="#displaySecteurs"
-                   text="Secteur entier ? " GridPane.columnIndex="2" GridPane.halignment="CENTER"
-                   GridPane.valignment="TOP"/>
-      <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true"
-                   promptText="Selectionnez un centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e"
-                   GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1"/>
-      <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" promptText="Période"
-                   stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="3"
-                   GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
-      <JFXButton buttonType="RAISED" focusTraversable="false" onAction="#onGenerateButtonClick" prefHeight="32.0"
-                 prefWidth="81.0" styleClass="orange-button" stylesheets="/ui/CSS/Buttons.css" text="Exécuter"
-                 textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2"
-                 GridPane.valignment="CENTER"/>
-      <JFXToggleButton fx:id="toggleButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" focusTraversable="false"
-                       onAction="#toggleButtonListener" prefHeight="56.0" prefWidth="117.0" selected="true"
-                       style="-fx-background-color: #FAFAFA;" toggleColor="#96bb37" toggleLineColor="#afda42"
-                       unToggleColor="#006782" unToggleLineColor="#008bae" GridPane.halignment="RIGHT">
+      <JFXComboBox fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" onAction="#displaySecteurs" promptText="Centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <JFXCheckBox fx:id="antenneCheckbox" alignment="CENTER" contentDisplay="CENTER" onAction="#displaySecteurs" text="Secteur entier ? " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+      <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true" promptText="Selectionnez un centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" promptText="Période" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <JFXButton buttonType="RAISED" focusTraversable="false" onAction="#onGenerateButtonClick" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="/ui/CSS/Buttons.css" text="Exécuter" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <JFXToggleButton fx:id="toggleButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" focusTraversable="false" onAction="#toggleButtonListener" prefHeight="56.0" prefWidth="117.0" selected="true" style="-fx-background-color: #FFFFFF;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae" GridPane.halignment="RIGHT">
          <font>
-            <Font name="System Bold" size="11.0"/>
+            <Font name="System Bold" size="11.0" />
          </font>
       </JFXToggleButton>
    </GridPane>
    <GridPane prefHeight="28.0" prefWidth="1281.0">
       <columnConstraints>
-         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
-         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
       <rowConstraints>
-         <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
       </rowConstraints>
       <Label fx:id="yearLabel1" text="Label" visible="false" GridPane.halignment="CENTER">
          <font>
-            <Font name="System Bold" size="15.0"/>
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
       <Label fx:id="yearLabel2" text="Label" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
          <font>
-            <Font name="System Bold" size="15.0"/>
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
    </GridPane>
