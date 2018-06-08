@@ -53,8 +53,8 @@ public class ConnectionTest {
             testDatabaseConnection("jdbc:postgresql://130.15.0.3/statistiques", "java_user", "fasd", "org.postgresql.Driver", progress1, done1, failed1);
             testServerConnection("130.15.0.1", progress2, done2, failed2);
             testServerConnection("130.17.0.1", progress3, done3, failed3);
-            testDatabaseConnection("jdbc:oracle:thin:@192.168.46.12:1521:D615", "conv_hc", "conv_hc", "oracle.jdbc.driver.OracleDriver", progress4, done4, failed4);
-            testDatabaseConnection("jdbc:oracle:thin:@192.168.46.12:1521:D015", "mathieud", "md1987", "oracle.jdbc.driver.OracleDriver", progress5, done5, failed5);
+            testDatabaseConnection("***", "***", "***", "oracle.jdbc.driver.OracleDriver", progress4, done4, failed4);
+            testDatabaseConnection("***", "***", "***", "oracle.jdbc.driver.OracleDriver", progress5, done5, failed5);
         }).start();
         launchButton.setVisible(false);
         closeButton.setVisible(true);

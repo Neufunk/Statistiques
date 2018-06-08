@@ -32,6 +32,8 @@ public class ControllerSelectSi implements Initializable {
         menu.openComparaisonCentres();
     }
 
+    public void openSelectVisitesPatients() { menu.openSelectVisitesPatients(); }
+
     public void pdfActivite() {
         menu.pdfActivite();
     }

@@ -33,7 +33,6 @@ public class Main extends Application {
             primaryStage.setResizable(true);
             primaryStage.show();
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/graphique.png")));
-
             } catch (Exception e) {
             displayError(e);
         }

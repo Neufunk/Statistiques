@@ -89,9 +89,9 @@ public class Database {
                     "AND mois = '" + periode + "'" +
                     "AND annee = '" + annee + "'" +
                     "AND indicateur IN ('Total Heures dispo par mois (Base 38)', " +
-                    "'Nbre H Absentéisme (code M) (Base 38)', " +
-                    "'Nbre H Prestées (code PR) (Base 38)', " +
-                    "'Ecart H Dispo et H prestées (Base 38)') " +
+                        "'Nbre H Absentéisme (code M) (Base 38)', " +
+                        "'Nbre H Prestées (code PR) (Base 38)', " +
+                        "'Ecart H Dispo et H prestées (Base 38)') " +
                     "GROUP BY indicateur, antenne, annee, mois " +
 
                     "UNION ALL " +
@@ -131,7 +131,7 @@ public class Database {
                     "WHERE annee = '" + annee + "' " +
                     "AND antenne = '" + centre + "' " +
                     "AND mois = '" + additionPeriode + "') AS Soustraction, " +
-                    "antenne " +
+                        "antenne " +
                     "FROM pot_depart_conges " +
                     "INNER JOIN secteurs " +
                     "ON pot_depart_conges.numero_secteur = secteurs.id " +
@@ -171,9 +171,9 @@ public class Database {
                     "WHERE mois = '" + periode + "' " +
                     "AND annee = '" + annee + "' " +
                     "AND indicateur IN ('Total Heures dispo par mois (Base 38)', " +
-                    "'Nbre H Absentéisme (code M) (Base 38)', " +
-                    "'Nbre H Prestées (code PR) (Base 38)', " +
-                    "'Ecart H Dispo et H prestées (Base 38)') " +
+                        "'Nbre H Absentéisme (code M) (Base 38)', " +
+                        "'Nbre H Prestées (code PR) (Base 38)', " +
+                        "'Ecart H Dispo et H prestées (Base 38)') " +
                     "GROUP BY annee, mois, indicateur " +
 
                     "UNION ALL " +

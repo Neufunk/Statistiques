@@ -11,6 +11,8 @@ public class Data {
     public static final String pageTitle0 = "Soins Infirmiers - Indicateurs annuels - v"+Version.versionNumber;
     public static final String pageTitle2 = "Soins Infirmiers - Sélection - v"+Version.versionNumber;
     public static final String pageTitle3 = "Soins Infirmiers - Comparaison par centres - v"+Version.versionNumber;
+    public static final String pageTitle4 = "Soins Infirmiers - Comparaison - visites par localités - v"+Version.versionNumber;
+    public static final String pageTitle5 = "Soins Infirmiers - Comparaison - visites par centres - v"+Version.versionNumber;
 
     // Centres
     final ObservableList<String> centerList = FXCollections

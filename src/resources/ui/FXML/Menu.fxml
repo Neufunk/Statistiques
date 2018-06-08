@@ -42,7 +42,15 @@
             <MenuItem mnemonicParsing="false" onAction="#openComparaisonAnnees" text="Comparaison années" />
          <MenuItem mnemonicParsing="false" onAction="#openComparaisonCentres" text="Comparaison centres" />
             <MenuItem disable="true" mnemonicParsing="false" text="Comparaison régions" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Comparaison communes" />
+         <Menu mnemonicParsing="false" onAction="#openSelectVisitesPatients" text="Comparaison Visites/Patients">
+           <items>
+             <MenuItem mnemonicParsing="false" onAction="#openVisitesCentres" text="Visites / Centres" />
+                  <MenuItem mnemonicParsing="false" onAction="#openVisitesLocalites" text="Visites / Localités" />
+               <SeparatorMenuItem mnemonicParsing="false" />
+               <MenuItem disable="true" mnemonicParsing="false" text="Patients / Centres" />
+               <MenuItem disable="true" mnemonicParsing="false" text="Patients / Localités" />
+           </items>
+         </Menu>
             <SeparatorMenuItem mnemonicParsing="false" />
             <Menu mnemonicParsing="false" text="Rapports">
                 <MenuItem mnemonicParsing="false" onAction="#pdfActivite" text="Rapport d'activité" />

@@ -6,11 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -166,7 +169,6 @@ public class ControllerComparaisonCentres implements Initializable {
         comboCentre5.getSelectionModel().clearSelection();
         comboCategorie.getSelectionModel().clearSelection();
         comboIndic.getSelectionModel().clearSelection();
-        unmountLineGraphic();
     }
 
     private void generateAll() {
@@ -208,10 +210,6 @@ public class ControllerComparaisonCentres implements Initializable {
             iteratorExcel.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
         }
         iteratorExcel.setMasterRow(indicateur.getMasterRow());
-        startIteration(iteratorExcel);
-    }
-
-    private void startIteration(IteratorExcel iteratorExcel) {
         iteratorExcel.lineChartIteration();
     }
 
@@ -228,6 +226,15 @@ public class ControllerComparaisonCentres implements Initializable {
                 serie.buildLineGraphic(month[i], value[i], comboCentre.getValue());
             }
             lineChart.getData().add(serie.getLineChartData());
+
+            for (final XYChart.Data<String, Float> datas : serie.getLineChartData().getData()) {
+                datas.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                    String strValue = String.format("%,.2f", datas.getYValue());
+                    Tooltip tooltip = new Tooltip(strValue);
+                    tooltip.setFont(Font.font("INTERSTATE", 14));
+                    Tooltip.install(datas.getNode(), tooltip);
+                });
+            }
         } else {
             unmountLineGraphic();
         }

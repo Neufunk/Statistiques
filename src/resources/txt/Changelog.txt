@@ -1,12 +1,15 @@
 ﻿CHANGELOG
 ---------
 
+Patchnote-1.3 - 08/06/2018
+  - Ajout des comparaisons des visites par communes et par localités [WIP]
+
 Patchnote-1.2 - 25/04/2018
   - Refactor de l'itération Excel (SoinsInfirmiers.IteratorExcel)
   - Ajout de la fonction de comparaison par centre
   - Ajout des chemins absolus pour être utilisé dans toutes les ASD
   [WIP] Ajout Rapport Vinciane
-  [WIP] Ajout comparaison par commune
+  - Ajout comparaison par commune
 
 Patchnote-1.1 - 06/04/2018 MàJ 18/04/2018
   - Ajout des écrans de sélection

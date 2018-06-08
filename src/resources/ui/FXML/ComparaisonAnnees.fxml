@@ -42,11 +42,11 @@
         </font>
     </Label>
     <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-    <JFXComboBox fx:id="comboYear0" accessibleText="comboYear1" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-    <JFXComboBox fx:id="comboYear1" accessibleText="comboYear2" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-    <JFXComboBox fx:id="comboYear2" accessibleText="comboYear3" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+    <JFXComboBox fx:id="comboYear1" accessibleText="comboYear1" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+    <JFXComboBox fx:id="comboYear2" accessibleText="comboYear2" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+    <JFXComboBox fx:id="comboYear3" accessibleText="comboYear3" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#006782" GridPane.columnIndex="5" GridPane.rowIndex="3" />
     <JFXComboBox id="comboIndic" fx:id="comboIndic" accessibleText="comboIndic" centerShape="false" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="543.0" promptText="Indicateur" scaleShape="false" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
-    <JFXButton fx:id="generateButton" buttonType="RAISED" prefHeight="30.0" prefWidth="81.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Générer" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+    <JFXButton fx:id="generateButton" buttonType="RAISED" onAction="#onGenerateButtonClick" prefHeight="30.0" prefWidth="81.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Générer" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="6">
         <font>
           <Font size="13.0" />
         </font>
@@ -57,19 +57,19 @@
         </font>
     </JFXButton>
     <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#96bb37" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
-    <ImageView fx:id="redCross0" fitHeight="16.0" fitWidth="20.0" onMouseClicked="#buildLineGraphic" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+    <ImageView fx:id="redCross0" fitHeight="16.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
         <cursor>
           <Cursor fx:constant="HAND" />
         </cursor>
         <Image url="@../../img/RedCross.png" />
     </ImageView>
-    <ImageView fx:id="redCross1" fitHeight="16.0" fitWidth="16.0" onMouseClicked="#buildLineGraphic" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+    <ImageView fx:id="redCross1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="3">
         <cursor>
           <Cursor fx:constant="HAND" />
         </cursor>
         <Image url="@../../img/RedCross.png" />
     </ImageView>
-    <ImageView fx:id="redCross2" fitHeight="16.0" fitWidth="16.0" onMouseClicked="#buildLineGraphic" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+    <ImageView fx:id="redCross2" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
         <cursor>
           <Cursor fx:constant="HAND" />
         </cursor>

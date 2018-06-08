@@ -101,6 +101,40 @@ public class Menu {
         }
     }
 
+    public void openSelectVisitesPatients(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectVisitesPatients.fxml"));
+            Scene scene = stage.getScene();
+            scene.setRoot(root);
+            stage.setTitle(Data.pageTitle2);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openVisitesCentres(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/CompaisonVisitesCentres.fxml"));
+            changeScene(root);
+            stage.setTitle(Data.pageTitle5);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openVisitesLocalites(){
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/CompaisonVisitesLocalites.fxml"));
+            changeScene(root);
+            stage.setTitle(Data.pageTitle4);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void pdfActivite(){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpActivite.fxml"));
@@ -186,7 +220,7 @@ public class Menu {
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Coded and designed by JOHNATHAN VANBENEDEN \n" +
                 "Version " + Version.versionNumber + " - Last build " + Version.getCurrentDate() +
-        " - Lines : 10.913 \nSDK 1.8.0_161 - Tested JRE : 1.8.0_151/161/172");
+        " - Lines : 11.515 \nSDK 1.8.0_161 - Tested JRE : 1.8.0_151/161/172");
         alert.show();
     }
 

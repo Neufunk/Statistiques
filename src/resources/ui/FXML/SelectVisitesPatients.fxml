@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerSelectVisitesPatients">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="302.0" minWidth="10.0" prefWidth="302.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="429.0" minWidth="10.0" prefWidth="337.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="885.0" minWidth="10.0" prefWidth="318.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="597.0" minWidth="10.0" prefWidth="323.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <padding>
+         <Insets bottom="10.0" />
+      </padding>
+      <JFXButton contentDisplay="TOP" onAction="#openVisiteCentres" prefHeight="240.0" prefWidth="240.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Visites / Centres" wrapText="true" HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </HBox.margin>
+         <font>
+            <Font name="Interstate-Bold" size="15.0" />
+         </font>
+         <graphic>
+            <ImageView preserveRatio="true">
+               <Image url="@../../img/pie-chart.png" />
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton alignment="CENTER" contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Patients / Centres" wrapText="true">
+         <HBox.margin>
+            <Insets right="20.0" />
+         </HBox.margin>
+         <font>
+            <Font name="Interstate-Bold" size="15.0" />
+         </font>
+         <graphic>
+            <ImageView pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../img/line-chart.png" />
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </HBox>
+   <VBox fx:id="menuPane" stylesheets="@../CSS/Buttons.css" GridPane.columnSpan="2" />
+   <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#back" prefHeight="240.0" prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Accueil" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+      <font>
+         <Font name="Interstate-Bold" size="15.0" />
+      </font>
+      <graphic>
+         <ImageView>
+            <Image url="@../../img/maison-asd-picto.png" />
+         </ImageView>
+      </graphic>
+      <GridPane.margin>
+         <Insets bottom="20.0" right="20.0" />
+      </GridPane.margin>
+   </JFXButton>
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <padding>
+         <Insets bottom="10.0" />
+      </padding>
+      <children>
+         <JFXButton contentDisplay="TOP" onAction="#openVisiteLocalites" prefHeight="240.0" prefWidth="240.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Visites / Localités" wrapText="true" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+               <Insets left="20.0" right="20.0" />
+            </HBox.margin>
+            <font>
+               <Font name="Interstate-Bold" size="15.0" />
+            </font>
+            <graphic>
+               <ImageView preserveRatio="true">
+                  <image>
+                     <Image url="@../../img/pie-chart.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </JFXButton>
+         <JFXButton alignment="CENTER" contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Patients / Localités" wrapText="true">
+            <HBox.margin>
+               <Insets right="20.0" />
+            </HBox.margin>
+            <font>
+               <Font name="Interstate-Bold" size="15.0" />
+            </font>
+            <graphic>
+               <ImageView pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../img/line-chart.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </JFXButton>
+      </children>
+   </HBox>
+</GridPane>

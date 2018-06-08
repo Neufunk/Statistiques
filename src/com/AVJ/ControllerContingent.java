@@ -20,10 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -53,11 +50,7 @@ public class ControllerContingent implements Initializable {
     @FXML
     private JFXComboBox<String> comboPeriode;
     @FXML
-    private AnchorPane mainPane;
-    @FXML
     private VBox mainVBox;
-    @FXML
-    public AnchorPane maskPane;
     @FXML
     private TableView<ObservableList> tableView;
     @FXML
@@ -168,7 +161,6 @@ public class ControllerContingent implements Initializable {
                                     String name = rs.getString("prenom");
                                     String sect = rs.getString("secteur_name");
                                     String centre = rs.getString("antenne");
-                                    // directriceSelection();
                                     switch (centre) {
                                         case "Namur":
                                             iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect, connection);
@@ -191,6 +183,7 @@ public class ControllerContingent implements Initializable {
                 };
             }
         };
+
         calculateService.stateProperty().addListener((ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue, Worker.State newValue) -> {
             switch (newValue) {
                 case FAILED:
@@ -360,7 +353,7 @@ public class ControllerContingent implements Initializable {
         }
     }
 
-    private String capitalize(String string){
+    private String capitalize(String string) {
         return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
 
@@ -424,9 +417,7 @@ public class ControllerContingent implements Initializable {
         hBoxBottom.setAlignment(Pos.BOTTOM_CENTER);
         hBoxBottom.getChildren().add(cancelButton);
 
-        maskPane.setVisible(true);
-        fx.setFadeTransition(maskPane, 600, 0, 0.5);
-        fx.setBoxBlur(mainPane);
+        fx.setBoxBlur(mainVBox);
 
         progressStage.setScene(scene);
         progressStage.show();
@@ -457,8 +448,7 @@ public class ControllerContingent implements Initializable {
     }
 
     private void closeProgressWindow() {
-        fx.unsetBoxBlur(mainPane);
-        maskPane.setVisible(false);
+        fx.unsetBoxBlur(mainVBox);
         progressStage.close();
     }
 

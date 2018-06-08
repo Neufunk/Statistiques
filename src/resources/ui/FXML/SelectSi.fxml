@@ -68,6 +68,19 @@
             </ImageView>
          </graphic>
       </JFXButton>
+      <JFXButton contentDisplay="TOP" onAction="#openSelectVisitesPatients" prefHeight="240.0" prefWidth="240.0" styleClass="purple-button" stylesheets="@../CSS/Buttons.css" text="Comparaison Visites / Patients" textAlignment="CENTER" wrapText="true">
+         <HBox.margin>
+            <Insets right="20.0" />
+         </HBox.margin>
+         <font>
+            <Font name="Interstate-Bold" size="15.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../img/india.png" />
+            </ImageView>
+         </graphic>
+      </JFXButton>
       <JFXButton contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="orange-button" stylesheets="@../CSS/Buttons.css" text="Comparaison régions" wrapText="true">
          <HBox.margin>
             <Insets right="20.0" />
@@ -78,19 +91,6 @@
          <graphic>
             <ImageView preserveRatio="true">
                <Image url="@../../img/house-and-dollar-sign-in-weighing-scale.png" />
-            </ImageView>
-         </graphic>
-      </JFXButton>
-      <JFXButton contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="purple-button" stylesheets="@../CSS/Buttons.css" text="Comparaison communes">
-         <HBox.margin>
-            <Insets right="20.0" />
-         </HBox.margin>
-         <font>
-            <Font name="Interstate-Bold" size="15.0" />
-         </font>
-         <graphic>
-            <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
-               <Image url="@../../img/india.png" />
             </ImageView>
          </graphic>
       </JFXButton>

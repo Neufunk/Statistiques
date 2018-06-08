@@ -29,6 +29,7 @@
       <element id="library" level="project" name="xmlbeans-2.6.0" />
       <element id="library" level="project" name="ojdbc6" />
       <element id="file-copy" path="$PROJECT_DIR$/src/resources/txt/Changelog.txt" />
+      <element id="artifact" artifact-name="Preloader" />
     </root>
   </artifact>
 </component>

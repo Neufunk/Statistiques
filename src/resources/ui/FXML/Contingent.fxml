@@ -16,6 +16,7 @@
 
 <!--suppress ALL -->
 
+
 <VBox fx:id="mainVBox" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
    <VBox fx:id="menuPane" prefHeight="59.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" />
    <GridPane alignment="CENTER" prefHeight="127.0" prefWidth="1267.0">
@@ -38,12 +39,13 @@
       <JFXCheckBox fx:id="antenneCheckbox" alignment="CENTER" contentDisplay="CENTER" onAction="#displaySecteurs" text="Secteur entier ? " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
       <JFXComboBox fx:id="comboSecteur" disable="true" focusColor="#96bb37" labelFloat="true" promptText="Selectionnez un centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       <JFXComboBox fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" promptText="Période" stylesheets="@../CSS/ComboBox.css" unFocusColor="#00707e" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <JFXButton buttonType="RAISED" focusTraversable="false" onAction="#onGenerateButtonClick" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="/ui/CSS/Buttons.css" text="Exécuter" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <JFXButton buttonType="RAISED" focusTraversable="false" onAction="#onGenerateButtonClick" prefHeight="32.0" prefWidth="81.0" styleClass="orange-button" stylesheets="@../CSS/Buttons.css" text="Exécuter" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       <JFXToggleButton fx:id="toggleButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" focusTraversable="false" onAction="#toggleButtonListener" prefHeight="56.0" prefWidth="117.0" selected="true" style="-fx-background-color: #FFFFFF;" toggleColor="#96bb37" toggleLineColor="#afda42" unToggleColor="#006782" unToggleLineColor="#008bae" GridPane.halignment="RIGHT">
          <font>
             <Font name="System Bold" size="11.0" />
          </font>
       </JFXToggleButton>
+      <JFXButton buttonType="RAISED" focusTraversable="false" onAction="#onUpdateButtonClick" prefHeight="30.0" prefWidth="92.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="MISE À JOUR" textFill="WHITE" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
    </GridPane>
    <GridPane prefHeight="28.0" prefWidth="1281.0">
       <columnConstraints>

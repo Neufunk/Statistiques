@@ -7,11 +7,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import main.Menu;
 
 import java.net.URL;
@@ -24,15 +27,13 @@ public class ControllerComparaisonAnnees implements Initializable {
     @FXML
     private JFXComboBox<String> comboCentre;
     @FXML
-    private JFXComboBox<Integer> comboYear0;
-    @FXML
     private JFXComboBox<Integer> comboYear1;
     @FXML
     private JFXComboBox<Integer> comboYear2;
     @FXML
-    private JFXComboBox<String> comboIndic;
+    private JFXComboBox<Integer> comboYear3;
     @FXML
-    private JFXButton generateButton;
+    private JFXComboBox<String> comboIndic;
     @FXML
     private JFXButton clearButton;
     @FXML
@@ -58,9 +59,6 @@ public class ControllerComparaisonAnnees implements Initializable {
     private final Category category = new Category();
     private final Indicateur indicateur = new Indicateur();
     private final Centre centre = new Centre();
-    private final IteratorExcel iteratorExcel0 = new IteratorExcel();
-    private final IteratorExcel iteratorExcel1 = new IteratorExcel();
-    private final IteratorExcel iteratorExcel2 = new IteratorExcel();
     private final Graphic serie1 = new Graphic();
     private final Graphic serie2 = new Graphic();
     private final Graphic serie3 = new Graphic();
@@ -70,16 +68,15 @@ public class ControllerComparaisonAnnees implements Initializable {
         Menu menu = new Menu();
         menu.loadMenuBar(menuPane);
         initializeCombo();
-        onGenerateButtonClick();
         onClearButtonClick();
         onRedCrossClick();
     }
 
     private void initializeCombo() {
         comboCentre.setItems(data.centerList);
-        comboYear0.setItems(data.yearList);
         comboYear1.setItems(data.yearList);
         comboYear2.setItems(data.yearList);
+        comboYear3.setItems(data.yearList);
         comboCategorie.setItems(data.categorieList);
     }
 
@@ -103,38 +100,38 @@ public class ControllerComparaisonAnnees implements Initializable {
 
     private void clearCombos() {
         comboCentre.getSelectionModel().clearSelection();
-        comboYear0.getSelectionModel().clearSelection();
         comboYear1.getSelectionModel().clearSelection();
         comboYear2.getSelectionModel().clearSelection();
+        comboYear3.getSelectionModel().clearSelection();
         comboCategorie.getSelectionModel().clearSelection();
         comboIndic.getSelectionModel().clearSelection();
     }
 
-    private void onRedCrossClick() {
+    private void onRedCrossClick(){
         redCross0.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-            comboYear0.getSelectionModel().clearSelection();
-            iteratorExcel0.resetVariables();
+            comboYear1.getSelectionModel().clearSelection();
+            onGenerateButtonClick();
         });
         redCross1.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-            comboYear1.getSelectionModel().clearSelection();
-            iteratorExcel1.resetVariables();
+            comboYear2.getSelectionModel().clearSelection();
+            onGenerateButtonClick();
         });
         redCross2.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-            comboYear2.getSelectionModel().clearSelection();
-            iteratorExcel2.resetVariables();
+            comboYear3.getSelectionModel().clearSelection();
+            onGenerateButtonClick();
         });
     }
 
-    private void onGenerateButtonClick() {
-        generateButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (checkEmpty()) {
-                generateAll();
-            }
-        });
+    public void onGenerateButtonClick() {
+        if (checkEmpty()) {
+            clearSeries();
+            lineChart.getData().clear();
+            generateAll();
+        }
     }
 
     private boolean checkEmpty() {
-        if (comboYear0.getValue() == null && comboYear1.getValue() == null && comboYear2.getValue() == null) {
+        if (comboYear1.getValue() == null && comboYear2.getValue() == null && comboYear3.getValue() == null) {
             year.showEmptyDialog();
             return false;
         } else if (comboCentre.getValue() == null) {
@@ -149,22 +146,24 @@ public class ControllerComparaisonAnnees implements Initializable {
     }
 
     private void generateAll() {
-        if (comboYear0.getValue() != null) {
-            generateYear(iteratorExcel0, comboYear0);
-        }
         if (comboYear1.getValue() != null) {
-            generateYear(iteratorExcel1, comboYear1);
+            IteratorExcel iteratorExcel1 = new IteratorExcel();
+            setFiles(iteratorExcel1, comboYear1);
+            buildLineGraphic(iteratorExcel1, comboYear1, serie1);
         }
         if (comboYear2.getValue() != null) {
-            generateYear(iteratorExcel2, comboYear2);
+            IteratorExcel iteratorExcel2 = new IteratorExcel();
+            setFiles(iteratorExcel2, comboYear2);
+            buildLineGraphic(iteratorExcel2, comboYear2, serie2);
         }
-        buildLineGraphic();
-        iteratorExcel0.resetVariables();
-        iteratorExcel1.resetVariables();
-        iteratorExcel2.resetVariables();
+        if (comboYear3.getValue() != null) {
+            IteratorExcel iteratorExcel3 = new IteratorExcel();
+            setFiles(iteratorExcel3, comboYear3);
+            buildLineGraphic(iteratorExcel3, comboYear3, serie3);
+        }
     }
 
-    private void generateYear(IteratorExcel iteratorExcel, ComboBox comboYear) {
+    private void setFiles(IteratorExcel iteratorExcel, ComboBox comboYear) {
         centre.toExcelSheet(comboCentre.getValue());
         year.toPath((int) comboYear.getValue());
         indicateur.toExcelRow(comboIndic.getValue());
@@ -175,57 +174,30 @@ public class ControllerComparaisonAnnees implements Initializable {
             iteratorExcel.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
         }
         iteratorExcel.setMasterRow(indicateur.getMasterRow());
-        startIteration(iteratorExcel);
-    }
-
-    private void startIteration(IteratorExcel iteratorExcel) {
         iteratorExcel.lineChartIteration();
     }
 
-    public void buildLineGraphic() {
+    private void buildLineGraphic(IteratorExcel iteratorExcel, ComboBox<Integer> comboCentre, Graphic serie) {
         if (indicateur.getwithLineGraphic()) {
             yAxis.setForceZeroInRange(false); // Important for chart scale
-            lineChart.getData().clear();
-            iteratorExcel0.resetVariables();
-            iteratorExcel1.resetVariables();
-            iteratorExcel2.resetVariables();
-            serie1.clear();
-            serie2.clear();
-            serie3.clear();
-            indicateur.resetVariables();
             lineChart.setVisible(true);
             noGraphicLabel.setVisible(false);
             idleSpinner.setVisible(false);
-            String[] month = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+            final String[] MONTH = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
-            if (comboYear0.getValue() != null) {
-                double[] value = iteratorExcel0.getLineChartResult();
-                for (int i = 0; i < month.length; i++) {
-                    serie1.buildLineGraphic(month[i], value[i], comboYear0.getValue().toString());
-                }
-                lineChart.getData().add(serie1.getLineChartData());
-            } else {
-                serie1.clear();
+            double[] value = iteratorExcel.getLineChartResult();
+            for (int i = 0; i < MONTH.length; i++) {
+                serie.buildLineGraphic(MONTH[i], value[i], comboCentre.getValue().toString());
             }
+            lineChart.getData().add(serie.getLineChartData());
 
-            if (comboYear1.getValue() != null) {
-                double[] value2 = iteratorExcel1.getLineChartResult();
-                for (int i = 0; i < month.length; i++) {
-                    serie2.buildLineGraphic(month[i], value2[i], comboYear1.getValue().toString());
-                }
-                lineChart.getData().add(serie2.getLineChartData());
-            } else {
-                serie2.clear();
-            }
-
-            if (comboYear2.getValue() != null) {
-                double[] value3 = iteratorExcel2.getLineChartResult();
-                for (int i = 0; i < month.length; i++) {
-                    serie3.buildLineGraphic(month[i], value3[i], comboYear2.getValue().toString());
-                }
-                lineChart.getData().add(serie3.getLineChartData());
-            } else {
-                serie3.clear();
+            for (final XYChart.Data<String, Float> datas : serie.getLineChartData().getData()) {
+                datas.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                    String strValue = String.format("%,.2f", datas.getYValue());
+                    Tooltip tooltip = new Tooltip(strValue);
+                    tooltip.setFont(Font.font("INTERSTATE", 14));
+                    Tooltip.install(datas.getNode(), tooltip);
+                });
             }
         } else {
             unmountLineGraphic();
@@ -237,6 +209,12 @@ public class ControllerComparaisonAnnees implements Initializable {
         lineChart.setVisible(false);
         noGraphicLabel.setVisible(true);
         idleSpinner.setVisible(false);
+    }
+
+    private void clearSeries() {
+        serie1.clear();
+        serie2.clear();
+        serie3.clear();
     }
 
 }
