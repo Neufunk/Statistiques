@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import main.Effects;
+import main.ExceptionHandler;
 import main.Menu;
 
 import java.awt.*;
@@ -168,7 +169,7 @@ public class ControllerIndicateursAnnuels implements Initializable {
         try {
             iteratorExcel.pieChartIteration();
         } catch (Exception e) {
-            iteratorExcel.fileNotFound(e);
+            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 
@@ -257,7 +258,7 @@ public class ControllerIndicateursAnnuels implements Initializable {
                 try {
                     if (file.exists()) desktop.open(file);
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    ExceptionHandler.switchException(e1, this.getClass());
                 }
             }
         });

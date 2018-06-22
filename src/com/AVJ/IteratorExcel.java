@@ -46,7 +46,7 @@ class IteratorExcel extends ControllerContingent {
         String fileName = setFileName(secteur);
         secteurLabel = fileName + secteur;
         textField.setText(secteurLabel);
-        ZipSecureFile.setMinInflateRatio(0); // Ratio pour éviter le blocage des zip-bombs
+        ZipSecureFile.setMinInflateRatio(0); // Ratio to avoid Java Zip-Bombs block
         try {
             iterateContingent(path, year, firstName, secteur, fileName, connection);
             iteratePotDepartConges(path, year, firstName, secteur, fileName, connection);

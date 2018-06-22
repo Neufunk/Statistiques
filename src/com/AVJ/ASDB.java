@@ -1,7 +1,5 @@
-package main;
+package AVJ;
 
-import AVJ.Data;
-import AVJ.Database;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -12,10 +10,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
+import main.ExceptionHandler;
 
 import java.net.URL;
 import java.sql.*;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -72,7 +70,7 @@ public class ASDB implements Initializable {
     }
 
     private void initializeCombo(){
-        database.connect();
+        Connection conn = database.connect();
         ObservableList sectorsList = database.loadColumnToCombo("secteurs", "secteur_name", "secteur_name");
         workerTabSectorCombo.setItems(sectorsList);
         sectorTabSectorCombo.setItems(sectorsList);
@@ -83,7 +81,7 @@ public class ASDB implements Initializable {
 
         issueTabComboQuery.setItems(dataList.queryList);
 
-        database.closeConnection();
+        database.close(conn);
     }
 
     /*
@@ -91,6 +89,8 @@ public class ASDB implements Initializable {
      */
     public void searchBySecteursCombo(){
         Connection conn = database.connect();
+        Statement st = null;
+        ResultSet rs = null;
         workerTabWorkerCombo.getSelectionModel().clearSelection();
         String sql = "SELECT *, travailleurs.id AS WorkerID " +
                 "FROM secteurs " +
@@ -99,8 +99,8 @@ public class ASDB implements Initializable {
                 "WHERE secteur_name ='"+workerTabSectorCombo.getValue()+"' " +
                 "ORDER BY secteur_name ASC ";
         try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 workerTabIdInput.setText(rs.getString("WorkerID"));
                 workerTabFirstNameInput.setText(rs.getString("prenom"));
@@ -110,13 +110,18 @@ public class ASDB implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
+        } finally {
+            database.close(rs);
+            database.close(st);
+            database.close(conn);
         }
-        database.closeConnection();
     }
 
     public void searchByWorkerCombo(){
         Connection conn = database.connect();
+        Statement st = null;
+        ResultSet rs = null;
         workerTabSectorCombo.getSelectionModel().clearSelection();
         String sql = "SELECT *, secteurs.id AS sectorID " +
                 "FROM travailleurs " +
@@ -124,8 +129,8 @@ public class ASDB implements Initializable {
                 "ON travailleurs.id = secteurs.worker_id " +
                 "WHERE nom ='"+ workerTabWorkerCombo.getValue()+"'";
         try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 workerTabIdInput.setText(rs.getString("id"));
                 workerTabFirstNameInput.setText(rs.getString("prenom"));
@@ -135,22 +140,27 @@ public class ASDB implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
+        } finally {
+            database.close(rs);
+            database.close(st);
+            database.close(conn);
         }
-        database.closeConnection();
     }
 
     public void searchByIdWorkerDatabase() {
+        Connection conn = database.connect();
+        Statement st = null;
+        ResultSet rs = null;
         int id = Integer.parseInt(workerTabIdInput.getText());
         String sql = "SELECT *, secteurs.id AS sectorID " +
                 "FROM travailleurs " +
                 "LEFT JOIN secteurs " +
                 "ON travailleurs.id = secteurs.worker_id " +
                 "WHERE travailleurs.id='"+id+"'";
-        Connection conn = database.connect();
         try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 workerTabFirstNameInput.setText(rs.getString("prenom"));
                 workerTabLastNameInput.setText(rs.getString("nom"));
@@ -159,21 +169,26 @@ public class ASDB implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
+        } finally {
+            database.close(rs);
+            database.close(st);
+            database.close(conn);
         }
-
     }
 
     public void searchByFirstNameWorkerDatabase() {
+        Connection conn = database.connect();
+        Statement st = null;
+        ResultSet rs = null;
         String sql = "SELECT *, secteurs.id AS sectorID " +
                 "FROM travailleurs " +
                 "LEFT JOIN secteurs " +
                 "ON travailleurs.id = secteurs.worker_id " +
                 "WHERE prenom ='"+workerTabFirstNameInput.getText()+"'";
-        Connection conn = database.connect();
         try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 workerTabIdInput.setText(rs.getString("id"));
                 workerTabFirstNameInput.setText(rs.getString("prenom"));
@@ -184,20 +199,26 @@ public class ASDB implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
+        } finally {
+            database.close(rs);
+            database.close(st);
+            database.close(conn);
         }
     }
 
     public void searchByLastNameWorkerDatabase() {
+        Connection conn = database.connect();
+        Statement st = null;
+        ResultSet rs = null;
         String sql = "SELECT *, secteurs.id AS sectorID " +
                 "FROM travailleurs " +
                 "LEFT JOIN secteurs " +
                 "ON travailleurs.id = secteurs.worker_id " +
                 "WHERE nom='"+workerTabLastNameInput.getText()+"'";
-        Connection conn = database.connect();
         try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 workerTabIdInput.setText(rs.getString("id"));
                 workerTabFirstNameInput.setText(rs.getString("prenom"));
@@ -208,7 +229,11 @@ public class ASDB implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
+        } finally {
+            database.close(rs);
+            database.close(st);
+            database.close(conn);
         }
     }
 
@@ -243,7 +268,7 @@ public class ASDB implements Initializable {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 
@@ -266,7 +291,7 @@ public class ASDB implements Initializable {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
         }
         initializeCombo();
     }
@@ -308,9 +333,11 @@ public class ASDB implements Initializable {
                 "WHERE secteur_name ='"+sectorTabSectorCombo.getValue()+"' " +
                 "ORDER BY secteur_name ASC ";
         Connection conn = database.connect();
+        Statement st = null;
+        ResultSet rs = null;
         try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 sectorTabIdInput.setText(rs.getString("id"));
                 sectorTabFirstNameInput.setText(rs.getString("prenom"));
@@ -321,9 +348,11 @@ public class ASDB implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
         }
-        database.closeConnection();
+        database.close(rs);
+        database.close(st);
+        database.close(conn);
     }
 
     public void searchByWorkerCombo2(){
@@ -334,9 +363,11 @@ public class ASDB implements Initializable {
                 "ON travailleurs.id = secteurs.worker_id " +
                 "WHERE nom ='"+ sectorTabWorkerCombo.getValue()+"'";
         Connection conn = database.connect();
+        Statement st = null;
+        ResultSet rs = null;
         try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 sectorTabIdInput.setText(rs.getString("id"));
                 sectorTabFirstNameInput.setText(rs.getString("prenom"));
@@ -347,9 +378,11 @@ public class ASDB implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
         }
-        database.closeConnection();
+        database.close(rs);
+        database.close(st);
+        database.close(conn);
     }
 
     public void addSector() {
@@ -370,7 +403,7 @@ public class ASDB implements Initializable {
             alert.show();
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 
@@ -384,7 +417,7 @@ public class ASDB implements Initializable {
             st.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
         }
         initializeCombo();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -412,6 +445,7 @@ public class ASDB implements Initializable {
             alert.show();
 
         } catch (SQLException e) {
+            ExceptionHandler.switchException(e, this.getClass());
             e.printStackTrace();
         }
         initializeCombo();
@@ -455,7 +489,7 @@ public class ASDB implements Initializable {
             //ADDED TO TableView
             issueDataList.setItems(data);
         } catch (Exception e) {
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
             System.out.println("Erreur lors de la construction des données");
         }
     }
@@ -496,18 +530,4 @@ public class ASDB implements Initializable {
     public void switchToSettingsTab() {
         tabPane.getSelectionModel().select(4);
     }
-
-    /* ERRORS */
-    private void displayError(Exception e) {
-        e.printStackTrace();
-        String e1 = e.toString();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e.getStackTrace()) + "\n" +
-                "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString());
-        alert.showAndWait();
-    }
-
-
 }

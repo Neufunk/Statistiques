@@ -1,12 +1,11 @@
 package SoinsInfirmiers;
 
-import javafx.scene.control.Alert;
+import main.ExceptionHandler;
 import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
-import java.util.Arrays;
 
 class IteratorExcel {
 
@@ -104,7 +103,26 @@ class IteratorExcel {
             CellReference cellReference = new CellReference(columnReference[i] + masterRow);
             Row row = selectionSheet.getRow(cellReference.getRow());
             Cell cell = row.getCell(cellReference.getCol());
-            lineChartResult[i] = cell.getNumericCellValue();
+            switch (cell.getCellTypeEnum()){
+                case NUMERIC:
+                    lineChartResult[i] = cell.getNumericCellValue();
+                    break;
+                case FORMULA:
+                    switch(cell.getCachedFormulaResultTypeEnum()) {
+                        case ERROR:
+                            System.out.println(cell.getErrorCellValue());
+                            break;
+                        case NUMERIC:
+                            lineChartResult[i] = cell.getNumericCellValue();
+                            break;
+                    }
+                    break;
+                case STRING:
+                    System.out.println(cell.getStringCellValue());
+                case ERROR:
+                    System.out.println(cell.getErrorCellValue());
+                    break;
+            }
         }
     }
 
@@ -126,18 +144,10 @@ class IteratorExcel {
             HSSFFormulaEvaluator.setupEnvironment(workbookNames, evaluators);
             selectionSheet = wb.getSheetAt(sheet);
         } catch (Exception e) {
+            ExceptionHandler.switchException(e, this.getClass());
             System.out.println(e.toString());
         }
         return selectionSheet;
-    }
-
-    void fileNotFound(Exception e0) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Fichier occupé ou introuvable");
-        alert.setHeaderText("Fichier occupé ou introuvable : " + e0.getLocalizedMessage());
-        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e0.getStackTrace()) + "\n" +
-                "FILE : \t\t\t" + e0.getLocalizedMessage() + "\n" + "METHOD : \t\t\t" + this.getClass().toString() + ".fileNotFound()");
-        alert.showAndWait();
     }
 
     void resetVariables() {

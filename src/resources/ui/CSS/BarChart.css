@@ -1,0 +1,44 @@
+.chart-bar {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-color: transparent;
+}
+.chart-plot-background {
+    -fx-background-color: #ffffff;
+}
+.data0.chart-bar {
+    -fx-background-color: #96bb37;
+}
+.data0.chart-bar:hover {
+    -fx-background-color: #C2E863;
+}
+.data1.chart-bar {
+    -fx-background-color: #006782;
+}
+.data1.chart-bar:hover {
+    -fx-background-color: #1387a5;
+}
+.data2.chart-bar {
+    -fx-background-color: #893209;
+}
+.data2.chart-bar:hover {
+    -fx-background-color: #c45e2f;
+}
+.data3.chart-bar {
+    -fx-background-color: #E1A634;
+}
+.data3.chart-bar:hover {
+    -fx-background-color: #ffc454;
+}
+.data4.chart-bar {
+    -fx-background-color: #003333;
+}
+.data4.chart-bar:hover {
+    -fx-background-color: #085151;
+}
+.data5.chart-bar {
+    -fx-background-color: #A9CEB8;
+}
+.data5.chart-bar:hover {
+    -fx-background-color: #c9efd7;
+}

@@ -77,8 +77,8 @@ public class ControllerContingent implements Initializable {
     private static final TextArea shellTextArea = new TextArea();
     private final Stage eventShell = new Stage();
     private final Button cancelButton = new Button("Annuler");
-    private final String namPath = "\\\\130.15.0.1\\Public\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
-    private final String philPath = "\\\\130.17.0.1\\Public\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+    private final String NAMPATH = "\\\\130.15.0.1\\Public\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
+    private final String PHILPATH = "\\\\130.17.0.1\\Public\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
 
     public void initialize(URL location, ResourceBundle resources) {
         Menu menu = new Menu();
@@ -120,11 +120,10 @@ public class ControllerContingent implements Initializable {
             comboSecteur.setDisable(false);
             antenneCheckbox.setDisable(false);
         }
-        database.connect();
         if (comboCentre.getValue() != null) {
+            database.connect();
             comboSecteur.setItems(database.loadSectorsToCombo(comboCentre.getValue()));
         }
-        database.closeConnection();
     }
 
     private boolean getCheckboxState() {
@@ -146,13 +145,16 @@ public class ControllerContingent implements Initializable {
                 return new Task<Void>() {
                     @Override
                     protected Void call() {
+                        Connection conn;
+                        Statement st = null;
+                        ResultSet rs = null;
                         String sql = "SELECT * FROM travailleurs " +
                                 "INNER JOIN secteurs " +
                                 "ON travailleurs.id = secteurs.worker_id ";
-                        Connection connection = database.connect();
+                        conn = database.connect();
                         try {
-                            Statement statement = connection.createStatement();
-                            ResultSet rs = statement.executeQuery(sql);
+                            st = conn.createStatement();
+                            rs = st.executeQuery(sql);
                             while (rs.next()) {
                                 if (!runningThreadFlag) {
                                     break;
@@ -163,11 +165,11 @@ public class ControllerContingent implements Initializable {
                                     String centre = rs.getString("antenne");
                                     switch (centre) {
                                         case "Namur":
-                                            iteratorExcel.startIteration(namPath, getCurrentYear(), name, sect, connection);
+                                            iteratorExcel.startIteration(NAMPATH, getCurrentYear(), name, sect, conn);
                                             progress += 1;
                                             break;
                                         case "Philippeville":
-                                            iteratorExcel.startIteration(philPath, getCurrentYear(), name, sect, connection);
+                                            iteratorExcel.startIteration(PHILPATH, getCurrentYear(), name, sect, conn);
                                             progress += 1;
                                             break;
                                     }
@@ -177,6 +179,10 @@ public class ControllerContingent implements Initializable {
                             e1.printStackTrace();
                             shellTextArea.appendText(e1.getMessage());
                             displayError(e1);
+                        } finally {
+                            database.close(rs);
+                            database.close(st);
+                            database.close(conn);
                         }
                         return null;
                     }
@@ -188,21 +194,18 @@ public class ControllerContingent implements Initializable {
             switch (newValue) {
                 case FAILED:
                     closeProgressWindow();
-                    database.closeConnection();
                     eventShell.setTitle("EventShell - Failed");
                     shellTextArea.appendText("FAILED");
                     System.out.println("FAILED");
                     break;
                 case CANCELLED:
                     closeProgressWindow();
-                    database.closeConnection();
                     eventShell.setTitle("EventShell - Cancelled");
                     shellTextArea.appendText("CANCELLED");
                     System.out.println("CANCELLED");
                     break;
                 case SUCCEEDED:
                     closeProgressWindow();
-                    database.closeConnection();
                     eventShell.setTitle("EventShell - Update terminée");
                     updateFinishedAlert();
                     shellTextArea.appendText("TERMINÉ");
@@ -260,9 +263,14 @@ public class ControllerContingent implements Initializable {
 
         ObservableList<ObservableList> observableList = FXCollections.observableArrayList();
         ObservableList<ObservableList> observableList2 = FXCollections.observableArrayList();
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+
 
         try {
-            Connection c = database.connect();
+            conn = database.connect();
             String centre = comboCentre.getValue();
             String secteur = "";
             if (comboSecteur.getValue() != null) {
@@ -273,7 +281,8 @@ public class ControllerContingent implements Initializable {
 
             // CURRENT YEAR TABLE
             String sql = database.loadContingent38(centre, secteur, periode, year, getCheckboxState());
-            ResultSet rs = c.createStatement().executeQuery(sql);
+            st = conn.createStatement();
+            rs = st.executeQuery(sql);
 
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
                 final int j = i;
@@ -305,7 +314,7 @@ public class ControllerContingent implements Initializable {
                 lastYear = String.valueOf(currentYear - 1);
             }
             String sql2 = database.loadContingent38(centre, secteur, periode, lastYear, getCheckboxState());
-            ResultSet rs2 = c.createStatement().executeQuery(sql2);
+            rs2 = st.executeQuery(sql2);
 
             for (int i = 0; i < rs2.getMetaData().getColumnCount(); i++) {
                 final int j = i;
@@ -330,11 +339,15 @@ public class ControllerContingent implements Initializable {
             }
             tableView.setItems(observableList);
             tableView2.setItems(observableList2);
-            database.closeConnection();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Erreur lors de la construction des données");
             displayError(e);
+        } finally {
+            database.close(rs);
+            database.close(rs2);
+            database.close(st);
+            database.close(conn);
         }
     }
 

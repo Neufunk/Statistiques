@@ -2,27 +2,28 @@ package AVJ;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
+import main.ExceptionHandler;
+import main.Identification;
 
 import java.sql.*;
-import java.util.Arrays;
 
-public class Database {
+class Database {
 
+    private Identification id = new Identification();
     private Connection conn;
     private Statement state;
     private ResultSet result;
 
-    public Connection connect() {
+    Connection connect() {
         try {
             System.out.println("\n---------------------------------- ");
             System.out.println("Test du driver...");
             Class.forName("org.postgresql.Driver");
             System.out.println("Driver O.K.");
 
-            String url = "jdbc:postgresql://130.15.0.3/statistiques";
-            String user = "java_user";
-            String passwd = "fasd";
+            String url = id.set(Identification.info.D03_URL);
+            String user = id.set(Identification.info.D03_USER);
+            String passwd = id.set(Identification.info.D03_PASSWD);
 
             System.out.println("Connexion en cours...");
             conn = DriverManager.getConnection(url, user, passwd);
@@ -35,7 +36,7 @@ public class Database {
         return conn;
     }
 
-    public ObservableList loadColumnToCombo(String table, String column, String orderBy) {
+    ObservableList loadColumnToCombo(String table, String column, String orderBy) {
         ObservableList<String> array = FXCollections.observableArrayList();
         try {
             state = conn.createStatement();
@@ -46,7 +47,7 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            displayError(e);
+            ExceptionHandler.switchException(e, this.getClass());
         }
         return array;
     }
@@ -68,6 +69,10 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            close(result);
+            close(state);
+            close(conn);
         }
         return answer;
     }
@@ -406,37 +411,54 @@ public class Database {
         }
     }
 
-    public void closeConnection() {
-        System.out.println("\n----------------------------------");
-        System.out.println("Tentative de fermeture de connexion...");
+    void close(ResultSet rs){
         try {
-            if (state != null) {
-                state.close();
-                System.out.println("\t - State fermé");
+            System.out.println("Tentative de fermeture de ResultSet...");
+            if (rs != null) {
+                rs.close();
             }
-            if (result != null) {
-                result.close();
-                System.out.println("\t - Result fermé");
-            }
-            conn.close();
+            System.out.println("ResultSet terminé");
         } catch (SQLException e) {
-            e.printStackTrace();
+            ExceptionHandler.switchException(e, this.getClass());
         }
-        System.out.println("Connexion terminée.");
-        System.out.println("---------------------------------- \n");
-
     }
 
-    private void displayError(Exception e) {
-        e.printStackTrace();
-        String e1 = e.toString();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(e1);
-        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e.getStackTrace()) + "\n" +
-                "CAUSE : \t\t\t" + e.getLocalizedMessage() + "\n" + "\t\t" + this.getClass().toString() + " - displayFormatException()");
-        alert.showAndWait();
+    void close(Statement st){
+        try {
+            System.out.println("Tentative de fermeture de Statement...");
+            if (st != null) {
+                st.close();
+            }
+            System.out.println("Statement terminé");
+        } catch (SQLException e) {
+            ExceptionHandler.switchException(e, this.getClass());
+        }
     }
 
+    void close(PreparedStatement ps){
+        try {
+            System.out.println("Tentative de fermeture de PreparedStatement...");
+            if (ps != null) {
+                ps.close();
+            }
+            System.out.println("PreparedStatement terminé");
+        } catch (SQLException e) {
+            ExceptionHandler.switchException(e, this.getClass());
+        }
+    }
+
+    void close(Connection conn){
+        try {
+            System.out.println("Tentative de fermeture de Connexion...");
+            if (conn != null) {
+                conn.close();
+                System.out.println("Connexion terminée");
+            } else {
+                System.out.println("Aucune connexion en cours");
+            }
+        } catch (SQLException e) {
+            ExceptionHandler.switchException(e, this.getClass());
+        }
+    }
 }
 

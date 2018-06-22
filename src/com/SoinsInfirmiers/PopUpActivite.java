@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import main.ExceptionHandler;
 import main.Menu;
 
 import java.math.BigDecimal;
@@ -70,7 +71,7 @@ public class PopUpActivite implements Initializable {
                 flag = true;
             } catch (Exception e) {
                 e.printStackTrace();
-                iteratorExcel.fileNotFound(e);
+                ExceptionHandler.switchException(e, this.getClass());
                 flag = false;
             }
             Platform.runLater(() -> {

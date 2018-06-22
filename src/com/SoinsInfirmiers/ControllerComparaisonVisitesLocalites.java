@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import main.ExceptionHandler;
 import main.Menu;
 
 import java.net.URL;
@@ -29,7 +30,7 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
     private BarChart barChart;
 
     final private Menu menu = new Menu();
-    private Connection conn;
+    final private Database database = new Database();
     private String query = "";
 
     @Override
@@ -38,37 +39,20 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
         startQuery();
     }
 
-    private void connect() {
-        try {
-            System.out.println("\n---------------------------------- ");
-            System.out.println("Test du driver...");
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            System.out.println("Driver O.K.");
-
-            String url = "jdbc:oracle:thin:@192.168.46.12:1521:D615";
-            String user = "***";
-            String passwd = "***";
-
-            System.out.println("Connexion en cours...");
-            conn = DriverManager.getConnection(url, user, passwd);
-            System.out.println("Connexion effective !");
-            System.out.println("---------------------------------- \n");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void startQuery() {
         int c = 1;
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        connect();
-        setQuery();
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rs = null;
+
         ObservableList<ObservableList> data = FXCollections.observableArrayList();
         XYChart.Series series = new XYChart.Series();
         try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(query);
+            conn = database.connect();
+            statement = conn.createStatement();
+            query = database.setQuery(Database.Query.VISITES_PAR_LOCALITE);
+            rs = statement.executeQuery(query);
 
             for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
                 final int j = i - 1;
@@ -78,7 +62,6 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
                 tableView.getColumns().addAll(col);
                 System.out.println("Column [" + i + "] ");
             }
-
             while (rs.next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
@@ -87,13 +70,16 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
                 System.out.println("Row [" + c + "]" + row);
                 c++;
                 data.add(row);
-                series.getData().add(new XYChart.Data<>(rs.getString(1), rs.getDouble(19)));
+                series.getData().add(new XYChart.Data<>(rs.getString(1), rs.getDouble(15)));
             }
             tableView.setItems(data);
             generateBarChart(series);
-            conn.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            ExceptionHandler.switchException(e, this.getClass());
+        } finally {
+            database.close(rs);
+            database.close(statement);
+            database.close(conn);
         }
     }
 
@@ -107,19 +93,19 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
                 "                NVL(Janvier,0) AS Janvier,\n" +
                 "                NVL(Février,0) AS Février,\n" +
                 "                NVL(Mars,0) AS Mars,\n" +
-                "                (NVL(Janvier,0) + NVL(Février,0) + NVL(Mars,0)) AS Trimestre_1, \n" +
+                //"                (NVL(Janvier,0) + NVL(Février,0) + NVL(Mars,0)) AS Trimestre_1, \n" +
                 "                NVL(Avril,0) AS Avril, \n" +
                 "                NVL(Mai,0) AS Mai, \n" +
                 "                NVL(Juin,0) AS Juin,\n" +
-                "                (NVL(Avril,0) + NVL(Mai,0) + NVL(Juin,0)) AS Trimestre_2,\n" +
+                //"                (NVL(Avril,0) + NVL(Mai,0) + NVL(Juin,0)) AS Trimestre_2,\n" +
                 "                NVL(Juillet,0) AS Juillet, \n" +
                 "                NVL(Aout,0) AS Aout,\n" +
                 "                NVL(Septembre,0) AS Septembre, \n" +
-                "                (NVL(Juillet,0) + NVL(Aout,0) + NVL(Septembre,0)) AS Trimestre_3,\n" +
+                //"                (NVL(Juillet,0) + NVL(Aout,0) + NVL(Septembre,0)) AS Trimestre_3,\n" +
                 "                NVL(Octobre,0) AS Octobre,  \n" +
                 "                NVL(Novembre,0) AS Novembre, \n" +
                 "                NVL(Décembre,0) AS Décembre,  \n" +
-                "                (NVL(Octobre,0) + NVL(Novembre,0) + NVL(Décembre,0)) AS Trimestre_4,\n" +
+                //"                (NVL(Octobre,0) + NVL(Novembre,0) + NVL(Décembre,0)) AS Trimestre_4,\n" +
                 "                (NVL(Janvier,0) + NVL(Février,0) + NVL(Mars,0) + NVL(Avril,0) + NVL(Mai,0) + NVL(Juin,0) + NVL(Juillet,0) + NVL(Aout,0) + NVL(Septembre,0) + NVL(Octobre,0) + NVL(Novembre,0) + NVL(Décembre,0)) AS Total\n" +
                 "                FROM ( \n" +
                 "                SELECT COUNT(*) AS cnt, ioi.center, mu.name, mu.POSTAL_CODE, EXTRACT( MONTH FROM ioi.achiev_dat ) AS month\n" +

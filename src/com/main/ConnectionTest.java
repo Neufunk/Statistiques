@@ -47,14 +47,19 @@ public class ConnectionTest {
     @FXML
     private JFXButton closeButton;
 
+    Identification id = new Identification();
+
     public void onButtonClick() {
         progressSetVisible();
         new Thread(() -> {
-            testDatabaseConnection("jdbc:postgresql://130.15.0.3/statistiques", "java_user", "fasd", "org.postgresql.Driver", progress1, done1, failed1);
+            testDatabaseConnection(id.set(Identification.info.D03_URL), id.set(Identification.info.D03_USER), id.set(Identification.info.D03_PASSWD),
+                    "org.postgresql.Driver", progress1, done1, failed1);
             testServerConnection("130.15.0.1", progress2, done2, failed2);
             testServerConnection("130.17.0.1", progress3, done3, failed3);
-            testDatabaseConnection("***", "***", "***", "oracle.jdbc.driver.OracleDriver", progress4, done4, failed4);
-            testDatabaseConnection("***", "***", "***", "oracle.jdbc.driver.OracleDriver", progress5, done5, failed5);
+            testDatabaseConnection(id.set(Identification.info.D615_URL), id.set(Identification.info.D615_USER), id.set(Identification.info.D615_PASSWD),
+                    "oracle.jdbc.driver.OracleDriver", progress4, done4, failed4);
+            testDatabaseConnection(id.set(Identification.info.D015_URL), id.set(Identification.info.D015_USER), id.set(Identification.info.D015_PASSWD),
+                    "oracle.jdbc.driver.OracleDriver", progress5, done5, failed5);
         }).start();
         launchButton.setVisible(false);
         closeButton.setVisible(true);
@@ -85,7 +90,7 @@ public class ConnectionTest {
         } catch (Exception e) {
             progress.setVisible(false);
             failed.setVisible(true);
-            e.printStackTrace();
+            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 
@@ -101,7 +106,7 @@ public class ConnectionTest {
             }
         } catch (IOException e) {
             failed.setVisible(true);
-            e.printStackTrace();
+            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 

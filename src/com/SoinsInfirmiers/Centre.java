@@ -33,7 +33,7 @@ class Centre {
         }
     }
 
-    void showEmptyDialog(){
+    void showEmptyDialog() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("NullPointerException");
         alert.setHeaderText("Veuillez sélectionner un centre");
