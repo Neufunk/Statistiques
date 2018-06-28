@@ -16,6 +16,7 @@
         <Menu mnemonicParsing="false" style="-fx-font-weight: bold;" styleClass="menu-title" text="STATISTIQUES">
             <MenuItem accelerator="backspace" mnemonicParsing="false" onAction="#openHomepage" style="-fx-font-weight: normal;" text="Revenir à l'accueil          " />
             <SeparatorMenuItem mnemonicParsing="false" />
+         <MenuItem mnemonicParsing="false" onAction="#openSettings" text="Paramètres" />
             <MenuItem mnemonicParsing="false" onAction="#showPatchnote" style="-fx-font-weight: normal;" text="Patchnote" />
             <MenuItem mnemonicParsing="false" onAction="#changeLogs" style="-fx-font-weight: normal;" text="Changelogs" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -54,10 +55,8 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <Menu mnemonicParsing="false" text="Rapports">
                 <MenuItem mnemonicParsing="false" onAction="#pdfActivite" text="Rapport d'activité" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Rapport indicateurs de gestion" />
+            <MenuItem mnemonicParsing="false" onAction="#pdfGestion" text="Rapport indicateurs de gestion" />
             </Menu>
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Paramètres" />
         </Menu>
         <Menu mnemonicParsing="false" text="Outils">
             <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />

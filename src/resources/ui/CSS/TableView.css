@@ -35,7 +35,7 @@
 
 }
 .table-row-cell:selected .text {
-       -fx-fill: white ;
+       -fx-fill: white;
 }
 .table-view .table-column{
     -fx-text-alignment: center;

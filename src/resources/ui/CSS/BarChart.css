@@ -1,44 +1,43 @@
 .chart-bar {
-    -fx-background-color: transparent;
-    -fx-background-radius: 10;
-    -fx-border-color: transparent;
+    -fx-background-color: #96bb37;
+    -fx-background-radius: 10px;
 }
 .chart-plot-background {
     -fx-background-color: #ffffff;
 }
-.data0.chart-bar {
+.data0.chart-bar, .data6.chart-bar {
     -fx-background-color: #96bb37;
 }
-.data0.chart-bar:hover {
+.data0.chart-bar:hover, .data6.chart-bar:hover {
     -fx-background-color: #C2E863;
 }
-.data1.chart-bar {
+.data1.chart-bar, .data7.chart-bar, .data13.chart-bar {
     -fx-background-color: #006782;
 }
-.data1.chart-bar:hover {
+.data1.chart-bar:hover, .data7.chart-bar:hover {
     -fx-background-color: #1387a5;
 }
-.data2.chart-bar {
+.data2.chart-bar, .data8.chart-bar {
     -fx-background-color: #893209;
 }
-.data2.chart-bar:hover {
+.data2.chart-bar:hover, .data8.chart-bar:hover {
     -fx-background-color: #c45e2f;
 }
-.data3.chart-bar {
+.data3.chart-bar, .data9.chart-bar {
     -fx-background-color: #E1A634;
 }
-.data3.chart-bar:hover {
+.data3.chart-bar:hover, .data9.chart-bar:hover {
     -fx-background-color: #ffc454;
 }
-.data4.chart-bar {
+.data4.chart-bar, .data10.chart-bar {
     -fx-background-color: #003333;
 }
-.data4.chart-bar:hover {
+.data4.chart-bar:hover, .data10.chart-bar:hover {
     -fx-background-color: #085151;
 }
-.data5.chart-bar {
+.data5.chart-bar, .data11.chart-bar {
     -fx-background-color: #A9CEB8;
 }
-.data5.chart-bar:hover {
+.data5.chart-bar:hover, .data11.chart-bar:hover {
     -fx-background-color: #c9efd7;
 }

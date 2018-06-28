@@ -14,6 +14,9 @@ public class ExceptionHandler {
             case "java.sql.SQLException":
                 displayError("Erreur SQL", exception, className);
                 break;
+            case "java.sql.SQLSyntaxErrorException":
+                displayError("Erreur de syntaxe SQL", exception, className);
+                break;
             case "java.lang.NullPointerException":
                 displayError("Null Pointer Exception", exception, className);
                 break;
@@ -22,6 +25,9 @@ public class ExceptionHandler {
                 break;
             case "java.io.FileNotFoundException":
                 displayError("Fichier occupé ou introuvable", exception, className);
+                break;
+            case "java.lang.IllegalStateException":
+                displayError("Illegal State", exception, className);
                 break;
             default:
                 displayError("Erreur inconnue", exception, className);

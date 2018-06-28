@@ -4,12 +4,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Date;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import main.ExceptionHandler;
 
-class PdfActivite {
+public class PdfActivite {
 
     private final BaseColor blueASD = new BaseColor(0, 110, 130);
 
@@ -18,6 +22,13 @@ class PdfActivite {
     private String centreVal;
     private String monthVal;
     private String yearVal;
+    private String fromPeriode;
+    private String toPeriode;
+
+    enum SheetOrientation {
+        PORTRAIT,
+        LANDSCAPE;
+    }
 
     private Font setInterstateFont(int size, String color) {
         BaseFont baseFont;
@@ -53,6 +64,15 @@ class PdfActivite {
         activiteSuiviPersonnel.buildPdf();
     }
 
+    public void buildIndicateurDeGestionPdf() {
+        IndicateursDeGestion indicateursDeGestion = new IndicateursDeGestion();
+        try {
+            indicateursDeGestion.buildPdf();
+        } catch (Exception e) {
+            ExceptionHandler.switchException(e, this.getClass());
+        }
+    }
+
     private void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
@@ -70,11 +90,17 @@ class PdfActivite {
         return String.format("%,." + decimal + "f", value);
     }
 
-    private void addFooter(PdfWriter writer) throws IOException {
+    private void addFooter(PdfWriter writer, SheetOrientation sheetOrientation) throws IOException {
         PdfPTable table = new PdfPTable(3);
         try {
             table.setWidths(new int[]{33, 33, 33});
-            table.setTotalWidth(525);
+            switch (sheetOrientation){
+                case PORTRAIT:
+                    table.setTotalWidth(525);
+                    break;
+                case LANDSCAPE:
+                    table.setTotalWidth(770);
+            }
             table.getDefaultCell().setFixedHeight(20);
             table.getDefaultCell().setBorder(Rectangle.BOTTOM);
             Image img = Image.getInstance(ClassLoader.getSystemResource("img/favicon.png"));
@@ -117,9 +143,9 @@ class PdfActivite {
             addMetaData(document, "Rapport d'activité");
             addTitlePage(document);
             addFirstPage(document);
-            addFooter(pdfWriter);
+            addFooter(pdfWriter, SheetOrientation.PORTRAIT);
             addSecondPage(document);
-            addFooter(pdfWriter);
+            addFooter(pdfWriter, SheetOrientation.PORTRAIT);
             document.close();
             System.out.println("PDF généré avec succès");
         }
@@ -371,6 +397,134 @@ class PdfActivite {
             addEmptyLine(paragraph, 3);
             paragraph.add(table4);
         }
+    }
+
+    class IndicateursDeGestion {
+
+        Database database = new Database();
+        Connection conn;
+        PreparedStatement ps;
+        ResultSet rs;
+
+        void buildPdf() throws Exception {
+            centreVal = "Namur";
+            monthVal = " ";
+            yearVal = "2014";
+            fromPeriode = "201401";
+            toPeriode = "201412";
+            Document document = new Document();
+            String currentUser = System.getProperty("user.name");
+            String file = "C:/users/" + currentUser + "/Desktop/" +
+                    "Indicateurs_Gestion_" + centreVal + "_" + fromPeriode + ".pdf";
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
+            document.open();
+            addMetaData(document, "Indicateurs de gestion");
+            addTitlePage(document);
+            addFirstPage(document);
+            addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
+            document.close();
+            System.out.println("PDF généré avec succès");
+        }
+
+        private void addTitlePage(Document document) throws DocumentException {
+            Paragraph preface = new Paragraph();
+            try {
+                Image img = Image.getInstance(ClassLoader.getSystemResource("img/asd_logo.png"));
+                img.setAlignment(Element.ALIGN_LEFT);
+                img.scaleAbsolute(195f, 75f);
+                preface.add(img);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            addEmptyLine(preface, 11);
+
+            Paragraph title = new Paragraph("INDICATEURS DE GESTION", setInterstateFont(19, "black"));
+            title.setAlignment(Element.ALIGN_CENTER);
+            preface.add(title);
+
+            addEmptyLine(preface, 1);
+            Paragraph details = new Paragraph("Rapport généré par: " + System.getProperty("user.name") + ", " + new Date(),
+                    setInterstateFont(10));
+            details.setAlignment(Element.ALIGN_RIGHT);
+            preface.add(details);
+            Paragraph periode = new Paragraph(centreVal + " - " + monthVal + "" + yearVal, setInterstateFont(18));
+            periode.setAlignment(Element.ALIGN_CENTER);
+            addEmptyLine(preface, 5);
+            preface.add(periode);
+
+            document.add(preface);
+        }
+
+        private void addFirstPage(Document document) throws DocumentException {
+            document.setPageSize(PageSize.A4.rotate());
+            Anchor anchor = new Anchor("CENTRE : NAMUR", setInterstateFont(16));
+            Chapter chapter = new Chapter(new Paragraph(anchor), 1);
+
+            Paragraph paragraph = new Paragraph();
+            addEmptyLine(paragraph, 4);
+            createTable(paragraph);
+            chapter.add(paragraph);
+            document.add(chapter);
+        }
+
+        private void createTable(Paragraph paragraph) {
+            /* Tableau */
+            PdfPTable table = new PdfPTable(14);
+            String[] monthArray = {"INDICATEURS", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+                    "Aout", "Septembre", "Octobre", "Novembre", "Décembre", "TOTAL"};
+            // table.setWidths(new int[]{26, 28, 30, 16});
+            table.setWidthPercentage(100);
+
+            for (int i = 0; i < monthArray.length; i++) {
+                PdfPCell title = new PdfPCell(new Phrase(monthArray[i], setInterstateFont(8, "white")));
+                title.setHorizontalAlignment(Element.ALIGN_CENTER);
+                title.setVerticalAlignment(Element.ALIGN_CENTER);
+                title.setBackgroundColor(blueASD);
+                table.addCell(title);
+            }
+            try {
+                conn = database.connect();
+
+                // 1st column
+                PdfPCell indicateurCell = new PdfPCell(new Phrase("Nombre de visite", setInterstateFont(7)));
+                indicateurCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                indicateurCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                table.addCell(indicateurCell);
+
+                // Result cells
+                double totalCount = 0;
+                String query = database.setQuery(Database.Query.NOMBRE_DE_VISITES);
+                ps = conn.prepareStatement(query);
+                ps.setString(1, "201401");
+                ps.setString(2, "201412");
+                rs = ps.executeQuery();
+                 while (rs.next()) {
+                     System.out.println("ROW :" + rs.getDouble("TOTAL"));
+                     PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(8)));
+                     totalCount += rs.getDouble("TOTAL");
+                     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                     cell.setVerticalAlignment(Element.ALIGN_CENTER);
+                     table.addCell(cell);
+                 }
+
+                 // Total cell
+                PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(7)));
+                totalCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                totalCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                 table.addCell(totalCell);
+
+                paragraph.add(table);
+            }catch (Exception e) {
+                ExceptionHandler.switchException(e, this.getClass());
+            } finally {
+                database.close(rs);
+                database.close(ps);
+                database.close(conn);
+            }
+
+        }
+
     }
 
 }

@@ -38,6 +38,8 @@ public class ControllerSelectSi implements Initializable {
         menu.pdfActivite();
     }
 
+    public void pdfGestion() {menu.pdfGestion();}
+
     public void openHomepage() {
         menu.openHomepage();
     }

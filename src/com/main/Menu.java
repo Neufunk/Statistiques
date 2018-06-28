@@ -1,6 +1,8 @@
 package main;
 
 import SoinsInfirmiers.Data;
+import SoinsInfirmiers.PdfActivite;
+import SoinsInfirmiers.PdfActivite.IndicateursDeGestion;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -39,6 +41,17 @@ public class Menu {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/HomePage.fxml"));
             changeScene(root);
             stage.setTitle(AVJ.Data.homePageTitle);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void openSettings() {
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Settings.fxml"));
+            changeScene(root);
+            stage.setTitle("Paramètres - "+ Version.versionNumber);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -145,6 +158,12 @@ public class Menu {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+    }
+
+    public void pdfGestion() {
+        PdfActivite pdf = new PdfActivite();
+        pdf.buildIndicateurDeGestionPdf();
+
     }
 
     public void openContingentPage(){

@@ -113,7 +113,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Rapport indicateurs de gestion">
+      <JFXButton contentDisplay="TOP" onAction="#pdfGestion" prefHeight="240.0" prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Rapport indicateurs de gestion">
          <HBox.margin>
             <Insets right="20.0" />
          </HBox.margin>
