@@ -58,7 +58,7 @@
       </JFXButton>
    </HBox>
    <VBox fx:id="menuPane" stylesheets="@../CSS/Buttons.css" GridPane.columnSpan="2" />
-   <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#back" prefHeight="43.0" prefWidth="106.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Rertour" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+   <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#back" prefHeight="43.0" prefWidth="106.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Retour" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
       <font>
          <Font name="Interstate-Bold" size="15.0" />
       </font>

@@ -84,7 +84,9 @@ class Database {
         VISITES_PAR_LOCALITE,
         PATIENTS_PAR_CENTRE,
         PATIENTS_PAR_LOCALITE,
-        NOMBRE_DE_VISITES
+        NOMBRE_DE_VISITE,
+        RECETTE_OA_PAR_VISITE,
+        RECETTE_OA_PAR_J_AVEC_SOINS
     }
 
     String setQuery(Query queryName) {
@@ -195,14 +197,35 @@ class Database {
                         "WHERE Name NOT LIKE ('ALL') \n" +
                         "ORDER BY Localité NULLS LAST";
                 break;
-            case NOMBRE_DE_VISITES:
+            case NOMBRE_DE_VISITE:
                 query = "SELECT SUM(SOMME) AS Total, periode \n" +
                         "        FROM V_STAT_NAMUR\n" +
                         "        WHERE CODE_REF_NO IN (7, 8, 9, 10, 205, 227, 249, 271, 293)\n" +
                         "        AND periode BETWEEN ? AND ?\n" +
+                        "        AND cee_ref_no = ?\n" +
                         "        GROUP BY periode\n" +
                         "        ORDER BY periode";
                 break;
+            case RECETTE_OA_PAR_VISITE:
+                query = "SELECT periode, total_1/total_2 as TOTAL \n" +
+                        "FROM (\n" +
+                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SUM(Case when code_ref_no in (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281) Then somme else 0 end) as total_1,\n" +
+                        "    SUM(Case when code_ref_no in (7, 8, 9, 10, 205, 227, 249, 271, 293) Then somme else 0 end) as total_2\n" +
+                        "    FROM V_STAT_NAMUR\n" +
+                        "    WHERE code_ref_no IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 193, 205, 215, 227, 237, 249, 259, 271, 281, 293)\n" +
+                        "    AND periode BETWEEN ? AND ?\n" +
+                        "    AND cee_ref_no = ?\n" +
+                        "    GROUP BY periode, cee_ref_no\n" +
+                        ")\n" +
+                        "ORDER BY periode";
+                break;
+            case RECETTE_OA_PAR_J_AVEC_SOINS:
+                query = "SELECT (somme) as TOTAL FROM V_STAT_NAMUR \n" +
+                        "WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6) \n" +
+                        "AND PERIODE BETWEEN ? AND ?";
+                break;
+
         }
         return query;
     }

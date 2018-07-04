@@ -13,6 +13,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import main.ExceptionHandler;
 
+import static SoinsInfirmiers.Database.Query.*;
+
 public class PdfActivite {
 
     private final BaseColor blueASD = new BaseColor(0, 110, 130);
@@ -22,12 +24,10 @@ public class PdfActivite {
     private String centreVal;
     private String monthVal;
     private String yearVal;
-    private String fromPeriode;
-    private String toPeriode;
 
     enum SheetOrientation {
         PORTRAIT,
-        LANDSCAPE;
+        LANDSCAPE
     }
 
     private Font setInterstateFont(int size, String color) {
@@ -405,23 +405,30 @@ public class PdfActivite {
         Connection conn;
         PreparedStatement ps;
         ResultSet rs;
+        String year = "2014";
+        String[] centreName = {"Namur", "Eghezée", "Philippeville", "Ciney", "Gedinne"};
+        int[] centreNo = {961, 913, 902, 913, 923};
+        int pageNo = 0;
+
+        Database.Query[] indicateurArray = {NOMBRE_DE_VISITE, RECETTE_OA_PAR_VISITE};
 
         void buildPdf() throws Exception {
-            centreVal = "Namur";
-            monthVal = " ";
-            yearVal = "2014";
-            fromPeriode = "201401";
-            toPeriode = "201412";
             Document document = new Document();
             String currentUser = System.getProperty("user.name");
             String file = "C:/users/" + currentUser + "/Desktop/" +
-                    "Indicateurs_Gestion_" + centreVal + "_" + fromPeriode + ".pdf";
+                    "Indicateurs_Gestion_" + year + ".pdf";
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             addMetaData(document, "Indicateurs de gestion");
             addTitlePage(document);
-            addFirstPage(document);
-            addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
+            for (int i = 0; i < centreNo.length; i++) {
+                centreVal = centreName[i];
+                yearVal = year;
+                monthVal = "";
+                addPage(document);
+                addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
+                pageNo++;
+            }
             document.close();
             System.out.println("PDF généré avec succès");
         }
@@ -448,7 +455,7 @@ public class PdfActivite {
                     setInterstateFont(10));
             details.setAlignment(Element.ALIGN_RIGHT);
             preface.add(details);
-            Paragraph periode = new Paragraph(centreVal + " - " + monthVal + "" + yearVal, setInterstateFont(18));
+            Paragraph periode = new Paragraph(year, setInterstateFont(18));
             periode.setAlignment(Element.ALIGN_CENTER);
             addEmptyLine(preface, 5);
             preface.add(periode);
@@ -456,13 +463,13 @@ public class PdfActivite {
             document.add(preface);
         }
 
-        private void addFirstPage(Document document) throws DocumentException {
+        private void addPage(Document document) throws DocumentException {
             document.setPageSize(PageSize.A4.rotate());
-            Anchor anchor = new Anchor("CENTRE : NAMUR", setInterstateFont(16));
-            Chapter chapter = new Chapter(new Paragraph(anchor), 1);
+            Anchor anchor = new Anchor("CENTRE : " + centreName[pageNo], setInterstateFont(16));
+            Chapter chapter = new Chapter(new Paragraph(anchor), pageNo+1);
 
             Paragraph paragraph = new Paragraph();
-            addEmptyLine(paragraph, 4);
+            addEmptyLine(paragraph, 2);
             createTable(paragraph);
             chapter.add(paragraph);
             document.add(chapter);
@@ -474,10 +481,11 @@ public class PdfActivite {
             String[] monthArray = {"INDICATEURS", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Aout", "Septembre", "Octobre", "Novembre", "Décembre", "TOTAL"};
             // table.setWidths(new int[]{26, 28, 30, 16});
-            table.setWidthPercentage(100);
+            table.setWidthPercentage(107);
 
-            for (int i = 0; i < monthArray.length; i++) {
-                PdfPCell title = new PdfPCell(new Phrase(monthArray[i], setInterstateFont(8, "white")));
+                // HEADER
+            for (String aMonthArray : monthArray) {
+                PdfPCell title = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(8, "white")));
                 title.setHorizontalAlignment(Element.ALIGN_CENTER);
                 title.setVerticalAlignment(Element.ALIGN_CENTER);
                 title.setBackgroundColor(blueASD);
@@ -486,34 +494,38 @@ public class PdfActivite {
             try {
                 conn = database.connect();
 
-                // 1st column
-                PdfPCell indicateurCell = new PdfPCell(new Phrase("Nombre de visite", setInterstateFont(7)));
-                indicateurCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                indicateurCell.setVerticalAlignment(Element.ALIGN_CENTER);
-                table.addCell(indicateurCell);
+                for (int i = 0; i < indicateurArray.length; i++) {
+                    // FIRST_COLUMN
+                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i].toString(), setInterstateFont(8)));
+                    indicateurCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    indicateurCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(indicateurCell);
 
-                // Result cells
-                double totalCount = 0;
-                String query = database.setQuery(Database.Query.NOMBRE_DE_VISITES);
-                ps = conn.prepareStatement(query);
-                ps.setString(1, "201401");
-                ps.setString(2, "201412");
-                rs = ps.executeQuery();
-                 while (rs.next()) {
-                     System.out.println("ROW :" + rs.getDouble("TOTAL"));
-                     PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(8)));
-                     totalCount += rs.getDouble("TOTAL");
-                     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                     cell.setVerticalAlignment(Element.ALIGN_CENTER);
-                     table.addCell(cell);
-                 }
+                    // RESULT CELLS
+                    double totalCount = 0;
+                    String query = database.setQuery(indicateurArray[i]);
+                    ps = conn.prepareStatement(query);
+                    ps.setString(1, (year + "01"));
+                    ps.setString(2, (year + "12"));
+                    ps.setInt(3, (centreNo[pageNo]));
+                    rs = ps.executeQuery();
+                    while (rs.next()) {
+                        System.out.println("ROW :" + rs.getDouble("TOTAL"));
+                        PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(9)));
+                        totalCount += rs.getDouble("TOTAL");
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cell.setVerticalAlignment(Element.ALIGN_CENTER);
+                        table.addCell(cell);
+                    }
 
-                 // Total cell
-                PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(7)));
-                totalCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                totalCell.setVerticalAlignment(Element.ALIGN_CENTER);
-                 table.addCell(totalCell);
-
+                    // TOTAL CELLS
+                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9)));
+                    System.out.println("TOTAL ROW :" + totalCount);
+                    System.out.println("----------------");
+                    totalCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    totalCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(totalCell);
+                }
                 paragraph.add(table);
             }catch (Exception e) {
                 ExceptionHandler.switchException(e, this.getClass());
@@ -522,7 +534,6 @@ public class PdfActivite {
                 database.close(ps);
                 database.close(conn);
             }
-
         }
 
     }

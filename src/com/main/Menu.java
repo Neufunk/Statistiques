@@ -2,7 +2,6 @@ package main;
 
 import SoinsInfirmiers.Data;
 import SoinsInfirmiers.PdfActivite;
-import SoinsInfirmiers.PdfActivite.IndicateursDeGestion;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
