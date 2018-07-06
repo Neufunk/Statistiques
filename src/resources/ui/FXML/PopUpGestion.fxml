@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" prefHeight="380.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerPopUpActivite">
+<GridPane alignment="CENTER" prefHeight="380.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerPopUpGestion">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
     </columnConstraints>
@@ -19,12 +19,10 @@
     </rowConstraints>
     <AnchorPane prefHeight="380.0" prefWidth="483.0" style="-fx-background-color: #ffffff;" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
         <AnchorPane layoutY="-1.0" prefHeight="267.0" prefWidth="384.0" style="-fx-background-color: #006782;">
-          <ComboBox fx:id="comboYear" layoutX="149.0" layoutY="157.0" prefHeight="31.0" prefWidth="97.0" promptText="Année" style="-fx-background-color: white;" />
-          <ComboBox fx:id="comboMonth" layoutX="132.0" layoutY="105.0" prefHeight="31.0" prefWidth="131.0" promptText="Mois" style="-fx-background-color: white;" />
-          <ComboBox fx:id="comboCentre" layoutX="141.0" layoutY="54.0" prefHeight="31.0" prefWidth="112.0" promptText="Centre" style="-fx-background-color: white;" />
+          <ComboBox fx:id="comboYear" layoutX="141.0" layoutY="118.0" onAction="#onComboSelection" prefHeight="31.0" prefWidth="114.0" style="-fx-background-color: white;" />
           <JFXButton fx:id="closeButton" buttonType="RAISED" focusTraversable="false" layoutX="154.0" layoutY="222.0" onAction="#onCloseClick" prefHeight="31.0" prefWidth="87.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Fermer" textFill="WHITE" visible="false" />
           <JFXButton fx:id="button" buttonType="RAISED" focusTraversable="false" layoutX="154.0" layoutY="222.0" onAction="#onButtonClick" prefHeight="31.0" prefWidth="87.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Générer" />
-         <Label layoutX="22.0" layoutY="14.0" text="RAPPORT D'ACTIVITÉ" textFill="WHITE">
+         <Label layoutX="22.0" layoutY="14.0" text="INDICATEURS DE GESTION" textFill="WHITE">
             <font>
                <Font name="Interstate-Bold" size="18.0" />
             </font>

@@ -48,7 +48,7 @@ public class Identification {
         return answer;
     }
 
-    private Properties getPropertiesFile(){
+    private Properties getPropertiesFile() {
         Properties prop = new Properties();
         try {
             prop.load(getClass().getResourceAsStream("/properties/Identification.properties"));

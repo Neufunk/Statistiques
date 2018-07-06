@@ -1,7 +1,7 @@
 package main;
 
 import SoinsInfirmiers.Data;
-import SoinsInfirmiers.PdfActivite;
+import SoinsInfirmiers.Rapports;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -17,7 +17,8 @@ import java.util.Calendar;
 
 public class Menu {
 
-    public static final Stage pdfStage = new Stage();
+    public static final Stage activiteStage = new Stage();
+    public static final Stage gestionStage = new Stage();
     static final Stage connectionTestStage = new Stage();
     private final Print print = new Print();
     private static Node printableNode;
@@ -150,18 +151,25 @@ public class Menu {
     public void pdfActivite(){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpActivite.fxml"));
-            pdfStage.setScene(new Scene(root, 350, 380));
-            pdfStage.setTitle("Rapport d'activité et suivi du personnel");
-            pdfStage.setResizable(false);
-            pdfStage.show();
+            activiteStage.setScene(new Scene(root, 350, 380));
+            activiteStage.setTitle("Rapport - Activité et suivi du personnel");
+            activiteStage.setResizable(false);
+            activiteStage.show();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
     }
 
     public void pdfGestion() {
-        PdfActivite pdf = new PdfActivite();
-        pdf.buildIndicateurDeGestionPdf();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpGestion.fxml"));
+            gestionStage.setScene(new Scene(root, 350, 380));
+            gestionStage.setTitle("Rapport - indicateurs de gestion");
+            gestionStage.setResizable(false);
+            gestionStage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
 
     }
 

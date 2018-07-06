@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import main.ExceptionHandler;
 import main.Menu;
 
 import java.math.BigDecimal;
@@ -15,7 +14,7 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PopUpActivite implements Initializable {
+public class ControllerPopUpActivite implements Initializable {
     @FXML
     private JFXButton button;
     @FXML
@@ -36,7 +35,7 @@ public class PopUpActivite implements Initializable {
     private Label label3;
 
     private final IteratorExcel iteratorExcel = new IteratorExcel();
-    private final PdfActivite pdf = new PdfActivite();
+    private final Rapports pdf = new Rapports();
     private final Year YEAR = new Year();
     private final Periode PERIODE = new Periode();
     private final Centre CENTRE = new Centre();
@@ -63,17 +62,11 @@ public class PopUpActivite implements Initializable {
         spinner.setVisible(true);
 
         new Thread(() -> {
-            try {
-                initIterator();
-                processFileA();
-                processFileB();
-                pdf.buildActivitePdf();
-                flag = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                ExceptionHandler.switchException(e, this.getClass());
-                flag = false;
-            }
+            initIterator();
+            processFileA();
+            processFileB();
+            pdf.buildActivitePdf();
+            flag = true;
             Platform.runLater(() -> {
                 if (flag) {
                     label.setText("PDF généré avec succès");
@@ -129,7 +122,7 @@ public class PopUpActivite implements Initializable {
     }
 
     public void onCloseClick() {
-        Menu.pdfStage.close();
+        Menu.activiteStage.close();
     }
 
     String getCentreVal() {

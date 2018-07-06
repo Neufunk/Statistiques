@@ -15,10 +15,10 @@ import main.ExceptionHandler;
 
 import static SoinsInfirmiers.Database.Query.*;
 
-public class PdfActivite {
+public class Rapports {
 
-    private final BaseColor blueASD = new BaseColor(0, 110, 130);
-
+    private final BaseColor BLUE_ASD = new BaseColor(0, 110, 130);
+    private final BaseColor ORANGE_ASD = new BaseColor(254, 246, 233);
     final double[] answerArr = new double[26];
     final double[] answerArrFileB = new double[3];
     private String centreVal;
@@ -59,12 +59,16 @@ public class PdfActivite {
         return setInterstateFont(size, "black");
     }
 
-    void buildActivitePdf() throws Exception {
+    void buildActivitePdf() {
         ActiviteSuiviPersonnel activiteSuiviPersonnel = new ActiviteSuiviPersonnel();
-        activiteSuiviPersonnel.buildPdf();
+        try {
+            activiteSuiviPersonnel.buildPdf();
+        } catch (Exception e) {
+            ExceptionHandler.switchException(e, this.getClass());
+        }
     }
 
-    public void buildIndicateurDeGestionPdf() {
+    void buildIndicateurDeGestionPdf() {
         IndicateursDeGestion indicateursDeGestion = new IndicateursDeGestion();
         try {
             indicateursDeGestion.buildPdf();
@@ -94,7 +98,7 @@ public class PdfActivite {
         PdfPTable table = new PdfPTable(3);
         try {
             table.setWidths(new int[]{33, 33, 33});
-            switch (sheetOrientation){
+            switch (sheetOrientation) {
                 case PORTRAIT:
                     table.setTotalWidth(525);
                     break;
@@ -127,12 +131,12 @@ public class PdfActivite {
 
     class ActiviteSuiviPersonnel {
 
-        final PopUpActivite popUpActivite = new PopUpActivite();
+        final ControllerPopUpActivite controllerPopUpActivite = new ControllerPopUpActivite();
 
         void buildPdf() throws Exception {
-            centreVal = popUpActivite.getCentreVal();
-            monthVal = popUpActivite.getMonthVal();
-            yearVal = popUpActivite.getYearVal();
+            centreVal = controllerPopUpActivite.getCentreVal();
+            monthVal = controllerPopUpActivite.getMonthVal();
+            yearVal = controllerPopUpActivite.getYearVal();
             Document document = new Document();
             String currentUser = System.getProperty("user.name");
             String file = "C:/users/" + currentUser + "/Desktop/" +
@@ -210,7 +214,7 @@ public class PdfActivite {
             PdfPCell title1 = new PdfPCell(new Phrase("Recette totale OA / Jours prestés", setInterstateFont(12, "white")));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
             title1.setVerticalAlignment(Element.ALIGN_CENTER);
-            title1.setBackgroundColor(blueASD);
+            title1.setBackgroundColor(BLUE_ASD);
 
             PdfPCell cell = new PdfPCell(new Phrase("Facturation Totale : " + format(answerArr[0], 2)));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -239,11 +243,11 @@ public class PdfActivite {
             table2.setWidthPercentage(100);
             title1 = new PdfPCell(new Phrase("Recette OA / Visite", setInterstateFont(10, "white")));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title1.setBackgroundColor(blueASD);
+            title1.setBackgroundColor(BLUE_ASD);
 
             PdfPCell title2 = new PdfPCell(new Phrase("Nbre Visites / Jours prestés avec soins", setInterstateFont(10, "white")));
             title2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title2.setBackgroundColor(blueASD);
+            title2.setBackgroundColor(BLUE_ASD);
 
             double result = new BigDecimal(answerArr[1] / answerArr[12]).setScale(2, RoundingMode.HALF_UP).doubleValue();
             PdfPCell cell6 = new PdfPCell(new Phrase(format(result, 2)));
@@ -263,22 +267,22 @@ public class PdfActivite {
             table3.setWidthPercentage(100);
             title1 = new PdfPCell(new Phrase("Profil patients", setInterstateFont(10, "white")));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title1.setBackgroundColor(blueASD);
+            title1.setBackgroundColor(BLUE_ASD);
             table3.addCell(title1);
 
             title2 = new PdfPCell(new Phrase("Toilettes NOM", setInterstateFont(10, "white")));
             title2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title2.setBackgroundColor(blueASD);
+            title2.setBackgroundColor(BLUE_ASD);
             table3.addCell(title2);
 
             PdfPCell title3 = new PdfPCell(new Phrase("Palliatifs", setInterstateFont(10, "white")));
             title3.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title3.setBackgroundColor(blueASD);
+            title3.setBackgroundColor(BLUE_ASD);
             table3.addCell(title3);
 
             PdfPCell title4 = new PdfPCell(new Phrase("Visites / Forfaits", setInterstateFont(10, "white")));
             title4.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title4.setBackgroundColor(blueASD);
+            title4.setBackgroundColor(BLUE_ASD);
             table3.addCell(title4);
 
             table3.addCell("Nombre patients :\n " + format(answerArr[6], 0));
@@ -304,7 +308,7 @@ public class PdfActivite {
             table4.setWidthPercentage(100);
             title1 = new PdfPCell(new Phrase("Nbre Visite + Nbre Patients", setInterstateFont(10, "white")));
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title1.setBackgroundColor(blueASD);
+            title1.setBackgroundColor(BLUE_ASD);
             title1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table4.addCell(title1);
 
@@ -332,7 +336,7 @@ public class PdfActivite {
             PdfPTable table = new PdfPTable(1);
             PdfPCell title = new PdfPCell(new Phrase("Total jours prestés Inf", setInterstateFont(10, "white")));
             title.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title.setBackgroundColor(blueASD);
+            title.setBackgroundColor(BLUE_ASD);
             table.addCell(title);
 
             PdfPCell cell = new PdfPCell(new Phrase(format(answerArr[13], 1) + " jours"));
@@ -343,7 +347,7 @@ public class PdfActivite {
             PdfPTable table2 = new PdfPTable(1);
             PdfPCell title2 = new PdfPCell(new Phrase("Solde récup fin de mois", setInterstateFont(10, "white")));
             title2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title2.setBackgroundColor(blueASD);
+            title2.setBackgroundColor(BLUE_ASD);
             table2.addCell(title2);
 
             PdfPCell cell2 = new PdfPCell(new Phrase(format(answerArr[14], 2)));
@@ -354,7 +358,7 @@ public class PdfActivite {
             PdfPTable table3 = new PdfPTable(1);
             PdfPCell title3 = new PdfPCell(new Phrase("Total jours payés", setInterstateFont(10, "white")));
             title3.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title3.setBackgroundColor(blueASD);
+            title3.setBackgroundColor(BLUE_ASD);
             table3.addCell(title3);
 
             PdfPCell cell3 = new PdfPCell(new Phrase(format(answerArr[15], 1) + " jours"));
@@ -374,7 +378,7 @@ public class PdfActivite {
             PdfPTable table4 = new PdfPTable(1);
             PdfPCell title4 = new PdfPCell(new Phrase("Total presté", setInterstateFont(10, "white")));
             title4.setHorizontalAlignment(Element.ALIGN_CENTER);
-            title4.setBackgroundColor(blueASD);
+            title4.setBackgroundColor(BLUE_ASD);
             table4.addCell(title4);
             PdfPCell cell7 = new PdfPCell(new Phrase("Sans soins : " + format(answerArr[22] * 100, 2) + "%"));
             cell7.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -400,37 +404,61 @@ public class PdfActivite {
     }
 
     class IndicateursDeGestion {
-
+        ControllerPopUpGestion controllerPopUpGestion = new ControllerPopUpGestion();
         Database database = new Database();
         Connection conn;
         PreparedStatement ps;
         ResultSet rs;
-        String year = "2014";
-        String[] centreName = {"Namur", "Eghezée", "Philippeville", "Ciney", "Gedinne"};
-        int[] centreNo = {961, 913, 902, 913, 923};
+        String year = controllerPopUpGestion.getYearVal();
+        String[] centreName = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur"};
+        int[] centreNo = {902, 913, 923, 931, 961};
         int pageNo = 0;
 
-        Database.Query[] indicateurArray = {NOMBRE_DE_VISITE, RECETTE_OA_PAR_VISITE};
+        Database.Query[][] indicateurArray = {
+                {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS,
+                    DEPLACEMENTS, TICKETS_MODERATEURS, SOINS_DIVERS_ET_CONVENTIONS},
 
-        void buildPdf() throws Exception {
-            Document document = new Document();
-            String currentUser = System.getProperty("user.name");
-            String file = "C:/users/" + currentUser + "/Desktop/" +
-                    "Indicateurs_Gestion_" + year + ".pdf";
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
-            document.open();
-            addMetaData(document, "Indicateurs de gestion");
-            addTitlePage(document);
-            for (int i = 0; i < centreNo.length; i++) {
-                centreVal = centreName[i];
-                yearVal = year;
-                monthVal = "";
-                addPage(document);
-                addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
-                pageNo++;
+                {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC},
+
+                {NOMBRE_DE_PATIENTS, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, NOMBRE_DE_PATIENTS_FFC_PALLIA,
+                        TAUX_PATIENTS_NOMENCLATURE, TAUX_PATIENTS_FORFAITS, TAUX_PATIENTS_FFA, TAUX_PATIENTS_FFB, TAUX_PATIENTS_FFC,
+                        TAUX_ROTATION_PATIENTS, TAUX_PATIENTS_MC_ACCORD, TAUX_PATIENTS_MC_AUTRES, TAUX_PATIENTS_AUTRES_OA},
+
+                {NOMBRE_DE_SOINS, NOMBRE_DE_TOILETTES, NOMBRE_DE_TOILETTES_NOMENCLATURE, NOMBRE_INJECTIONS, NOMBRE_PANSEMENTS, NOMBRE_SOINS_SPECIFIQUES,
+                        NOMBRE_CONSULTATIONS_INFI, NOMBRE_DE_PILULIERS, NOMBRE_DE_SOINS_DIVERS, NOMBRE_AUTRES_SOINS, NOMBRE_DE_SOINS_PAR_VISITE,
+                        TAUX_TOILETTES, TAUX_TOILETTES_NOMENCLATURE, TAUX_INJECTIONS, TAUX_PANSEMENTS, TAUX_SOINS_DIVERS, TAUX_AUTRES_SOINS},
+
+                {}
+        };
+
+        void buildPdf() {
+            try {
+                Document document = new Document();
+                String currentUser = System.getProperty("user.name");
+                String file = "C:/users/" + currentUser + "/Desktop/" +
+                        "Indicateurs_Gestion_" + year + ".pdf";
+                PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                addMetaData(document, "Indicateurs de gestion");
+                addTitlePage(document);
+                conn = database.connect();
+                for (int i = 0; i < centreNo.length; i++) {
+                    centreVal = centreName[i];
+                    yearVal = year;
+                    monthVal = "";
+                    addPage(document);
+                    addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
+                    pageNo++;
+                }
+                document.close();
+                System.out.println("PDF généré avec succès");
+            } catch (Exception e) {
+                ExceptionHandler.switchException(e, this.getClass());
+            } finally {
+                database.close(rs);
+                database.close(ps);
+                database.close(conn);
             }
-            document.close();
-            System.out.println("PDF généré avec succès");
         }
 
         private void addTitlePage(Document document) throws DocumentException {
@@ -463,10 +491,10 @@ public class PdfActivite {
             document.add(preface);
         }
 
-        private void addPage(Document document) throws DocumentException {
+        private void addPage(Document document) throws Exception {
             document.setPageSize(PageSize.A4.rotate());
             Anchor anchor = new Anchor("CENTRE : " + centreName[pageNo], setInterstateFont(16));
-            Chapter chapter = new Chapter(new Paragraph(anchor), pageNo+1);
+            Chapter chapter = new Chapter(new Paragraph(anchor), pageNo + 1);
 
             Paragraph paragraph = new Paragraph();
             addEmptyLine(paragraph, 2);
@@ -475,35 +503,51 @@ public class PdfActivite {
             document.add(chapter);
         }
 
-        private void createTable(Paragraph paragraph) {
-            /* Tableau */
-            PdfPTable table = new PdfPTable(14);
-            String[] monthArray = {"INDICATEURS", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
-                    "Aout", "Septembre", "Octobre", "Novembre", "Décembre", "TOTAL"};
-            // table.setWidths(new int[]{26, 28, 30, 16});
-            table.setWidthPercentage(107);
+        private void createTable(Paragraph paragraph) throws Exception {
+            int columnNo = 1;
+            String[] titleArray = {"TARIFICATION", "VISITES", "PATIENTS", "SOINS", "SUIVI PERSONNEL"};
+            String[] monthArray = {" ", "INDICATEURS", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+                    "Aout", "Septembre", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
 
+            for (int i = 0; i < indicateurArray.length; i++) {
+                // TITLE
+                Paragraph title = new Paragraph(titleArray[i], setInterstateFont(12, "black"));
+                paragraph.add(title);
+                title.setSpacingBefore(12);
+                title.setSpacingAfter(0);
+                addEmptyLine(paragraph, 1);
+
+                PdfPTable table = new PdfPTable(16);
+                table.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3});
+                table.setWidthPercentage(108);
                 // HEADER
-            for (String aMonthArray : monthArray) {
-                PdfPCell title = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(8, "white")));
-                title.setHorizontalAlignment(Element.ALIGN_CENTER);
-                title.setVerticalAlignment(Element.ALIGN_CENTER);
-                title.setBackgroundColor(blueASD);
-                table.addCell(title);
-            }
-            try {
-                conn = database.connect();
+                for (String aMonthArray : monthArray) {
+                    PdfPCell titleCell = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(9, "white")));
+                    titleCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    titleCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    titleCell.setBackgroundColor(BLUE_ASD);
+                    table.addCell(titleCell);
+                }
+                for (int j = 0; j < indicateurArray[i].length; j++) {
+                    System.out.print(indicateurArray[i][j] + "\n");
+                    // COLUMN_NO
+                    PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(columnNo), setInterstateFont(7)));
+                    columnNo++;
+                    numberCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    numberCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(numberCell);
 
-                for (int i = 0; i < indicateurArray.length; i++) {
                     // FIRST_COLUMN
-                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i].toString(), setInterstateFont(8)));
+                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black")));
                     indicateurCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     indicateurCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    indicateurCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(indicateurCell);
 
                     // RESULT CELLS
                     double totalCount = 0;
-                    String query = database.setQuery(indicateurArray[i]);
+                    int rowCounter = 0;
+                    String query = database.setQuery(indicateurArray[i][j]);
                     ps = conn.prepareStatement(query);
                     ps.setString(1, (year + "01"));
                     ps.setString(2, (year + "12"));
@@ -516,26 +560,38 @@ public class PdfActivite {
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         cell.setVerticalAlignment(Element.ALIGN_CENTER);
                         table.addCell(cell);
+                        rowCounter++;
+                    }
+                    while (rowCounter < 12) {
+                        PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9)));
+                        totalCount += 0;
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cell.setVerticalAlignment(Element.ALIGN_CENTER);
+                        table.addCell(cell);
+                        rowCounter++;
                     }
 
                     // TOTAL CELLS
-                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9)));
+                    PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9)));
                     System.out.println("TOTAL ROW :" + totalCount);
+                    System.out.println("----------------");
+                    meanCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    meanCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    meanCell.setBackgroundColor(ORANGE_ASD);
+                    table.addCell(meanCell);
+
+                    // MEAN CELLS
+                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount/12, 2), setInterstateFont(9)));
+                    System.out.println("MEAN ROW :" + totalCount/12);
                     System.out.println("----------------");
                     totalCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     totalCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    totalCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(totalCell);
                 }
                 paragraph.add(table);
-            }catch (Exception e) {
-                ExceptionHandler.switchException(e, this.getClass());
-            } finally {
-                database.close(rs);
-                database.close(ps);
-                database.close(conn);
             }
         }
-
     }
-
 }
+
