@@ -416,7 +416,7 @@ public class Rapports {
 
         Database.Query[][] indicateurArray = {
                 {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS,
-                    DEPLACEMENTS, TICKETS_MODERATEURS, SOINS_DIVERS_ET_CONVENTIONS},
+                        DEPLACEMENTS, TICKETS_MODERATEURS, SOINS_DIVERS_ET_CONVENTIONS},
 
                 {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC},
 
@@ -435,9 +435,12 @@ public class Rapports {
             try {
                 Document document = new Document();
                 String currentUser = System.getProperty("user.name");
-                String file = "C:/users/" + currentUser + "/Desktop/" +
+                final String FILE = "C:/users/" + currentUser + "/Desktop/" +
                         "Indicateurs_Gestion_" + year + ".pdf";
-                PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
+                PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(FILE));
+                // Footer on every pages BUT last of each center
+                FooterPageEvent event = new FooterPageEvent();
+                pdfWriter.setPageEvent(event);
                 document.open();
                 addMetaData(document, "Indicateurs de gestion");
                 addTitlePage(document);
@@ -447,6 +450,7 @@ public class Rapports {
                     yearVal = year;
                     monthVal = "";
                     addPage(document);
+                    // Footer on every last page of each center
                     addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
                     pageNo++;
                 }
@@ -516,7 +520,7 @@ public class Rapports {
                 title.setSpacingBefore(12);
                 title.setSpacingAfter(0);
                 addEmptyLine(paragraph, 1);
-
+                // TABLE
                 PdfPTable table = new PdfPTable(16);
                 table.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3});
                 table.setWidthPercentage(108);
@@ -574,22 +578,35 @@ public class Rapports {
                     // TOTAL CELLS
                     PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9)));
                     System.out.println("TOTAL ROW :" + totalCount);
-                    System.out.println("----------------");
                     meanCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     meanCell.setVerticalAlignment(Element.ALIGN_CENTER);
                     meanCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(meanCell);
 
                     // MEAN CELLS
-                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount/12, 2), setInterstateFont(9)));
-                    System.out.println("MEAN ROW :" + totalCount/12);
-                    System.out.println("----------------");
+                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount / 12, 2), setInterstateFont(9)));
+                    System.out.println("MEAN ROW :" + totalCount / 12);
+                    System.out.println("----------------\n");
                     totalCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     totalCell.setVerticalAlignment(Element.ALIGN_CENTER);
                     totalCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(totalCell);
                 }
                 paragraph.add(table);
+            }
+        }
+    }
+
+    public class FooterPageEvent extends PdfPageEventHelper {
+        @Override
+        public void onEndPage(PdfWriter writer, Document document) {
+            try {
+                if(document.getPageNumber() > 1 && document.getPageNumber() != 4 && document.getPageNumber() != 7
+                        && document.getPageNumber() != 10 && document.getPageNumber() != 13) {
+                    addFooter(writer, SheetOrientation.LANDSCAPE);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

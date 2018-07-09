@@ -55,8 +55,8 @@ public class ControllerPopUpGestion implements Initializable {
 
         new Thread(() -> {
             flag = true;
+            pdf.buildIndicateurDeGestionPdf();
             Platform.runLater(() -> {
-                pdf.buildIndicateurDeGestionPdf();
                 if (flag) {
                     label.setText("PDF généré avec succès");
                     label2.setText("C:/users/" + System.getProperty("user.name") +
