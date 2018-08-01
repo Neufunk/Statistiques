@@ -87,11 +87,16 @@ public class Rapports {
         document.addTitle(title);
         document.addSubject("Statistiques");
         document.addAuthor("Johnathan Vanbeneden");
-        document.addCreator("Johnathan Vanbeneden");
+        document.addCreator("Logiciel Statistiques - Johnathan Vanbeneden");
     }
 
     private String format(double value, int decimal) {
         return String.format("%,." + decimal + "f", value);
+    }
+
+    private void centerContent(PdfPCell cell) {
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
     }
 
     private void addFooter(PdfWriter writer, SheetOrientation sheetOrientation) throws IOException {
@@ -415,20 +420,21 @@ public class Rapports {
         int pageNo = 0;
 
         Database.Query[][] indicateurArray = {
+                // TARIFICATION
                 {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS,
                         DEPLACEMENTS, TICKETS_MODERATEURS, SOINS_DIVERS_ET_CONVENTIONS},
-
+                // VISITES
                 {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC},
-
+                // PATIENTS
                 {NOMBRE_DE_PATIENTS, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, NOMBRE_DE_PATIENTS_FFC_PALLIA,
                         TAUX_PATIENTS_NOMENCLATURE, TAUX_PATIENTS_FORFAITS, TAUX_PATIENTS_FFA, TAUX_PATIENTS_FFB, TAUX_PATIENTS_FFC,
                         TAUX_ROTATION_PATIENTS, TAUX_PATIENTS_MC_ACCORD, TAUX_PATIENTS_MC_AUTRES, TAUX_PATIENTS_AUTRES_OA},
-
+                // SOINS
                 {NOMBRE_DE_SOINS, NOMBRE_DE_TOILETTES, NOMBRE_DE_TOILETTES_NOMENCLATURE, NOMBRE_INJECTIONS, NOMBRE_PANSEMENTS, NOMBRE_SOINS_SPECIFIQUES,
                         NOMBRE_CONSULTATIONS_INFI, NOMBRE_DE_PILULIERS, NOMBRE_DE_SOINS_DIVERS, NOMBRE_AUTRES_SOINS, NOMBRE_DE_SOINS_PAR_VISITE,
                         TAUX_TOILETTES, TAUX_TOILETTES_NOMENCLATURE, TAUX_INJECTIONS, TAUX_PANSEMENTS, TAUX_SOINS_DIVERS, TAUX_AUTRES_SOINS},
-
-                {}
+                // SUIVI DU PERSONNEL
+                {/*Nothing yet*/}
         };
 
         void buildPdf() {
@@ -438,19 +444,22 @@ public class Rapports {
                 final String FILE = "C:/users/" + currentUser + "/Desktop/" +
                         "Indicateurs_Gestion_" + year + ".pdf";
                 PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(FILE));
-                // Footer on every pages BUT last of each center
+                // Footer on every pages BUT last of each center because of a bug
                 FooterPageEvent event = new FooterPageEvent();
                 pdfWriter.setPageEvent(event);
                 document.open();
                 addMetaData(document, "Indicateurs de gestion");
                 addTitlePage(document);
                 conn = database.connect();
+                // Loop to construct pages for every center
                 for (int i = 0; i < centreNo.length; i++) {
                     centreVal = centreName[i];
                     yearVal = year;
                     monthVal = "";
                     addPage(document);
-                    // Footer on every last page of each center
+                    /* Manually add footer on every last page of each center because there is a bug with
+                    /* the FooterPageEvent in iText 5
+                     */
                     addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
                     pageNo++;
                 }
@@ -501,7 +510,7 @@ public class Rapports {
             Chapter chapter = new Chapter(new Paragraph(anchor), pageNo + 1);
 
             Paragraph paragraph = new Paragraph();
-            addEmptyLine(paragraph, 2);
+            addEmptyLine(paragraph, 1);
             createTable(paragraph);
             chapter.add(paragraph);
             document.add(chapter);
@@ -510,8 +519,8 @@ public class Rapports {
         private void createTable(Paragraph paragraph) throws Exception {
             int columnNo = 1;
             String[] titleArray = {"TARIFICATION", "VISITES", "PATIENTS", "SOINS", "SUIVI PERSONNEL"};
-            String[] monthArray = {" ", "INDICATEURS", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
-                    "Aout", "Septembre", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
+            String[] headerArray = {" ", "INDICATEURS", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+                    "Août", "Septembre", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
 
             for (int i = 0; i < indicateurArray.length; i++) {
                 // TITLE
@@ -524,27 +533,26 @@ public class Rapports {
                 PdfPTable table = new PdfPTable(16);
                 table.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3});
                 table.setWidthPercentage(108);
+
                 // HEADER
-                for (String aMonthArray : monthArray) {
+                for (String aMonthArray : headerArray) {
                     PdfPCell titleCell = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(9, "white")));
-                    titleCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    titleCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    centerContent(titleCell);
                     titleCell.setBackgroundColor(BLUE_ASD);
                     table.addCell(titleCell);
                 }
+
                 for (int j = 0; j < indicateurArray[i].length; j++) {
                     System.out.print(indicateurArray[i][j] + "\n");
                     // COLUMN_NO
                     PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(columnNo), setInterstateFont(7)));
                     columnNo++;
-                    numberCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    numberCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    centerContent(numberCell);
                     table.addCell(numberCell);
 
                     // FIRST_COLUMN
                     PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black")));
-                    indicateurCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    indicateurCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    centerContent(indicateurCell);
                     indicateurCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(indicateurCell);
 
@@ -561,16 +569,15 @@ public class Rapports {
                         System.out.println("ROW :" + rs.getDouble("TOTAL"));
                         PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(9)));
                         totalCount += rs.getDouble("TOTAL");
-                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        cell.setVerticalAlignment(Element.ALIGN_CENTER);
+                        centerContent(cell);
                         table.addCell(cell);
                         rowCounter++;
                     }
+                    // Loop to add 0,00 to the row if RS returns less than 12 results.
                     while (rowCounter < 12) {
                         PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9)));
                         totalCount += 0;
-                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        cell.setVerticalAlignment(Element.ALIGN_CENTER);
+                        centerContent(cell);
                         table.addCell(cell);
                         rowCounter++;
                     }
@@ -578,8 +585,7 @@ public class Rapports {
                     // TOTAL CELLS
                     PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9)));
                     System.out.println("TOTAL ROW :" + totalCount);
-                    meanCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    meanCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    centerContent(meanCell);
                     meanCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(meanCell);
 
@@ -587,8 +593,7 @@ public class Rapports {
                     PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount / 12, 2), setInterstateFont(9)));
                     System.out.println("MEAN ROW :" + totalCount / 12);
                     System.out.println("----------------\n");
-                    totalCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    totalCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                    centerContent(totalCell);
                     totalCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(totalCell);
                 }
@@ -601,7 +606,7 @@ public class Rapports {
         @Override
         public void onEndPage(PdfWriter writer, Document document) {
             try {
-                if(document.getPageNumber() > 1 && document.getPageNumber() != 4 && document.getPageNumber() != 7
+                if (document.getPageNumber() > 1 && document.getPageNumber() != 4 && document.getPageNumber() != 7
                         && document.getPageNumber() != 10 && document.getPageNumber() != 13) {
                     addFooter(writer, SheetOrientation.LANDSCAPE);
                 }

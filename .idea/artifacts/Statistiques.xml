@@ -17,7 +17,6 @@
           <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
         </element>
         <element id="module-output" name="Statistiques" />
-        <element id="file-copy" path="$PROJECT_DIR$/src/resources/txt/Changelog.txt" />
       </element>
       <element id="library" level="project" name="itext5-itextpdf-5.5.11" />
       <element id="library" level="project" name="postgresql-42.1.1" />

@@ -155,24 +155,20 @@ public class ControllerContingent implements Initializable {
                         try {
                             st = conn.createStatement();
                             rs = st.executeQuery(sql);
-                            while (rs.next()) {
-                                if (!runningThreadFlag) {
-                                    break;
-                                } else {
-                                    progress += 1;
-                                    String name = rs.getString("prenom");
-                                    String sect = rs.getString("secteur_name");
-                                    String centre = rs.getString("antenne");
-                                    switch (centre) {
-                                        case "Namur":
-                                            iteratorExcel.startIteration(NAMPATH, getCurrentYear(), name, sect, conn);
-                                            progress += 1;
-                                            break;
-                                        case "Philippeville":
-                                            iteratorExcel.startIteration(PHILPATH, getCurrentYear(), name, sect, conn);
-                                            progress += 1;
-                                            break;
-                                    }
+                            while (rs.next() && runningThreadFlag) {
+                                progress += 1;
+                                String name = rs.getString("prenom");
+                                String sect = rs.getString("secteur_name");
+                                String centre = rs.getString("antenne");
+                                switch (centre) {
+                                    case "Namur":
+                                        iteratorExcel.startIteration(NAMPATH, getCurrentYear(), name, sect, conn);
+                                        progress += 1;
+                                        break;
+                                    case "Philippeville":
+                                        iteratorExcel.startIteration(PHILPATH, getCurrentYear(), name, sect, conn);
+                                        progress += 1;
+                                        break;
                                 }
                             }
                         } catch (SQLException e1) {

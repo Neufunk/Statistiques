@@ -170,7 +170,6 @@ public class Menu {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-
     }
 
     public void openContingentPage(){
@@ -246,7 +245,7 @@ public class Menu {
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Coded and designed by JOHNATHAN VANBENEDEN \n" +
                 "Version " + Version.versionNumber + " - Last build " + Version.getCurrentDate() +
-        " - Lines : 11.515 \nSDK 1.8.0_161 - Tested JRE : 1.8.0_151/161/172");
+        " - Lines : 13.306 \nSDK 1.8.0_161 - Tested JRE : 1.8.0_151/161/172");
         alert.show();
     }
 

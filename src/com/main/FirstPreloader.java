@@ -46,9 +46,9 @@ public class FirstPreloader extends Preloader {
     @Override
     public void handleStateChangeNotification(StateChangeNotification evt) {
         try {
-            Thread.sleep(700);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            ExceptionHandler.switchException(e, this.getClass());
         }
         if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
             stage.hide();
