@@ -1,6 +1,9 @@
-# Statistiques
-\
-SDK 1.8.0_151 \
+# Statistiques 
+
+[![Build Status](https://travis-ci.com/Neufunk/Statistiques.svg?branch=master)](https://travis-ci.com/Neufunk/Statistiques)
+[![GitHub version](https://badge.fury.io/gh/Neufunk%2FStatistiques.svg)](https://badge.fury.io/gh/Neufunk%2FStatistiques)
+
+SDK 1.8.0_161 \
 May 05, 2017
 
 ### LIBRARIES :
