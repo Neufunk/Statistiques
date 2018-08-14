@@ -1,7 +1,6 @@
 package main;
 
 import SoinsInfirmiers.Data;
-import SoinsInfirmiers.Rapports;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -245,7 +244,7 @@ public class Menu {
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Coded and designed by JOHNATHAN VANBENEDEN \n" +
                 "Version " + Version.versionNumber + " - Last build " + Version.getCurrentDate() +
-        " - Lines : 13.306 \nSDK 1.8.0_161 - Tested JRE : 1.8.0_151/161/172");
+        " - Lines : 13.318 \nSDK 1.8.0_181 - Supported JRE : 1.8.0_161/172/181");
         alert.show();
     }
 
