@@ -60,6 +60,10 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Outils">
             <MenuItem mnemonicParsing="false" onAction="#openASDB" text="ASDB Engine" />
+         <MenuItem mnemonicParsing="false" onAction="#detectJavaVersion" text="JAVA Version">
+            <accelerator>
+               <KeyCodeCombination alt="UP" code="J" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
          <MenuItem mnemonicParsing="false" onAction="#openConnectionTest" text="Tester les connexions">
             <accelerator>
                <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />

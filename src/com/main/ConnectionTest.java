@@ -47,7 +47,7 @@ public class ConnectionTest {
     @FXML
     private JFXButton closeButton;
 
-    Identification id = new Identification();
+    private Identification id = new Identification();
 
     public void onButtonClick() {
         progressSetVisible();

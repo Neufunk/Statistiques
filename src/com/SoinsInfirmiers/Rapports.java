@@ -15,7 +15,7 @@ import main.ExceptionHandler;
 
 import static SoinsInfirmiers.Database.Query.*;
 
-public class Rapports {
+class Rapports {
 
     private final BaseColor BLUE_ASD = new BaseColor(0, 110, 130);
     private final BaseColor ORANGE_ASD = new BaseColor(254, 246, 233);
@@ -464,6 +464,8 @@ public class Rapports {
                     pageNo++;
                 }
                 document.close();
+                // Set the flag to 'true' to inform ControllerPopUpGestion everything was fine.
+                ControllerPopUpGestion.flag = true;
                 System.out.println("PDF généré avec succès");
             } catch (Exception e) {
                 ExceptionHandler.switchException(e, this.getClass());
@@ -517,7 +519,7 @@ public class Rapports {
         }
 
         private void createTable(Paragraph paragraph) throws Exception {
-            int columnNo = 1;
+            int indicateurNo = 1;
             String[] titleArray = {"TARIFICATION", "VISITES", "PATIENTS", "SOINS", "SUIVI PERSONNEL"};
             String[] headerArray = {" ", "INDICATEURS", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
@@ -545,8 +547,8 @@ public class Rapports {
                 for (int j = 0; j < indicateurArray[i].length; j++) {
                     System.out.print(indicateurArray[i][j] + "\n");
                     // COLUMN_NO
-                    PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(columnNo), setInterstateFont(7)));
-                    columnNo++;
+                    PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(7)));
+                    indicateurNo++;
                     centerContent(numberCell);
                     table.addCell(numberCell);
 
@@ -573,7 +575,7 @@ public class Rapports {
                         table.addCell(cell);
                         rowCounter++;
                     }
-                    // Loop to add 0,00 to the row if RS returns less than 12 results.
+                    // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the year is not complete yet.
                     while (rowCounter < 12) {
                         PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9)));
                         totalCount += 0;

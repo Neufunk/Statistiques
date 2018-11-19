@@ -33,13 +33,14 @@ public class ControllerPopUpGestion implements Initializable {
 
     private final Rapports pdf = new Rapports();
     private static String yearVal;
-    private Boolean flag = false;
+    static Boolean flag = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Data data = new Data();
         comboYear.setItems(data.yearList);
         comboYear.setPromptText(getCurrentDate());
+        yearVal = getCurrentDate();
     }
 
     private String getCurrentDate() {
@@ -54,7 +55,6 @@ public class ControllerPopUpGestion implements Initializable {
         spinner.setVisible(true);
 
         new Thread(() -> {
-            flag = true;
             pdf.buildIndicateurDeGestionPdf();
             Platform.runLater(() -> {
                 if (flag) {

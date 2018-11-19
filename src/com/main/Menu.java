@@ -236,6 +236,15 @@ public class Menu {
         }
     }
 
+    public void detectJavaVersion() {
+        final String JAVA_VERSION = System.getProperty("java.version");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Version de JAVA installée sur le système");
+        alert.setHeaderText("La version de JAVA installée sur votre système et actuellement utilisée par STATISTIQUES est : \nJAVA version " + JAVA_VERSION);
+        alert.setContentText("STATISTIQUES est optimisé pour les versions 8u161/172/181");
+        alert.show();
+    }
+
     public void openAboutWindow() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -243,7 +252,7 @@ public class Menu {
         alert.setHeaderText("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Coded and designed by JOHNATHAN VANBENEDEN \n" +
-                "Version " + Version.versionNumber + " - Last build " + Version.getCurrentDate() +
+                "Version " + Version.versionNumber +
         " - Lines : 13.318 \nSDK 1.8.0_181 - Supported JRE : 1.8.0_161/172/181");
         alert.show();
     }
