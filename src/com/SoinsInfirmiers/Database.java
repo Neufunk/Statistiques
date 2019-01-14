@@ -97,7 +97,7 @@ class Database {
         NOMBRE_DE_PATIENTS_FFA,
         NOMBRE_DE_PATIENTS_FFB,
         NOMBRE_DE_PATIENTS_FFC,
-        NOMBRE_DE_PATIENTS_FFC_PALLIA,
+        NOMBRE_DE_PATIENTS_PALLIA,
         TAUX_PATIENTS_NOMENCLATURE,
         TAUX_PATIENTS_FORFAITS,
         TAUX_PATIENTS_FFA,
@@ -350,7 +350,7 @@ class Database {
                         "    group by PERIODE\n" +
                         "    order by periode";
                 break;
-            case NOMBRE_DE_PATIENTS_FFC_PALLIA:
+            case NOMBRE_DE_PATIENTS_PALLIA:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
                         "    WHERE CODE_REF_NO IN (331) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
                         "    group by PERIODE\n" +
@@ -502,7 +502,7 @@ class Database {
                         "    order by periode";
                 break;
             case NOMBRE_DE_TOILETTES_NOMENCLATURE:
-                query = "    SELECT periode, cee_ref_no, (total_1/total_2)*100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_1+total_2) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (12, 297, 275) Then somme else 0 end) as total_1,\n" +
@@ -586,7 +586,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_TOILETTES:
-                query = "    SELECT periode, cee_ref_no, total_1/total_nbre_soins as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_1/total_nbre_soins)*100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (12, 107, 113, 119, 209, 231, 253, 275, 297) Then somme else 0 end) as total_1,\n" +

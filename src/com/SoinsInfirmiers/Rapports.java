@@ -426,7 +426,7 @@ class Rapports {
                 // VISITES
                 {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC},
                 // PATIENTS
-                {NOMBRE_DE_PATIENTS, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, NOMBRE_DE_PATIENTS_FFC_PALLIA,
+                {NOMBRE_DE_PATIENTS, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, NOMBRE_DE_PATIENTS_PALLIA,
                         TAUX_PATIENTS_NOMENCLATURE, TAUX_PATIENTS_FORFAITS, TAUX_PATIENTS_FFA, TAUX_PATIENTS_FFB, TAUX_PATIENTS_FFC,
                         TAUX_ROTATION_PATIENTS, TAUX_PATIENTS_MC_ACCORD, TAUX_PATIENTS_MC_AUTRES, TAUX_PATIENTS_AUTRES_OA},
                 // SOINS
@@ -552,7 +552,7 @@ class Rapports {
                     centerContent(numberCell);
                     table.addCell(numberCell);
 
-                    // FIRST_COLUMN
+                    // TITLE_COLUMN
                     PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black")));
                     centerContent(indicateurCell);
                     indicateurCell.setBackgroundColor(ORANGE_ASD);
@@ -571,10 +571,12 @@ class Rapports {
                         System.out.println("ROW :" + rs.getDouble("TOTAL"));
                         PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(9)));
                         totalCount += rs.getDouble("TOTAL");
+
                         centerContent(cell);
                         table.addCell(cell);
                         rowCounter++;
                     }
+                    int meanCounter = rowCounter;
                     // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the year is not complete yet.
                     while (rowCounter < 12) {
                         PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9)));
@@ -592,8 +594,8 @@ class Rapports {
                     table.addCell(meanCell);
 
                     // MEAN CELLS
-                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount / 12, 2), setInterstateFont(9)));
-                    System.out.println("MEAN ROW :" + totalCount / 12);
+                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount / meanCounter, 2), setInterstateFont(9)));
+                    System.out.println("MEAN ROW :" + totalCount / meanCounter);
                     System.out.println("----------------\n");
                     centerContent(totalCell);
                     totalCell.setBackgroundColor(ORANGE_ASD);
