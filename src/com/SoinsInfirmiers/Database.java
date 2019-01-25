@@ -276,7 +276,7 @@ class Database {
                         "        ORDER BY periode";
                 break;
             case NOMBRE_DE_VISITE_PAR_FFA:
-                query = "SELECT periode, cee_ref_no, total_1/total_2 as Total \n" +
+                query = "SELECT periode, cee_ref_no, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (8, 205) Then somme else 0 end) as total_1,\n" +
@@ -290,7 +290,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case NOMBRE_DE_VISITE_PAR_FFB:
-                query = "SELECT periode, cee_ref_no, total_1/total_2 as Total \n" +
+                query = "SELECT periode, cee_ref_no, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (9, 227) Then somme else 0 end) as total_1,\n" +
@@ -304,7 +304,7 @@ class Database {
                         "ORDER BY periode\n";
                 break;
             case NOMBRE_DE_VISITE_PAR_FFC:
-                query = "SELECT periode, cee_ref_no, total_1/total_2 as Total \n" +
+                query = "SELECT periode, cee_ref_no, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (10, 249) Then somme else 0 end) as total_1,\n" +
@@ -357,7 +357,7 @@ class Database {
                         "    order by periode";
                 break;
             case TAUX_PATIENTS_NOMENCLATURE:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_nomencl / total_nbre_patients) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_nomencl / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (15) Then somme else 0 end) as total_nbre_nomencl,\n" +
@@ -371,7 +371,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_FORFAITS:
-                query = "    SELECT periode, cee_ref_no, 100 - ((total_nbre_nomencl / total_nbre_patients) * 100) as Total \n" +
+                query = "    SELECT periode, cee_ref_no, 100 - ((total_nbre_nomencl / NULLIF(total_nbre_patients, 0)) * 100) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (15) Then somme else 0 end) as total_nbre_nomencl,\n" +
@@ -385,7 +385,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_FFA:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_a / total_nbre_patients) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_a / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (16) Then somme else 0 end) as total_nbre_forfait_a,\n" +
@@ -399,7 +399,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_FFB:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_b / total_nbre_patients) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_b / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (17) Then somme else 0 end) as total_nbre_forfait_b,\n" +
@@ -413,7 +413,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_FFC:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_c / total_nbre_patients) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_c / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (18) Then somme else 0 end) as total_nbre_forfait_c,\n" +
@@ -427,7 +427,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_ROTATION_PATIENTS:
-                query = "    SELECT periode, cee_ref_no, (total_nvx_patients / total_nbre_patients) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nvx_patients / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (170) Then somme else 0 end) as total_nvx_patients,\n" +
@@ -441,7 +441,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_MC_ACCORD:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_mc_accord/total_nbre_patients) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_mc_accord/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (137, 138, 139, 140) Then somme else 0 end) as total_nbre_patients_mc_accord,\n" +
@@ -455,7 +455,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_MC_AUTRES:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_mc_autres/total_nbre_patients) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_mc_autres/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (141, 142, 143, 144) Then somme else 0 end) as total_nbre_patients_mc_autres,\n" +
@@ -469,7 +469,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_AUTRES_OA:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_autres_oa/total_nbre_patients) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_autres_oa/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (145, 146, 147, 148) Then somme else 0 end) as total_nbre_patients_autres_oa,\n" +
@@ -572,7 +572,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case NOMBRE_DE_SOINS_PAR_VISITE:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_soins/total_nbre_visites) as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_soins/NULLIF(total_nbre_visites, 0)) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (7, 8, 9, 10, 205, 227, 249, 271, 293) Then somme else 0 end) as total_nbre_visites,\n" +
@@ -586,7 +586,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_TOILETTES:
-                query = "    SELECT periode, cee_ref_no, (total_1/total_nbre_soins)*100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_1/NULLIF(total_nbre_soins, 0))*100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (12, 107, 113, 119, 209, 231, 253, 275, 297) Then somme else 0 end) as total_1,\n" +
@@ -600,7 +600,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_TOILETTES_NOMENCLATURE:
-                query = "    SELECT periode, cee_ref_no, (total_1/total_2)*100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_1/NULLIF(total_2, 0))*100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (12, 297, 275) Then somme else 0 end) as total_1,\n" +
@@ -614,7 +614,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_INJECTIONS:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_injections/total_nbre_soins) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_injections/NULLIF(total_nbre_soins, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (102, 108, 114, 120, 210, 232, 254, 276, 298) Then somme else 0 end) as total_nbre_injections,\n" +
@@ -628,7 +628,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PANSEMENTS:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_pansements/total_nbre_soins) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_pansements/NULLIF(total_nbre_soins, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (103, 109, 115, 121, 211, 233, 255, 277, 299) Then somme else 0 end) as total_nbre_pansements,\n" +
@@ -642,7 +642,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_SOINS_DIVERS:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_soins_divers/total_nbre_soins) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, (total_nbre_soins_divers/NULLIF(total_nbre_soins,0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (367) Then somme else 0 end) as total_nbre_soins_divers,\n" +
@@ -656,7 +656,7 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_AUTRES_SOINS:
-                query = "    SELECT periode, cee_ref_no, ((total_soins - total_toilettes - total_injections - total_pansements - total_soins_specif - total_consult_inf - total_pillulier - total_soins_divers) / total_soins) * 100 as Total \n" +
+                query = "    SELECT periode, cee_ref_no, ((total_soins - total_toilettes - total_injections - total_pansements - total_soins_specif - total_consult_inf - total_pillulier - total_soins_divers) / NULLIF(total_soins, 0)) * 100 as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, cee_ref_no, \n" +
                         "    SUM(Case when code_ref_no in (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367) Then somme else 0 end) as total_soins,\n" +

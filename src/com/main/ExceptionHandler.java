@@ -41,7 +41,8 @@ public class ExceptionHandler {
         alert.setTitle(title + " - " + className);
         alert.setHeaderText("ERREUR " + e1 + "\nRENVOYÉ PAR " + className);
         alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e.getStackTrace()) + "\n" +
-                "CAUSE : \t\t\t" + e.getStackTrace().toString() + "\n" + "\t\t");
+                "CAUSE : \t\t\t" + Arrays.toString(e.getStackTrace()) + "\n" + "\t\t");
         alert.showAndWait();
+        System.out.println("AFFICHAGE DE L'ERREUR A L'ECRAN");
     }
 }

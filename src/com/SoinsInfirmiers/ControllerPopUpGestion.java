@@ -32,7 +32,7 @@ public class ControllerPopUpGestion implements Initializable {
     private Label label3;
 
     private final Rapports pdf = new Rapports();
-    private static String yearVal;
+    private static String yearStr;
     static Boolean flag = false;
 
     @Override
@@ -40,7 +40,7 @@ public class ControllerPopUpGestion implements Initializable {
         Data data = new Data();
         comboYear.setItems(data.yearList);
         comboYear.setPromptText(getCurrentDate());
-        yearVal = getCurrentDate();
+        yearStr = getCurrentDate();
     }
 
     private String getCurrentDate() {
@@ -60,7 +60,7 @@ public class ControllerPopUpGestion implements Initializable {
                 if (flag) {
                     label.setText("PDF généré avec succès");
                     label2.setText("C:/users/" + System.getProperty("user.name") +
-                            "/Desktop/Indicateurs_Gestion_" + yearVal + ".pdf");
+                            "/Desktop/Indicateurs_Gestion_" + yearStr + ".pdf");
                 } else {
                     label.setText("Erreur lors de la génération du rapport PDF");
                 }
@@ -75,12 +75,11 @@ public class ControllerPopUpGestion implements Initializable {
     }
 
     public void onComboSelection(){
-        yearVal = String.valueOf(comboYear.getValue());
-        System.out.print(yearVal);
+        yearStr = String.valueOf(comboYear.getValue());
+        System.out.print(yearStr);
     }
 
-    String getYearVal() {
-        return yearVal;
+    String getYearStr() {
+        return yearStr;
     }
-
 }

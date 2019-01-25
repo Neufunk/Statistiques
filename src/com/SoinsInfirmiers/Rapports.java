@@ -19,6 +19,8 @@ class Rapports {
 
     private final BaseColor BLUE_ASD = new BaseColor(0, 110, 130);
     private final BaseColor ORANGE_ASD = new BaseColor(254, 246, 233);
+    private final BaseColor GREEN_ASD = new BaseColor(236, 244, 215);
+    private final BaseColor LIGHT_RED = new BaseColor(255, 230, 230);
     final double[] answerArr = new double[26];
     final double[] answerArrFileB = new double[3];
     private String centreVal;
@@ -30,7 +32,7 @@ class Rapports {
         LANDSCAPE
     }
 
-    private Font setInterstateFont(int size, String color) {
+    private Font setInterstateFont(int size, String color, String weight) {
         BaseFont baseFont;
         Font interstate = null;
         try {
@@ -51,8 +53,17 @@ class Rapports {
                     interstate.setColor(BaseColor.BLACK);
                     break;
             }
+            if ("bold".equals(weight)) {
+                interstate.setStyle(Font.BOLD);
+            } else {
+                interstate.setStyle(Font.NORMAL);
+            }
         }
         return interstate;
+    }
+
+    private Font setInterstateFont(int size, String color) {
+        return setInterstateFont(size, color, "normal");
     }
 
     private Font setInterstateFont(int size) {
@@ -414,7 +425,8 @@ class Rapports {
         Connection conn;
         PreparedStatement ps;
         ResultSet rs;
-        String year = controllerPopUpGestion.getYearVal();
+        String year = controllerPopUpGestion.getYearStr();
+        int yearInt = Integer.parseInt(year);
         String[] centreName = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur"};
         int[] centreNo = {902, 913, 923, 931, 961};
         int pageNo = 0;
@@ -497,7 +509,7 @@ class Rapports {
             Paragraph details = new Paragraph("Rapport généré par: " + System.getProperty("user.name") + ", " + new Date(),
                     setInterstateFont(10));
             details.setAlignment(Element.ALIGN_RIGHT);
-            preface.add(details);
+            preface.add(details); // Ajoute le paragraphe 'details' à la page de garde
             Paragraph periode = new Paragraph(year, setInterstateFont(18));
             periode.setAlignment(Element.ALIGN_CENTER);
             addEmptyLine(preface, 5);
@@ -521,8 +533,8 @@ class Rapports {
         private void createTable(Paragraph paragraph) throws Exception {
             int indicateurNo = 1;
             String[] titleArray = {"TARIFICATION", "VISITES", "PATIENTS", "SOINS", "SUIVI PERSONNEL"};
-            String[] headerArray = {" ", "INDICATEURS", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
-                    "Août", "Septembre", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
+            String[] headerArray = {" ", "INDICATEURS", "MOY. "+ (yearInt-1), "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+                    "Août", "Sept.", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
 
             for (int i = 0; i < indicateurArray.length; i++) {
                 // TITLE
@@ -532,13 +544,13 @@ class Rapports {
                 title.setSpacingAfter(0);
                 addEmptyLine(paragraph, 1);
                 // TABLE
-                PdfPTable table = new PdfPTable(16);
-                table.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3});
+                PdfPTable table = new PdfPTable(17); // Init value 16
+                table.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3}); // init value {1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3}
                 table.setWidthPercentage(108);
 
                 // HEADER
                 for (String aMonthArray : headerArray) {
-                    PdfPCell titleCell = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(9, "white")));
+                    PdfPCell titleCell = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(9, "white"))); // font size 9
                     centerContent(titleCell);
                     titleCell.setBackgroundColor(BLUE_ASD);
                     table.addCell(titleCell);
@@ -547,21 +559,41 @@ class Rapports {
                 for (int j = 0; j < indicateurArray[i].length; j++) {
                     System.out.print(indicateurArray[i][j] + "\n");
                     // COLUMN_NO
-                    PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(7)));
+                    PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(8)));
                     indicateurNo++;
                     centerContent(numberCell);
                     table.addCell(numberCell);
 
                     // TITLE_COLUMN
-                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black")));
+                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black", "bold"))); // size font 7
                     centerContent(indicateurCell);
                     indicateurCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(indicateurCell);
 
-                    // RESULT CELLS
+                    // LAST YEAR MEAN CELLS
                     double totalCount = 0;
-                    int rowCounter = 0;
                     String query = database.setQuery(indicateurArray[i][j]);
+                    ps = conn.prepareStatement(query);
+                    ps.setString(1, (yearInt-1 + "01"));
+                    ps.setString(2, (yearInt-1 + "12"));
+                    ps.setInt(3, (centreNo[pageNo]));
+                    rs = ps.executeQuery();
+                    while (rs.next()) {
+                        totalCount += rs.getDouble("TOTAL");
+                    }
+                    double lastYearMean = totalCount/12;
+                    PdfPCell lastYearMeanCell = new PdfPCell(new Phrase(format(lastYearMean, 2), setInterstateFont(8)));
+                    System.out.println("MOYENNE PRÉCÉDENTE : " + totalCount/12);
+                    lastYearMeanCell.setBackgroundColor(ORANGE_ASD);
+                    centerContent(lastYearMeanCell);
+                    table.addCell(lastYearMeanCell);
+                    rs.close();
+                    ps.close();
+
+                    // RESULT CELLS
+                    totalCount = 0;
+                    int rowCounter = 0;
+                    query = database.setQuery(indicateurArray[i][j]);
                     ps = conn.prepareStatement(query);
                     ps.setString(1, (year + "01"));
                     ps.setString(2, (year + "12"));
@@ -569,7 +601,7 @@ class Rapports {
                     rs = ps.executeQuery();
                     while (rs.next()) {
                         System.out.println("ROW :" + rs.getDouble("TOTAL"));
-                        PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(9)));
+                        PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(8))); // font size 9
                         totalCount += rs.getDouble("TOTAL");
 
                         centerContent(cell);
@@ -579,7 +611,7 @@ class Rapports {
                     int meanCounter = rowCounter;
                     // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the year is not complete yet.
                     while (rowCounter < 12) {
-                        PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9)));
+                        PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9))); // font size 9
                         totalCount += 0;
                         centerContent(cell);
                         table.addCell(cell);
@@ -587,19 +619,25 @@ class Rapports {
                     }
 
                     // TOTAL CELLS
-                    PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9)));
+                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9))); // font size 9
                     System.out.println("TOTAL ROW :" + totalCount);
-                    centerContent(meanCell);
-                    meanCell.setBackgroundColor(ORANGE_ASD);
-                    table.addCell(meanCell);
-
-                    // MEAN CELLS
-                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount / meanCounter, 2), setInterstateFont(9)));
-                    System.out.println("MEAN ROW :" + totalCount / meanCounter);
-                    System.out.println("----------------\n");
                     centerContent(totalCell);
                     totalCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(totalCell);
+
+                    // MEAN CELLS
+                    PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount / meanCounter, 2), setInterstateFont(8))); // font size 9
+                    System.out.println("MEAN ROW :" + totalCount / meanCounter);
+                    System.out.println("----------------\n");
+                    centerContent(meanCell);
+                    if (lastYearMean < totalCount/meanCounter && meanCounter >= 12) {
+                        meanCell.setBackgroundColor(GREEN_ASD);
+                    } else if (lastYearMean > totalCount/meanCounter && meanCounter >= 12) {
+                        meanCell.setBackgroundColor(LIGHT_RED);
+                    } else {
+                        meanCell.setBackgroundColor(ORANGE_ASD);
+                    }
+                    table.addCell(meanCell);
                 }
                 paragraph.add(table);
             }
