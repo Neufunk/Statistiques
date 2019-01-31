@@ -2,7 +2,8 @@ package main;
 
 import javafx.scene.control.Alert;
 
-import java.util.Arrays;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class ExceptionHandler {
 
@@ -35,14 +36,14 @@ public class ExceptionHandler {
     }
 
     private static void displayError(String title, Exception e, String className) {
+        StringWriter error = new StringWriter();
+        e.printStackTrace(new PrintWriter(error));
         e.printStackTrace();
         String e1 = e.toString();
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title + " - " + className);
         alert.setHeaderText("ERREUR " + e1 + "\nRENVOYÉ PAR " + className);
-        alert.setContentText("STACKTRACE : \t\t" + Arrays.toString(e.getStackTrace()) + "\n" +
-                "CAUSE : \t\t\t" + Arrays.toString(e.getStackTrace()) + "\n" + "\t\t");
+        alert.setContentText("STACKTRACE \n" + error.toString() + "\n");
         alert.showAndWait();
-        System.out.println("AFFICHAGE DE L'ERREUR A L'ECRAN");
     }
 }

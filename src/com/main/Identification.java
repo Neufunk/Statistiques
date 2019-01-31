@@ -6,7 +6,7 @@ import java.util.Properties;
 public class Identification {
 
     public enum info {
-        D03_URL, D03_USER, D03_PASSWD,
+        D03_URL, D03_USER, D03_PASSWD, D03_DRIVER,
         D015_URL, D015_USER, D015_PASSWD,
         D615_URL, D615_USER, D615_PASSWD
     }
@@ -23,6 +23,9 @@ public class Identification {
                 break;
             case D03_PASSWD:
                 answer = prop.getProperty("D03_PASSWD", "vide");
+                break;
+            case D03_DRIVER:
+                answer = prop.getProperty("D03_DRIVER", "vide");
                 break;
             case D015_URL:
                 answer = prop.getProperty("D015_URL", "vide");

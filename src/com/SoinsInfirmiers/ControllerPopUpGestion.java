@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import main.ExceptionHandler;
 import main.Menu;
 
 import java.net.URL;
@@ -34,6 +35,7 @@ public class ControllerPopUpGestion implements Initializable {
     private final Rapports pdf = new Rapports();
     private static String yearStr;
     static Boolean flag = false;
+    private static Exception error;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,6 +65,7 @@ public class ControllerPopUpGestion implements Initializable {
                             "/Desktop/Indicateurs_Gestion_" + yearStr + ".pdf");
                 } else {
                     label.setText("Erreur lors de la génération du rapport PDF");
+                    ExceptionHandler.switchException(error, this.getClass());
                 }
                 spinner.setVisible(false);
                 closeButton.setVisible(true);
@@ -81,5 +84,9 @@ public class ControllerPopUpGestion implements Initializable {
 
     String getYearStr() {
         return yearStr;
+    }
+
+    static void setError(Exception e) {
+        error = e;
     }
 }

@@ -434,7 +434,7 @@ class Rapports {
         Database.Query[][] indicateurArray = {
                 // TARIFICATION
                 {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS,
-                        DEPLACEMENTS, TICKETS_MODERATEURS, SOINS_DIVERS_ET_CONVENTIONS},
+                        DEPLACEMENTS, TICKETS_MODERATEURS, SOINS_DIVERS_ET_CONVENTIONS, RECETTE_OA_PAR_VISITE, RECETTE_OA_PAR_J_AVEC_SOINS},
                 // VISITES
                 {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC},
                 // PATIENTS
@@ -480,7 +480,7 @@ class Rapports {
                 ControllerPopUpGestion.flag = true;
                 System.out.println("PDF généré avec succès");
             } catch (Exception e) {
-                ExceptionHandler.switchException(e, this.getClass());
+                ControllerPopUpGestion.setError(e);
             } finally {
                 database.close(rs);
                 database.close(ps);
@@ -533,7 +533,7 @@ class Rapports {
         private void createTable(Paragraph paragraph) throws Exception {
             int indicateurNo = 1;
             String[] titleArray = {"TARIFICATION", "VISITES", "PATIENTS", "SOINS", "SUIVI PERSONNEL"};
-            String[] headerArray = {" ", "INDICATEURS", "MOY. "+ (yearInt-1), "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+            String[] headerArray = {" ", "INDICATEURS", "MOY."+ (yearInt-1), "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Sept.", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
 
             for (int i = 0; i < indicateurArray.length; i++) {

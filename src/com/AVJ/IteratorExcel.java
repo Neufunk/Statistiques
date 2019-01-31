@@ -2,6 +2,7 @@ package AVJ;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.ExceptionHandler;
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
@@ -47,6 +48,7 @@ class IteratorExcel extends ControllerContingent {
         secteurLabel = fileName + secteur;
         textField.setText(secteurLabel);
         ZipSecureFile.setMinInflateRatio(0); // Ratio to avoid Java Zip-Bombs block
+
         try {
             iterateContingent(path, year, firstName, secteur, fileName, connection);
             iteratePotDepartConges(path, year, firstName, secteur, fileName, connection);
@@ -56,7 +58,7 @@ class IteratorExcel extends ControllerContingent {
             addShell("#" + sectorCount + "/21 - " + fileName + secteur + " - MIS À JOUR");
             progress += 1;
         } catch (Exception e) {
-            progress+=2;
+            progress += 2;
             sectorCount++;
             addShell("!!! - #" + sectorCount + "/21 - " + fileName + secteur + " - NON MIS À JOUR >> " + e.getMessage());
             e.printStackTrace();
@@ -67,6 +69,7 @@ class IteratorExcel extends ControllerContingent {
     private void iterateContingent(String path, String year, String firstName, String secteur, String fileName, Connection connection) throws Exception {
         int indicateursCount = 0;
         int periodeCount = 0;
+        //TODO : Blocage à ce niveau
         Workbook workbook = WorkbookFactory.create(new File(path + year + "\\" + firstName + "\\" + fileName + secteur + ".xlsm"));
         Sheet selectionSheet = workbook.getSheet("Contingent");
         for (int i = 0; i < cellTab.length; i++) {
@@ -107,7 +110,7 @@ class IteratorExcel extends ControllerContingent {
                 result += cell.getNumericCellValue();
             }
             database.updatePotDepartConges(connection, getCurrentYear(), secteur, result);
-            progress+=1;
+            progress += 1;
         }
         System.out.println("#" + sectorCount + ". " + fileName + secteur + " - Pot Départ Congés : " + result);
         closeWorkbook(workbook);
@@ -128,8 +131,8 @@ class IteratorExcel extends ControllerContingent {
                     result += cell.getNumericCellValue();
                 }
             }
-            System.out.println("#" + sectorCount + ". " + fileName + secteur + " - " + Arrays.copyOf(mois, mois.length-1)[i] + " - " + "Conges Pris : " + result);
-            database.updateCongesPris(connection, getCurrentYear(), Arrays.copyOf(mois, mois.length-1)[i], secteur, result );
+            System.out.println("#" + sectorCount + ". " + fileName + secteur + " - " + Arrays.copyOf(mois, mois.length - 1)[i] + " - " + "Conges Pris : " + result);
+            database.updateCongesPris(connection, getCurrentYear(), Arrays.copyOf(mois, mois.length - 1)[i], secteur, result);
             result = 0;
             if (rowArr[1] < 437) {
                 rowArr[0] += 33;
@@ -145,9 +148,9 @@ class IteratorExcel extends ControllerContingent {
         double result = 0;
         Workbook workbook = WorkbookFactory.create(new File(path + year + "\\" + firstName + "\\" + fileName + secteur + ".xlsm"));
         Sheet selectionSheet = workbook.getSheet("Compteurs");
-        for(int i = rowArr[0]; i <= rowArr[1]; i++){
+        for (int i = rowArr[0]; i <= rowArr[1]; i++) {
             String line = String.valueOf(i);
-            CellReference cellReference = new CellReference(column+line);
+            CellReference cellReference = new CellReference(column + line);
             Row row = selectionSheet.getRow(cellReference.getRow());
             Cell cell = row.getCell(cellReference.getCol());
             result += cell.getNumericCellValue();

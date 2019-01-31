@@ -1,5 +1,15 @@
 ﻿CHANGELOG
 ---------
+Patchnote = version 1.4.1 - 28/01/2019
+  GENERAL
+  - Création et ajout de l'outil 'Vérifier ma version de JAVA'.
+  - Ajout d'un log de connexion (31/01/2019)
+  INDICATEURS DE GESTION
+  - Ajout de la 'Moyenne année précédente'.
+  - Modifications des requêtes SQL avec NULLIF pour gérer les années antérieures.
+  - Couleur de la case 'MOYENNE' variable en fonction des résultats d'entreprise annuels.
+
+
 Patchnote-1.4 - 09/07/2018 MAJ 15/01/2019
   - Ajout du rapport d'indicateurs de gestion.
   - Ajout du footer sur chaque page du rapport de gestion.
