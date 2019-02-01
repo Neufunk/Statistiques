@@ -162,12 +162,10 @@ public class ControllerContingent implements Initializable {
                                 String centre = rs.getString("antenne");
                                 switch (centre) {
                                     case "Namur":
-                                        System.out.println("Debut de l'itération");
                                         iteratorExcel.startIteration(NAMPATH, getCurrentYear(), name, sect, conn);
                                         progress += 1;
                                         break;
                                     case "Philippeville":
-                                        System.out.println("Debut de l'itération");
                                         iteratorExcel.startIteration(PHILPATH, getCurrentYear(), name, sect, conn);
                                         progress += 1;
                                         break;

@@ -2,10 +2,10 @@ package AVJ;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.ExceptionHandler;
-import org.apache.poi.hssf.util.CellReference;
+
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellReference;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,7 +69,6 @@ class IteratorExcel extends ControllerContingent {
     private void iterateContingent(String path, String year, String firstName, String secteur, String fileName, Connection connection) throws Exception {
         int indicateursCount = 0;
         int periodeCount = 0;
-        //TODO : Blocage à ce niveau
         Workbook workbook = WorkbookFactory.create(new File(path + year + "\\" + firstName + "\\" + fileName + secteur + ".xlsm"));
         Sheet selectionSheet = workbook.getSheet("Contingent");
         for (int i = 0; i < cellTab.length; i++) {

@@ -30,6 +30,9 @@ public class ExceptionHandler {
             case "java.lang.IllegalStateException":
                 displayError("Illegal State", exception, className);
                 break;
+            case "java.io.IOException":
+                displayError("IOException", exception, className);
+                break;
             default:
                 displayError("Erreur inconnue", exception, className);
         }

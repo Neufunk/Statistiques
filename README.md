@@ -12,14 +12,17 @@ May 05, 2017
 - iText
     - itext5-itextpdf-5.5.11
 - Apache POI
-     - poi 3.16
-     - poi-ooxml-3.16
-     - commons-collextion 4.4.1
-     - poi-ooxml-schemas-3.16
+     - poi 4.0.1
+     - poi-ooxml-4.0.1
+     - commons-collections4.4.2
+     - poi-ooxml-schemas-4.0.1
+     - commons-compress-1.18
 - PostgreSQL
     - postgresql-42.1.1
 - XMLBeans
-    - xmlbeans-2.6.0
+    - xmlbeans-3.0.1
+ - Oracle JDBC Driver
+     - ojdbc6
     
 All the above .JAR are included in the project /lib folder.
 
