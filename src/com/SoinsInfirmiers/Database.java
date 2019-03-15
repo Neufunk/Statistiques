@@ -9,6 +9,7 @@ class Database {
 
     private Connection conn;
     private Identification id = new Identification();
+    private String query = "";
 
     Connection connect() {
         try {
@@ -155,11 +156,9 @@ class Database {
         KM_PARCOURUS_PAR_VISITE
 
 
-
     }
 
     String setQuery(Query queryName) {
-        String query = "";
         switch (queryName) {
             case VISITES_PAR_CENTRE:
                 query = "SELECT COALESCE( TO_CHAR( Center ), 'ALL' ) AS Centre,\n" +
@@ -271,214 +270,214 @@ class Database {
                         "        FROM V_STAT_NAMUR\n" +
                         "        WHERE CODE_REF_NO IN (7, 8, 9, 10, 205, 227, 249, 271, 293)\n" +
                         "        AND periode BETWEEN ? AND ?\n" +
-                        "        AND cee_ref_no = ?\n" +
+                        "        AND cee_ref_no LIKE ?\n" +
                         "        GROUP BY periode\n" +
                         "        ORDER BY periode";
                 break;
             case NOMBRE_DE_VISITE_PAR_FFA:
-                query = "SELECT periode, cee_ref_no, total_1/NULLIF(total_2, 0) as Total \n" +
+                query = "SELECT periode, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (8, 205) Then somme else 0 end) as total_1,\n" +
                         "    SUM(Case when code_ref_no in (20, 200) Then somme else 0 end) as total_2\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (8, 20, 200, 205)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode \n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case NOMBRE_DE_VISITE_PAR_FFB:
-                query = "SELECT periode, cee_ref_no, total_1/NULLIF(total_2, 0) as Total \n" +
+                query = "SELECT periode, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (9, 227) Then somme else 0 end) as total_1,\n" +
                         "    SUM(Case when code_ref_no in (21, 222) Then somme else 0 end) as total_2\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (9, 21, 222, 227)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode \n" +
                         ")\n" +
                         "ORDER BY periode\n";
                 break;
             case NOMBRE_DE_VISITE_PAR_FFC:
-                query = "SELECT periode, cee_ref_no, total_1/NULLIF(total_2, 0) as Total \n" +
+                query = "SELECT periode, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (10, 249) Then somme else 0 end) as total_1,\n" +
                         "    SUM(Case when code_ref_no in (22, 244) Then somme else 0 end) as total_2\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (10, 22, 244, 249)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode \n" +
                         ")\n" +
                         "ORDER BY periode\n";
                 break;
             case NOMBRE_DE_PATIENTS:
-                query = "SELECT SUM(SOMME) AS Total, periode, cee_ref_no FROM V_STAT_NAMUR \n" +
+                query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
                         "WHERE CODE_REF_NO IN (23, 24) " +
                         "AND periode BETWEEN ? AND ?\n" +
-                        "AND CEE_REF_NO = ?\n" +
-                        "group by periode, cee_ref_no\n" +
+                        "AND cee_ref_no LIKE ?\n" +
+                        "group by periode \n" +
                         "order by periode";
                 break;
             case NOMBRE_DE_PATIENTS_NOMENCLATURE:
                 query = "    SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
                         "    WHERE CODE_REF_NO IN (15) AND periode BETWEEN ? AND ?" +
-                        "    AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "    AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "    group by PERIODE\n" +
                         "    order by periode";
                 break;
             case NOMBRE_DE_PATIENTS_FFA:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "    WHERE CODE_REF_NO IN (16) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "    WHERE CODE_REF_NO IN (16) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "    group by PERIODE\n" +
                         "    order by periode";
                 break;
             case NOMBRE_DE_PATIENTS_FFB:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "    WHERE CODE_REF_NO IN (17) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "    WHERE CODE_REF_NO IN (17) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "    group by PERIODE\n" +
                         "    order by periode";
                 break;
             case NOMBRE_DE_PATIENTS_FFC:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "    WHERE CODE_REF_NO IN (18) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "    WHERE CODE_REF_NO IN (18) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "    group by PERIODE\n" +
                         "    order by periode";
                 break;
             case NOMBRE_DE_PATIENTS_PALLIA:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "    WHERE CODE_REF_NO IN (331) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "    WHERE CODE_REF_NO IN (331) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "    group by PERIODE\n" +
                         "    order by periode";
                 break;
             case TAUX_PATIENTS_NOMENCLATURE:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_nomencl / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_nomencl / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (15) Then somme else 0 end) as total_nbre_nomencl,\n" +
                         "    SUM(Case when code_ref_no in (23, 24) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (15, 23, 24)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode \n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_FORFAITS:
-                query = "    SELECT periode, cee_ref_no, 100 - ((total_nbre_nomencl / NULLIF(total_nbre_patients, 0)) * 100) as Total \n" +
+                query = "    SELECT periode, 100 - ((total_nbre_nomencl / NULLIF(total_nbre_patients, 0)) * 100) as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode,  \n" +
                         "    SUM(Case when code_ref_no in (15) Then somme else 0 end) as total_nbre_nomencl,\n" +
                         "    SUM(Case when code_ref_no in (23, 24) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (15, 23, 24)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_FFA:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_a / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_forfait_a / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (16) Then somme else 0 end) as total_nbre_forfait_a,\n" +
                         "    SUM(Case when code_ref_no in (23, 24) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (16, 23, 24)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_FFB:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_b / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_forfait_b / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (17) Then somme else 0 end) as total_nbre_forfait_b,\n" +
                         "    SUM(Case when code_ref_no in (23, 24) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (17, 23, 24)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_FFC:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_forfait_c / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_forfait_c / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode,  \n" +
                         "    SUM(Case when code_ref_no in (18) Then somme else 0 end) as total_nbre_forfait_c,\n" +
                         "    SUM(Case when code_ref_no in (23, 24) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (18, 23, 24)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_ROTATION_PATIENTS:
-                query = "    SELECT periode, cee_ref_no, (total_nvx_patients / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nvx_patients / NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (170) Then somme else 0 end) as total_nvx_patients,\n" +
                         "    SUM(Case when code_ref_no in (23, 24) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (170, 23, 24)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_MC_ACCORD:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_mc_accord/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_patients_mc_accord/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (137, 138, 139, 140) Then somme else 0 end) as total_nbre_patients_mc_accord,\n" +
                         "    SUM(Case when code_ref_no in (137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_MC_AUTRES:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_mc_autres/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_patients_mc_autres/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (141, 142, 143, 144) Then somme else 0 end) as total_nbre_patients_mc_autres,\n" +
                         "    SUM(Case when code_ref_no in (137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_AUTRES_OA:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_patients_autres_oa/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_patients_autres_oa/NULLIF(total_nbre_patients, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (145, 146, 147, 148) Then somme else 0 end) as total_nbre_patients_autres_oa,\n" +
                         "    SUM(Case when code_ref_no in (137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148) Then somme else 0 end) as total_nbre_patients\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
@@ -490,71 +489,71 @@ class Database {
                         "234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301," +
                         " 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367)\n" +
                         "AND periode BETWEEN ? AND ? " +
-                        "AND CEE_REF_NO = ?\n" +
+                        "AND cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by periode\n";
                 break;
             case NOMBRE_DE_TOILETTES:
                 query = "    SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
                         "    WHERE CODE_REF_NO IN (12, 107, 113, 119, 209, 231, 253, 275, 297)\n" +
-                        "    AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "    AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "    group by PERIODE\n" +
                         "    order by periode";
                 break;
             case NOMBRE_DE_TOILETTES_NOMENCLATURE:
-                query = "    SELECT periode, cee_ref_no, (total_1+total_2) as Total \n" +
+                query = "    SELECT periode, (total_1+total_2) as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (12, 297, 275) Then somme else 0 end) as total_1,\n" +
                         "    SUM(Case when code_ref_no in (12, 107, 113, 119, 209, 231, 253, 275, 297) Then somme else 0 end) as total_2\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (12, 107, 113, 119, 209, 231, 253, 275, 297)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode \n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case NOMBRE_INJECTIONS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (102, 108, 114, 120, 210, 232, 254, 276, 298) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (102, 108, 114, 120, 210, 232, 254, 276, 298) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by periode";
                 break;
             case NOMBRE_PANSEMENTS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (103, 109, 115, 121, 211, 233, 255, 277, 299) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (103, 109, 115, 121, 211, 233, 255, 277, 299) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by periode";
                 break;
             case NOMBRE_SOINS_SPECIFIQUES:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (14) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (14) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by periode";
                 break;
             case NOMBRE_CONSULTATIONS_INFI:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (354) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (354) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by periode";
                 break;
             case NOMBRE_DE_PILULIERS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (365) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (365) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by periode";
                 break;
             case NOMBRE_DE_SOINS_DIVERS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (367) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (367) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by periode";
                 break;
             case NOMBRE_AUTRES_SOINS:
-                query = "    SELECT periode, cee_ref_no, total_soins - total_toilettes - total_injections - total_pansements - total_soins_specif - total_consult_inf - total_pillulier - total_soins_divers as Total \n" +
+                query = "    SELECT periode, total_soins - total_toilettes - total_injections - total_pansements - total_soins_specif - total_consult_inf - total_pillulier - total_soins_divers as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367) Then somme else 0 end) as total_soins,\n" +
                         "    SUM(Case when code_ref_no in (12, 107, 113, 119, 209, 231, 253, 275, 297) Then somme else 0 end) as total_toilettes,\n" +
                         "    SUM(Case when code_ref_no in (102, 108, 114, 120, 210, 232, 254, 276, 298) Then somme else 0 end) as total_injections,\n" +
@@ -566,99 +565,99 @@ class Database {
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (12, 14, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case NOMBRE_DE_SOINS_PAR_VISITE:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_soins/NULLIF(total_nbre_visites, 0)) as Total \n" +
+                query = "    SELECT periode, (total_nbre_soins/NULLIF(total_nbre_visites, 0)) as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (7, 8, 9, 10, 205, 227, 249, 271, 293) Then somme else 0 end) as total_nbre_visites,\n" +
                         "    SUM(Case when code_ref_no in (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367) Then somme else 0 end) as total_nbre_soins\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (7, 8, 9, 10, 205, 227, 249, 271, 293, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_TOILETTES:
-                query = "    SELECT periode, cee_ref_no, (total_1/NULLIF(total_nbre_soins, 0))*100 as Total \n" +
+                query = "    SELECT periode,(total_1/NULLIF(total_nbre_soins, 0))*100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (12, 107, 113, 119, 209, 231, 253, 275, 297) Then somme else 0 end) as total_1,\n" +
                         "    SUM(Case when code_ref_no in (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367) Then somme else 0 end) as total_nbre_soins\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (12, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_TOILETTES_NOMENCLATURE:
-                query = "    SELECT periode, cee_ref_no, (total_1/NULLIF(total_2, 0))*100 as Total \n" +
+                query = "    SELECT periode, (total_1/NULLIF(total_2, 0))*100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (12, 297, 275) Then somme else 0 end) as total_1,\n" +
                         "    SUM(Case when code_ref_no in (12, 107, 113, 119, 209, 231, 253, 275, 297) Then somme else 0 end) as total_2\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (12, 107, 113, 119, 209, 231, 253, 275, 297)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_INJECTIONS:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_injections/NULLIF(total_nbre_soins, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_injections/NULLIF(total_nbre_soins, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (102, 108, 114, 120, 210, 232, 254, 276, 298) Then somme else 0 end) as total_nbre_injections,\n" +
                         "    SUM(Case when code_ref_no in (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367) Then somme else 0 end) as total_nbre_soins\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_PANSEMENTS:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_pansements/NULLIF(total_nbre_soins, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_pansements/NULLIF(total_nbre_soins, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (103, 109, 115, 121, 211, 233, 255, 277, 299) Then somme else 0 end) as total_nbre_pansements,\n" +
                         "    SUM(Case when code_ref_no in (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367) Then somme else 0 end) as total_nbre_soins\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_SOINS_DIVERS:
-                query = "    SELECT periode, cee_ref_no, (total_nbre_soins_divers/NULLIF(total_nbre_soins,0)) * 100 as Total \n" +
+                query = "    SELECT periode, (total_nbre_soins_divers/NULLIF(total_nbre_soins,0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (367) Then somme else 0 end) as total_nbre_soins_divers,\n" +
                         "    SUM(Case when code_ref_no in (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367) Then somme else 0 end) as total_nbre_soins\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             case TAUX_AUTRES_SOINS:
-                query = "    SELECT periode, cee_ref_no, ((total_soins - total_toilettes - total_injections - total_pansements - total_soins_specif - total_consult_inf - total_pillulier - total_soins_divers) / NULLIF(total_soins, 0)) * 100 as Total \n" +
+                query = "    SELECT periode, ((total_soins - total_toilettes - total_injections - total_pansements - total_soins_specif - total_consult_inf - total_pillulier - total_soins_divers) / NULLIF(total_soins, 0)) * 100 as Total \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367) Then somme else 0 end) as total_soins,\n" +
                         "    SUM(Case when code_ref_no in (12, 107, 113, 119, 209, 231, 253, 275, 297) Then somme else 0 end) as total_toilettes,\n" +
                         "    SUM(Case when code_ref_no in (102, 108, 114, 120, 210, 232, 254, 276, 298) Then somme else 0 end) as total_injections,\n" +
@@ -670,90 +669,220 @@ class Database {
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (12, 14, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 12, 209, 210, 211, 212, 213, 214, 231, 232, 233, 234, 235, 236, 253, 254, 255, 256, 257, 258, 275, 276, 277, 278, 279, 280, 297, 298, 299, 301, 302, 330, 354, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 366, 367)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        "    GROUP BY periode\n" +
                         ")\n" +
                         "ORDER BY periode";
                 break;
             //TARIFICATION
             case TARIFICATION_OA:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
             case TARIFICATION_NOMENCLATURE:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (1) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (1) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
             case TARIFICATION_FORFAITS_ABC:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (2, 3, 4) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (2, 3, 4) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
             case TARIFICATION_SOINS_SPECIFIQUES:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (5) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (5) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
             case FORFAITS_PALLIATIFS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (193, 215, 237, 259, 281) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (193, 215, 237, 259, 281) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
             case DEPLACEMENTS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (6) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (6) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
             case TICKETS_MODERATEURS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (11) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (11) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
             case SOINS_DIVERS_ET_CONVENTIONS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (99, 373) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.CEE_REF_NO = ?\n" +
+                        "WHERE CODE_REF_NO IN (99, 373) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
             case RECETTE_OA_PAR_VISITE:
                 query = "SELECT periode, total_1/total_2 as TOTAL \n" +
                         "FROM (\n" +
-                        "    SELECT periode, cee_ref_no, \n" +
+                        "    SELECT periode, \n" +
                         "    SUM(Case when code_ref_no in (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281) Then somme else 0 end) as total_1,\n" +
                         "    SUM(Case when code_ref_no in (7, 8, 9, 10, 205, 227, 249, 271, 293) Then somme else 0 end) as total_2\n" +
                         "    FROM V_STAT_NAMUR\n" +
                         "    WHERE code_ref_no IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 193, 205, 215, 227, 237, 249, 259, 271, 281, 293)\n" +
                         "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no = ?\n" +
-                        "    GROUP BY periode, cee_ref_no\n" +
+                        "    AND cee_ref_no LIKE ?\n" +
+                        " GROUP BY periode \n" +
                         ")\n" +
+                        " GROUP BY periode \n" +
                         "ORDER BY periode";
                 break;
-            case RECETTE_OA_PAR_J_PRESTE:
-                query = "";
+            case RECETTE_OA_PAR_J_PRESTE: // TARIF.OA/JOURS PRESTES+EMSS TODO: MERGE EMSS
+                query = "SELECT x.total/y.total as TOTAL\n" +
+                        "FROM (\n" +
+                        "    SELECT SUM(SOMME) AS TOTAL, PERIODE\n" +
+                        "    FROM V_STAT_NAMUR\n" +
+                        "    WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281) \n" +
+                        "    AND periode BETWEEN ? AND ?\n" +
+                        "    AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
+                        "    GROUP BY PERIODE\n" +
+                        "    ) x\n" +
+                        "JOIN\n" +
+                        "    (\n" +
+                        "     SELECT SUM(UREN)/7.6 as TOTAL, wkp.MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AC', 'AS', 'CO', 'CP', 'CS', 'CT', 'DP', 'DS', 'ECO', 'EMSS', 'EMAS', 'EMRE', 'EQ', 'FS', 'GPA', 'GPS', 'GPSS', 'HMD', 'HOM', 'IS', 'PIS', 'PL', 'PMM', 'PR', 'RO', 'RR', 'RSV', 'SF', 'SH', 'SM', 'SP', 'SS', 'SSV', 'VW', 'VO', 'CS', 'CT', 'DP', 'DS', 'IS', 'PR',  'RSV', 'SH', 'SM', 'SS', 'SSV', 'VM', 'VO', 'TUTO')\n" +
+                        "\t\t\tAND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY wkp.MAAND\n" +
+                        "            ORDER BY MAAND ASC\n" +
+                        "    ) y \n" +
+                        "    ON x.PERIODE = y.MAAND\n" +
+                        "    ORDER BY PERIODE";
                 break;
             case RECETTE_OA_PAR_J_AVEC_SOINS:
-                query = "SELECT PERIODE, CEE_REF_NO, SUM(SOMME) AS TOTAL FROM V_STAT_NAMUR \n" +
-                        "WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281)\n" +
-                        "AND PERIODE BETWEEN ? AND ?\n" +
-                        "AND cee_ref_no = ?\n" +
-                        "GROUP BY PERIODE, CEE_REF_NO\n" +
-                        "ORDER BY PERIODE";
+                query = "SELECT x.total/y.total as TOTAL, PERIODE\n" +
+                        "FROM (\n" +
+                        "    SELECT SUM(SOMME) AS TOTAL, PERIODE\n" +
+                        "    FROM V_STAT_NAMUR\n" +
+                        "    WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281) \n" +
+                        "    AND periode BETWEEN ? AND ?\n" +
+                        "    AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
+                        "    GROUP BY PERIODE\n" +
+                        "    ) x\n" +
+                        "JOIN\n" +
+                        "    (\n" +
+                        "      SELECT SUM(uren)/7.6 as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AS', 'EMAS', 'EMRE')\n" +
+                        "            AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND ASC\n" +
+                        "    ) y \n" +
+                        "    ON x.PERIODE = y.MAAND\n" +
+                        "    ORDER BY PERIODE";
                 break;
             case RECETTE_OA_PAR_J_PRESTE_AVEC_SD_ET_CONVENTIONS:
                 query = "";
                 break;
+            case J_PRESTES_AVEC_EMSS:
+                query = " SELECT SUM(UREN)/7.6 as TOTAL, wkp.MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AC', 'AS', 'CO', 'CP', 'CS', 'CT', 'DP', 'DS', 'ECO', 'EMSS', 'EMAS', 'EMRE', 'EQ', 'FS', 'GPA', 'GPS', 'GPSS', 'HMD', 'HOM', 'IS', 'PIS', 'PL', 'PMM', 'PR', 'RO', 'RR', 'RSV', 'SF', 'SH', 'SM', 'SP', 'SS', 'SSV', 'VW', 'VO', 'CS', 'CT', 'DP', 'DS', 'IS', 'PR',  'RSV', 'SH', 'SM', 'SS', 'SSV', 'VM', 'VO', 'TUTO')\n" +
+                        "\t\t\tAND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY wkp.MAAND\n" +
+                        "            ORDER BY wkp.MAAND";
+                break;
+            case J_PRESTES_AVEC_EMAS:
+                query = " SELECT SUM(UREN)/7.6 as TOTAL, wkp.MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        " WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        " AND wkp.werknemer_id = w.werknemer_id\n" +
+                        " AND wkp.taak_id      = tc.taak_id\n" +
+                        " AND w.werknemer_id   = vk.werknemer_id\n" +
+                        " AND vk.functie_id    IN (121, 122, 128)\n" +
+                        " AND wkp.afdeling_id LIKE ?\n" +
+                        " AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        " AND tc.taak_cd in ('AS', 'EMAS', 'EMRE')\n" +
+                        " AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "GROUP BY MAAND\n" +
+                        "ORDER BY MAAND ASC";
+                break;
+            case EMSS:
+                query = " SELECT SUM(UREN)/7.6 as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        " WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        " AND wkp.werknemer_id = w.werknemer_id\n" +
+                        " AND wkp.taak_id      = tc.taak_id\n" +
+                        " AND w.werknemer_id   = vk.werknemer_id\n" +
+                        " AND vk.functie_id    IN (121, 122, 128)\n" +
+                        " AND wkp.afdeling_id LIKE ?\n" +
+                        " AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        " AND tc.taak_cd in ('EMSS')\n" +
+                        " AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        " GROUP BY MAAND\n" +
+                        " ORDER BY MAAND ASC";
+                break;
+            case EMAS:
+                query = " SELECT SUM(UREN)/7.6 as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        " WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        " AND wkp.werknemer_id = w.werknemer_id\n" +
+                        " AND wkp.taak_id      = tc.taak_id\n" +
+                        " AND w.werknemer_id   = vk.werknemer_id\n" +
+                        " AND vk.functie_id    IN (121, 122, 128)\n" +
+                        " AND wkp.afdeling_id LIKE ?\n" +
+                        " AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        " AND tc.taak_cd in ('EMAS')\n" +
+                        " AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        " GROUP BY MAAND\n" +
+                        " ORDER BY MAAND ASC";
+                break;
+            case RECUPERATIONS:
+                query = "SELECT SUM(EIND_WAARDE)/7.6 AS TOTAL, t.VERW_MAAND\n" +
+                        "FROM HR.WKN_TEGOEDEN t, HR.WERKNEMERS w\n" +
+                        "WHERE t.WERKNEMER_ID = w.WERKNEMER_ID\n" +
+                        "AND t.VERW_MAAND BETWEEN to_char(to_date(?, 'yyyymm'), 'YY-MM-YYYY') AND LAST_DAY(to_char(to_date(?, 'yyyymm'), 'YY-MM-YYYY'))\n" +
+                        "AND w.DIPLOMA_ID IN ('101', '103', '120', '111', '116')\n" +
+                        "AND w.afdeling_id LIKE ?\n" +
+                        "AND t.TAAK_ID IN ('348', '375', '185')\n" +
+                        "GROUP BY t.VERW_MAAND\n" +
+                        "ORDER BY t.VERW_MAAND";
+                break;
+            case SOLDE_CP:
+                query = "SELECT SUM(EIND_WAARDE)/7.6 AS TOTAL, t.VERW_MAAND\n" +
+                        "FROM HR.WKN_TEGOEDEN t, HR.WERKNEMERS w\n" +
+                        "WHERE t.WERKNEMER_ID = w.WERKNEMER_ID\n" +
+                        "AND t.VERW_MAAND BETWEEN to_char(to_date(?, 'yyyymm'), 'YY-MM-YYYY') AND LAST_DAY(to_char(to_date(?, 'yyyymm'), 'YY-MM-YYYY'))\n" +
+                        "AND w.DIPLOMA_ID IN ('101', '103', '120', '111', '116')\n" +
+                        "AND w.afdeling_id LIKE ?\n" +
+                        "AND t.TAAK_ID IN ('351', '353')\n" +
+                        "GROUP BY t.VERW_MAAND\n" +
+                        "ORDER BY t.VERW_MAAND";
+                break;
             case KM_PARCOURUS:
-                query="";
+                query = "";
                 break;
         }
         return query;

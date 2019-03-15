@@ -42,7 +42,7 @@ public class Main extends Application {
             } else {
                 System.out.println("UNLOGGED CONNECTION");
             }
-            } catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
         }
     }
@@ -63,7 +63,8 @@ public class Main extends Application {
                 id.set(Identification.info.D03_URL),
                 id.set(Identification.info.D03_USER),
                 id.set(Identification.info.D03_PASSWD),
-                id.set(Identification.info.D03_DRIVER));
+                id.set(Identification.info.D03_DRIVER)
+        );
 
         String query = "INSERT INTO global.log_application_launched"
                 + " VALUES (now(), ?, ?, ?, ?)";
@@ -75,7 +76,7 @@ public class Main extends Application {
             ps.setString(3, JAVA_VERSION);
             ps.setString(4, HOST_NAME);
             ps.executeUpdate();
-            System.out.println("CONNECTION LOGGED");
+            System.out.println("CONNECTION LOGGED -> " + USER);
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
         } finally {

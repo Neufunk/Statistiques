@@ -77,7 +77,7 @@ public class ControllerPopUpGestion implements Initializable {
         Menu.gestionStage.close();
     }
 
-    public void onComboSelection(){
+    public void onComboSelection() {
         yearStr = String.valueOf(comboYear.getValue());
         System.out.print(yearStr);
     }
