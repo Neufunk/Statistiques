@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -432,17 +431,11 @@ class Rapports {
         String year = controllerPopUpGestion.getYearStr();
         int yearInt = Integer.parseInt(year);
         String[] centreName = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur", "Province"};
+        int[] centreNo = {902, 913, 923, 931, 961, 997};
         String[] titleArray = {"TARIFICATION", "VISITES", "PATIENTS", "SOINS", "SUIVI PERSONNEL"};
         String[] headerArray = {" ", "INDICATEURS", "MOY." + (yearInt - 1), "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                 "Août", "Sept.", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
-        int[] centreNo = {902, 913, 923, 931, 961, 997};
-        int philville = 902;
-        int ciney = 913;
-        int gedinne = 923;
-        int eghezee = 931;
-        int namur = 961;
-        int pageNo = 0;
-        double[] allCenter = new double[765];
+        int centreCounter = 0;
         int allCenterCounter;
 
         Database.Query[][] indicateurArray = {
@@ -487,10 +480,8 @@ class Rapports {
                     /* the FooterPageEvent in iText 5
                      */
                     addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
-                    pageNo++;
+                    centreCounter++;
                 }
-                //createAllCenter(document);
-                //addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
                 document.close();
                 // Set the flag to 'true' to inform ControllerPopUpGestion everything was fine.
                 ControllerPopUpGestion.flag = true;
@@ -536,8 +527,8 @@ class Rapports {
 
         private void addPage(Document document) throws Exception {
             document.setPageSize(PageSize.A4.rotate());
-            Anchor anchor = new Anchor("CENTRE : " + centreName[pageNo], setInterstateFont(16));
-            Chapter chapter = new Chapter(new Paragraph(anchor), pageNo + 1);
+            Anchor anchor = new Anchor("CENTRE : " + centreName[centreCounter], setInterstateFont(16));
+            Chapter chapter = new Chapter(new Paragraph(anchor), centreCounter + 1);
 
             Paragraph paragraph = new Paragraph();
             addEmptyLine(paragraph, 1);
@@ -558,13 +549,13 @@ class Rapports {
                 title.setSpacingAfter(0);
                 addEmptyLine(paragraph, 1);
                 // TABLE
-                PdfPTable table = new PdfPTable(17); // Init value 16
-                table.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3}); // init value {1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3}
+                PdfPTable table = new PdfPTable(17);
+                table.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3});
                 table.setWidthPercentage(108);
 
                 // HEADER
                 for (String aMonthArray : headerArray) {
-                    PdfPCell titleCell = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(9, "white"))); // font size 9
+                    PdfPCell titleCell = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(9, "white")));
                     centerContent(titleCell);
                     titleCell.setBackgroundColor(BLUE_ASD);
                     table.addCell(titleCell);
@@ -579,7 +570,7 @@ class Rapports {
                     table.addCell(numberCell);
 
                     // TITLE_COLUMN
-                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black", "bold"))); // size font 7
+                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black", "bold")));
                     centerContent(indicateurCell);
                     indicateurCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(indicateurCell);
@@ -590,18 +581,19 @@ class Rapports {
                     ps = conn.prepareStatement(query);
                     ps.setString(1, (yearInt - 1 + "01"));
                     ps.setString(2, (yearInt - 1 + "12"));
-                    if (pageNo == 5) {
+                    if (centreNo[centreCounter] == 997) {
                         ps.setString(3, "%");
                     } else {
-                        ps.setInt(3, (centreNo[pageNo]));
+                        ps.setInt(3, (centreNo[centreCounter]));
                     }
+                    // Check if the SQL query takes 6 parameters
                     if (indicateurArray[i][j].equals(RECETTE_OA_PAR_J_PRESTE) || indicateurArray[i][j].equals(RECETTE_OA_PAR_J_AVEC_SOINS)) {
                         ps.setString(4, (yearInt - 1 + "01"));
                         ps.setString(5, (yearInt - 1 + "12"));
-                        if (pageNo == 5) {
+                        if (centreNo[centreCounter] == 997) {
                             ps.setString(6, "%");
                         } else {
-                            ps.setInt(6, (centreNo[pageNo]));
+                            ps.setInt(6, (centreNo[centreCounter]));
                         }
                     }
                     rs = ps.executeQuery();
@@ -614,9 +606,6 @@ class Rapports {
                     lastYearMeanCell.setBackgroundColor(ORANGE_ASD);
                     centerContent(lastYearMeanCell);
                     table.addCell(lastYearMeanCell);
-                    /* add to allCenter
-                    allCenter[allCenterCounter] = allCenter[allCenterCounter] + (totalCount / 12);
-                    */
                     allCenterCounter++;
                     rs.close();
                     ps.close();
@@ -628,61 +617,50 @@ class Rapports {
                     ps = conn.prepareStatement(query);
                     ps.setString(1, (year + "01"));
                     ps.setString(2, (year + "12"));
-                    if (pageNo == 5) {
+                    if (centreNo[centreCounter] == 997) {
                         ps.setString(3, "%");
                     } else {
-                        ps.setInt(3, (centreNo[pageNo]));
+                        ps.setInt(3, (centreNo[centreCounter]));
                     }
+                    // Check if the SQL query takes 6 parameters
                     if (indicateurArray[i][j].equals(RECETTE_OA_PAR_J_PRESTE) || indicateurArray[i][j].equals(RECETTE_OA_PAR_J_AVEC_SOINS)) {
                         ps.setString(4, (yearInt + "01"));
                         ps.setString(5, (yearInt + "12"));
-                        if (pageNo == 5) {
+                        if (centreNo[centreCounter] == 997) {
                             ps.setString(6, "%");
                         } else {
-                            ps.setInt(6, (centreNo[pageNo]));
+                            ps.setInt(6, (centreNo[centreCounter]));
                         }
                     }
                     rs = ps.executeQuery();
                     while (rs.next()) {
                         System.out.println("ROW :" + rs.getDouble("TOTAL"));
-                        PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(8))); // font size 9
+                        PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(8)));
                         totalCount += rs.getDouble("TOTAL");
 
                         centerContent(cell);
                         table.addCell(cell);
                         rowCounter++;
-
-                        /* add to allCenter
-                        allCenter[allCenterCounter] = allCenter[allCenterCounter] + rs.getDouble("TOTAL");
-                        allCenterCounter++; */
                     }
                     int meanCounter = rowCounter;
                     // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the year is not complete yet.
                     while (rowCounter < 12) {
-                        PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9))); // font size 9
+                        PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9)));
                         totalCount += 0;
                         centerContent(cell);
                         table.addCell(cell);
                         rowCounter++;
-
-                        /* add to allCenter
-                        allCenter[allCenterCounter] = allCenter[allCenterCounter] + 0;
-                        allCenterCounter++;*/
                     }
 
                     // TOTAL CELLS
-                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9))); // font size 9
+                    PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9)));
                     System.out.println("TOTAL ROW :" + totalCount);
                     centerContent(totalCell);
                     totalCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(totalCell);
-                    /* add to allCenter
-                    allCenter[allCenterCounter] = allCenter[allCenterCounter] + totalCount;
-                    allCenterCounter++;*/
-
 
                     // MEAN CELLS
-                    PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount / meanCounter, 2), setInterstateFont(8))); // font size 9
+                    PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount / meanCounter, 2), setInterstateFont(8)));
                     System.out.println("MEAN ROW :" + totalCount / meanCounter);
                     System.out.println("----------------\n");
                     centerContent(meanCell);
@@ -694,99 +672,22 @@ class Rapports {
                         meanCell.setBackgroundColor(ORANGE_ASD);
                     }
                     table.addCell(meanCell);
-                    /*
-                    allCenter[allCenterCounter] = allCenter[allCenterCounter] + (totalCount / meanCounter);
-                    allCenterCounter++;*/
                 }
                 paragraph.add(table);
             }
         }
 
-        private void createAllCenter(Document document) throws Exception {
-            int indicateurNo = 1;
-            allCenterCounter = 0;
-            centreVal = "Province";
-            document.setPageSize(PageSize.A4.rotate());
-            Anchor anchor = new Anchor("CENTRE : Province", setInterstateFont(16));
-            Chapter chapter = new Chapter(new Paragraph(anchor), pageNo + 1);
-
-            Paragraph paragraph = new Paragraph();
-            addEmptyLine(paragraph, 1);
-
-            for (int i = 0; i < indicateurArray.length; i++) {
-                // TITLE
-                Paragraph title = new Paragraph(titleArray[i], setInterstateFont(12, "black"));
-                paragraph.add(title);
-                title.setSpacingBefore(12);
-                title.setSpacingAfter(0);
-                addEmptyLine(paragraph, 1);
-                // TABLE
-                PdfPTable table = new PdfPTable(17); // Init value 16
-                table.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3}); // init value {1, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3}
-                table.setWidthPercentage(108);
-
-                // HEADER
-                for (String aMonthArray : headerArray) {
-                    PdfPCell titleCell = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(9, "white"))); // font size 9
-                    centerContent(titleCell);
-                    titleCell.setBackgroundColor(BLUE_ASD);
-                    table.addCell(titleCell);
-                }
-
-                for (int j = 0; j < indicateurArray[i].length; j++) {
-                    System.out.print(indicateurArray[i][j] + "\n");
-                    // COLUMN_NO
-                    PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(8)));
-                    indicateurNo++;
-                    centerContent(numberCell);
-                    table.addCell(numberCell);
-
-                    // TITLE_COLUMN
-                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black", "bold"))); // size font 7
-                    centerContent(indicateurCell);
-                    indicateurCell.setBackgroundColor(ORANGE_ASD);
-                    table.addCell(indicateurCell);
-
-                    // RESULT
-                    for (int x = 0; x < 15; x++) {
-                        PdfPCell result;
-                        result = new PdfPCell(new Phrase(format(allCenter[allCenterCounter], 2), setInterstateFont(8)));
-                        System.out.println("RESULTAT: " + allCenter[allCenterCounter]);
-
-                        if (x == 0 || x == 13) {
-                            result.setBackgroundColor(ORANGE_ASD);
-                        }
-                        if (x == 14) {
-                            if (allCenter[allCenterCounter - 14] < allCenter[allCenterCounter] && allCenter[allCenterCounter - 2] != 0) {
-                                result.setBackgroundColor(GREEN_ASD);
-                            } else if (allCenter[allCenterCounter - 14] > allCenter[allCenterCounter] && allCenter[allCenterCounter - 2] != 0) {
-                                result.setBackgroundColor(LIGHT_RED);
-                            } else {
-                                result.setBackgroundColor(ORANGE_ASD);
-                            }
-                        }
-                        centerContent(result);
-                        table.addCell(result);
-                        allCenterCounter++;
+        public class FooterPageEvent extends PdfPageEventHelper {
+            @Override
+            public void onEndPage(PdfWriter writer, Document document) {
+                try {
+                    if (document.getPageNumber() > 1 && document.getPageNumber() != 4 && document.getPageNumber() != 7
+                            && document.getPageNumber() != 10 && document.getPageNumber() != 13 && document.getPageNumber() != 16) {
+                        addFooter(writer, SheetOrientation.LANDSCAPE);
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                paragraph.add(table);
-            }
-            chapter.add(paragraph);
-            document.add(chapter);
-        }
-    }
-
-    public class FooterPageEvent extends PdfPageEventHelper {
-        @Override
-        public void onEndPage(PdfWriter writer, Document document) {
-            try {
-                if (document.getPageNumber() > 1 && document.getPageNumber() != 4 && document.getPageNumber() != 7
-                        && document.getPageNumber() != 10 && document.getPageNumber() != 13 && document.getPageNumber() != 16) {
-                    addFooter(writer, SheetOrientation.LANDSCAPE);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

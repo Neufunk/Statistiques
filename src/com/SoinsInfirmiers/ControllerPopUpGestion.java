@@ -41,11 +41,11 @@ public class ControllerPopUpGestion implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Data data = new Data();
         comboYear.setItems(data.yearList);
-        comboYear.setPromptText(getCurrentDate());
-        yearStr = getCurrentDate();
+        comboYear.setPromptText(getCurrentYear());
+        yearStr = getCurrentYear();
     }
 
-    private String getCurrentDate() {
+    private String getCurrentYear() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy");
         LocalDate localDate = LocalDate.now();
         return dtf.format(localDate);
