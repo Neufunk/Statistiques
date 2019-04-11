@@ -724,19 +724,24 @@ class Database {
                         "order by PERIODE";
                 break;
             case RECETTE_OA_PAR_VISITE:
-                query = "SELECT periode, total_1/total_2 as TOTAL \n" +
-                        "FROM (\n" +
-                        "    SELECT periode, \n" +
-                        "    SUM(Case when code_ref_no in (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281) Then somme else 0 end) as total_1,\n" +
-                        "    SUM(Case when code_ref_no in (7, 8, 9, 10, 205, 227, 249, 271, 293) Then somme else 0 end) as total_2\n" +
-                        "    FROM V_STAT_NAMUR\n" +
-                        "    WHERE code_ref_no IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 193, 205, 215, 227, 237, 249, 259, 271, 281, 293)\n" +
-                        "    AND periode BETWEEN ? AND ?\n" +
-                        "    AND cee_ref_no LIKE ?\n" +
-                        " GROUP BY periode \n" +
-                        ")\n" +
-                        " GROUP BY periode \n" +
-                        "ORDER BY periode";
+                query = "SELECT x.total_1/y.total_2 as TOTAL\n" +
+                        "                         FROM (    \n" +
+                        "                             SELECT SUM(somme) as total_1, PERIODE  \n" +
+                        "                             FROM V_STAT_NAMUR   \n" +
+                        "                             WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281)     \n" +
+                        "                             AND periode BETWEEN ? AND ? \n" +
+                        "                             AND V_STAT_NAMUR.cee_ref_no LIKE ? group by PERIODE    \n" +
+                        "                             ) x  \n" +
+                        "                         JOIN  \n" +
+                        "                             (    \n" +
+                        "                               SELECT SUM(somme) as total_2, PERIODE\n" +
+                        "                               FROM V_STAT_NAMUR\n" +
+                        "                               WHERE V_STAT_NAMUR.CODE_REF_NO IN (7, 8, 9, 10, 205, 227, 249, 271, 293)\n" +
+                        "                               AND periode BETWEEN ? AND ? \n" +
+                        "                               AND V_STAT_NAMUR.cee_ref_no LIKE ? group by PERIODE\n" +
+                        "                             ) y     \n" +
+                        "                             ON x.PERIODE = y.PERIODE\n" +
+                        "ORDER BY x.PERIODE";
                 break;
             case RECETTE_OA_PAR_J_PRESTE: // TARIF.OA/JOURS PRESTES+EMSS TODO: MERGE EMSS
                 query = "SELECT x.total/y.total as TOTAL\n" +
@@ -788,7 +793,7 @@ class Database {
                         "             AND vk.functie_id    IN (121, 122, 128)\n" +
                         "             AND wkp.afdeling_id LIKE ?\n" +
                         "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
-                        "             AND tc.taak_cd in ('AS', 'EMAS', 'EMRE')\n" +
+                        "             AND tc.taak_cd in ('AS', 'EMAS', 'EMRE', 'GPA', 'HMD', 'HOM', 'PIS', 'PMM')\n" +
                         "            AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
                         "            GROUP BY MAAND\n" +
                         "            ORDER BY MAAND ASC\n" +
@@ -824,7 +829,7 @@ class Database {
                         " AND vk.functie_id    IN (121, 122, 128)\n" +
                         " AND wkp.afdeling_id LIKE ?\n" +
                         " AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
-                        " AND tc.taak_cd in ('AS', 'EMAS', 'EMRE')\n" +
+                        " AND tc.taak_cd in ('AS', 'EMAS', 'EMRE', 'HOM', 'GPA', 'PIS', 'HMD', 'PMM')\n" +
                         " AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
                         "GROUP BY MAAND\n" +
                         "ORDER BY MAAND ASC";
@@ -859,6 +864,75 @@ class Database {
                         " GROUP BY MAAND\n" +
                         " ORDER BY MAAND ASC";
                 break;
+            case TAUX_ADMINISTRATIF:
+                query = " SELECT (y.TOTAL/x.TOTAL * 100) as TOTAL\n" +
+                        " FROM (\n" +
+                        " SELECT SUM(uren) as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AC', 'RR', 'SF', 'CO', 'CP', 'CS', 'CT', 'DP', 'DS', 'ECO', 'EMSS', 'EQ', 'FS', 'IS', 'PL', 'PR', 'RO', 'RSV', 'SH', 'SM', 'SS', 'SSV', 'TUTO', 'VM', 'VO', 'AS', 'EMAS', 'EMRE', 'GPA', 'HMD', 'HOM', 'PIS', 'PMM')\n" +
+                        "             AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND ASC) x\n" +
+                        "            \n" +
+                        "            JOIN\n" +
+                        "            \n" +
+                        "            (SELECT SUM(uren) as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AC', 'RR', 'SF', 'CO', 'CP', 'CS', 'CT', 'DP', 'DS', 'ECO', 'EMSS', 'EQ', 'FS', 'IS', 'PL', 'PR', 'RO', 'RSV', 'SH', 'SM', 'SS', 'SSV', 'TUTO', 'VM', 'VO')\n" +
+                        "             AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND ASC) y\n" +
+                        "            ON x.MAAND = y.MAAND";
+                break;
+            case TAUX_ADMINISTRATIF_IC:
+                query = " SELECT (y.TOTAL/x.TOTAL * 100) as TOTAL\n" +
+                        " FROM (\n" +
+                        " SELECT SUM(uren) as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AC', 'RR', 'SF', 'CO', 'CP', 'CS', 'CT', 'DP', 'DS', 'ECO', 'EMSS', 'EQ', 'FS', 'IS', 'PL', 'PR', 'RO', 'RSV', 'SH', 'SM', 'SS', 'SSV', 'TUTO', 'VM', 'VO', 'AS', 'EMAS', 'EMRE', 'GPA', 'HMD', 'HOM', 'PIS', 'PMM')\n" +
+                        "             AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND ASC) x\n" +
+                        "            \n" +
+                        "            JOIN\n" +
+                        "            \n" +
+                        "            (SELECT SUM(uren) as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AC', 'RR', 'SF')\n" +
+                        "             AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND ASC) y\n" +
+                        "            ON x.MAAND = y.MAAND";
+                break;
+
             case RECUPERATIONS:
                 query = "SELECT SUM(EIND_WAARDE)/7.6 AS TOTAL, t.VERW_MAAND\n" +
                         "FROM HR.WKN_TEGOEDEN t, HR.WERKNEMERS w\n" +
@@ -880,6 +954,80 @@ class Database {
                         "AND t.TAAK_ID IN ('351', '353')\n" +
                         "GROUP BY t.VERW_MAAND\n" +
                         "ORDER BY t.VERW_MAAND";
+                break;
+            case TAUX_SMG:
+                query = "SELECT (y.code_250_251 * 100) / (x.TOTAL + y.code_250_251 + z.code_220) as TOTAL, x.MAAND\n" +
+                        "FROM (SELECT wkp.MAAND, SUM(uren) as TOTAL\n" +
+                        "      FROM HR.WKN_PLANNINGEN wkp,\n" +
+                        "           HR.WERKNEMERS w,\n" +
+                        "           HR.TAAK_CODES tc,\n" +
+                        "           HR.V_KONTRAKTEN vk\n" +
+                        "      WHERE wkp.MAAND BETWEEN ? AND ?\n" +
+                        "        AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "        AND wkp.taak_id = tc.taak_id\n" +
+                        "        AND w.werknemer_id = vk.werknemer_id\n" +
+                        "        AND vk.functie_id IN (121, 122, 128)\n" +
+                        "        AND wkp.afdeling_id LIKE ?\n" +
+                        "        AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099', 'dd-mm-yyyy'))\n" +
+                        "        AND tc.taak_cd in\n" +
+                        "            ('AC', 'CA', 'CC', 'RR', 'SF', 'CO', 'CP', 'CS', 'CT', 'DP', 'DS', 'ECO', 'EMSS', 'EQ', 'FS', 'IS', 'PL',\n" +
+                        "             'PR', 'RE', 'RF', 'RO', 'RSV', 'SH', 'SM', 'SS', 'SSV', 'TUTO', 'VM', 'VO', 'AS', 'EMAS', 'EMRE', 'GPA',\n" +
+                        "             'HMD', 'HOM', 'PIS', 'PMM', 'VA')\n" +
+                        "        AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "      GROUP BY MAAND) x\n" +
+                        "         JOIN\n" +
+                        "     (SELECT TO_CHAR(sl.loonperiode_dt, 'YYYYMM') as MAAND, sum(slr.uren) code_250_251\n" +
+                        "      FROM HR.soc_loonbrief_regels slr,\n" +
+                        "           HR.soc_loonbrieven sl,\n" +
+                        "           HR.werknemers w,\n" +
+                        "           HR.v_kontrakten vk\n" +
+                        "      WHERE TO_CHAR(sl.loonperiode_dt, 'YYYYMM') BETWEEN ? AND ?\n" +
+                        "        AND slr.loon_code_id IN (424, 425)\n" +
+                        "        AND slr.loonbrief_id = sl.loonbrief_id\n" +
+                        "        AND w.werknemer_id = sl.werknemer_id\n" +
+                        "        AND w.werknemer_id = vk.werknemer_id\n" +
+                        "        AND vk.functie_id IN (121, 122, 128)\n" +
+                        "        AND sl.loonperiode_dt BETWEEN hist_start_dt AND last_day(nvl(hist_eind_dt, sl.loonperiode_dt))\n" +
+                        "        AND w.afdeling_id like ?\n" +
+                        "      GROUP BY sl.loonperiode_dt) y\n" +
+                        "     ON x.MAAND = y.MAAND\n" +
+                        "         JOIN\n" +
+                        "     (WITH Months (CurrentMonth, MaxYear) AS (\n" +
+                        "         SELECT CAST(TO_DATE(?, 'YYYYMM') AS DATE) AS CurrentMonth, ? AS MaxYear\n" +
+                        "         FROM DUAL\n" +
+                        "\n" +
+                        "         UNION ALL\n" +
+                        "\n" +
+                        "         SELECT CAST(ADD_MONTHS(CurrentMonth, 1) AS DATE), MaxYear\n" +
+                        "         FROM Months\n" +
+                        "         WHERE EXTRACT(YEAR FROM ADD_MONTHS(CurrentMonth, 1)) <= MaxYear\n" +
+                        "     )\n" +
+                        "         , YourData as (\n" +
+                        "             SELECT sl.loonperiode_dt, (sum(slr.uren)) code_220\n" +
+                        "             FROM HR.soc_loonbrief_regels slr,\n" +
+                        "                  HR.soc_loonbrieven sl,\n" +
+                        "                  HR.werknemers w,\n" +
+                        "                  HR.v_kontrakten vk\n" +
+                        "             WHERE slr.loon_code_id IN (394)\n" +
+                        "               AND TO_CHAR(LOONPERIODE_DT, 'YYYYMM') BETWEEN ? AND ?\n" +
+                        "               AND slr.loonbrief_id = sl.loonbrief_id\n" +
+                        "               AND w.werknemer_id = sl.werknemer_id\n" +
+                        "               AND w.werknemer_id = vk.werknemer_id\n" +
+                        "               AND vk.functie_id IN (121, 122, 128)\n" +
+                        "               AND sl.loonperiode_dt BETWEEN hist_start_dt AND last_day(nvl(hist_eind_dt, sl.loonperiode_dt))\n" +
+                        "               AND w.afdeling_id like ?\n" +
+                        "             GROUP BY sl.loonperiode_dt\n" +
+                        "             --ORDER BY sl.loonperiode_dt\n" +
+                        "         )\n" +
+                        "      SELECT TO_CHAR(LAST_DAY(Months.CurrentMonth), 'YYYYMM') AS LastDay\n" +
+                        "           , COALESCE(YourData.code_220, 0)                   AS code_220\n" +
+                        "      FROM Months\n" +
+                        "\n" +
+                        "               Left Join YourData\n" +
+                        "                         on Extract(MONTH FROM Months.CurrentMonth) = Extract(MONTH FROM YourData.loonperiode_dt)\n" +
+                        "      ORDER BY LastDay ASC\n" +
+                        "     ) z\n" +
+                        "     ON x.MAAND = z.LastDay\n";
                 break;
             case KM_PARCOURUS:
                 query = "";

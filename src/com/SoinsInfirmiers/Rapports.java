@@ -453,7 +453,7 @@ class Rapports {
                         NOMBRE_CONSULTATIONS_INFI, NOMBRE_DE_PILULIERS, NOMBRE_DE_SOINS_DIVERS, NOMBRE_AUTRES_SOINS, NOMBRE_DE_SOINS_PAR_VISITE,
                         TAUX_TOILETTES, TAUX_TOILETTES_NOMENCLATURE, TAUX_INJECTIONS, TAUX_PANSEMENTS, TAUX_SOINS_DIVERS, TAUX_AUTRES_SOINS},
                 // SUIVI DU PERSONNEL
-                {J_PRESTES_AVEC_EMSS, J_PRESTES_AVEC_EMAS, EMSS, EMAS, RECUPERATIONS, SOLDE_CP}
+                {J_PRESTES_AVEC_EMSS, J_PRESTES_AVEC_EMAS, EMSS, EMAS, TAUX_ADMINISTRATIF, TAUX_ADMINISTRATIF_IC, RECUPERATIONS, SOLDE_CP, TAUX_SMG}
         };
 
         void buildPdf() {
@@ -562,7 +562,8 @@ class Rapports {
                 }
 
                 for (int j = 0; j < indicateurArray[i].length; j++) {
-                    System.out.print(indicateurArray[i][j] + "\n");
+                    Database.Query currentIndicateur = indicateurArray[i][j];
+                    System.out.println(currentIndicateur);
                     // COLUMN_NO
                     PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(8)));
                     indicateurNo++;
@@ -570,30 +571,44 @@ class Rapports {
                     table.addCell(numberCell);
 
                     // TITLE_COLUMN
-                    PdfPCell indicateurCell = new PdfPCell(new Phrase(indicateurArray[i][j].toString().replace("_", " "), setInterstateFont(7, "black", "bold")));
+                    PdfPCell indicateurCell = new PdfPCell(new Phrase(currentIndicateur.toString().replace("_", " "), setInterstateFont(7, "black", "bold")));
                     centerContent(indicateurCell);
                     indicateurCell.setBackgroundColor(ORANGE_ASD);
                     table.addCell(indicateurCell);
 
                     // LAST YEAR MEAN CELLS
                     double totalCount = 0;
-                    String query = database.setQuery(indicateurArray[i][j]);
+                    String query = database.setQuery(currentIndicateur);
                     ps = conn.prepareStatement(query);
-                    ps.setString(1, (yearInt - 1 + "01"));
-                    ps.setString(2, (yearInt - 1 + "12"));
+                    ps.setString(1, (yearInt-1 + "01"));
+                    ps.setString(2, (yearInt-1 + "12"));
                     if (centreNo[centreCounter] == 997) {
                         ps.setString(3, "%");
                     } else {
                         ps.setInt(3, (centreNo[centreCounter]));
                     }
                     // Check if the SQL query takes 6 parameters
-                    if (indicateurArray[i][j].equals(RECETTE_OA_PAR_J_PRESTE) || indicateurArray[i][j].equals(RECETTE_OA_PAR_J_AVEC_SOINS)) {
-                        ps.setString(4, (yearInt - 1 + "01"));
-                        ps.setString(5, (yearInt - 1 + "12"));
+                    if (currentIndicateur.equals(RECETTE_OA_PAR_J_PRESTE) || currentIndicateur.equals(RECETTE_OA_PAR_J_AVEC_SOINS) || currentIndicateur.equals(RECETTE_OA_PAR_VISITE) || currentIndicateur.equals(TAUX_ADMINISTRATIF) || currentIndicateur.equals(TAUX_ADMINISTRATIF_IC) || currentIndicateur.equals(TAUX_SMG)) {
+                        ps.setString(4, (yearInt-1 + "01"));
+                        ps.setString(5, (yearInt-1 + "12"));
                         if (centreNo[centreCounter] == 997) {
                             ps.setString(6, "%");
                         } else {
                             ps.setInt(6, (centreNo[centreCounter]));
+                        }
+                    }
+                    // Check if the SQL query takes 11 parameters
+                    if (currentIndicateur.equals(TAUX_SMG)) {
+                        ps.setString(7, (yearInt-1 + "01"));
+                        ps.setInt(8, yearInt-1);
+
+                        ps.setString(9, (yearInt-1 + "01"));
+
+                        ps.setString(10, (yearInt-1 + "12"));
+                        if (centreNo[centreCounter] == 997) {
+                            ps.setString(11, "%");
+                        } else {
+                            ps.setInt(11, (centreNo[centreCounter]));
                         }
                     }
                     rs = ps.executeQuery();
@@ -612,18 +627,18 @@ class Rapports {
 
                     // RESULT CELLS
                     totalCount = 0;
-                    int rowCounter = 0;
-                    query = database.setQuery(indicateurArray[i][j]);
+                    int columnCounter = 0;
+                    query = database.setQuery(currentIndicateur);
                     ps = conn.prepareStatement(query);
-                    ps.setString(1, (year + "01"));
-                    ps.setString(2, (year + "12"));
+                    ps.setString(1, (yearInt + "01"));
+                    ps.setString(2, (yearInt + "12"));
                     if (centreNo[centreCounter] == 997) {
                         ps.setString(3, "%");
                     } else {
                         ps.setInt(3, (centreNo[centreCounter]));
                     }
                     // Check if the SQL query takes 6 parameters
-                    if (indicateurArray[i][j].equals(RECETTE_OA_PAR_J_PRESTE) || indicateurArray[i][j].equals(RECETTE_OA_PAR_J_AVEC_SOINS)) {
+                    if (currentIndicateur.equals(RECETTE_OA_PAR_J_PRESTE) || currentIndicateur.equals(RECETTE_OA_PAR_J_AVEC_SOINS) || currentIndicateur.equals(RECETTE_OA_PAR_VISITE) || currentIndicateur.equals(TAUX_ADMINISTRATIF) || currentIndicateur.equals(TAUX_ADMINISTRATIF_IC) || currentIndicateur.equals(TAUX_SMG)) {
                         ps.setString(4, (yearInt + "01"));
                         ps.setString(5, (yearInt + "12"));
                         if (centreNo[centreCounter] == 997) {
@@ -632,24 +647,36 @@ class Rapports {
                             ps.setInt(6, (centreNo[centreCounter]));
                         }
                     }
+                    // Check if the SQL query takes 11 parameters
+                    if (currentIndicateur.equals(TAUX_SMG)) {
+                        ps.setString(7, yearInt + "01");
+                        ps.setInt(8, yearInt);
+                        ps.setString(9, (yearInt + "01"));
+                        ps.setString(10, (yearInt + "12"));
+                        if (centreNo[centreCounter] == 997) {
+                            ps.setString(11, "%");
+                        } else {
+                            ps.setInt(11, (centreNo[centreCounter]));
+                        }
+                    }
                     rs = ps.executeQuery();
                     while (rs.next()) {
                         System.out.println("ROW :" + rs.getDouble("TOTAL"));
                         PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(8)));
                         totalCount += rs.getDouble("TOTAL");
-
                         centerContent(cell);
                         table.addCell(cell);
-                        rowCounter++;
+                        columnCounter++;
                     }
-                    int meanCounter = rowCounter;
+                    // Basically, meanCounter will be the divider for the Mean Cell.
+                    int meanCounter = columnCounter;
                     // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the year is not complete yet.
-                    while (rowCounter < 12) {
+                    while (columnCounter < 12) {
                         PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9)));
                         totalCount += 0;
                         centerContent(cell);
                         table.addCell(cell);
-                        rowCounter++;
+                        columnCounter++;
                     }
 
                     // TOTAL CELLS
