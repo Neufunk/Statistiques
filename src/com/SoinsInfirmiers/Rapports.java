@@ -47,13 +47,11 @@ class Rapports {
                     interstate.setColor(BaseColor.WHITE);
                     break;
                 case "black":
-                    interstate.setColor(BaseColor.BLACK);
-                    break;
                 default:
                     interstate.setColor(BaseColor.BLACK);
                     break;
             }
-            if ("bold".equals(weight)) {
+            if (weight.equals("bold")) {
                 interstate.setStyle(Font.BOLD);
             } else {
                 interstate.setStyle(Font.NORMAL);
@@ -436,7 +434,6 @@ class Rapports {
         String[] headerArray = {" ", "INDICATEURS", "MOY." + (yearInt - 1), "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                 "Août", "Sept.", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
         int centreCounter = 0;
-        int allCenterCounter;
 
         Database.Query[][] indicateurArray = {
                 // TARIFICATION
@@ -539,11 +536,10 @@ class Rapports {
 
         private void createTable(Paragraph paragraph) throws Exception {
             int indicateurNo = 1;
-            allCenterCounter = 0;
 
             for (int i = 0; i < indicateurArray.length; i++) {
                 // TITLE
-                Paragraph title = new Paragraph(titleArray[i], setInterstateFont(12, "black"));
+                Paragraph title = new Paragraph(titleArray[i], setInterstateFont(12, "black", "bold"));
                 paragraph.add(title);
                 title.setSpacingBefore(12);
                 title.setSpacingAfter(0);
@@ -588,7 +584,16 @@ class Rapports {
                         ps.setInt(3, (centreNo[centreCounter]));
                     }
                     // Check if the SQL query takes 6 parameters
-                    if (currentIndicateur.equals(RECETTE_OA_PAR_J_PRESTE) || currentIndicateur.equals(RECETTE_OA_PAR_J_AVEC_SOINS) || currentIndicateur.equals(RECETTE_OA_PAR_VISITE) || currentIndicateur.equals(TAUX_ADMINISTRATIF) || currentIndicateur.equals(TAUX_ADMINISTRATIF_IC) || currentIndicateur.equals(TAUX_SMG)) {
+                    final boolean MORE_PARAMETERS_NEEDED = (
+                            currentIndicateur.equals(RECETTE_OA_PAR_J_PRESTE) ||
+                            currentIndicateur.equals(RECETTE_OA_PAR_J_AVEC_SOINS) ||
+                            currentIndicateur.equals(RECETTE_OA_PAR_VISITE) ||
+                            currentIndicateur.equals(TAUX_ADMINISTRATIF) ||
+                            currentIndicateur.equals(TAUX_ADMINISTRATIF_IC) ||
+                            currentIndicateur.equals(TAUX_SMG)
+                    );
+
+                    if (MORE_PARAMETERS_NEEDED) {
                         ps.setString(4, (yearInt-1 + "01"));
                         ps.setString(5, (yearInt-1 + "12"));
                         if (centreNo[centreCounter] == 997) {
@@ -601,9 +606,7 @@ class Rapports {
                     if (currentIndicateur.equals(TAUX_SMG)) {
                         ps.setString(7, (yearInt-1 + "01"));
                         ps.setInt(8, yearInt-1);
-
                         ps.setString(9, (yearInt-1 + "01"));
-
                         ps.setString(10, (yearInt-1 + "12"));
                         if (centreNo[centreCounter] == 997) {
                             ps.setString(11, "%");
@@ -621,7 +624,6 @@ class Rapports {
                     lastYearMeanCell.setBackgroundColor(ORANGE_ASD);
                     centerContent(lastYearMeanCell);
                     table.addCell(lastYearMeanCell);
-                    allCenterCounter++;
                     rs.close();
                     ps.close();
 
@@ -638,7 +640,7 @@ class Rapports {
                         ps.setInt(3, (centreNo[centreCounter]));
                     }
                     // Check if the SQL query takes 6 parameters
-                    if (currentIndicateur.equals(RECETTE_OA_PAR_J_PRESTE) || currentIndicateur.equals(RECETTE_OA_PAR_J_AVEC_SOINS) || currentIndicateur.equals(RECETTE_OA_PAR_VISITE) || currentIndicateur.equals(TAUX_ADMINISTRATIF) || currentIndicateur.equals(TAUX_ADMINISTRATIF_IC) || currentIndicateur.equals(TAUX_SMG)) {
+                    if (MORE_PARAMETERS_NEEDED) {
                         ps.setString(4, (yearInt + "01"));
                         ps.setString(5, (yearInt + "12"));
                         if (centreNo[centreCounter] == 997) {

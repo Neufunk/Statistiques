@@ -241,7 +241,7 @@ public class Menu {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Version de JAVA installée sur le système");
         alert.setHeaderText("La version de JAVA installée sur votre système et actuellement utilisée par STATISTIQUES est : \nJRE " + JAVA_VERSION);
-        alert.setContentText("STATISTIQUES est optimisé pour les versions 8u161/172/181");
+        alert.setContentText("STATISTIQUES est optimisé pour les versions 8u172/181/201");
         alert.show();
     }
 
@@ -253,7 +253,7 @@ public class Menu {
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Code & Design JOHNATHAN VANBENEDEN \n" +
                 Version.versionNumber +
-        "\nSDK 1.8.0_181 - Supported JRE : 1.8.0_161/172/181");
+        "\nSDK 1.8.0_201 - Supported JRE : 1.8.0_172/181/201");
         alert.show();
     }
 

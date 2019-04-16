@@ -18,64 +18,69 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerComparaisonVisitesLocalites">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="639.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="641.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="44.0" vgrow="NEVER" />
-    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="311.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="335.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <VBox fx:id="menuBox" prefHeight="225.0" prefWidth="819.0" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-         <children>
-            <Label focusTraversable="false" text="Code Postal : " textFill="#000000c4">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <TextField fx:id="fromZipCode" alignment="CENTER" onAction="#onAction" prefHeight="25.0" prefWidth="86.0" promptText="Code Postal" text="5000" />
-            <Separator prefHeight="2.0" prefWidth="57.0" />
-            <TextField fx:id="toZipCode" alignment="CENTER" onAction="#onAction" prefHeight="25.0" prefWidth="86.0" promptText="Code Postal" text="9999" />
-            <Separator prefHeight="6.0" prefWidth="179.0" visible="false" />
-            <TextField fx:id="yearCombo" alignment="CENTER" onAction="#onAction" prefHeight="25.0" prefWidth="86.0" promptText="Année" text="2018" />
-            <Separator prefWidth="200.0" visible="false" />
-            <JFXButton onAction="#onAction" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Exécuter" />
-         </children>
-         <GridPane.margin>
-            <Insets bottom="5.0" />
-         </GridPane.margin>
-      </HBox>
-      <SplitPane dividerPositions="0.5" focusTraversable="false" maxHeight="1.7976931348623157E308" orientation="VERTICAL" style="-fx-background-color: #fff;" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.vgrow="ALWAYS">
-         <items>
-            <TableView fx:id="tableView" focusTraversable="false" stylesheets="@../CSS/TableView.css" />
-            <BarChart fx:id="barChart" animated="false" legendVisible="false" stylesheets="@../CSS/BarChart.css" title="Nombre de visites par localités - Total annuel" verticalGridLinesVisible="false">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" styleClass="data0" stylesheets="@../CSS/BarChart.css" />
-              </yAxis>
-            </BarChart>
-         </items>
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </SplitPane>
-      <GridPane fx:id="waitingPane" alignment="CENTER" maxHeight="9999.0" opacity="0.7" style="-fx-background-color: #000;" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <JFXSpinner radius="100.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-         </children>
-      </GridPane>
-   </children>
+<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+          minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" style="-fx-background-color: #fff;"
+          xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="SoinsInfirmiers.ControllerComparaisonVisitesLocalites">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="639.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="641.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="44.0" vgrow="NEVER"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="311.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="335.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <VBox fx:id="menuBox" prefHeight="225.0" prefWidth="819.0"/>
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="CENTER"
+          GridPane.rowIndex="1" GridPane.valignment="CENTER">
+        <GridPane.margin>
+            <Insets bottom="5.0"/>
+        </GridPane.margin>
+        <Label text="Code Postal : " textFill="#000000c4">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Label>
+        <TextField fx:id="fromZipCode" alignment="CENTER" onAction="#onAction" prefHeight="25.0" prefWidth="86.0"
+                   promptText="Code Postal" text="5000"/>
+        <Separator prefHeight="2.0" prefWidth="57.0"/>
+        <TextField fx:id="toZipCode" alignment="CENTER" onAction="#onAction" prefHeight="25.0" prefWidth="86.0"
+                   promptText="Code Postal" text="9999"/>
+        <Separator prefHeight="6.0" prefWidth="179.0" visible="false"/>
+        <TextField fx:id="yearCombo" alignment="CENTER" onAction="#onAction" prefHeight="25.0" prefWidth="86.0"
+                   promptText="Année"/>
+        <Separator prefWidth="200.0" visible="false"/>
+        <JFXButton onAction="#onAction" styleClass="green-button" stylesheets="@../CSS/Buttons.css"
+                   text="Exécuter"/>
+    </HBox>
+    <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" orientation="VERTICAL"
+               style="-fx-background-color: #fff;" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2"
+               GridPane.rowSpan="2" GridPane.vgrow="ALWAYS">
+        <GridPane.margin>
+            <Insets/>
+        </GridPane.margin>
+        <TableView fx:id="tableView" focusTraversable="false" stylesheets="@../CSS/TableView.css"/>
+        <BarChart fx:id="barChart" animated="false" legendVisible="false" stylesheets="@../CSS/BarChart.css"
+                  title="Nombre de visites par localités - Total annuel" verticalGridLinesVisible="false">
+            <xAxis>
+                <CategoryAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" styleClass="data0" stylesheets="@../CSS/BarChart.css"/>
+            </yAxis>
+        </BarChart>
+    </SplitPane>
+    <GridPane fx:id="waitingPane" alignment="CENTER" maxHeight="9999.0" opacity="0.7"
+              style="-fx-background-color: #000;" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER"
+              GridPane.hgrow="ALWAYS" GridPane.rowSpan="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <JFXSpinner radius="100.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
+    </GridPane>
 </GridPane>

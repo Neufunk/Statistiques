@@ -43,20 +43,18 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
 
     final private Menu menu = new Menu();
     final private Database database = new Database();
-    private String query = "";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         menu.loadMenuBar(menuBox);
+        yearCombo.setText(main.Date.getCurrentYear());
     }
 
     public void onAction() {
         waitingPane.setVisible(true);
         tableView.getColumns().clear();
         barChart.getData().clear();
-        new Thread(() -> {
-            startQuery();
-        }).start();
+        new Thread(this::startQuery).start();
     }
 
     private void startQuery() {
@@ -72,7 +70,7 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
         XYChart.Series series = new XYChart.Series();
         try {
             conn = database.connect();
-            query = database.setQuery(Database.Query.VISITES_PAR_LOCALITE);
+            String query = database.setQuery(Database.Query.VISITES_PAR_LOCALITE);
             ps = conn.prepareStatement(query);
             ps.setDate(1, java.sql.Date.valueOf(""+ fromYear + "-01-01"));
             ps.setDate(2, java.sql.Date.valueOf(""+ toYear + "-01-01"));

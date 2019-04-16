@@ -48,6 +48,12 @@ class Year {
                 fileC = "Suivi pers. CJB Namur 2020.xls";
                 fileD = "Indicateurs 2020.xls";
                 break;
+            case 2021:
+                fileA = "Namur 2021.xls";
+                fileB = "Données Namur 2021.xls";
+                fileC = "Suivi pers. CJB Namur 2021.xls";
+                fileD = "Indicateurs 2021.xls";
+                break;
         }
     }
 

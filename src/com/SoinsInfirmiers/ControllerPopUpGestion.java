@@ -7,12 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import main.Date;
 import main.ExceptionHandler;
 import main.Menu;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class ControllerPopUpGestion implements Initializable {
@@ -41,14 +40,8 @@ public class ControllerPopUpGestion implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Data data = new Data();
         comboYear.setItems(data.yearList);
-        comboYear.setPromptText(getCurrentYear());
-        yearStr = getCurrentYear();
-    }
-
-    private String getCurrentYear() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy");
-        LocalDate localDate = LocalDate.now();
-        return dtf.format(localDate);
+        comboYear.setPromptText(Date.getCurrentYear());
+        yearStr = Date.getCurrentYear();
     }
 
     public void onButtonClick() {

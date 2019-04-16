@@ -17,8 +17,10 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import main.Date;
 import main.ExceptionHandler;
 import main.Menu;
+import main.Version;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
@@ -47,6 +49,7 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         menu.loadMenuBar(menuBox);
+        yearPicker1.setText(Date.getCurrentYear());
     }
 
     public void onAction() {
