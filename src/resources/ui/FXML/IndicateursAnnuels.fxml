@@ -12,22 +12,33 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <GridPane alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerIndicateursAnnuels">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1222.0" minWidth="10.0" prefWidth="609.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="826.0" minWidth="10.0" prefWidth="671.0" />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="518.0" minHeight="10.0" prefHeight="290.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints maxHeight="518.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="518.0" minHeight="10.0" prefHeight="183.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="674.0" minHeight="10.0" prefHeight="404.0" vgrow="SOMETIMES" />
+      <RowConstraints />
    </rowConstraints>
-   <VBox fx:id="menuPane" prefHeight="31.0" prefWidth="642.0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
-   <GridPane alignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+   <fx:include fx:id="menuPane" source="Menu.fxml" />
+   <GridPane alignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
       <columnConstraints>
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.0" minWidth="10.0" prefWidth="31.0" />
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="192.0" />
@@ -36,29 +47,43 @@
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="30.0" />
       </columnConstraints>
       <rowConstraints>
-         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <Label text="INDICATEURS ANNUELS" textFill="#006782" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER">
-         <font>
-            <Font name="System Bold" size="36.0" />
-         </font>
-      </Label>
-      <JFXComboBox id="comboYear" fx:id="comboYear" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" stylesheets="@../CSS/ComboBox.css" unFocusColor="#006782" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-      <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-      <JFXComboBox id="comboPeriode" fx:id="comboPeriode" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Période" stylesheets="@../CSS/ComboBox.css" unFocusColor="#006782" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#96bb37" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" stylesheets="@../CSS/ComboBox.css" unFocusColor="#006782" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-      <JFXComboBox id="comboIndic" fx:id="comboIndic" focusColor="#96bb37" labelFloat="true" prefHeight="22.0" prefWidth="322.0" promptText="Indicateur" stylesheets="@../CSS/ComboBox.css" unFocusColor="#006782" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <JFXButton fx:id="generateButton" buttonType="RAISED" prefHeight="30.0" prefWidth="81.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Exécuter" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnSpan="5" GridPane.rowIndex="1">
+         <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#303f9f">
+            <padding>
+               <Insets left="10.0" />
+            </padding>
+         </JFXComboBox>
+         <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#3f51b5" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" stylesheets="@../CSS/ComboBox.css" unFocusColor="#303f9f" />
+         <JFXComboBox id="comboIndic" fx:id="comboIndic" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="200.0" promptText="Indicateur" stylesheets="@../CSS/ComboBox.css" unFocusColor="#3f51b5" />
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" GridPane.columnSpan="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <JFXComboBox id="comboPeriode" fx:id="comboPeriode" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Période" stylesheets="@../CSS/ComboBox.css" unFocusColor="#303f9f" />
+         <JFXComboBox id="comboYear" fx:id="comboYear" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" stylesheets="@../CSS/ComboBox.css" unFocusColor="#303f9f" />
+      </HBox>
+      <JFXButton fx:id="generateButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" prefHeight="60.0" prefWidth="60.0" styleClass="indigo-round" stylesheets="@../CSS/Buttons.css" text="Exécuter" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="2">
          <font>
             <Font size="13.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../img/checked.png" />
+            </ImageView>
+         </graphic>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
    </GridPane>
-   <GridPane alignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+   <GridPane alignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
       <columnConstraints>
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.0" minWidth="10.0" prefWidth="228.0" />
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.0" minWidth="10.0" prefWidth="153.0" />
@@ -71,12 +96,12 @@
          <RowConstraints maxHeight="272.0" minHeight="10.0" prefHeight="240.0" vgrow="SOMETIMES" />
          <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <Label alignment="CENTER" prefHeight="22.0" prefWidth="131.0" text="INDICATEUR" textFill="#006782" underline="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <Label alignment="CENTER" prefHeight="22.0" prefWidth="131.0" text="INDICATEUR" textFill="#3f51b5" underline="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="113.0" text="DONNÉES" textFill="#006782" underline="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="113.0" text="DONNÉES" textFill="#3f51b5" underline="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
@@ -128,15 +153,21 @@
          <Label fx:id="labelValueE" alignment="CENTER" prefHeight="22.0" prefWidth="200.0" text="Label" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
       </GridPane>
       <Separator prefHeight="38.0" prefWidth="421.0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
-      <JFXButton fx:id="backButton" buttonType="RAISED" focusTraversable="false" prefHeight="33.0" prefWidth="46.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="←" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+      <JFXButton fx:id="backButton" buttonType="RAISED" focusTraversable="false" prefHeight="33.0" prefWidth="46.0" styleClass="indigo-button" stylesheets="@../CSS/Buttons.css" text="←" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="4">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <JFXButton fx:id="nextButton" buttonType="RAISED" focusTraversable="false" prefHeight="33.0" prefWidth="46.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="→" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+      <JFXButton fx:id="nextButton" buttonType="RAISED" focusTraversable="false" prefHeight="33.0" prefWidth="46.0" styleClass="indigo-button" stylesheets="@../CSS/Buttons.css" text="→" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <Label fx:id="monthLabel" alignment="CENTER" prefHeight="24.0" prefWidth="224.0" text="PERIODE" visible="false" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
          <font>
@@ -144,7 +175,7 @@
          </font>
       </Label>
    </GridPane>
-   <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="3" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+   <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.rowSpan="3" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
       <columnConstraints>
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="37.0" />
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="576.0" minWidth="10.0" prefWidth="576.0" />
@@ -165,12 +196,14 @@
       </Label>
       <Label fx:id="noGraphicLabel" alignment="CENTER" prefHeight="30.0" prefWidth="259.0" text="Pas de graphique disponible pour cet indicateur" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       <PieChart fx:id="roundGraph" prefHeight="641.0" prefWidth="540.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
-      <JFXSpinner fx:id="spinner" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <ImageView accessibleHelp="Open EXCEL File" fitHeight="46.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" fx:id="xlsIcon">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <Image url="@../../img/iconXLS.png" />
-      </ImageView>
+      <JFXSpinner fx:id="spinner" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
    </GridPane>
+   <JFXButton buttonType="RAISED" prefHeight="80.0" prefWidth="3000.0" style="-fx-background-color: #3F51B5; -fx-background-radius: 0;" text="Indicateurs Annuels" textFill="WHITE" GridPane.columnSpan="11" GridPane.rowIndex="1">
+      <font>
+         <Font name="Product Sans Bold" size="24.0" />
+      </font>
+      <GridPane.margin>
+         <Insets />
+      </GridPane.margin>
+   </JFXButton>
 </GridPane>

@@ -91,6 +91,8 @@ class Database {
         NOMBRE_DE_VISITE_PAR_FFA,
         NOMBRE_DE_VISITE_PAR_FFB,
         NOMBRE_DE_VISITE_PAR_FFC,
+        VISITES_PAR_J_PRESTES,
+        VISITES_PAR_J_AV_SOINS,
 
         // PATIENTS
         NOMBRE_DE_PATIENTS,
@@ -136,11 +138,13 @@ class Database {
         FORFAITS_PALLIATIFS,
         DEPLACEMENTS,
         TICKETS_MODERATEURS,
-        SOINS_DIVERS_ET_CONVENTIONS,
+        SOINS_DIVERS,
+        CONVENTIONS,
         RECETTE_OA_PAR_VISITE,
         RECETTE_OA_PAR_J_PRESTE,
         RECETTE_OA_PAR_J_AVEC_SOINS,
         RECETTE_OA_PAR_J_PRESTE_AVEC_SD_ET_CONVENTIONS,
+        RECETTE_TOTALE_PAR_J_AVEC_SOINS,
 
         // SUIVI PERSONNEL
         J_PRESTES_AVEC_EMSS,
@@ -154,8 +158,6 @@ class Database {
         TAUX_SMG,
         KM_PARCOURUS,
         KM_PARCOURUS_PAR_VISITE
-
-
     }
 
     String setQuery(Query queryName) {
@@ -315,6 +317,57 @@ class Database {
                         "    GROUP BY periode \n" +
                         ")\n" +
                         "ORDER BY periode\n";
+                break;
+            case VISITES_PAR_J_PRESTES:
+                query = "SELECT (x.total / y.total) AS TOTAL\n" +
+                        "FROM (SELECT PERIODE, SUM(SOMME) AS TOTAL\n" +
+                        "      FROM V_STAT_NAMUR\n" +
+                        "      WHERE CODE_REF_NO IN (7, 8, 9, 10, 205, 227, 249, 271, 293)\n" +
+                        "        AND periode BETWEEN ? AND ?\n" +
+                        "        AND CEE_REF_NO LIKE ?\n" +
+                        "      GROUP BY PERIODE\n" +
+                        "      ORDER BY periode) x\n" +
+                        "         JOIN\n" +
+                        "     (SELECT SUM(UREN)/7.6 as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AC', 'AS', 'CO', 'CP', 'CS', 'CT', 'DP', 'DS', 'ECO', 'EMSS', 'EMAS', 'EMRE', 'EQ', 'FS', 'GPA', 'GPS', 'GPSS', 'HMD', 'HOM', 'IS', 'PIS', 'PL', 'PMM', 'PR', 'RO', 'RR', 'RSV', 'SF', 'SH', 'SM', 'SP', 'SS', 'SSV', 'VW', 'VO', 'CS', 'CT', 'DP', 'DS', 'IS', 'PR',  'RSV', 'SH', 'SM', 'SS', 'SSV', 'VM', 'VO', 'TUTO')\n" +
+                        "\t\t\tAND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND) y\n" +
+                        "     ON x.PERIODE = y.MAAND ";
+                break;
+            case VISITES_PAR_J_AV_SOINS:
+                query = "SELECT (x.total / y.total) AS TOTAL\n" +
+                        "FROM\n" +
+                        "    (SELECT PERIODE, SUM(SOMME) AS TOTAL\n" +
+                        "      FROM V_STAT_NAMUR\n" +
+                        "      WHERE CODE_REF_NO IN (7, 8, 9, 10, 205, 227, 249, 271, 293)\n" +
+                        "        AND periode BETWEEN ? AND ?\n" +
+                        "        AND CEE_REF_NO LIKE ?\n" +
+                        "      GROUP BY PERIODE\n" +
+                        "      ORDER BY periode) x\n" +
+                        "JOIN\n" +
+                        "    (SELECT SUM(uren)/7.6 as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AS', 'EMAS', 'EMRE')\n" +
+                        "            AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND ASC) y\n" +
+                        "ON x.PERIODE = y.MAAND ";
                 break;
             case NOMBRE_DE_PATIENTS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
@@ -717,11 +770,19 @@ class Database {
                         "group by PERIODE\n" +
                         "order by PERIODE";
                 break;
-            case SOINS_DIVERS_ET_CONVENTIONS:
+            case SOINS_DIVERS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
                         "WHERE CODE_REF_NO IN (99, 373) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "group by PERIODE\n" +
                         "order by PERIODE";
+                break;
+            case CONVENTIONS:
+                query = "SELECT SUM(VAR_AMOUNT) as TOTAL, VAR_MONTH\n" +
+                        "FROM CONV_HC.INVOICE_CONVENTIONALS_V\n" +
+                        "WHERE VAR_MONTH BETWEEN TO_DATE(?, 'yyyymm') AND TO_DATE(?, 'yyyymm')\n" +
+                        "AND CENTER LIKE ?\n" +
+                        "GROUP BY VAR_MONTH\n" +
+                        "ORDER BY VAR_MONTH ";
                 break;
             case RECETTE_OA_PAR_VISITE:
                 query = "SELECT x.total_1/y.total_2 as TOTAL\n" +
@@ -818,6 +879,42 @@ class Database {
                         "\t\t\tAND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
                         "            GROUP BY wkp.MAAND\n" +
                         "            ORDER BY wkp.MAAND";
+                break;
+            case RECETTE_TOTALE_PAR_J_AVEC_SOINS:
+                query = "SELECT a.TOTAL / b.TOTAL AS TOTAL \n" +
+                        "FROM (\n" +
+                        "         SELECT x.TOTAL + y.TOTAL as TOTAL, PERIODE\n" +
+                        "         FROM (\n" +
+                        "                  SELECT SUM(SOMME) AS Total, TO_DATE(periode, 'yyyymm') as PERIODE\n" +
+                        "                  FROM V_STAT_NAMUR\n" +
+                        "                  WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281, 11, 99, 373)\n" +
+                        "                    AND periode BETWEEN ? AND ?\n" +
+                        "                    AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
+                        "                  group by PERIODE\n" +
+                        "                  order by PERIODE) x\n" +
+                        "                  JOIN\n" +
+                        "              (SELECT SUM(NVL(VAR_AMOUNT, 0)) as TOTAL, VAR_MONTH\n" +
+                        "               FROM CONV_HC.INVOICE_CONVENTIONALS_V\n" +
+                        "               WHERE VAR_MONTH BETWEEN TO_DATE(?, 'yyyymm') AND TO_DATE(?, 'yyyymm')\n" +
+                        "                 AND CENTER LIKE ?\n" +
+                        "                  GROUP BY VAR_MONTH) y\n" +
+                        "              ON x.PERIODE = y.VAR_MONTH\n" +
+                        "     ) a\n" +
+                        "JOIN\n" +
+                        "     (SELECT SUM(uren)/7.6 as TOTAL, TO_DATE(MAAND, 'yyyymm') AS MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AS', 'EMAS', 'EMRE', 'HOM', 'GPA', 'PIS', 'HMD', 'PMM')\n" +
+                        "            AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND ASC) b\n" +
+                        "ON a.PERIODE = b.MAAND ";
                 break;
             case J_PRESTES_AVEC_EMAS:
                 query = " SELECT SUM(UREN)/7.6 as TOTAL, wkp.MAAND\n" +

@@ -11,7 +11,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="postgresql-42.1.1" level="project" />
     <orderEntry type="library" name="itext5-itextpdf-5.5.11" level="project" />
-    <orderEntry type="library" name="jfoenix" level="project" />
     <orderEntry type="library" name="ojdbc6" level="project" />
     <orderEntry type="library" name="commons-collections4-4.2" level="project" />
     <orderEntry type="library" name="poi-4.0.1" level="project" />
@@ -20,5 +19,6 @@
     <orderEntry type="library" name="ooxml-schemas-1.4" level="project" />
     <orderEntry type="library" name="xmlbeans-3.0.1" level="project" />
     <orderEntry type="library" name="commons-compress-1.18" level="project" />
+    <orderEntry type="library" name="jfoenix-8.0.8" level="project" />
   </component>
 </module>

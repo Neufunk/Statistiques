@@ -12,18 +12,15 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import main.Date;
 import main.ExceptionHandler;
 import main.Menu;
-import main.Version;
 
-import javax.swing.*;
-import javax.swing.text.NumberFormatter;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,9 +30,9 @@ import java.util.ResourceBundle;
 public class ControllerComparaisonVisitesCentres implements Initializable {
 
     @FXML
-    private TableView<ObservableList> tableView;
+    public AnchorPane menuPane;
     @FXML
-    private VBox menuBox;
+    private TableView<ObservableList> tableView;
     @FXML
     private BarChart barChart;
     @FXML
@@ -48,8 +45,8 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        menu.loadMenuBar(menuBox);
-        yearPicker1.setText(Date.getCurrentYear());
+        menuPane.getChildren().get(0).getStyleClass().add("white");
+        yearPicker1.setText(Date.getCurrentYearStr());
     }
 
     public void onAction() {

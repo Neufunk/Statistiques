@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import main.Menu;
@@ -53,7 +54,7 @@ public class ControllerComparaisonAnnees implements Initializable {
     @FXML
     private ImageView redCross2;
     @FXML
-    private VBox menuPane;
+    private AnchorPane menuPane;
 
     private final Year year = new Year();
     private final Category category = new Category();
@@ -65,8 +66,7 @@ public class ControllerComparaisonAnnees implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Menu menu = new Menu();
-        menu.loadMenuBar(menuPane);
+        menuPane.getChildren().get(0).getStyleClass().add("green");
         initializeCombo();
         onClearButtonClick();
         onRedCrossClick();

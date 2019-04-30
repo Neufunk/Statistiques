@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -26,9 +27,9 @@ import java.util.ResourceBundle;
 public class ControllerComparaisonVisitesLocalites implements Initializable {
 
     @FXML
-    private TableView<ObservableList> tableView;
+    public AnchorPane menuPane;
     @FXML
-    private VBox menuBox;
+    private TableView<ObservableList> tableView;
     @FXML
     private BarChart barChart;
     @FXML
@@ -46,8 +47,8 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        menu.loadMenuBar(menuBox);
-        yearCombo.setText(main.Date.getCurrentYear());
+        menuPane.getChildren().get(0).getStyleClass().add("white");
+        yearCombo.setText(main.Date.getCurrentYearStr());
     }
 
     public void onAction() {

@@ -3,18 +3,26 @@ package SoinsInfirmiers;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import main.Main;
+import main.Menu;
+import org.apache.poi.ss.formula.functions.T;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -51,7 +59,7 @@ public class ControllerComparaisonCentres implements Initializable {
     @FXML
     private JFXSpinner idleSpinner;
     @FXML
-    private VBox menuPane;
+    private AnchorPane menuPane;
     @FXML
     private LineChart<String, Float> lineChart;
     @FXML
@@ -68,8 +76,7 @@ public class ControllerComparaisonCentres implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        main.Menu menu = new main.Menu();
-        menu.loadMenuBar(menuPane);
+        menuPane.getChildren().get(0).getStyleClass().add("brown");
         initializeCombo();
         onRedCrossClick();
     }
@@ -129,7 +136,7 @@ public class ControllerComparaisonCentres implements Initializable {
         idleSpinner.setVisible(true);
     }
 
-    private void onRedCrossClick(){
+    private void onRedCrossClick() {
         redCross1.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
             comboCentre1.getSelectionModel().clearSelection();
             onGenerateButtonClick();
@@ -152,7 +159,7 @@ public class ControllerComparaisonCentres implements Initializable {
         });
     }
 
-    public void onAllCenterButtonClick(){
+    public void onAllCenterButtonClick() {
         comboCentre1.getSelectionModel().select(1);
         comboCentre2.getSelectionModel().select(2);
         comboCentre3.getSelectionModel().select(3);

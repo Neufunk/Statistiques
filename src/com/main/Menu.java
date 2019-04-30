@@ -1,12 +1,12 @@
 package main;
 
 import SoinsInfirmiers.Data;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -16,23 +16,11 @@ import java.util.Calendar;
 
 public class Menu {
 
-    public static final Stage activiteStage = new Stage();
+    @FXML
+    MenuBar menuBar;
+
     public static final Stage gestionStage = new Stage();
     static final Stage connectionTestStage = new Stage();
-    private final Print print = new Print();
-    private static Node printableNode;
-
-    public void loadMenuBar(Pane pane) {
-        try {
-            pane.getChildren().add(FXMLLoader.load((getClass().getResource("/ui/FXML/Menu.fxml"))));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setPrintableNode(Node printableNode) {
-        Menu.printableNode = printableNode;
-    }
 
     public void openHomepage() {
         Stage stage = Main.getPrimaryStage();
@@ -77,7 +65,7 @@ public class Menu {
     }
 
     public void print() {
-        print.printSetup(printableNode, Main.getPrimaryStage());
+
     }
 
     public void openIndicateursPage(){
@@ -102,7 +90,7 @@ public class Menu {
         }
     }
 
-    public void openComparaisonCentres(){
+    public void openComparaisonCentres() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonCentres.fxml"));
@@ -144,18 +132,6 @@ public class Menu {
             stage.setTitle(Data.pageTitle4);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void pdfActivite(){
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpActivite.fxml"));
-            activiteStage.setScene(new Scene(root, 350, 380));
-            activiteStage.setTitle("Rapport - Activité et suivi du personnel");
-            activiteStage.setResizable(false);
-            activiteStage.show();
-        } catch (IOException e1) {
-            e1.printStackTrace();
         }
     }
 
@@ -260,5 +236,4 @@ public class Menu {
     public void closeButtonAction() {
         System.exit(0);
     }
-
 }

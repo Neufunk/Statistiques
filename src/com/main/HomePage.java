@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -25,19 +26,18 @@ public class HomePage implements Initializable {
     @FXML
     private JFXButton avjButton;
     @FXML
-    private VBox menuPane;
+    private AnchorPane menuPane;
     @FXML
     private GridPane gridPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        menuPane.getChildren().get(0).getStyleClass().add("white");
         onButtonSiClick();
         onButtonAvjClick();
-        Menu menu = new Menu();
-        menu.loadMenuBar(menuPane);
     }
 
-    private void onButtonSiClick(){
+    private void onButtonSiClick() {
         Tooltip.install(siButton, new Tooltip("Département Soins Infirmiers"));
         siButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> openIndicateursPage());
     }

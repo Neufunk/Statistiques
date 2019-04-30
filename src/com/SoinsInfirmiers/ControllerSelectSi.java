@@ -2,7 +2,7 @@ package SoinsInfirmiers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
 import main.Menu;
 
 import java.net.URL;
@@ -11,13 +11,13 @@ import java.util.ResourceBundle;
 public class ControllerSelectSi implements Initializable {
 
     @FXML
-    private VBox menuPane;
+    private AnchorPane menuPane;
 
     private final Menu menu = new Menu();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        menu.loadMenuBar(menuPane);
+        menuPane.getChildren().get(0).getStyleClass().add("white");
     }
 
     public void openIndicateursPage() {
@@ -33,10 +33,6 @@ public class ControllerSelectSi implements Initializable {
     }
 
     public void openSelectVisitesPatients() { menu.openSelectVisitesPatients(); }
-
-    public void pdfActivite() {
-        menu.pdfActivite();
-    }
 
     public void pdfGestion() {menu.pdfGestion();}
 

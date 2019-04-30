@@ -20,7 +20,6 @@
       </element>
       <element id="library" level="project" name="itext5-itextpdf-5.5.11" />
       <element id="library" level="project" name="postgresql-42.1.1" />
-      <element id="library" level="project" name="jfoenix" />
       <element id="library" level="project" name="ojdbc6" />
       <element id="file-copy" path="$PROJECT_DIR$/src/resources/txt/Changelog.txt" />
       <element id="artifact" artifact-name="Preloader" />
@@ -31,6 +30,7 @@
       <element id="library" level="project" name="poi-ooxml-schemas-4.0.1" />
       <element id="library" level="project" name="xmlbeans-3.0.1" />
       <element id="library" level="project" name="commons-compress-1.18" />
+      <element id="library" level="project" name="jfoenix-8.0.8" />
     </root>
   </artifact>
 </component>

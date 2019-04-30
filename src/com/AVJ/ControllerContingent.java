@@ -64,7 +64,7 @@ public class ControllerContingent implements Initializable {
     @FXML
     private JFXCheckBox antenneCheckbox;
     @FXML
-    private VBox menuPane;
+    private AnchorPane menuPane;
 
     private final Database database = new Database();
     private final Effects fx = new Effects();
@@ -81,9 +81,6 @@ public class ControllerContingent implements Initializable {
     private final String PHILPATH = "\\\\130.17.0.1\\Public\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
 
     public void initialize(URL location, ResourceBundle resources) {
-        Menu menu = new Menu();
-        menu.loadMenuBar(menuPane);
-        menu.setPrintableNode(mainVBox);
         initializeCombo();
         onCancelButtonClick();
         toggleButtonListener();

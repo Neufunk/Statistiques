@@ -2,6 +2,7 @@ package SoinsInfirmiers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.Menu;
 
@@ -13,13 +14,13 @@ import java.util.ResourceBundle;
 public class ControllerSelectVisitesPatients implements Initializable {
 
     @FXML
-    private VBox menuPane;
+    private AnchorPane menuPane;
 
     private final Menu menu = new Menu();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        menu.loadMenuBar(menuPane);
+        menuPane.getChildren().get(0).getStyleClass().add("white");
     }
 
     public void openVisiteLocalites(){

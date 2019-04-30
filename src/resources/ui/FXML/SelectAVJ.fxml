@@ -86,7 +86,7 @@
             </HBox.margin>
         </JFXButton>
     </HBox>
-    <VBox fx:id="menuPane" stylesheets="@../CSS/Buttons.css" GridPane.columnSpan="3"/>
+    <fx:include fx:id="menuPane" source="Menu.fxml" GridPane.columnSpan="11" />
     <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
           GridPane.columnSpan="3" GridPane.rowIndex="2">
         <padding>

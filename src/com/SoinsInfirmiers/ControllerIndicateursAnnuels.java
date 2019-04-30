@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import main.Effects;
@@ -74,15 +75,13 @@ public class ControllerIndicateursAnnuels implements Initializable {
     @FXML
     private GridPane valuePane;
     @FXML
-    private ImageView xlsIcon;
-    @FXML
     private Label monthLabel;
     @FXML
     private JFXButton backButton;
     @FXML
     private JFXButton nextButton;
     @FXML
-    private VBox menuPane;
+    private AnchorPane menuPane;
 
     private final Year year = new Year();
     private final Centre centre = new Centre();
@@ -93,10 +92,8 @@ public class ControllerIndicateursAnnuels implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Menu menu = new Menu();
-        menu.loadMenuBar(menuPane);
+        menuPane.getChildren().get(0).getStyleClass().add("indigo");
         initializeCombo();
-        xlsIcon();
         onGenerateButtonClick();
         navigateThroughMonths();
     }
@@ -196,7 +193,7 @@ public class ControllerIndicateursAnnuels implements Initializable {
         }
         for (final PieChart.Data data : roundGraph.getData()) {
             data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, (e1) ->
-                    Tooltip.install(data.getNode(), new Tooltip(String.valueOf(data.getPieValue() + "%"))));
+                    Tooltip.install(data.getNode(), new Tooltip(data.getPieValue() + "%")));
         }
     }
 
@@ -234,32 +231,6 @@ public class ControllerIndicateursAnnuels implements Initializable {
             if (checkEmpty()) {
                 comboPeriode.getSelectionModel().selectNext();
                 generate();
-            }
-        });
-    }
-
-    private void xlsIcon() {
-        Tooltip.install(xlsIcon, new Tooltip("Ouvrir le fichier EXCEL original"));
-        xlsIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (comboYear.getValue() == null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("NullPointerException");
-                alert.setHeaderText("Veuillez sélectionner une année");
-                alert.setContentText("Impossible d'ouvrir le fichier.");
-                alert.showAndWait();
-            } else {
-                year.toPath(comboYear.getValue());
-                File file = new File(year.getPath() + year.getFileA());
-                if (!Desktop.isDesktopSupported()) {
-                    System.out.println("OS non supporté");
-                    return;
-                }
-                Desktop desktop = Desktop.getDesktop();
-                try {
-                    if (file.exists()) desktop.open(file);
-                } catch (IOException e1) {
-                    ExceptionHandler.switchException(e1, this.getClass());
-                }
             }
         });
     }

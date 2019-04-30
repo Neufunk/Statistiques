@@ -1,15 +1,62 @@
+@font-face {
+    font-family: 'Product Sans n'
+    src: url('../../fonts/ProductSansRegular.ttf');
+}
+@font-face {
+    font-family: 'Product Sans b';
+    src: url('../../fonts/ProductSansBold.ttf');
+}
+
 /* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
-* {
-    -fx-my-menu-color: #FFFFFF;                  /* Change according to your needs */
-    -fx-my-menu-color-highlighted: #006886;     /* Change according to your needs */
-    -fx-my-menu-font-color: #000;             /* Change according to your needs */
+
+.white {
+    -fx-my-menu-color: #fff;                  /* Change according to your needs */
+    -fx-my-menu-color-highlighted: #fff;     /* Change according to your needs */
+    -fx-my-menu-font-color: #666;             /* Change according to your needs */
+    -fx-my-menu-font-color-highlighted: #222; /* Change according to your needs */
+}
+
+.brown {
+    -fx-my-menu-color: #5f4339;                  /* Change according to your needs */
+    -fx-my-menu-color-highlighted: #8d6e63;     /* Change according to your needs */
+    -fx-my-menu-font-color: #fff;             /* Change according to your needs */
     -fx-my-menu-font-color-highlighted: #fff; /* Change according to your needs */
+}
+
+.indigo {
+    -fx-my-menu-color: #303F9F;                  /* Change according to your needs */
+    -fx-my-menu-color-highlighted: #3F51B5;     /* Change according to your needs */
+    -fx-my-menu-font-color: #fff;             /* Change according to your needs */
+    -fx-my-menu-font-color-highlighted: #C5CAE9; /* Change according to your needs */
+}
+
+.green {
+    -fx-my-menu-color: #689F38 ;                 /* Change according to your needs */
+    -fx-my-menu-color-highlighted: #8BC34A;     /* Change according to your needs */
+    -fx-my-menu-font-color: #fff;             /* Change according to your needs */
+    -fx-my-menu-font-color-highlighted: #000; /* Change according to your needs */
+}
+
+.orange {
+    -fx-my-menu-color: #FFA000;                  /* Change according to your needs */
+    -fx-my-menu-color-highlighted: #FFC107;     /* Change according to your needs */
+    -fx-my-menu-font-color: #000;             /* Change according to your needs */
+    -fx-my-menu-font-color-highlighted: #FFECB3; /* Change according to your needs */
+}
+
+.pink {
+    -fx-my-menu-color: #C2185B;                  /* Change according to your needs */
+    -fx-my-menu-color-highlighted: #E91E63;     /* Change according to your needs */
+    -fx-my-menu-font-color: #000;             /* Change according to your needs */
+    -fx-my-menu-font-color-highlighted: #F8BBD0; /* Change according to your needs */
 }
 
 /* MENU BAR + Top-level MENU BUTTONS */
 /*** The menu bar itself ***/
 .menu-bar {
+    -fx-font-family: 'Product Sans n';
     -fx-background-color: -fx-my-menu-color;
+    -fx-font-size: 14;
 }
 
 /*** Top-level menu itself (not selected / hovered) ***/
@@ -66,6 +113,7 @@
 /*** The item's label (hovered / focused) ***/
 .menu-item:focused .label, .menu-item:hovered .label {
     -fx-text-fill: -fx-my-menu-font-color-highlighted;
+    -fx-font-weight: bold;
 }
 
 /* CONTEXT MENU */

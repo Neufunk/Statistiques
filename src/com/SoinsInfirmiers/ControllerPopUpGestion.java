@@ -40,8 +40,8 @@ public class ControllerPopUpGestion implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Data data = new Data();
         comboYear.setItems(data.yearList);
-        comboYear.setPromptText(Date.getCurrentYear());
-        yearStr = Date.getCurrentYear();
+        yearStr = Date.getCurrentYearStr();
+        comboYear.setPromptText(yearStr);
     }
 
     public void onButtonClick() {

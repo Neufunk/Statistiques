@@ -2,6 +2,7 @@ package main;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 public class Date {
 
@@ -11,9 +12,13 @@ public class Date {
         return dtf.format(localDate);
     }
 
-    public static String getCurrentYear() {
+    public static String getCurrentYearStr() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy");
         LocalDate localDate = LocalDate.now();
         return dtf.format(localDate);
+    }
+
+    public static int getCurrentYearInt() {
+        return Calendar.getInstance().get(Calendar.YEAR);
     }
 }
