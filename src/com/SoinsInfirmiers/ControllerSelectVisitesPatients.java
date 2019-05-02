@@ -3,7 +3,6 @@ package SoinsInfirmiers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import main.Menu;
 
 import java.net.URL;

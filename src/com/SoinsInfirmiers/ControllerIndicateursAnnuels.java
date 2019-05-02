@@ -6,21 +6,14 @@ import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import main.Effects;
 import main.ExceptionHandler;
-import main.Menu;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 

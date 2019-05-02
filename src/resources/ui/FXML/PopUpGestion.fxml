@@ -19,18 +19,18 @@
     </rowConstraints>
     <AnchorPane prefHeight="380.0" prefWidth="483.0" style="-fx-background-color: #ffffff;" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
         <AnchorPane layoutY="-1.0" prefHeight="267.0" prefWidth="384.0" style="-fx-background-color: #006782;">
-          <ComboBox fx:id="comboYear" layoutX="141.0" layoutY="118.0" onAction="#onComboSelection" prefHeight="31.0" prefWidth="114.0" style="-fx-background-color: white;" />
+          <ComboBox fx:id="comboYear" layoutX="135.0" layoutY="118.0" onAction="#onComboSelection" prefHeight="31.0" prefWidth="114.0" style="-fx-background-color: white;" />
           <JFXButton fx:id="closeButton" buttonType="RAISED" focusTraversable="false" layoutX="154.0" layoutY="222.0" onAction="#onCloseClick" prefHeight="31.0" prefWidth="87.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Fermer" textFill="WHITE" visible="false" />
-          <JFXButton fx:id="button" buttonType="RAISED" focusTraversable="false" layoutX="154.0" layoutY="222.0" onAction="#onButtonClick" prefHeight="31.0" prefWidth="87.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Générer" />
+          <JFXButton fx:id="button" buttonType="RAISED" focusTraversable="false" layoutX="149.0" layoutY="222.0" onAction="#onButtonClick" prefHeight="31.0" prefWidth="87.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Générer" />
          <Label layoutX="22.0" layoutY="14.0" text="INDICATEURS DE GESTION" textFill="WHITE">
             <font>
                <Font name="Interstate-Bold" size="18.0" />
             </font>
          </Label>
-         <JFXSpinner fx:id="spinner" layoutX="182.0" layoutY="222.0" visible="false" />
+         <JFXSpinner fx:id="spinner" layoutX="167.0" layoutY="213.0" visible="false" />
         </AnchorPane>
-        <Label fx:id="label2" contentDisplay="CENTER" focusTraversable="false" layoutX="24.0" layoutY="335.0" prefHeight="22.0" prefWidth="344.0" />
-        <Label fx:id="label" contentDisplay="CENTER" focusTraversable="false" layoutX="24.0" layoutY="305.0" prefHeight="31.0" prefWidth="262.0" />
-      <Label fx:id="label3" focusTraversable="false" layoutX="24.0" layoutY="283.0" prefHeight="22.0" prefWidth="307.0" text="Génération du PDF..." visible="false" />
+        <Label fx:id="label2" contentDisplay="CENTER" layoutX="24.0" layoutY="335.0" prefHeight="22.0" prefWidth="344.0" />
+        <Label fx:id="label" contentDisplay="CENTER" layoutX="24.0" layoutY="305.0" prefHeight="31.0" prefWidth="262.0" />
+      <Label fx:id="label3" layoutX="24.0" layoutY="283.0" prefHeight="22.0" prefWidth="307.0" text="Génération du PDF..." visible="false" />
     </AnchorPane>
 </GridPane>

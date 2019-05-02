@@ -20,8 +20,6 @@
     </rowConstraints>
     <fx:include fx:id="menuPane" source="Menu.fxml" GridPane.columnSpan="11"/>
     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
-        <children>
-          <Button mnemonicParsing="false" text="CONSOLE"/>
-        </children>
+        <Button mnemonicParsing="false" text="CONSOLE"/>
     </VBox>
 </GridPane>

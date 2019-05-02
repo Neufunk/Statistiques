@@ -15,13 +15,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import main.ExceptionHandler;
 import main.Menu;
 
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class ControllerComparaisonVisitesLocalites implements Initializable {

@@ -20,7 +20,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -28,7 +31,6 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Effects;
 import main.Main;
-import main.Menu;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -90,6 +92,7 @@ public class ControllerContingent implements Initializable {
     }
 
     private void initializeCombo() {
+        menuPane.getChildren().get(0).getStyleClass().add("white");
         AVJ.Data data = new AVJ.Data();
         comboCentre.setItems(data.centerList);
         comboPeriode.setItems(data.periode);

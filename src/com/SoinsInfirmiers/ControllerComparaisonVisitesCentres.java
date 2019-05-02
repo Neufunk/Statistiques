@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import main.Date;
 import main.ExceptionHandler;

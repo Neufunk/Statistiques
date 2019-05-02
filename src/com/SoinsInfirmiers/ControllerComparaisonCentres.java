@@ -3,26 +3,18 @@ package SoinsInfirmiers;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import main.Main;
-import main.Menu;
-import org.apache.poi.ss.formula.functions.T;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 

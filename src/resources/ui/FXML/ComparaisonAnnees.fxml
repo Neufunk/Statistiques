@@ -95,16 +95,14 @@
         </ImageView>
     </HBox>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" GridPane.columnSpan="6" GridPane.rowIndex="4" GridPane.rowSpan="2">
-        <JFXButton fx:id="generateButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#onGenerateButtonClick" prefHeight="60.0" prefWidth="60.0" ripplerFill="BLACK" styleClass="green-round" stylesheets="@../CSS/Buttons.css" text=" " textFill="WHITE">
+        <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#onGenerateButtonClick" prefHeight="60.0" prefWidth="60.0" ripplerFill="BLACK" styleClass="green-round" stylesheets="@../CSS/Buttons.css" text=" " textFill="WHITE">
             <font>
               <Font size="13.0" />
             </font>
          <graphic>
-            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../img/checked.png" />
-               </image>
-            </ImageView>
+             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                 <Image url="@../../img/checked.png"/>
+             </ImageView>
          </graphic>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -115,11 +113,9 @@
               <Font size="13.0" />
             </font>
          <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../img/cancel-music.png" />
-               </image>
-            </ImageView>
+             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                 <Image url="@../../img/cancel-music.png"/>
+             </ImageView>
          </graphic>
          <cursor>
             <Cursor fx:constant="HAND" />

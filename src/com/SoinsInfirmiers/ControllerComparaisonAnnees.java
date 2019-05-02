@@ -14,9 +14,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import main.Menu;
 
 import java.net.URL;
 import java.util.ResourceBundle;

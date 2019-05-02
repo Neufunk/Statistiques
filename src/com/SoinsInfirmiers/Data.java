@@ -1,8 +1,8 @@
 package SoinsInfirmiers;
 
-import main.Version;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.Version;
 
 public class Data {
     // Page titles

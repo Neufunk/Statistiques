@@ -1,8 +1,8 @@
 package AVJ;
 
-import main.Version;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.Version;
 
 public class Data {
 
@@ -18,7 +18,7 @@ public class Data {
             .observableArrayList( "Année Complète", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août",
                     "Septembre", "Octobre", "Novembre", "Décembre");
 
-    public final ObservableList<String> queryList = FXCollections
+    final ObservableList<String> queryList = FXCollections
             .observableArrayList("SELECT", "UPDATE", "INSERT", "DELETE");
 
 }

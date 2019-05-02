@@ -3,7 +3,6 @@ package AVJ;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import main.Menu;
 
 import java.net.URL;
@@ -18,6 +17,7 @@ public class ControllerSelectAVJ implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        menuPane.getChildren().get(0).getStyleClass().add("white");
     }
 
     public void openContingentPage(){
