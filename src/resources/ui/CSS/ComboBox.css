@@ -4,3 +4,13 @@
 .jfx-combo-box .cell:selected {
     -fx-text-fill: BLACK;
 }
+.combo-box {
+    -fx-font-size: 15pt;
+    -fx-padding: -1 -1 -1 140;
+}
+.combo-box-popup .list-view {
+    -fx-font-size : 15pt;
+}
+.combo-box-popup .list-view .list-cell {
+    -fx-padding: -1 -1 -1 150;
+}

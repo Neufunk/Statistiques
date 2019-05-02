@@ -54,17 +54,17 @@
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnSpan="5" GridPane.rowIndex="1">
-         <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" stylesheets="@../CSS/ComboBox.css" unFocusColor="#303f9f">
+         <JFXComboBox id="comboCentre" fx:id="comboCentre" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#303f9f">
             <padding>
                <Insets left="10.0" />
             </padding>
          </JFXComboBox>
-         <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#3f51b5" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" stylesheets="@../CSS/ComboBox.css" unFocusColor="#303f9f" />
-         <JFXComboBox id="comboIndic" fx:id="comboIndic" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="200.0" promptText="Indicateur" stylesheets="@../CSS/ComboBox.css" unFocusColor="#3f51b5" />
+         <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#3f51b5" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" unFocusColor="#303f9f" />
+         <JFXComboBox id="comboIndic" fx:id="comboIndic" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="200.0" promptText="Indicateur" unFocusColor="#3f51b5" />
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" GridPane.columnSpan="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-         <JFXComboBox id="comboPeriode" fx:id="comboPeriode" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Période" stylesheets="@../CSS/ComboBox.css" unFocusColor="#303f9f" />
-         <JFXComboBox id="comboYear" fx:id="comboYear" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" stylesheets="@../CSS/ComboBox.css" unFocusColor="#303f9f" />
+         <JFXComboBox id="comboPeriode" fx:id="comboPeriode" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Période" unFocusColor="#303f9f" />
+         <JFXComboBox id="comboYear" fx:id="comboYear" focusColor="#3f51b5" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#303f9f" />
       </HBox>
       <JFXButton fx:id="generateButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" prefHeight="60.0" prefWidth="60.0" styleClass="indigo-round" stylesheets="@../CSS/Buttons.css" text="Exécuter" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="2">
          <font>

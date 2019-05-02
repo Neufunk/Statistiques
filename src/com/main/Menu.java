@@ -19,7 +19,7 @@ public class Menu {
     @FXML
     MenuBar menuBar;
 
-    public static final Stage gestionStage = new Stage();
+    private static final Stage gestionStage = new Stage();
     static final Stage connectionTestStage = new Stage();
 
     public void openHomepage() {
@@ -138,9 +138,8 @@ public class Menu {
     public void pdfGestion() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpGestion.fxml"));
-            gestionStage.setScene(new Scene(root, 350, 380));
+            gestionStage.setScene(new Scene(root, 370, 420));
             gestionStage.setTitle("Rapport - indicateurs de gestion");
-            gestionStage.setResizable(false);
             gestionStage.show();
         } catch (IOException e1) {
             e1.printStackTrace();

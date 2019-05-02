@@ -61,112 +61,99 @@
         <GridPane.margin>
             <Insets />
         </GridPane.margin>
-        <JFXComboBox fx:id="comboCentre1" accessibleText="comboYear1" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" />
+        <JFXComboBox fx:id="comboCentre1" accessibleText="comboYear1" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" visibleRowCount="5" />
         <ImageView fx:id="redCross1" fitHeight="16.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <HBox.margin>
-                <Insets left="-40.0"/>
+                <Insets left="-40.0" />
             </HBox.margin>
-            <Image url="@../../img/RedCross.png"/>
+            <Image url="@../../img/cancel-music-red.png" />
         </ImageView>
-        <JFXComboBox fx:id="comboCentre2" accessibleText="comboYear1" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" />
+        <JFXComboBox fx:id="comboCentre2" accessibleText="comboYear1" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" visibleRowCount="5" />
         <ImageView fx:id="redCross2" fitHeight="16.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
               <Cursor fx:constant="HAND" />
             </cursor>
-            <Image url="@../../img/RedCross.png" />
+            <Image url="@../../img/cancel-music-red.png" />
           <HBox.margin>
               <Insets left="-40.0" />
           </HBox.margin>
         </ImageView>
-        <JFXComboBox fx:id="comboCentre3" accessibleText="comboYear2" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" />
+        <JFXComboBox fx:id="comboCentre3" accessibleText="comboYear2" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" visibleRowCount="5" />
         <ImageView fx:id="redCross3" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
               <Cursor fx:constant="HAND" />
             </cursor>
-            <Image url="@../../img/RedCross.png" />
+            <Image url="@../../img/cancel-music-red.png" />
           <HBox.margin>
               <Insets left="-40.0" />
           </HBox.margin>
         </ImageView>
-        <JFXComboBox fx:id="comboCentre4" accessibleText="comboYear3" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" />
+        <JFXComboBox fx:id="comboCentre4" accessibleText="comboYear3" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" visibleRowCount="5" />
         <ImageView fx:id="redCross4" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
               <Cursor fx:constant="HAND" />
             </cursor>
-            <Image url="@../../img/RedCross.png" />
+            <Image url="@../../img/cancel-music-red.png" />
           <HBox.margin>
               <Insets left="-40.0" />
           </HBox.margin>
         </ImageView>
-        <JFXComboBox fx:id="comboCentre5" accessibleText="comboYear3" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" />
+        <JFXComboBox fx:id="comboCentre5" accessibleText="comboYear3" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Centre" unFocusColor="#512da8" visibleRowCount="5" />
         <ImageView fx:id="redCross5" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <HBox.margin>
-                <Insets left="-40.0"/>
+                <Insets left="-40.0" />
             </HBox.margin>
-            <Image url="@../../img/RedCross.png"/>
+            <Image url="@../../img/cancel-music-red.png" />
         </ImageView>
     </HBox>
-    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="70.0" GridPane.columnSpan="11"
-          GridPane.rowIndex="3">
-        <JFXComboBox id="comboCentre" fx:id="comboYear" focusColor="#673ab7" labelFloat="true" prefHeight="22.0"
-                     prefWidth="131.0" promptText="Année" unFocusColor="#512da8"/>
-        <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#673ab7" labelFloat="true"
-                     onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie"
-                     unFocusColor="#512da8"/>
-        <JFXComboBox id="comboIndic" fx:id="comboIndic" accessibleText="comboIndic" centerShape="false"
-                     focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="300.0" promptText="Indicateur"
-                     scaleShape="false" unFocusColor="#512da8"/>
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="70.0" GridPane.columnSpan="11" GridPane.rowIndex="3">
+        <JFXComboBox id="comboCentre" fx:id="comboYear" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#512da8" />
+        <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#673ab7" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" unFocusColor="#512da8" />
+        <JFXComboBox id="comboIndic" fx:id="comboIndic" accessibleText="comboIndic" centerShape="false" focusColor="#673ab7" labelFloat="true" prefHeight="22.0" prefWidth="300.0" promptText="Indicateur" scaleShape="false" unFocusColor="#512da8" />
     </HBox>
-    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" GridPane.columnSpan="11"
-          GridPane.rowIndex="5" GridPane.rowSpan="2">
-        <JFXButton buttonType="RAISED" onAction="#onAllCenterButtonClick" prefHeight="30.0"
-                   prefWidth="116.0" styleClass="brown-button" stylesheets="@../CSS/Buttons.css" text="Tous les centres"
-                   textFill="WHITE">
-           <font>
-               <Font size="13.0"/>
-           </font>
-           <HBox.margin>
-               <Insets/>
-           </HBox.margin>
-           <cursor>
-               <Cursor fx:constant="HAND"/>
-           </cursor>
-        </JFXButton>
-        <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY"
-                   onAction="#onGenerateButtonClick" prefHeight="60.0" prefWidth="60.0" styleClass="green-round"
-                   stylesheets="@../CSS/Buttons.css" text="Générer" textFill="WHITE">
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" GridPane.columnSpan="11" GridPane.rowIndex="5" GridPane.rowSpan="2">
+        <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onGenerateButtonClick" prefHeight="60.0" prefWidth="60.0" styleClass="green-round" stylesheets="@../CSS/Buttons.css" text="Générer" textFill="WHITE">
             <font>
-              <Font size="13.0"/>
+              <Font size="13.0" />
             </font>
           <graphic>
               <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../../img/checked.png"/>
+                  <Image url="@../../img/checked.png" />
               </ImageView>
           </graphic>
           <cursor>
-              <Cursor fx:constant="HAND"/>
+              <Cursor fx:constant="HAND" />
           </cursor>
         </JFXButton>
-        <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onClearButtonClick"
-                   prefHeight="60.0" prefWidth="60.0" styleClass="red-round" stylesheets="@../CSS/Buttons.css"
-                   text="Clear" textFill="WHITE">
+        <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onClearButtonClick" prefHeight="60.0" prefWidth="60.0" styleClass="red-round" stylesheets="@../CSS/Buttons.css" text="Clear" textFill="WHITE">
             <font>
-              <Font size="13.0"/>
+              <Font size="13.0" />
             </font>
           <graphic>
               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../../img/cancel-music.png"/>
+                  <Image url="@../../img/cancel-music.png" />
               </ImageView>
           </graphic>
           <cursor>
-              <Cursor fx:constant="HAND"/>
+              <Cursor fx:constant="HAND" />
           </cursor>
         </JFXButton>
     </HBox>
+     <JFXButton buttonType="RAISED" onAction="#onAllCenterButtonClick" prefHeight="30.0" prefWidth="116.0" styleClass="brown-button" stylesheets="@../CSS/Buttons.css" text="Tous les centres" textFill="WHITE" GridPane.rowIndex="5">
+        <font>
+            <Font name="Product Sans" size="13.0" />
+        </font>
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+      <GridPane.margin>
+         <Insets left="10.0" />
+      </GridPane.margin>
+     </JFXButton>
 </GridPane>

@@ -39,7 +39,6 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
     @FXML
     private GridPane waitingPane;
 
-    final private Menu menu = new Menu();
     final private Database database = new Database();
 
     @Override

@@ -59,6 +59,7 @@ public class ControllerComparaisonCentres implements Initializable {
 
     private Year year = new Year();
     private Centre centre = new Centre();
+    private Database database = new Database();
     private Indicateur indicateur = new Indicateur();
     private final Graphic serie1 = new Graphic();
     private final Graphic serie2 = new Graphic();

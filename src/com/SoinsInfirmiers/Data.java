@@ -20,7 +20,7 @@ public class Data {
 
     // Années
     final ObservableList<Integer> yearList = FXCollections
-            .observableArrayList(2015, 2016, 2017, 2018, 2019, 2020, 2021);
+            .observableArrayList(2016, 2017, 2018, 2019, 2020, 2021);
 
     // Titres des Indicateurs
     final ObservableList<String> categorieList = FXCollections
