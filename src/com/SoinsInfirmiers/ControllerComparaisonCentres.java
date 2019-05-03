@@ -81,14 +81,20 @@ public class ControllerComparaisonCentres implements Initializable {
         for (JFXComboBox aComboCenterArray : comboCenterArray) {
             aComboCenterArray.setItems(data.centerList);
         }
-        comboCategorie.setItems(data.categorieList);
+        for (int i = 0; i < database.categorie.length; i++) {
+            comboCategorie.getItems().addAll(database.categorie[i]);
+        }
     }
 
     public void setIndicateursInCombo() {
         if (comboCategorie.getValue() != null) {
-            Category category = new Category();
-            category.setCategorie(comboCategorie.getValue());
-            comboIndic.setItems(category.getCategorie());
+            comboIndic.getItems().clear();
+            int index = comboCategorie.getSelectionModel().getSelectedIndex();
+            for (int i = 0; i < database.indicateurArray[index].length; i++) {
+                System.out.println(database.indicateurArray[index][i].toString());
+                String indicateurArray = database.indicateurArray[index][i].toString();
+                comboIndic.getItems().addAll(database.indicateurArray[index][i].toString());
+            }
         }
     }
 
