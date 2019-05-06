@@ -18,10 +18,6 @@ public class Data {
     final ObservableList<String> centerList = FXCollections
             .observableArrayList("Global", "Namur", "Eghezée", "Ciney", "Philippeville", "Gedinne");
 
-    // Années
-    final ObservableList<Integer> yearList = FXCollections
-            .observableArrayList(2016, 2017, 2018, 2019, 2020, 2021);
-
     // Titres des Indicateurs
     final ObservableList<String> categorieList = FXCollections
             .observableArrayList("SUIVI DU PERSONNEL INFIRMIER", "SOINS ET VISITES", "FACTURATION", "PATIENTS",

@@ -11,6 +11,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import main.Date;
 import main.Effects;
 import main.ExceptionHandler;
 
@@ -93,7 +94,10 @@ public class ControllerIndicateursAnnuels implements Initializable {
 
     private void initializeCombo() {
         Data data = new Data();
-        comboYear.setItems(data.yearList);
+        int[] yearList = Date.getYearList();
+        for(int value:yearList){
+            comboYear.getItems().addAll(value);
+        }
         comboCentre.setItems(data.centerList);
         comboPeriode.setItems(data.periodList);
         comboCategorie.setItems(data.categorieList);

@@ -10,9 +10,7 @@ import static SoinsInfirmiers.Database.Query.*;
 class Database {
 
     private Connection conn;
-    private PreparedStatement ps;
     private Identification id = new Identification();
-    private String query = "";
 
     Connection connect() {
         try {
@@ -184,6 +182,7 @@ class Database {
     }
 
     String selectQuery(Query queryName) {
+        String query = "";
         switch (queryName) {
             case VISITES_PAR_CENTRE:
                 query = "SELECT COALESCE( TO_CHAR( Center ), 'ALL' ) AS Centre,\n" +

@@ -63,11 +63,6 @@ public class ControllerComparaisonCentres implements Initializable {
     private Centre centre = new Centre();
     private Database database = new Database();
     private Indicateur indicateur = new Indicateur();
-    private final Graphic serie1 = new Graphic();
-    private final Graphic serie2 = new Graphic();
-    private final Graphic serie3 = new Graphic();
-    private final Graphic serie4 = new Graphic();
-    private final Graphic serie5 = new Graphic();
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
@@ -93,7 +88,6 @@ public class ControllerComparaisonCentres implements Initializable {
         for (int i = 0; i < database.categorie.length; i++) {
             comboCategorie.getItems().addAll(database.categorie[i]);
         }
-        comboIndic.requestFocus();
     }
 
     public void setIndicateursInCombo() {
@@ -102,13 +96,12 @@ public class ControllerComparaisonCentres implements Initializable {
             int index = comboCategorie.getSelectionModel().getSelectedIndex();
             for (int i = 0; i < database.indicateurArray[index].length; i++) {
                 System.out.println(database.indicateurArray[index][i].toString());
-                comboIndic.getItems().addAll(database.indicateurArray[index][i].toString());
+                comboIndic.getItems().addAll(database.indicateurArray[index][i].toString().replace("_", " "));
             }
         }
     }
 
     public void onGenerateButtonClick() {
-        clearSeries();
         lineChart.getData().clear();
         if (checkEmpty()) {
             try {
@@ -201,27 +194,28 @@ public class ControllerComparaisonCentres implements Initializable {
         ps = conn.prepareStatement(query);
         if (comboCentre1.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre1.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, serie1, comboCentre1.getValue());
+            buildLineGraphic(rs, comboCentre1.getValue());
         }
         if (comboCentre2.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre2.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, serie2, comboCentre2.getValue());
+            buildLineGraphic(rs, comboCentre2.getValue());
         }
         if (comboCentre3.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre3.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, serie3, comboCentre3.getValue());
+            buildLineGraphic(rs, comboCentre3.getValue());
         }
         if (comboCentre4.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre4.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, serie4, comboCentre4.getValue());
+            buildLineGraphic(rs, comboCentre4.getValue());
         }
         if (comboCentre5.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre5.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, serie5, comboCentre5.getValue());
+            buildLineGraphic(rs, comboCentre5.getValue());
         }
     }
 
-    private void buildLineGraphic(ResultSet rs, Graphic serie, String centre) {
+    private void buildLineGraphic(ResultSet rs, String centre) {
+        Graphic serie = new Graphic();
         try {
             yAxis.setForceZeroInRange(false); // Important for chart scale
             lineChart.setVisible(true);
@@ -235,6 +229,7 @@ public class ControllerComparaisonCentres implements Initializable {
                 i++;
             }
             lineChart.getData().add(serie.getLineChartData());
+            lineChart.setTitle(comboIndic.getValue());
 
             for (final XYChart.Data<String, Float> datas : serie.getLineChartData().getData()) {
                 datas.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
@@ -247,13 +242,5 @@ public class ControllerComparaisonCentres implements Initializable {
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
         }
-    }
-
-    private void clearSeries() {
-        serie1.clear();
-        serie2.clear();
-        serie3.clear();
-        serie4.clear();
-        serie5.clear();
     }
 }
