@@ -7,11 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import main.Date;
 import main.ExceptionHandler;
 
@@ -66,6 +64,7 @@ public class ControllerComparaisonCentres implements Initializable {
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
+    private int colorCounter = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -187,6 +186,7 @@ public class ControllerComparaisonCentres implements Initializable {
     }
 
     private void generateAll() throws Exception {
+        colorCounter = 0;
         Database.Query currentIndicateur = database.indicateurArray[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
         int year = comboYear.getValue();
         conn = database.connect();
@@ -215,30 +215,25 @@ public class ControllerComparaisonCentres implements Initializable {
     }
 
     private void buildLineGraphic(ResultSet rs, String centre) {
-        Graphic serie = new Graphic();
+        XYChart.Series series = new XYChart.Series();
         try {
             yAxis.setForceZeroInRange(false); // Important for chart scale
             lineChart.setVisible(true);
             idleSpinner.setVisible(false);
-            String[] month = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+            String[] MONTH = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
             int i = 0;
-
             while (rs.next()) {
-                serie.buildLineGraphic(month[i], rs.getDouble("TOTAL"), centre);
+                series.setName(centre);
+                XYChart.Data<String, Double> data = new XYChart.Data<>(MONTH[i], rs.getDouble("TOTAL"));
+                data.setNode(new Graphic.HoveredNode(rs.getDouble("TOTAL"), colorCounter));
+                series.getData().add(data);
+                System.out.println(i);
                 i++;
             }
-            lineChart.getData().add(serie.getLineChartData());
+            lineChart.getData().add(series);
             lineChart.setTitle(comboIndic.getValue());
-
-            for (final XYChart.Data<String, Float> datas : serie.getLineChartData().getData()) {
-                datas.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                    String strValue = String.format("%,.2f", datas.getYValue());
-                    Tooltip tooltip = new Tooltip(strValue);
-                    tooltip.setFont(Font.font("PRODUCT SANS", 14));
-                    Tooltip.install(datas.getNode(), tooltip);
-                });
-            }
+            colorCounter++;
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
         }

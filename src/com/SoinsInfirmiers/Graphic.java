@@ -2,9 +2,12 @@ package SoinsInfirmiers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Cursor;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 import java.util.Objects;
 
@@ -24,23 +27,28 @@ class Graphic {
         return pieChartData;
     }
 
+    static class HoveredNode extends StackPane {
+         HoveredNode(double value, int colorCounter) {
+            setPrefSize(10, 10);
 
-    //LINEGRAPHIC
-    void buildLineGraphic(String title, double value, String name) {
-        lineChartData.setName(name);
-        if (!Objects.equals(title, "") && value > 0) {
-            lineChartData.getData().add(new XYChart.Data<>(title, (float) value));
+            final Label label = createDataThresholdLabel(value, colorCounter);
+
+            setOnMouseEntered(mouseEvent -> {
+                getChildren().setAll(label);
+                setCursor(Cursor.NONE);
+                toFront();
+            });
+            setOnMouseExited(mouseEvent -> getChildren().clear());
+        }
+
+        private Label createDataThresholdLabel(double value, int colorCounter) {
+            final Label label = new Label(String.format("%,.2f", value));
+            label.getStyleClass().addAll("chart-line-symbol", "chart-series-line", "default-color" + colorCounter);
+            label.setTextFill(Color.BLACK);
+            label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+            return label;
         }
     }
-
-    XYChart.Series<String, Float> getLineChartData() {
-        return lineChartData;
-    }
-
-    void clear() {
-        lineChartData.getData().clear();
-    }
-
 
     //RAW DATA
     void setRawDataName(Label label, String title) {
