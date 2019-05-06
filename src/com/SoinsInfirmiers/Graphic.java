@@ -64,7 +64,7 @@ class Graphic {
             label.setVisible(false);
         }else if (value == 1) {
             int intValue = (int) value * 100;
-            label.setText(String.valueOf(intValue+"%"));
+            label.setText(intValue + "%");
             label.setVisible(true);
         }else if (value > 1) {
             float floatValue = (float) value;
@@ -91,7 +91,7 @@ class Graphic {
         }else if (value < 1 && value > 0) {
             float floatValue = (float) value * 100;
             String strValue = String.format("%,.2f", floatValue);
-            label.setText(String.valueOf(strValue + "%"));
+            label.setText(strValue + "%");
             label.setVisible(true);
         }else if (value == 1){
             float floatValue = (float) value;

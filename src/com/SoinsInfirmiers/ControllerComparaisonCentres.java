@@ -7,15 +7,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import main.Date;
+import main.ExceptionHandler;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class ControllerComparaisonCentres implements Initializable {
@@ -47,8 +51,6 @@ public class ControllerComparaisonCentres implements Initializable {
     @FXML
     private ImageView redCross5;
     @FXML
-    private Label noGraphicLabel;
-    @FXML
     private JFXSpinner idleSpinner;
     @FXML
     private AnchorPane menuPane;
@@ -66,6 +68,9 @@ public class ControllerComparaisonCentres implements Initializable {
     private final Graphic serie3 = new Graphic();
     private final Graphic serie4 = new Graphic();
     private final Graphic serie5 = new Graphic();
+    private Connection conn = null;
+    private PreparedStatement ps = null;
+    private ResultSet rs = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -75,15 +80,20 @@ public class ControllerComparaisonCentres implements Initializable {
     }
 
     private void initializeCombo() {
-        Data data = new Data();
-        comboYear.setItems(data.yearList);
+        String[] centreArray = Arrays.copyOf(centre.CENTER_NAME, centre.CENTER_NAME.length - 1);
+        int[] yearList = Date.getYearList();
+        for (int value : yearList) {
+            comboYear.getItems().addAll(value);
+        }
+        comboYear.setValue(Date.getCurrentYearInt());
         JFXComboBox[] comboCenterArray = {comboCentre1, comboCentre2, comboCentre3, comboCentre4, comboCentre5};
         for (JFXComboBox aComboCenterArray : comboCenterArray) {
-            aComboCenterArray.setItems(data.centerList);
+            aComboCenterArray.getItems().addAll(centreArray);
         }
         for (int i = 0; i < database.categorie.length; i++) {
             comboCategorie.getItems().addAll(database.categorie[i]);
         }
+        comboIndic.requestFocus();
     }
 
     public void setIndicateursInCombo() {
@@ -92,7 +102,6 @@ public class ControllerComparaisonCentres implements Initializable {
             int index = comboCategorie.getSelectionModel().getSelectedIndex();
             for (int i = 0; i < database.indicateurArray[index].length; i++) {
                 System.out.println(database.indicateurArray[index][i].toString());
-                String indicateurArray = database.indicateurArray[index][i].toString();
                 comboIndic.getItems().addAll(database.indicateurArray[index][i].toString());
             }
         }
@@ -102,7 +111,15 @@ public class ControllerComparaisonCentres implements Initializable {
         clearSeries();
         lineChart.getData().clear();
         if (checkEmpty()) {
-            generateAll();
+            try {
+                generateAll();
+            } catch (Exception e) {
+                ExceptionHandler.switchException(e, this.getClass());
+            } finally {
+                database.close(rs);
+                database.close(ps);
+                database.close(conn);
+            }
         }
     }
 
@@ -131,7 +148,6 @@ public class ControllerComparaisonCentres implements Initializable {
         lineChart.setTitle("");
         lineChart.getData().clear();
         lineChart.setVisible(false);
-        noGraphicLabel.setVisible(false);
         idleSpinner.setVisible(true);
     }
 
@@ -159,11 +175,11 @@ public class ControllerComparaisonCentres implements Initializable {
     }
 
     public void onAllCenterButtonClick() {
-        comboCentre1.getSelectionModel().select(1);
-        comboCentre2.getSelectionModel().select(2);
-        comboCentre3.getSelectionModel().select(3);
-        comboCentre4.getSelectionModel().select(4);
-        comboCentre5.getSelectionModel().select(5);
+        comboCentre1.getSelectionModel().select(0);
+        comboCentre2.getSelectionModel().select(1);
+        comboCentre3.getSelectionModel().select(2);
+        comboCentre4.getSelectionModel().select(3);
+        comboCentre5.getSelectionModel().select(4);
     }
 
     private void clearCombos() {
@@ -177,59 +193,46 @@ public class ControllerComparaisonCentres implements Initializable {
         comboIndic.getSelectionModel().clearSelection();
     }
 
-    private void generateAll() {
+    private void generateAll() throws Exception {
+        Database.Query currentIndicateur = database.indicateurArray[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
+        int year = comboYear.getValue();
+        conn = database.connect();
+        String query = database.selectQuery(currentIndicateur);
+        ps = conn.prepareStatement(query);
         if (comboCentre1.getValue() != null) {
-            IteratorExcel iteratorExcel1 = new IteratorExcel();
-            setFiles(iteratorExcel1, comboCentre1);
-            buildLineGraphic(iteratorExcel1, comboCentre1, serie1);
+            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre1.getSelectionModel().getSelectedIndex()]);
+            buildLineGraphic(rs, serie1, comboCentre1.getValue());
         }
         if (comboCentre2.getValue() != null) {
-            IteratorExcel iteratorExcel2 = new IteratorExcel();
-            setFiles(iteratorExcel2, comboCentre2);
-            buildLineGraphic(iteratorExcel2, comboCentre2, serie2);
+            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre2.getSelectionModel().getSelectedIndex()]);
+            buildLineGraphic(rs, serie2, comboCentre2.getValue());
         }
         if (comboCentre3.getValue() != null) {
-            IteratorExcel iteratorExcel3 = new IteratorExcel();
-            setFiles(iteratorExcel3, comboCentre3);
-            buildLineGraphic(iteratorExcel3, comboCentre3, serie3);
+            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre3.getSelectionModel().getSelectedIndex()]);
+            buildLineGraphic(rs, serie3, comboCentre3.getValue());
         }
         if (comboCentre4.getValue() != null) {
-            IteratorExcel iteratorExcel4 = new IteratorExcel();
-            setFiles(iteratorExcel4, comboCentre4);
-            buildLineGraphic(iteratorExcel4, comboCentre4, serie4);
+            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre4.getSelectionModel().getSelectedIndex()]);
+            buildLineGraphic(rs, serie4, comboCentre4.getValue());
         }
         if (comboCentre5.getValue() != null) {
-            IteratorExcel iteratorExcel5 = new IteratorExcel();
-            setFiles(iteratorExcel5, comboCentre5);
-            buildLineGraphic(iteratorExcel5, comboCentre5, serie5);
+            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre5.getSelectionModel().getSelectedIndex()]);
+            buildLineGraphic(rs, serie5, comboCentre5.getValue());
         }
     }
 
-    private void setFiles(IteratorExcel iteratorExcel, ComboBox<String> comboCentre) {
-        year.toPath(comboYear.getValue());
-        centre.toExcelSheet(comboCentre.getValue());
-        indicateur.toExcelRow(comboIndic.getValue());
-        iteratorExcel.setSheet(centre.getSheet());
-        iteratorExcel.setPath(year.getPath());
-        iteratorExcel.setFiles(year.getFileA(), year.getFileB(), year.getFileC());
-        if (indicateur.getWithFileD()) {
-            iteratorExcel.setFiles(year.getFileD(), year.getFileB(), year.getFileC());
-        }
-        iteratorExcel.setMasterRow(indicateur.getMasterRow());
-        iteratorExcel.lineChartIteration();
-    }
-
-    private void buildLineGraphic(IteratorExcel iteratorExcel, ComboBox<String> comboCentre, Graphic serie) {
-        if (indicateur.getwithLineGraphic()) {
+    private void buildLineGraphic(ResultSet rs, Graphic serie, String centre) {
+        try {
             yAxis.setForceZeroInRange(false); // Important for chart scale
             lineChart.setVisible(true);
-            noGraphicLabel.setVisible(false);
             idleSpinner.setVisible(false);
             String[] month = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
-            double[] value = iteratorExcel.getLineChartResult();
-            for (int i = 0; i < month.length; i++) {
-                serie.buildLineGraphic(month[i], value[i], comboCentre.getValue());
+            int i = 0;
+
+            while (rs.next()) {
+                serie.buildLineGraphic(month[i], rs.getDouble("TOTAL"), centre);
+                i++;
             }
             lineChart.getData().add(serie.getLineChartData());
 
@@ -237,12 +240,12 @@ public class ControllerComparaisonCentres implements Initializable {
                 datas.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
                     String strValue = String.format("%,.2f", datas.getYValue());
                     Tooltip tooltip = new Tooltip(strValue);
-                    tooltip.setFont(Font.font("INTERSTATE", 14));
+                    tooltip.setFont(Font.font("PRODUCT SANS", 14));
                     Tooltip.install(datas.getNode(), tooltip);
                 });
             }
-        } else {
-            unmountLineGraphic();
+        } catch (Exception e) {
+            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 
@@ -252,12 +255,5 @@ public class ControllerComparaisonCentres implements Initializable {
         serie3.clear();
         serie4.clear();
         serie5.clear();
-    }
-
-    private void unmountLineGraphic() {
-        indicateur.resetVariables();
-        lineChart.setVisible(false);
-        noGraphicLabel.setVisible(true);
-        idleSpinner.setVisible(false);
     }
 }

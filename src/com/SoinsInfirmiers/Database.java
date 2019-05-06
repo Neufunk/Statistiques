@@ -10,6 +10,7 @@ import static SoinsInfirmiers.Database.Query.*;
 class Database {
 
     private Connection conn;
+    private PreparedStatement ps;
     private Identification id = new Identification();
     private String query = "";
 
@@ -182,7 +183,7 @@ class Database {
         KM_PARCOURUS_PAR_VISITE
     }
 
-    String setQuery(Query queryName) {
+    String selectQuery(Query queryName) {
         switch (queryName) {
             case VISITES_PAR_CENTRE:
                 query = "SELECT COALESCE( TO_CHAR( Center ), 'ALL' ) AS Centre,\n" +
@@ -1154,6 +1155,62 @@ class Database {
         }
         return query;
     }
+
+    ResultSet setQuery(Query currentIndicateur, PreparedStatement ps, int year, int centreNo) throws Exception {
+        ps.setString(1, (year + "01"));
+        ps.setString(2, (year + "12"));
+        if (centreNo == 997) {
+            ps.setString(3, "%");
+        } else {
+            ps.setInt(3, (centreNo));
+        }
+
+        final boolean MORE_PARAMETERS_NEEDED = (
+                currentIndicateur.equals(RECETTE_OA_PAR_J_PRESTE) ||
+                        currentIndicateur.equals(RECETTE_OA_PAR_J_AVEC_SOINS) ||
+                        currentIndicateur.equals(RECETTE_OA_PAR_VISITE) ||
+                        currentIndicateur.equals(TAUX_ADMINISTRATIF) ||
+                        currentIndicateur.equals(TAUX_ADMINISTRATIF_IC) ||
+                        currentIndicateur.equals(TAUX_SMG) ||
+                        currentIndicateur.equals(VISITES_PAR_J_PRESTES) ||
+                        currentIndicateur.equals(VISITES_PAR_J_AV_SOINS) ||
+                        currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS)
+        );
+        // Check if the SQL query takes 6 parameters
+        if (MORE_PARAMETERS_NEEDED) {
+            ps.setString(4, (year + "01"));
+            ps.setString(5, (year + "12"));
+            if (centreNo == 997) {
+                ps.setString(6, "%");
+            } else {
+                ps.setInt(6, (centreNo));
+            }
+        }
+        // Check if the SQL query takes 9 parameters
+        if (currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS)) {
+            ps.setString(7, (year + "01"));
+            ps.setString(8, (year + "12"));
+            if (centreNo == 997) {
+                ps.setString(9, "%");
+            } else {
+                ps.setInt(9, (centreNo));
+            }
+        }
+        // Check if the SQL query takes 11 parameters
+        if (currentIndicateur.equals(TAUX_SMG)) {
+            ps.setString(7, year + "01");
+            ps.setInt(8, year);
+            ps.setString(9, (year + "01"));
+            ps.setString(10, (year + "12"));
+            if (centreNo == 997) {
+                ps.setString(11, "%");
+            } else {
+                ps.setInt(11, (centreNo));
+            }
+        }
+        return ps.executeQuery();
+    }
 }
+
 
 

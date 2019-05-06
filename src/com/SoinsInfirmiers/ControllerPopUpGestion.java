@@ -31,17 +31,17 @@ public class ControllerPopUpGestion implements Initializable {
     @FXML
     private VBox closePane;
 
-    private String yearStr;
+    private String yearStr = Date.getCurrentYearStr();
     private double progress = 0;
     private static Exception error;
     private Effects effects = new Effects();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Data data = new Data();
-        comboYear.setItems(data.yearList);
-        yearStr = Date.getCurrentYearStr();
-        comboYear.setPromptText(yearStr);
+        for (int value : Date.getYearList()){
+            comboYear.getItems().addAll(value);
+        }
+        comboYear.setValue(Date.getCurrentYearInt());
     }
 
     public void onButtonClick() {
@@ -64,16 +64,15 @@ public class ControllerPopUpGestion implements Initializable {
     }
 
     void updateProgress(){
-        spinner.setProgress(progress+=0.2816/100);
+        spinner.setProgress(progress+=0.002816);
     }
 
-    void updateGUI(Boolean bool){
+    void updateGUI(Boolean success){
         closePane.setVisible(true);
         closeButton.setVisible(true);
         label.setVisible(true);
         label2.setVisible(true);
-        System.out.println("GUI UPDATED ON THREAD: " + Thread.currentThread().getName());
-        if (bool) {
+        if (success) {
             label.setText("PDF généré avec succès");
             label2.setText("C:/users/" + System.getProperty("user.name") +
                     "/Desktop/Indicateurs_Gestion_" + yearStr + ".pdf");
@@ -89,7 +88,7 @@ public class ControllerPopUpGestion implements Initializable {
 
     public void onComboSelection() {
         yearStr = String.valueOf(comboYear.getValue());
-        System.out.print(yearStr);
+        System.out.println(yearStr);
     }
 
     String getYearStr() {

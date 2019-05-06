@@ -68,7 +68,7 @@
                <Insets />
             </VBox.margin>
             <graphic>
-               <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../../img/refresh.png" />
                   </image>

@@ -6,6 +6,8 @@ import javafx.scene.control.Alert;
 class Centre {
 
     private int sheet;
+    final String[] CENTER_NAME = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur", "Province"};
+    final int[] CENTER_NO = {902, 913, 923, 931, 961, 997};
 
     void toExcelSheet(String centre) {
         switch (centre) {
@@ -32,6 +34,8 @@ class Centre {
                 break;
         }
     }
+
+
 
     void showEmptyDialog() {
         Alert alert = new Alert(Alert.AlertType.WARNING);

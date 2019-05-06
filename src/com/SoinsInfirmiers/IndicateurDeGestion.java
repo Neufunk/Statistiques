@@ -3,6 +3,7 @@ package SoinsInfirmiers;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import javafx.application.Platform;
+import main.ExceptionHandler;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,14 +12,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Date;
 
-import static SoinsInfirmiers.Database.Query.*;
-
 class IndicateurDeGestion implements Runnable {
 
     IndicateurDeGestion(ControllerPopUpGestion c) {
         this.c = c;
-        year = c.getYearStr();
-        yearInt = Integer.parseInt(year);
+        yearStr = c.getYearStr();
+        yearInt = Integer.parseInt(yearStr);
     }
 
     private final BaseColor BLUE_ASD = new BaseColor(0, 110, 130);
@@ -29,7 +28,7 @@ class IndicateurDeGestion implements Runnable {
     private String monthVal;
     private String yearVal;
     private ControllerPopUpGestion c;
-    private String year;
+    private String yearStr;
     private int yearInt;
     private Database database = new Database();
     private Connection conn;
@@ -43,7 +42,7 @@ class IndicateurDeGestion implements Runnable {
         try {
             buildPdf();
         } catch (Exception e) {
-            e.printStackTrace();
+            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 
@@ -94,18 +93,18 @@ class IndicateurDeGestion implements Runnable {
         }
     }
 
-    private void addMetaData(Document document, String title) {
-        document.addTitle(title);
+    private void addMetaData(Document document) {
+        document.addTitle("Indicateurs de gestion");
         document.addSubject("Statistiques");
         document.addAuthor("Johnathan Vanbeneden");
         document.addCreator("Logiciel Statistiques - Johnathan Vanbeneden");
     }
 
-    private String format(double value, int decimal) {
+    private String format(double value) {
         if (value - Math.floor(value) == 0) {
             return String.format("%,.0f", value);
         }
-        return String.format("%,." + decimal + "f", value);
+        return String.format("%,." + 2 + "f", value);
     }
 
     private void centerContent(PdfPCell cell) {
@@ -153,19 +152,19 @@ class IndicateurDeGestion implements Runnable {
             Document document = new Document();
             String currentUser = System.getProperty("user.name");
             final String FILE = "C:/users/" + currentUser + "/Desktop/" +
-                    "Indicateurs_Gestion_" + year + ".pdf";
+                    "Indicateurs_Gestion_" + yearStr + ".pdf";
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(FILE));
             // Footer on every pages BUT last of each center because of a bug
             FooterPageEvent event = new FooterPageEvent();
             pdfWriter.setPageEvent(event);
             document.open();
-            addMetaData(document, "Indicateurs de gestion");
+            addMetaData(document);
             addTitlePage(document);
             conn = database.connect();
             // Loop to construct pages for every center
             for (int i = 0; i < centreNo.length; i++) {
                 centreVal = centreName[i];
-                yearVal = year;
+                yearVal = yearStr;
                 monthVal = "";
                 addPage(document);
                     /* Manually add footer on every last page of each center because there is a bug with
@@ -209,7 +208,7 @@ class IndicateurDeGestion implements Runnable {
                 setInterstateFont(10));
         details.setAlignment(Element.ALIGN_RIGHT);
         preface.add(details); // Ajoute le paragraphe 'details' à la page de garde
-        Paragraph periode = new Paragraph(year, setInterstateFont(18));
+        Paragraph periode = new Paragraph(yearStr, setInterstateFont(18));
         periode.setAlignment(Element.ALIGN_CENTER);
         addEmptyLine(preface, 5);
         preface.add(periode);
@@ -272,128 +271,39 @@ class IndicateurDeGestion implements Runnable {
 
                 // LAST YEAR MEAN CELLS
                 double totalCount = 0;
-                String query = database.setQuery(currentIndicateur);
+                String query = database.selectQuery(currentIndicateur);
                 ps = conn.prepareStatement(query);
-                ps.setString(1, (yearInt - 1 + "01"));
-                ps.setString(2, (yearInt - 1 + "12"));
-                if (centreNo[centreCounter] == 997) {
-                    ps.setString(3, "%");
-                } else {
-                    ps.setInt(3, (centreNo[centreCounter]));
-                }
-                // Check if the SQL query takes 6 parameters
-                final boolean MORE_PARAMETERS_NEEDED = (
-                        currentIndicateur.equals(RECETTE_OA_PAR_J_PRESTE) ||
-                                currentIndicateur.equals(RECETTE_OA_PAR_J_AVEC_SOINS) ||
-                                currentIndicateur.equals(RECETTE_OA_PAR_VISITE) ||
-                                currentIndicateur.equals(TAUX_ADMINISTRATIF) ||
-                                currentIndicateur.equals(TAUX_ADMINISTRATIF_IC) ||
-                                currentIndicateur.equals(TAUX_SMG) ||
-                                currentIndicateur.equals(VISITES_PAR_J_PRESTES) ||
-                                currentIndicateur.equals(VISITES_PAR_J_AV_SOINS) ||
-                                currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS)
-                );
-
-                if (MORE_PARAMETERS_NEEDED) {
-                    ps.setString(4, (yearInt - 1 + "01"));
-                    ps.setString(5, (yearInt - 1 + "12"));
-                    if (centreNo[centreCounter] == 997) {
-                        ps.setString(6, "%");
-                    } else {
-                        ps.setInt(6, (centreNo[centreCounter]));
-                    }
-                }
-                if (currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS)) {
-                    ps.setString(7, (yearInt - 1 + "01"));
-                    ps.setString(8, (yearInt - 1 + "12"));
-                    if (centreNo[centreCounter] == 997) {
-                        ps.setString(9, "%");
-                    } else {
-                        ps.setInt(9, (centreNo[centreCounter]));
-                    }
-                }
-                // Check if the SQL query takes 11 parameters
-                if (currentIndicateur.equals(TAUX_SMG)) {
-                    ps.setString(7, (yearInt - 1 + "01"));
-                    ps.setInt(8, yearInt - 1);
-                    ps.setString(9, (yearInt - 1 + "01"));
-                    ps.setString(10, (yearInt - 1 + "12"));
-                    if (centreNo[centreCounter] == 997) {
-                        ps.setString(11, "%");
-                    } else {
-                        ps.setInt(11, (centreNo[centreCounter]));
-                    }
-                }
-                rs = ps.executeQuery();
+                rs = database.setQuery(currentIndicateur, ps, yearInt-1, centreNo[centreCounter]);
                 while (rs.next()) {
                     totalCount += rs.getDouble("TOTAL");
                 }
+                rs.close();
                 double lastYearMean = totalCount / 12;
-                PdfPCell lastYearMeanCell = new PdfPCell(new Phrase(format(lastYearMean, 2), setInterstateFont(8)));
+                PdfPCell lastYearMeanCell = new PdfPCell(new Phrase(format(lastYearMean), setInterstateFont(8)));
                 System.out.println("MOYENNE PRÉCÉDENTE : " + totalCount / 12);
                 lastYearMeanCell.setBackgroundColor(ORANGE_ASD);
                 centerContent(lastYearMeanCell);
                 table.addCell(lastYearMeanCell);
-                rs.close();
-                ps.close();
 
                 // RESULT CELLS
                 totalCount = 0;
                 int columnCounter = 0;
-                query = database.setQuery(currentIndicateur);
-                ps = conn.prepareStatement(query);
-                ps.setString(1, (yearInt + "01"));
-                ps.setString(2, (yearInt + "12"));
-                if (centreNo[centreCounter] == 997) {
-                    ps.setString(3, "%");
-                } else {
-                    ps.setInt(3, (centreNo[centreCounter]));
-                }
-                // Check if the SQL query takes 6 parameters
-                if (MORE_PARAMETERS_NEEDED) {
-                    ps.setString(4, (yearInt + "01"));
-                    ps.setString(5, (yearInt + "12"));
-                    if (centreNo[centreCounter] == 997) {
-                        ps.setString(6, "%");
-                    } else {
-                        ps.setInt(6, (centreNo[centreCounter]));
-                    }
-                }
-                if (currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS)) {
-                    ps.setString(7, (yearInt + "01"));
-                    ps.setString(8, (yearInt + "12"));
-                    if (centreNo[centreCounter] == 997) {
-                        ps.setString(9, "%");
-                    } else {
-                        ps.setInt(9, (centreNo[centreCounter]));
-                    }
-                }
-                // Check if the SQL query takes 11 parameters
-                if (currentIndicateur.equals(TAUX_SMG)) {
-                    ps.setString(7, yearInt + "01");
-                    ps.setInt(8, yearInt);
-                    ps.setString(9, (yearInt + "01"));
-                    ps.setString(10, (yearInt + "12"));
-                    if (centreNo[centreCounter] == 997) {
-                        ps.setString(11, "%");
-                    } else {
-                        ps.setInt(11, (centreNo[centreCounter]));
-                    }
-                }
-                rs = ps.executeQuery();
+                rs = database.setQuery(currentIndicateur, ps, yearInt, centreNo[centreCounter]);
                 while (rs.next()) {
-                    System.out.println("ROW :" + rs.getDouble("TOTAL"));
-                    PdfPCell cell = new PdfPCell(new Phrase(format(rs.getDouble("TOTAL"), 2), setInterstateFont(8)));
-                    totalCount += rs.getDouble("TOTAL");
+                    double result =  rs.getDouble("TOTAL");
+                    System.out.println("ROW :" + result);
+                    PdfPCell cell = new PdfPCell(new Phrase(format(result), setInterstateFont(8)));
+                    totalCount += result;
                     centerContent(cell);
                     table.addCell(cell);
                     columnCounter++;
                 }
+                rs.close();
                 // Basically, meanCounter will be the divider for the Mean Cell.
                 int meanCounter = columnCounter;
-                // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the year is not complete yet.
+                // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the yearStr is not complete yet.
                 while (columnCounter < 12) {
-                    PdfPCell cell = new PdfPCell(new Phrase(format(0, 2), setInterstateFont(9)));
+                    PdfPCell cell = new PdfPCell(new Phrase(format(0), setInterstateFont(9)));
                     totalCount += 0;
                     centerContent(cell);
                     table.addCell(cell);
@@ -401,14 +311,14 @@ class IndicateurDeGestion implements Runnable {
                 }
 
                 // TOTAL CELLS
-                PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount, 2), setInterstateFont(9)));
+                PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount), setInterstateFont(9)));
                 System.out.println("TOTAL ROW :" + totalCount);
                 centerContent(totalCell);
                 totalCell.setBackgroundColor(ORANGE_ASD);
                 table.addCell(totalCell);
 
                 // MEAN CELLS
-                PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount / meanCounter, 2), setInterstateFont(8)));
+                PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount / meanCounter), setInterstateFont(8)));
                 System.out.println("MEAN ROW :" + totalCount / meanCounter);
                 System.out.println("----------------\n");
                 centerContent(meanCell);

@@ -18,7 +18,6 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 import main.Date;
 import main.ExceptionHandler;
-import main.Menu;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -68,7 +67,7 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
         XYChart.Series series = new XYChart.Series();
         try {
             conn = database.connect();
-            String query = database.setQuery(Database.Query.VISITES_PAR_CENTRE);
+            String query = database.selectQuery(Database.Query.VISITES_PAR_CENTRE);
             ps = conn.prepareStatement(query);
             ps.setDate(1, java.sql.Date.valueOf(""+ fromYear + "-01-01"));
             ps.setDate(2, java.sql.Date.valueOf(""+ toYear + "-01-01"));
