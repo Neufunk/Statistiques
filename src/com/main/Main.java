@@ -56,6 +56,7 @@ public class Main extends Application {
         final String IP_ADRESS = socket.getLocalAddress().getHostAddress();
         final String JAVA_VERSION = System.getProperty("java.version");
         final String HOST_NAME = inetAddress.getHostName();
+        final String SOFTWARE_VERSION = Version.versionNumber;
 
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Connection conn = databaseConnection.connect(
@@ -66,7 +67,7 @@ public class Main extends Application {
         );
 
         String query = "INSERT INTO global.log_application_launched"
-                + " VALUES (now(), ?, ?, ?, ?)";
+                + " VALUES (now(), ?, ?, ?, ?, ?)";
 
         PreparedStatement ps = conn.prepareStatement(query);
         try {
@@ -74,6 +75,7 @@ public class Main extends Application {
             ps.setString(2, IP_ADRESS);
             ps.setString(3, JAVA_VERSION);
             ps.setString(4, HOST_NAME);
+            ps.setString(5, SOFTWARE_VERSION);
             ps.executeUpdate();
             System.out.println("CONNECTION LOGGED -> " + USER);
         } catch (Exception e) {
