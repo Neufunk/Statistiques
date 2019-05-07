@@ -211,6 +211,18 @@ public class Menu {
         }
     }
 
+    public void openLog(){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Log.fxml"));
+            connectionTestStage.setResizable(true);
+            connectionTestStage.setScene(new Scene(root, 1200, 980));
+            connectionTestStage.setTitle("LOG");
+            connectionTestStage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
     public void detectJavaVersion() {
         final String JAVA_VERSION = System.getProperty("java.version");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

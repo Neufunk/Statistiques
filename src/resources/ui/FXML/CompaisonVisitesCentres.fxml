@@ -33,7 +33,7 @@
         <RowConstraints maxHeight="332.0" minHeight="10.0" prefHeight="259.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="3200.0" minHeight="10.0" prefHeight="378.0" valignment="CENTER" vgrow="ALWAYS" />
     </rowConstraints>
-    <fx:include fx:id="menuPane" prefWidth="2000.0" source="Menu.fxml" GridPane.columnSpan="11" />
+    <fx:include fx:id="menuPane" prefWidth="2000.0" source="Menu.fxml"/>
     <TableView fx:id="tableView" focusTraversable="false" prefHeight="266.0" prefWidth="1280.0" stylesheets="@../CSS/TableView.css" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
     <BarChart fx:id="barChart" alternativeRowFillVisible="false" animated="false" legendVisible="false" prefHeight="1200.0" prefWidth="1280.0" stylesheets="@../CSS/BarChart.css" title="Nombre de visites par centres - Total annuel" verticalGridLinesVisible="false" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
       <xAxis>

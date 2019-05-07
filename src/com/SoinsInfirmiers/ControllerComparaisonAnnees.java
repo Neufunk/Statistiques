@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import main.Date;
 import main.ExceptionHandler;
+import main.HoveredNode;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -132,6 +133,7 @@ public class ControllerComparaisonAnnees implements Initializable {
             lineChart.getData().clear();
             try {
                 generateAll();
+                buildGraphic();
             } catch (Exception e) {
                 ExceptionHandler.switchException(e, this.getClass());
             } finally {
@@ -167,42 +169,44 @@ public class ControllerComparaisonAnnees implements Initializable {
 
         if (comboYear1.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, comboYear1.getValue(), CENTRE_NO);
-            buildLineGraphic(rs, comboYear1.getValue().toString());
+            addDataToGraphic(rs, comboYear1.getValue().toString());
         }
         if (comboYear2.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, comboYear2.getValue(), CENTRE_NO);
-            buildLineGraphic(rs, comboYear2.getValue().toString());
+            addDataToGraphic(rs, comboYear2.getValue().toString());
         }
         if (comboYear3.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, comboYear3.getValue(), CENTRE_NO);
-            buildLineGraphic(rs, comboYear3.getValue().toString());
+            addDataToGraphic(rs, comboYear3.getValue().toString());
         }
     }
 
-    private void buildLineGraphic(ResultSet rs, String year) {
+    private void addDataToGraphic(ResultSet rs, String year) {
         XYChart.Series series = new XYChart.Series();
         try {
             yAxis.setForceZeroInRange(false); // Important for chart scale
-            lineChart.setVisible(true);
-            noGraphicLabel.setVisible(false);
-            idleSpinner.setVisible(false);
             final String[] MONTH = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
             int i = 0;
             while (rs.next()) {
                 series.setName(year);
                 XYChart.Data<String, Double> data = new XYChart.Data<>(MONTH[i], rs.getDouble("TOTAL"));
-                data.setNode(new Graphic.HoveredNode(rs.getDouble("TOTAL"), colorCounter));
+                data.setNode(new HoveredNode(rs.getDouble("TOTAL"), colorCounter));
                 series.getData().add(data);
                 System.out.println(i);
                 i++;
             }
             lineChart.getData().add(series);
-            lineChart.setTitle(comboIndic.getValue());
             colorCounter++;
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
         }
+    }
+
+    private void buildGraphic(){
+        lineChart.setTitle(comboIndic.getValue());
+        lineChart.setVisible(true);
+        idleSpinner.setVisible(false);
     }
 }
 

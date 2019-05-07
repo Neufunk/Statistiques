@@ -1,6 +1,7 @@
 package main;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.scene.Node;
 import javafx.scene.effect.BoxBlur;
 import javafx.util.Duration;
@@ -30,5 +31,18 @@ public class Effects {
         boxBlur.setHeight(0);
         boxBlur.setIterations(0);
         node.setEffect(boxBlur);
+    }
+
+    public void setScaleTransition(Node node, double fromValue, double toValue){
+        ScaleTransition scaleTransition = new ScaleTransition();
+        scaleTransition.setDuration(Duration.millis(100));
+        scaleTransition.setNode(node);
+        scaleTransition.setFromX(fromValue);
+        scaleTransition.setFromY(fromValue);
+        scaleTransition.setToX(toValue);
+        scaleTransition.setToY(toValue);
+        scaleTransition.setCycleCount(1);
+        scaleTransition.setAutoReverse(false);
+        scaleTransition.play();
     }
 }

@@ -48,12 +48,20 @@
       <yAxis>
           <NumberAxis fx:id="yAxis" side="LEFT" />
       </yAxis>
+      <cursor>
+         <Cursor fx:constant="CROSSHAIR" />
+      </cursor>
     </LineChart>
    <JFXButton buttonType="RAISED" focusTraversable="false" maxWidth="5000.0" prefHeight="80.0" style="-fx-background-color: #8d6e63; -fx-background-radius: 0;" text="Comparaison par centre" textFill="WHITE" GridPane.columnSpan="11" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
       <font>
          <Font name="Product Sans Bold" size="24.0" />
       </font>
    </JFXButton>
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="70.0" GridPane.columnSpan="11" GridPane.rowIndex="3">
+        <JFXComboBox id="comboCentre" fx:id="comboYear" focusColor="#795548" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#5d4037" />
+        <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#795548" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" unFocusColor="#5d4037" visibleRowCount="5" />
+        <JFXComboBox id="comboIndic" fx:id="comboIndic" accessibleText="comboIndic" centerShape="false" focusColor="#795548" labelFloat="true" prefHeight="22.0" prefWidth="300.0" promptText="Indicateur" scaleShape="false" unFocusColor="#5d4037" visibleRowCount="25" />
+    </HBox>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="2000.0" spacing="50.0" GridPane.columnSpan="11" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
         <GridPane.margin>
             <Insets />
@@ -108,11 +116,6 @@
             </HBox.margin>
             <Image url="@../../img/cancel-music-red.png" />
         </ImageView>
-    </HBox>
-    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="70.0" GridPane.columnSpan="11" GridPane.rowIndex="3">
-        <JFXComboBox id="comboCentre" fx:id="comboYear" focusColor="#795548" labelFloat="true" prefHeight="22.0" prefWidth="131.0" promptText="Année" unFocusColor="#5d4037" />
-        <JFXComboBox id="comboIndic" fx:id="comboCategorie" focusColor="#795548" labelFloat="true" onAction="#setIndicateursInCombo" prefHeight="22.0" prefWidth="231.0" promptText="Catégorie" unFocusColor="#5d4037" visibleRowCount="5" />
-        <JFXComboBox id="comboIndic" fx:id="comboIndic" accessibleText="comboIndic" centerShape="false" focusColor="#795548" labelFloat="true" prefHeight="22.0" prefWidth="300.0" promptText="Indicateur" scaleShape="false" unFocusColor="#5d4037" visibleRowCount="25" />
     </HBox>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" GridPane.columnSpan="11" GridPane.rowIndex="5" GridPane.rowSpan="2">
         <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onGenerateButtonClick" prefHeight="60.0" prefWidth="60.0" styleClass="green-round" stylesheets="@../CSS/Buttons.css" text="Générer" textFill="WHITE">

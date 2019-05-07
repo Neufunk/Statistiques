@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import main.Date;
 import main.ExceptionHandler;
+import main.HoveredNode;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -226,7 +227,7 @@ public class ControllerComparaisonCentres implements Initializable {
             while (rs.next()) {
                 series.setName(centre);
                 XYChart.Data<String, Double> data = new XYChart.Data<>(MONTH[i], rs.getDouble("TOTAL"));
-                data.setNode(new Graphic.HoveredNode(rs.getDouble("TOTAL"), colorCounter));
+                data.setNode(new HoveredNode(rs.getDouble("TOTAL"), colorCounter));
                 series.getData().add(data);
                 System.out.println(i);
                 i++;

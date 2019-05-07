@@ -2,15 +2,16 @@
 ---------
 Patchnote 1.5 - 06/05/2019
   GENERAL
-  - Correction de bugs et améliorations de la vitesse/réactivité.\n\
-  - Reskin du logiciel entier.\n\
+  - Correction de bugs et améliorations de la vitesse/réactivité.
+  - Reskin du logiciel entier.
+  - QoL improvements.
+  - Ajout des logs de connexions
  INDICATEURS DE GESTION
   - Ajout de certains indicateurs.
   - Ajout de la barre de chargement.
- COMPARAISON PAR ANNÉES
+ COMPARAISON PAR CENTRES/ANNÉES
   - Rework pour que les graphiques se basent sur la DB de la FASD au lieu des fichiers Excels.
- COMPARAISON PAR CENTRES
-  - Rework pour que les graphiques se basent sur la DB de la FASD au lieu des fichiers Excels.\n\
+  - Ajout du hover.
 
 
 Patchnote = version 1.4.1 - 28/01/2019

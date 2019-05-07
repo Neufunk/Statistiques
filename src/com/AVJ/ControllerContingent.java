@@ -83,6 +83,7 @@ public class ControllerContingent implements Initializable {
     private final String PHILPATH = "\\\\130.17.0.1\\Public\\SERVICE FAMILIAL\\SERVICE SOCIAL - SERVICE DU PERSONNEL\\Tableaux mensuels\\";
 
     public void initialize(URL location, ResourceBundle resources) {
+        menuPane.getChildren().get(0).getStyleClass().add("white");
         initializeCombo();
         onCancelButtonClick();
         toggleButtonListener();

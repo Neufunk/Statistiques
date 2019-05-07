@@ -8,7 +8,7 @@ public class Date {
 
     public static int[] getYearList() {
         int[] yearList = new int[5];
-        int yearCount = -2;
+        int yearCount = -3;
         for(int i = 0; i < yearList.length; i++){
             yearList[i] = getCurrentYearInt() + yearCount;
             yearCount++;
