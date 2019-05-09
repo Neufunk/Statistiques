@@ -2,16 +2,17 @@ package SoinsInfirmiers;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSpinner;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import main.Date;
+import main.Effects;
 import main.ExceptionHandler;
 import main.HoveredNode;
 
@@ -41,8 +42,6 @@ public class ControllerComparaisonAnnees implements Initializable {
     @FXML
     private JFXSpinner idleSpinner;
     @FXML
-    private Label noGraphicLabel;
-    @FXML
     private ImageView redCross0;
     @FXML
     private ImageView redCross1;
@@ -55,6 +54,7 @@ public class ControllerComparaisonAnnees implements Initializable {
     private final Indicateur indicateur = new Indicateur();
     private final Database database = new Database();
     private final Centre centre = new Centre();
+    private Effects effects = new Effects();
 
     private Connection conn = null;
     private PreparedStatement ps = null;
@@ -70,6 +70,7 @@ public class ControllerComparaisonAnnees implements Initializable {
 
     private void initializeCombo() {
         comboCentre.getItems().addAll(centre.CENTER_NAME);
+        comboCentre.setValue(centre.CENTER_NAME[5]);
 
         int[] yearList = Date.getYearList();
         int currentYear = Date.getCurrentYearInt() - 2;
@@ -99,8 +100,7 @@ public class ControllerComparaisonAnnees implements Initializable {
         clearCombos();
         lineChart.setTitle("");
         lineChart.getData().clear();
-        lineChart.setVisible(false);
-        noGraphicLabel.setVisible(false);
+        effects.setFadeTransition(lineChart, 200, 1, 0);
         idleSpinner.setVisible(true);
     }
 
@@ -130,17 +130,20 @@ public class ControllerComparaisonAnnees implements Initializable {
 
     public void onGenerateButtonClick() {
         if (checkEmpty()) {
+            idleSpinner.setVisible(true);
+            effects.setFadeTransition(lineChart, 200, 1, 0);
             lineChart.getData().clear();
-            try {
-                generateAll();
-                buildGraphic();
-            } catch (Exception e) {
-                ExceptionHandler.switchException(e, this.getClass());
-            } finally {
-                database.close(rs);
-                database.close(ps);
-                database.close(conn);
-            }
+            new Thread(() -> {
+                try {
+                    generateAll();
+                } catch (Exception e) {
+                    ExceptionHandler.switchException(e, this.getClass());
+                } finally {
+                    database.close(rs);
+                    database.close(ps);
+                    database.close(conn);
+                }
+            }).start();
         }
     }
 
@@ -179,6 +182,7 @@ public class ControllerComparaisonAnnees implements Initializable {
             rs = database.setQuery(currentIndicateur, ps, comboYear3.getValue(), CENTRE_NO);
             addDataToGraphic(rs, comboYear3.getValue().toString());
         }
+        Platform.runLater(this::buildGraphic);
     }
 
     private void addDataToGraphic(ResultSet rs, String year) {
@@ -196,7 +200,7 @@ public class ControllerComparaisonAnnees implements Initializable {
                 System.out.println(i);
                 i++;
             }
-            lineChart.getData().add(series);
+            Platform.runLater(() -> lineChart.getData().add(series));
             colorCounter++;
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
@@ -206,6 +210,7 @@ public class ControllerComparaisonAnnees implements Initializable {
     private void buildGraphic(){
         lineChart.setTitle(comboIndic.getValue());
         lineChart.setVisible(true);
+        effects.setFadeTransition(lineChart, 300, 0, 1);
         idleSpinner.setVisible(false);
     }
 }

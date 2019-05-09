@@ -88,7 +88,7 @@ class Database {
             {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
                     TICKETS_MODERATEURS, SOINS_DIVERS, CONVENTIONS, RECETTE_OA_PAR_VISITE, RECETTE_OA_PAR_J_PRESTE, RECETTE_OA_PAR_J_AVEC_SOINS, RECETTE_TOTALE_PAR_J_AVEC_SOINS},
             // VISITES
-            {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, VISITES_PAR_J_PRESTES, VISITES_PAR_J_AV_SOINS},
+            {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, VISITES_PAR_J_PRESTES, VISITES_PAR_J_AV_SOINS, DUREE_MOYENNE_PAR_VISITE},
             // PATIENTS
             {NOMBRE_DE_PATIENTS, NOMBRE_DE_PATIENTS_FFA, NOMBRE_DE_PATIENTS_FFB, NOMBRE_DE_PATIENTS_FFC, NOMBRE_DE_PATIENTS_PALLIA,
                     TAUX_PATIENTS_NOMENCLATURE, TAUX_PATIENTS_FORFAITS, TAUX_PATIENTS_FFA, TAUX_PATIENTS_FFB, TAUX_PATIENTS_FFC,
@@ -114,6 +114,7 @@ class Database {
         NOMBRE_DE_VISITE_PAR_FFC,
         VISITES_PAR_J_PRESTES,
         VISITES_PAR_J_AV_SOINS,
+        DUREE_MOYENNE_PAR_VISITE,
 
         // PATIENTS
         NOMBRE_DE_PATIENTS,
@@ -390,6 +391,32 @@ class Database {
                         "            GROUP BY MAAND\n" +
                         "            ORDER BY MAAND ASC) y\n" +
                         "ON x.PERIODE = y.MAAND ";
+                break;
+            case DUREE_MOYENNE_PAR_VISITE:
+                query = "SELECT (x.TOTAL/y.TOTAL)*60 as TOTAL\n" +
+                        "FROM (\n" +
+                        "      SELECT SUM(uren) as TOTAL, MAAND\n" +
+                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "             AND wkp.taak_id      = tc.taak_id\n" +
+                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "             AND wkp.afdeling_id LIKE ?\n" +
+                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "             AND tc.taak_cd in ('AS', 'EMAS', 'EMRE')\n" +
+                        "            AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "            GROUP BY MAAND\n" +
+                        "            ORDER BY MAAND ASC) x\n" +
+                        "         JOIN\n" +
+                        "     (SELECT PERIODE, SUM(SOMME) AS TOTAL\n" +
+                        "      FROM V_STAT_NAMUR\n" +
+                        "      WHERE CODE_REF_NO IN (7, 8, 9, 10, 205, 227, 249, 271, 293)\n" +
+                        "        AND periode BETWEEN ? AND ?\n" +
+                        "        AND CEE_REF_NO LIKE ?\n" +
+                        "      GROUP BY PERIODE\n" +
+                        "      ORDER BY periode) y\n" +
+                        "ON x.MAAND = y.PERIODE ";
                 break;
             case NOMBRE_DE_PATIENTS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
@@ -1173,7 +1200,8 @@ class Database {
                         currentIndicateur.equals(TAUX_SMG) ||
                         currentIndicateur.equals(VISITES_PAR_J_PRESTES) ||
                         currentIndicateur.equals(VISITES_PAR_J_AV_SOINS) ||
-                        currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS)
+                        currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS) ||
+                        currentIndicateur.equals(DUREE_MOYENNE_PAR_VISITE)
         );
         // Check if the SQL query takes 6 parameters
         if (MORE_PARAMETERS_NEEDED) {

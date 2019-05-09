@@ -8,7 +8,6 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -41,8 +40,7 @@
         <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="21.0" vgrow="NEVER" />
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="401.0" />
     </rowConstraints>
-    <Label fx:id="noGraphicLabel" alignment="CENTER" prefHeight="32.0" prefWidth="245.0" text="Pas de graphique disponible pour cet indicateur" visible="false" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-    <JFXSpinner fx:id="idleSpinner" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+    <JFXSpinner fx:id="idleSpinner" prefHeight="100.0" prefWidth="100.0" GridPane.columnSpan="11" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
       <GridPane.margin>
          <Insets bottom="100.0" top="100.0" />
       </GridPane.margin></JFXSpinner>

@@ -64,7 +64,9 @@ public class Log implements Initializable {
 
     private void populateLogTable() throws Exception {
         ObservableList<ObservableList> observableList = FXCollections.observableArrayList();
-        String query = "SELECT * FROM global.log_application_launched ORDER BY date ASC";
+        String query = "SELECT date, \"user\", ip_adress, host_name, software_version " +
+                "FROM global.log_application_launched " +
+                "ORDER BY date ASC";
         int rowCount = 1;
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();

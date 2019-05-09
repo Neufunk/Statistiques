@@ -12,6 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Date;
 
+import static SoinsInfirmiers.Database.Query.*;
+import static SoinsInfirmiers.Database.Query.TAUX_SMG;
+
 class IndicateurDeGestion implements Runnable {
 
     IndicateurDeGestion(ControllerPopUpGestion c) {
@@ -37,6 +40,23 @@ class IndicateurDeGestion implements Runnable {
     private String[] centreName = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur", "Province"};
     private int[] centreNo = {902, 913, 923, 931, 961, 997};
     private int centreCounter = 0;
+    private Database.Query[][] indicateurArray = {
+            // TARIFICATION
+            {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
+                    TICKETS_MODERATEURS, SOINS_DIVERS, CONVENTIONS, RECETTE_OA_PAR_VISITE, RECETTE_OA_PAR_J_PRESTE, RECETTE_OA_PAR_J_AVEC_SOINS, RECETTE_TOTALE_PAR_J_AVEC_SOINS},
+            // VISITES
+            {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, VISITES_PAR_J_PRESTES, VISITES_PAR_J_AV_SOINS},
+            // PATIENTS
+            {NOMBRE_DE_PATIENTS, NOMBRE_DE_PATIENTS_FFA, NOMBRE_DE_PATIENTS_FFB, NOMBRE_DE_PATIENTS_FFC, NOMBRE_DE_PATIENTS_PALLIA,
+                    TAUX_PATIENTS_NOMENCLATURE, TAUX_PATIENTS_FORFAITS, TAUX_PATIENTS_FFA, TAUX_PATIENTS_FFB, TAUX_PATIENTS_FFC,
+                    TAUX_ROTATION_PATIENTS, TAUX_PATIENTS_MC_ACCORD, TAUX_PATIENTS_MC_AUTRES, TAUX_PATIENTS_AUTRES_OA},
+            // SOINS
+            {NOMBRE_DE_SOINS, NOMBRE_DE_TOILETTES, NOMBRE_DE_TOILETTES_NOMENCLATURE, NOMBRE_INJECTIONS, NOMBRE_PANSEMENTS, NOMBRE_SOINS_SPECIFIQUES,
+                    NOMBRE_CONSULTATIONS_INFI, NOMBRE_DE_PILULIERS, NOMBRE_DE_SOINS_DIVERS, NOMBRE_AUTRES_SOINS, NOMBRE_DE_SOINS_PAR_VISITE,
+                    TAUX_TOILETTES, TAUX_TOILETTES_NOMENCLATURE, TAUX_INJECTIONS, TAUX_PANSEMENTS, TAUX_SOINS_DIVERS, TAUX_AUTRES_SOINS},
+            // SUIVI DU PERSONNEL
+            {J_PRESTES_AVEC_EMSS, J_PRESTES_AVEC_EMAS, EMSS, EMAS, TAUX_ADMINISTRATIF, TAUX_ADMINISTRATIF_IC, RECUPERATIONS, SOLDE_CP, TAUX_SMG}
+    };
 
     public void run() {
         try {
@@ -230,7 +250,7 @@ class IndicateurDeGestion implements Runnable {
 
     private void createTable(Paragraph paragraph) throws Exception {
         int indicateurNo = 1;
-        for (int i = 0; i < database.indicateurArray.length; i++) {
+        for (int i = 0; i < indicateurArray.length; i++) {
             // TITLE
             Paragraph title = new Paragraph(database.categorie[i], setInterstateFont(12, "black", "bold"));
             paragraph.add(title);
@@ -252,10 +272,10 @@ class IndicateurDeGestion implements Runnable {
                 table.addCell(titleCell);
             }
 
-            for (int j = 0; j < database.indicateurArray[i].length; j++) {
+            for (int j = 0; j < indicateurArray[i].length; j++) {
                 // Update progress Bar
                 Platform.runLater(() -> c.updateProgress());
-                Database.Query currentIndicateur = database.indicateurArray[i][j];
+                Database.Query currentIndicateur = indicateurArray[i][j];
                 System.out.println(currentIndicateur);
                 // COLUMN_NO
                 PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(8)));
@@ -299,6 +319,7 @@ class IndicateurDeGestion implements Runnable {
                     columnCounter++;
                 }
                 rs.close();
+                ps.close();
                 // Basically, meanCounter will be the divider for the Mean Cell.
                 int meanCounter = columnCounter;
                 // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the yearStr is not complete yet.

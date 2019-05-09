@@ -71,9 +71,9 @@ public class ControllerPopUpGestion implements Initializable {
         closePane.setVisible(true);
         closeButton.setVisible(true);
         label.setVisible(true);
-        label2.setVisible(true);
         if (success) {
             label.setText("PDF généré avec succès");
+            label2.setVisible(true);
             label2.setText("C:/users/" + System.getProperty("user.name") +
                     "/Desktop/Indicateurs_Gestion_" + yearStr + ".pdf");
         } else {

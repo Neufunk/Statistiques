@@ -38,18 +38,18 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Settings.fxml"));
             changeScene(root);
-            stage.setTitle("Paramètres - "+ Version.versionNumber);
+            stage.setTitle("Paramètres - " + Version.versionNumber);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
     }
 
-    public void showPatchnote(){
+    public void showPatchnote() {
         PatchNote pn = new PatchNote();
         pn.patchNote();
     }
 
-    public void changeLogs(){
+    public void changeLogs() {
         String changelog = "P:\\STATISTIQUES\\Changelog.txt";
         File file = new File(changelog);
         if (!Desktop.isDesktopSupported()) {
@@ -68,7 +68,7 @@ public class Menu {
 
     }
 
-    public void openIndicateursPage(){
+    public void openIndicateursPage() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/IndicateursAnnuels.fxml"));
@@ -79,7 +79,7 @@ public class Menu {
         }
     }
 
-    public void openComparaisonAnnees(){
+    public void openComparaisonAnnees() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonAnnees.fxml"));
@@ -101,7 +101,7 @@ public class Menu {
         }
     }
 
-    public void openSelectVisitesPatients(){
+    public void openSelectVisitesPatients() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectVisitesPatients.fxml"));
@@ -113,7 +113,7 @@ public class Menu {
         }
     }
 
-    public void openVisitesCentres(){
+    public void openVisitesCentres() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/CompaisonVisitesCentres.fxml"));
@@ -124,7 +124,7 @@ public class Menu {
         }
     }
 
-    public void openVisitesLocalites(){
+    public void openVisitesLocalites() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/CompaisonVisitesLocalites.fxml"));
@@ -146,7 +146,7 @@ public class Menu {
         }
     }
 
-    public void openContingentPage(){
+    public void openContingentPage() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Contingent.fxml"));
@@ -157,7 +157,7 @@ public class Menu {
         }
     }
 
-    public void openASDB(){
+    public void openASDB() {
         Stage stage = new Stage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ASDB.fxml"));
@@ -169,7 +169,7 @@ public class Menu {
         }
     }
 
-    public void openConnectionTest(){
+    public void openConnectionTest() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ConnectionTest.fxml"));
             connectionTestStage.setResizable(false);
@@ -181,13 +181,13 @@ public class Menu {
         }
     }
 
-    private void changeScene(Parent root){
+    private void changeScene(Parent root) {
         Stage stage = Main.getPrimaryStage();
         Scene scene = stage.getScene();
         scene.setRoot(root);
     }
 
-    public void openSelectSi(){
+    public void openSelectSi() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectSi.fxml"));
@@ -199,7 +199,7 @@ public class Menu {
         }
     }
 
-    public void openSelectAvj(){
+    public void openSelectAvj() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectAVJ.fxml"));
@@ -211,7 +211,7 @@ public class Menu {
         }
     }
 
-    public void openLog(){
+    public void openLog() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Log.fxml"));
             connectionTestStage.setResizable(true);
@@ -240,7 +240,7 @@ public class Menu {
         alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Code & Design JOHNATHAN VANBENEDEN \n" +
                 Version.versionNumber +
-        "\nSDK 1.8.0_201 - Supported JRE : 1.8.0_172/181/201");
+                "\nSDK 1.8.0_201 - Supported JRE : 1.8.0_172/181/201");
         alert.show();
     }
 

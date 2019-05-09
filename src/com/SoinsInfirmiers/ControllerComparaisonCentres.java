@@ -2,6 +2,7 @@ package SoinsInfirmiers;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSpinner;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -11,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import main.Date;
+import main.Effects;
 import main.ExceptionHandler;
 import main.HoveredNode;
 
@@ -62,6 +64,7 @@ public class ControllerComparaisonCentres implements Initializable {
     private Centre centre = new Centre();
     private Database database = new Database();
     private Indicateur indicateur = new Indicateur();
+    private Effects effects = new Effects();
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
@@ -102,17 +105,21 @@ public class ControllerComparaisonCentres implements Initializable {
     }
 
     public void onGenerateButtonClick() {
+        effects.setFadeTransition(lineChart, 200, 1, 0);
         lineChart.getData().clear();
+        idleSpinner.setVisible(true);
         if (checkEmpty()) {
-            try {
-                generateAll();
-            } catch (Exception e) {
-                ExceptionHandler.switchException(e, this.getClass());
-            } finally {
-                database.close(rs);
-                database.close(ps);
-                database.close(conn);
-            }
+            new Thread(() -> {
+                try {
+                    generateAll();
+                } catch (Exception e) {
+                    ExceptionHandler.switchException(e, this.getClass());
+                } finally {
+                    database.close(rs);
+                    database.close(ps);
+                    database.close(conn);
+                }
+            }).start();
         }
     }
 
@@ -140,7 +147,7 @@ public class ControllerComparaisonCentres implements Initializable {
         clearCombos();
         lineChart.setTitle("");
         lineChart.getData().clear();
-        lineChart.setVisible(false);
+        effects.setFadeTransition(lineChart, 200, 1, 0);
         idleSpinner.setVisible(true);
     }
 
@@ -195,27 +202,28 @@ public class ControllerComparaisonCentres implements Initializable {
         ps = conn.prepareStatement(query);
         if (comboCentre1.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre1.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, comboCentre1.getValue());
+            addDataToGraphic(rs, comboCentre1.getValue());
         }
         if (comboCentre2.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre2.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, comboCentre2.getValue());
+            addDataToGraphic(rs, comboCentre2.getValue());
         }
         if (comboCentre3.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre3.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, comboCentre3.getValue());
+            addDataToGraphic(rs, comboCentre3.getValue());
         }
         if (comboCentre4.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre4.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, comboCentre4.getValue());
+            addDataToGraphic(rs, comboCentre4.getValue());
         }
         if (comboCentre5.getValue() != null) {
             rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre5.getSelectionModel().getSelectedIndex()]);
-            buildLineGraphic(rs, comboCentre5.getValue());
+            addDataToGraphic(rs, comboCentre5.getValue());
         }
+        Platform.runLater(this::buildGraphic);
     }
 
-    private void buildLineGraphic(ResultSet rs, String centre) {
+    private void addDataToGraphic(ResultSet rs, String centre) {
         XYChart.Series series = new XYChart.Series();
         try {
             yAxis.setForceZeroInRange(false); // Important for chart scale
@@ -232,11 +240,16 @@ public class ControllerComparaisonCentres implements Initializable {
                 System.out.println(i);
                 i++;
             }
-            lineChart.getData().add(series);
-            lineChart.setTitle(comboIndic.getValue());
+            Platform.runLater(() -> lineChart.getData().add(series));
             colorCounter++;
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
         }
+    }
+
+    private void buildGraphic(){
+        lineChart.setTitle(comboIndic.getValue());
+        effects.setFadeTransition(lineChart, 200, 0, 1);
+        idleSpinner.setVisible(false);
     }
 }

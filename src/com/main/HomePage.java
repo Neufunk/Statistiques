@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,8 +25,6 @@ public class HomePage implements Initializable {
     private JFXButton avjButton;
     @FXML
     private AnchorPane menuPane;
-    @FXML
-    private GridPane gridPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

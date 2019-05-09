@@ -48,7 +48,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#openComparaisonAnnees" prefHeight="240.0" prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Comparaison années" wrapText="true">
+      <JFXButton fx:id="buttonComparaisonAnnee" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#openComparaisonAnnees" prefHeight="240.0" prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Comparaison années" wrapText="true">
          <HBox.margin>
             <Insets />
          </HBox.margin>

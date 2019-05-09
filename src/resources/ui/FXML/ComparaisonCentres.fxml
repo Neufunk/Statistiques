@@ -41,6 +41,7 @@
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="401.0" />
     </rowConstraints>
     <fx:include fx:id="menuPane" source="Menu.fxml" GridPane.columnSpan="11" />
+    <JFXSpinner fx:id="idleSpinner" maxHeight="150.0" GridPane.columnSpan="11" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
     <LineChart fx:id="lineChart" animated="false" layoutX="1.0" layoutY="1.0" prefHeight="341.0" prefWidth="1124.0" stylesheets="/ui/CSS/LineChart.css" visible="false" GridPane.columnSpan="11" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
       <xAxis>
           <CategoryAxis side="BOTTOM" />
@@ -156,5 +157,4 @@
          <Insets left="10.0" />
       </GridPane.margin>
      </JFXButton>
-    <JFXSpinner fx:id="idleSpinner" maxHeight="150.0" GridPane.columnSpan="11" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
 </GridPane>
