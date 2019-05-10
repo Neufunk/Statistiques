@@ -6,10 +6,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ProgressIndicator;
 import tools.Date;
 import tools.Effects;
 import tools.ExceptionHandler;
+import tools.Time;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,19 +20,13 @@ public class ControllerPopUpGestion implements Initializable {
     @FXML
     private ComboBox<Integer> comboYear;
     @FXML
-    private JFXButton closeButton;
-    @FXML
-    private JFXButton button;
+    private JFXButton closeButton, button;
     @FXML
     private JFXSpinner spinner;
     @FXML
-    private Label label2;
-    @FXML
-    private Label label;
-    @FXML
-    private VBox closePane;
+    private Label label, label2, label3;
 
-    private String yearStr = Date.getCurrentYearStr();
+    private int year = Date.getCurrentYearInt();
     private double progress = 0;
     private static Exception error;
     private final Effects effects = new Effects();
@@ -41,23 +36,24 @@ public class ControllerPopUpGestion implements Initializable {
         for (int value : Date.getYearList()){
             comboYear.getItems().addAll(value);
         }
-        comboYear.setValue(Date.getCurrentYearInt());
+        comboYear.setValue(year);
     }
 
     public void onButtonClick() {
+        Time.setStartTime();
         effects.setFadeTransition(button, 800, 1, 0);
+        button.setVisible(false);
         spinner.setVisible(true);
         Thread t = new Thread(new IndicateurDeGestion(this));
         t.start();
     }
 
     public void onRefreshButtonClick(){
+        Time.setStartTime();
         label.setVisible(false);
         label2.setVisible(false);
-        progress = 0;
-        spinner.setProgress(0);
-        spinner.setProgress(-1);
-        effects.setFadeTransition(closeButton, 200, 1, 0);
+        label3.setVisible(false);
+        effects.setFadeTransition(closeButton, 800, 1, 0);
         spinner.setVisible(true);
         Thread t = new Thread(new IndicateurDeGestion(this));
         t.start();
@@ -68,31 +64,27 @@ public class ControllerPopUpGestion implements Initializable {
     }
 
     void updateGUI(Boolean success){
-        closePane.setVisible(true);
-        closeButton.setVisible(true);
+        effects.setFadeTransition(closeButton, 200, 0, 1);
         label.setVisible(true);
         if (success) {
             label.setText("PDF généré avec succès");
             label2.setVisible(true);
+            label3.setVisible(true);
             label2.setText("C:/users/" + System.getProperty("user.name") +
-                    "/Desktop/Indicateurs_Gestion_" + yearStr + ".pdf");
+                    "/Desktop/Indicateurs_Gestion_" + year + ".pdf");
+            label3.setText("Rapport généré en " + Time.computeElapsed() + " secondes");
         } else {
             label.setText("Erreur lors de la génération du rapport PDF");
             ExceptionHandler.switchException(error, this.getClass());
         }
         spinner.setVisible(false);
         closeButton.setVisible(true);
-        spinner.setProgress(-1);
+        spinner.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         progress = 0;
     }
 
-    public void onComboSelection() {
-        yearStr = String.valueOf(comboYear.getValue());
-        System.out.println(yearStr);
-    }
-
-    String getYearStr() {
-        return yearStr;
+    int getYear() {
+        return comboYear.getValue();
     }
 
     static void setError(Exception e) {

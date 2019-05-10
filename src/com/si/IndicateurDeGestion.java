@@ -16,21 +16,12 @@ import static si.Database.Query.*;
 
 class IndicateurDeGestion implements Runnable {
 
-    IndicateurDeGestion(ControllerPopUpGestion c) {
-        this.c = c;
-        yearStr = c.getYearStr();
-        yearInt = Integer.parseInt(yearStr);
-    }
-
     private final BaseColor BLUE_ASD = new BaseColor(0, 110, 130);
     private final BaseColor ORANGE_ASD = new BaseColor(254, 246, 233);
     private final BaseColor GREEN_ASD = new BaseColor(236, 244, 215);
     private final BaseColor LIGHT_RED = new BaseColor(255, 230, 230);
     private String centreVal;
-    private String monthVal;
-    private String yearVal;
     private final ControllerPopUpGestion c;
-    private final String yearStr;
     private final int yearInt;
     private final Database database = new Database();
     private Connection conn;
@@ -39,7 +30,8 @@ class IndicateurDeGestion implements Runnable {
     private final String[] centreName = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur", "Province"};
     private final int[] centreNo = {902, 913, 923, 931, 961, 997};
     private int centreCounter = 0;
-    private final Database.Query[][] indicateurArray = {
+
+    private final Database.Query[][] INDICATEUR_ARRAY = {
             // TARIFICATION
             {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
                     TICKETS_MODERATEURS, SOINS_DIVERS, CONVENTIONS, RECETTE_OA_PAR_VISITE, RECETTE_OA_PAR_J_PRESTE, RECETTE_OA_PAR_J_AVEC_SOINS, RECETTE_TOTALE_PAR_J_AVEC_SOINS},
@@ -56,6 +48,11 @@ class IndicateurDeGestion implements Runnable {
             // SUIVI DU PERSONNEL
             {J_PRESTES_AVEC_EMSS, J_PRESTES_AVEC_EMAS, EMSS, EMAS, TAUX_ADMINISTRATIF, TAUX_ADMINISTRATIF_IC, RECUPERATIONS, SOLDE_CP, TAUX_SMG}
     };
+
+    IndicateurDeGestion(ControllerPopUpGestion c) {
+        this.c = c;
+        yearInt = c.getYear();
+    }
 
     public void run() {
         try {
@@ -148,7 +145,7 @@ class IndicateurDeGestion implements Runnable {
             table.addCell(img);
             table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
 
-            PdfPCell cell2 = new PdfPCell(new Phrase(centreVal + " - " + monthVal + " " + yearVal, setInterstateFont(7)));
+            PdfPCell cell2 = new PdfPCell(new Phrase(centreVal + " - " + yearInt, setInterstateFont(7)));
             cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell2.setBorder(Rectangle.BOTTOM);
             table.addCell(cell2);
@@ -171,7 +168,7 @@ class IndicateurDeGestion implements Runnable {
             Document document = new Document();
             String currentUser = System.getProperty("user.name");
             final String FILE = "C:/users/" + currentUser + "/Desktop/" +
-                    "Indicateurs_Gestion_" + yearStr + ".pdf";
+                    "Indicateurs_Gestion_" + yearInt + ".pdf";
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(FILE));
             // Footer on every pages BUT last of each center because of a bug
             FooterPageEvent event = new FooterPageEvent();
@@ -183,8 +180,6 @@ class IndicateurDeGestion implements Runnable {
             // Loop to construct pages for every center
             for (int i = 0; i < centreNo.length; i++) {
                 centreVal = centreName[i];
-                yearVal = yearStr;
-                monthVal = "";
                 addPage(document);
                     /* Manually add footer on every last page of each center because there is a bug with
                     /* the FooterPageEvent in iText 5
@@ -227,7 +222,7 @@ class IndicateurDeGestion implements Runnable {
                 setInterstateFont(10));
         details.setAlignment(Element.ALIGN_RIGHT);
         preface.add(details); // Ajoute le paragraphe 'details' à la page de garde
-        Paragraph periode = new Paragraph(yearStr, setInterstateFont(18));
+        Paragraph periode = new Paragraph(String.valueOf(yearInt), setInterstateFont(18));
         periode.setAlignment(Element.ALIGN_CENTER);
         addEmptyLine(preface, 5);
         preface.add(periode);
@@ -249,7 +244,7 @@ class IndicateurDeGestion implements Runnable {
 
     private void createTable(Paragraph paragraph) throws Exception {
         int indicateurNo = 1;
-        for (int i = 0; i < indicateurArray.length; i++) {
+        for (int i = 0; i < INDICATEUR_ARRAY.length; i++) {
             // TITLE
             Paragraph title = new Paragraph(database.CATEGORIE[i], setInterstateFont(12, "black", "bold"));
             paragraph.add(title);
@@ -271,10 +266,10 @@ class IndicateurDeGestion implements Runnable {
                 table.addCell(titleCell);
             }
 
-            for (int j = 0; j < indicateurArray[i].length; j++) {
+            for (int j = 0; j < INDICATEUR_ARRAY[i].length; j++) {
                 // Update progress Bar
                 Platform.runLater(c::updateProgress);
-                Database.Query currentIndicateur = indicateurArray[i][j];
+                Database.Query currentIndicateur = INDICATEUR_ARRAY[i][j];
                 System.out.println(currentIndicateur);
                 // COLUMN_NO
                 PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(8)));

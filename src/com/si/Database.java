@@ -853,7 +853,7 @@ class Database {
                         "                             ON x.PERIODE = y.PERIODE\n" +
                         "ORDER BY x.PERIODE";
                 break;
-            case RECETTE_OA_PAR_J_PRESTE: // TARIF.OA/JOURS PRESTES+EMSS TODO: MERGE EMSS
+            case RECETTE_OA_PAR_J_PRESTE: // TARIF.OA/JOURS PRESTES+EMSS
                 query = "SELECT x.total/y.total as TOTAL\n" +
                         "FROM (\n" +
                         "    SELECT SUM(SOMME) AS TOTAL, PERIODE\n" +

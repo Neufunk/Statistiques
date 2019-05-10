@@ -89,7 +89,7 @@ class Indicateur {
                 withGraphic = true;
                 withLineGraphic = false;
                 break;
-            case "Total toilettes / total visites":  // TODO : Arriver à 100%
+            case "Total toilettes / total visites":
                 masterRow = 1;
                 rowA = 46;
                 rowB = 47;
