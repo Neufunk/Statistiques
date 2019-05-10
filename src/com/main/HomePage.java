@@ -1,6 +1,6 @@
 package main;
 
-import SoinsInfirmiers.Data;
+import si.Data;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,7 +61,7 @@ public class HomePage implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectAVJ.fxml"));
             Scene scene = stage.getScene();
             scene.setRoot(root);
-            stage.setTitle(AVJ.Data.pageTitle1);
+            stage.setTitle(avj.Data.pageTitle1);
         } catch (IOException e1) {
             e1.printStackTrace();
         }

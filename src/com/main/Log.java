@@ -16,6 +16,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import tools.DatabaseConnection;
+import tools.ExceptionHandler;
+import tools.HoveredNode;
+import tools.Identification;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -33,15 +37,15 @@ public class Log implements Initializable {
     @FXML
     private TableView<ObservableList> logTable;
 
-    private Identification id = new Identification();
-    private DatabaseConnection db = new DatabaseConnection();
+    private final Identification id = new Identification();
+    private final DatabaseConnection db = new DatabaseConnection();
 
     private final String URL = id.set(Identification.info.D03_URL);
     private final String USER = id.set(Identification.info.D03_USER);
     private final String PASSWD = id.set(Identification.info.D03_PASSWD);
     private final String DRIVER = id.set(Identification.info.D03_DRIVER);
 
-    private Connection conn = db.connect(URL, USER, PASSWD, DRIVER);
+    private final Connection conn = db.connect(URL, USER, PASSWD, DRIVER);
     private PreparedStatement ps;
     private ResultSet rs;
 
@@ -112,7 +116,7 @@ public class Log implements Initializable {
 
     private void populateBarChart() throws Exception {
         XYChart.Series series = new XYChart.Series();
-        String query = "SELECT date, count(\"user\") FROM global.log_application_launched GROUP BY date ORDER BY date ASC";
+        String query = "SELECT TO_DATE(SUBSTRING(date, 1, 10), 'yyyy-mm-dd') AS date, count(\"user\") FROM global.log_application_launched GROUP BY date ORDER BY date ASC";
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
         while (rs.next()){

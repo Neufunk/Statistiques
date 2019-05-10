@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerComparaisonCentres">
+<GridPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="si.ControllerComparaisonCentres">
     <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="655.0" minWidth="10.0" prefWidth="150.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="655.0" minWidth="10.0" prefWidth="125.0" />
@@ -41,7 +41,7 @@
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="401.0" />
     </rowConstraints>
     <fx:include fx:id="menuPane" source="Menu.fxml" GridPane.columnSpan="11" />
-    <JFXSpinner fx:id="idleSpinner" maxHeight="150.0" GridPane.columnSpan="11" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+    <JFXSpinner fx:id="idleSpinner" maxHeight="150.0" visible="false" GridPane.columnSpan="11" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
     <LineChart fx:id="lineChart" animated="false" layoutX="1.0" layoutY="1.0" prefHeight="341.0" prefWidth="1124.0" stylesheets="/ui/CSS/LineChart.css" visible="false" GridPane.columnSpan="11" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
       <xAxis>
           <CategoryAxis side="BOTTOM" />

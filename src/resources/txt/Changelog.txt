@@ -37,7 +37,7 @@ Patchnote-1.3 - 22/06/2018
   - Sécurisation des informations de connexion aux BDD dans un fichier .PROPERTIES
 
 Patchnote-1.2 - 25/04/2018
-  - Refactor de l'itération Excel (SoinsInfirmiers.IteratorExcel)
+  - Refactor de l'itération Excel (IteratorExcel)
   - Ajout de la fonction de comparaison par centre
   - Ajout des chemins absolus pour être utilisé dans toutes les ASD
   [WIP] Ajout Rapport Vinciane
@@ -106,7 +106,7 @@ changelog-0.2.0 = 28/07/2017
 
 changelog-0.1.4 = 19/07/2017
     - ASDB GUI complete
-    - Transformation des .properties vers une BDD centralisée (com.AVJ)
+    - Transformation des .properties vers une BDD centralisée (com.avj)
 
 changelog-0.1.3 = 27/06/2017
   - Ajout du raccourci menu Contingent

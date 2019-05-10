@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import tools.ExceptionHandler;
 
 public class FirstPreloader extends Preloader {
     private ProgressBar bar;

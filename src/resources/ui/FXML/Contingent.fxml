@@ -16,7 +16,7 @@
 
 <!--suppress ALL -->
 
-<VBox fx:id="mainVBox" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AVJ.ControllerContingent">
+<VBox fx:id="mainVBox" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="avj.ControllerContingent">
    <fx:include fx:id="menuPane" source="Menu.fxml" GridPane.columnSpan="11" />
    <GridPane alignment="CENTER" prefHeight="127.0" prefWidth="1267.0">
       <VBox.margin>

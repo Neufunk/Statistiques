@@ -47,7 +47,7 @@
         <padding>
             <Insets left="50.0" right="50.0" />
         </padding>
-        <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" focusTraversable="false" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+        <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" focusTraversable="false" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="avj" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
             <font>
                 <Font name="System Bold" size="25.0" />
             </font>

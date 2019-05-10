@@ -1,6 +1,8 @@
 package main;
 
 import javafx.scene.control.Alert;
+import tools.ExceptionHandler;
+import tools.Version;
 
 import java.io.IOException;
 import java.util.Properties;

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="3000.0" maxWidth="3000.0" prefHeight="380.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoinsInfirmiers.ControllerPopUpGestion">
+<GridPane alignment="CENTER" maxHeight="3000.0" maxWidth="3000.0" prefHeight="380.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="si.ControllerPopUpGestion">
     <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.0" minWidth="10.0" prefWidth="116.6" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="116.6" />
@@ -28,69 +28,70 @@
       <RowConstraints />
       <RowConstraints />
     </rowConstraints>
-   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="3000.0" style="-fx-background-color: #424242;" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER">
-      <children>
-         <Label alignment="CENTER" contentDisplay="CENTER" text="INDICATEURS DE GESTION" textFill="WHITE">
-            <font>
-               <Font name="Product Sans Bold" size="24.0" />
-            </font>
-         </Label>
-      </children>
-   </HBox>
-   <VBox fx:id="openPane" alignment="CENTER" prefHeight="165.0" prefWidth="350.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
-      <children>
-          <JFXButton fx:id="button" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" onAction="#onButtonClick" prefHeight="100.0" prefWidth="100.0" styleClass="green-round" stylesheets="@../CSS/Buttons.css" text="Générer">
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-            <graphic>
-               <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../../img/checked.png" />
-                  </image>
-               </ImageView>
-            </graphic></JFXButton>
-      </children>
-   </VBox>
-   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
-      <children>
-          <ComboBox fx:id="comboYear" onAction="#onComboSelection" prefHeight="40.0" prefWidth="3000.0" style="-fx-background-color: white;" stylesheets="@../CSS/ComboBox.css" visibleRowCount="6">
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-         </ComboBox>
-      </children>
-   </HBox>
-   <VBox fx:id="closePane" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnSpan="3" GridPane.rowIndex="2">
-      <children>
-          <JFXButton fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" onAction="#onRefreshButtonClick" prefHeight="100.0" prefWidth="100.0" styleClass="indigo-round" stylesheets="@../CSS/Buttons.css" text="Retry" textFill="WHITE">
-            <VBox.margin>
-               <Insets />
-            </VBox.margin>
-            <graphic>
-               <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../../img/refresh.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor></JFXButton>
-           <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="500.0" text="label">
-            <font>
-               <Font name="Product Sans" size="14.0" />
-            </font>
-            <VBox.margin>
-               <Insets top="15.0" />
-            </VBox.margin></Label>
-           <Label fx:id="label2" alignment="CENTER" contentDisplay="CENTER" prefHeight="43.0" prefWidth="3000.0" text="label2">
-            <font>
-               <Font name="Product Sans" size="14.0" />
-            </font>
-         </Label>
-      </children>
-   </VBox>
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="3000.0" style="-fx-background-color: #424242;"
+          GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" text="INDICATEURS DE GESTION" textFill="WHITE">
+           <font>
+               <Font name="Product Sans Bold" size="24.0"/>
+           </font>
+        </Label>
+    </HBox>
+    <VBox alignment="CENTER" prefHeight="165.0" prefWidth="350.0" GridPane.columnSpan="3"
+          GridPane.rowIndex="2">
+        <JFXButton fx:id="button" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false"
+                   onAction="#onButtonClick" prefHeight="100.0" prefWidth="100.0" styleClass="green-round"
+                   stylesheets="@../CSS/Buttons.css" text="Générer">
+          <cursor>
+              <Cursor fx:constant="HAND"/>
+          </cursor>
+          <graphic>
+              <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../../img/checked.png"/>
+              </ImageView>
+          </graphic>
+        </JFXButton>
+    </VBox>
+    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+        <ComboBox fx:id="comboYear" onAction="#onComboSelection" prefHeight="40.0" prefWidth="3000.0"
+                  style="-fx-background-color: white;" stylesheets="@../CSS/ComboBox.css" visibleRowCount="6">
+          <cursor>
+              <Cursor fx:constant="HAND"/>
+          </cursor>
+        </ComboBox>
+    </HBox>
+    <VBox fx:id="closePane" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false"
+          GridPane.columnSpan="3" GridPane.rowIndex="2">
+        <JFXButton fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY"
+                   focusTraversable="false" onAction="#onRefreshButtonClick" prefHeight="100.0" prefWidth="100.0"
+                   styleClass="indigo-round" stylesheets="@../CSS/Buttons.css" text="Retry" textFill="WHITE">
+          <VBox.margin>
+              <Insets/>
+          </VBox.margin>
+          <graphic>
+              <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../../img/refresh.png"/>
+              </ImageView>
+          </graphic>
+          <cursor>
+              <Cursor fx:constant="HAND"/>
+          </cursor>
+        </JFXButton>
+        <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="500.0"
+               text="label">
+         <font>
+             <Font name="Product Sans" size="14.0"/>
+         </font>
+         <VBox.margin>
+             <Insets top="15.0"/>
+         </VBox.margin>
+        </Label>
+        <Label fx:id="label2" alignment="CENTER" contentDisplay="CENTER" prefHeight="43.0" prefWidth="3000.0"
+               text="label2">
+         <font>
+             <Font name="Product Sans" size="14.0"/>
+         </font>
+        </Label>
+    </VBox>
    <JFXSpinner fx:id="spinner" visible="false" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="3">
       <GridPane.margin>
          <Insets bottom="10.0" top="10.0" />

@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import tools.ExceptionHandler;
+import tools.Identification;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -47,7 +49,7 @@ public class ConnectionTest {
     @FXML
     private JFXButton closeButton;
 
-    private Identification id = new Identification();
+    private final Identification id = new Identification();
 
     public void onButtonClick() {
         progressSetVisible();

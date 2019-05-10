@@ -1,6 +1,6 @@
 package main;
 
-import SoinsInfirmiers.Data;
+import si.Data;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
+import tools.Version;
 
 import java.awt.*;
 import java.io.File;
@@ -27,7 +28,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/HomePage.fxml"));
             changeScene(root);
-            stage.setTitle(AVJ.Data.homePageTitle);
+            stage.setTitle(avj.Data.homePageTitle);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -151,7 +152,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Contingent.fxml"));
             changeScene(root);
-            stage.setTitle(AVJ.Data.pageTitle0);
+            stage.setTitle(avj.Data.pageTitle0);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -162,7 +163,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ASDB.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle(AVJ.Data.asdbTitle);
+            stage.setTitle(avj.Data.asdbTitle);
             stage.show();
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -205,7 +206,7 @@ public class Menu {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectAVJ.fxml"));
             Scene scene = stage.getScene();
             scene.setRoot(root);
-            stage.setTitle(AVJ.Data.pageTitle1);
+            stage.setTitle(avj.Data.pageTitle1);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
