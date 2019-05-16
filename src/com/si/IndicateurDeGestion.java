@@ -20,16 +20,16 @@ class IndicateurDeGestion implements Runnable {
     private final BaseColor ORANGE_ASD = new BaseColor(254, 246, 233);
     private final BaseColor GREEN_ASD = new BaseColor(236, 244, 215);
     private final BaseColor LIGHT_RED = new BaseColor(255, 230, 230);
-    private String centreVal;
+    private String centreName;
+    private int centreNo, chapterCounter = 1;
     private final ControllerPopUpGestion c;
-    private final int yearInt;
+    private final int YEAR;
     private final Database database = new Database();
     private Connection conn;
     private PreparedStatement ps;
     private ResultSet rs;
-    private final String[] centreName = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur", "Province"};
-    private final int[] centreNo = {902, 913, 923, 931, 961, 997};
-    private int centreCounter = 0;
+    private final String[] CENTRE_NAME = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur", "Province"};
+    private final int[] CENTRE_NO = {902, 913, 923, 931, 961, 997};
 
     private final Database.Query[][] INDICATEUR_ARRAY = {
             // TARIFICATION
@@ -51,7 +51,7 @@ class IndicateurDeGestion implements Runnable {
 
     IndicateurDeGestion(ControllerPopUpGestion c) {
         this.c = c;
-        yearInt = c.getYear();
+        YEAR = c.getYear();
     }
 
     public void run() {
@@ -145,7 +145,7 @@ class IndicateurDeGestion implements Runnable {
             table.addCell(img);
             table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
 
-            PdfPCell cell2 = new PdfPCell(new Phrase(centreVal + " - " + yearInt, setInterstateFont(7)));
+            PdfPCell cell2 = new PdfPCell(new Phrase(centreName + " - " + YEAR, setInterstateFont(7)));
             cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell2.setBorder(Rectangle.BOTTOM);
             table.addCell(cell2);
@@ -168,7 +168,7 @@ class IndicateurDeGestion implements Runnable {
             Document document = new Document();
             String currentUser = System.getProperty("user.name");
             final String FILE = "C:/users/" + currentUser + "/Desktop/" +
-                    "Indicateurs_Gestion_" + yearInt + ".pdf";
+                    "Indicateurs_Gestion_" + YEAR + ".pdf";
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(FILE));
             // Footer on every pages BUT last of each center because of a bug
             FooterPageEvent event = new FooterPageEvent();
@@ -178,14 +178,15 @@ class IndicateurDeGestion implements Runnable {
             addTitlePage(document);
             conn = database.connect();
             // Loop to construct pages for every center
-            for (int i = 0; i < centreNo.length; i++) {
-                centreVal = centreName[i];
+            for (int i = 0; i < CENTRE_NO.length; i++) {
+                centreName = CENTRE_NAME[i];
+                centreNo = CENTRE_NO[i];
                 addPage(document);
                     /* Manually add footer on every last page of each center because there is a bug with
                     /* the FooterPageEvent in iText 5
                      */
                 addFooter(pdfWriter, SheetOrientation.LANDSCAPE);
-                centreCounter++;
+                chapterCounter++;
             }
             document.close();
             Platform.runLater(() -> c.updateGUI(true));
@@ -222,7 +223,7 @@ class IndicateurDeGestion implements Runnable {
                 setInterstateFont(10));
         details.setAlignment(Element.ALIGN_RIGHT);
         preface.add(details); // Ajoute le paragraphe 'details' à la page de garde
-        Paragraph periode = new Paragraph(String.valueOf(yearInt), setInterstateFont(18));
+        Paragraph periode = new Paragraph(String.valueOf(YEAR), setInterstateFont(18));
         periode.setAlignment(Element.ALIGN_CENTER);
         addEmptyLine(preface, 5);
         preface.add(periode);
@@ -232,8 +233,8 @@ class IndicateurDeGestion implements Runnable {
 
     private void addPage(Document document) throws Exception {
         document.setPageSize(PageSize.A4.rotate());
-        Anchor anchor = new Anchor("CENTRE : " + centreName[centreCounter], setInterstateFont(16));
-        Chapter chapter = new Chapter(new Paragraph(anchor), centreCounter + 1);
+        Anchor anchor = new Anchor("CENTRE : " + centreName, setInterstateFont(16));
+        Chapter chapter = new Chapter(new Paragraph(anchor), chapterCounter);
 
         Paragraph paragraph = new Paragraph();
         addEmptyLine(paragraph, 1);
@@ -257,7 +258,7 @@ class IndicateurDeGestion implements Runnable {
             table.setWidthPercentage(108);
 
             // HEADER
-            String[] headerArray = {" ", "INDICATEURS", "MOY." + (yearInt - 1), "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
+            String[] headerArray = {" ", "INDICATEURS", "MOY." + (YEAR - 1), "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet",
                     "Août", "Sept.", "Octobre", "Novembre", "Décembre", "TOTAL", "MOYENNE"};
             for (String aMonthArray : headerArray) {
                 PdfPCell titleCell = new PdfPCell(new Phrase(aMonthArray, setInterstateFont(9, "white")));
@@ -287,7 +288,7 @@ class IndicateurDeGestion implements Runnable {
                 double totalCount = 0;
                 String query = database.selectQuery(currentIndicateur);
                 ps = conn.prepareStatement(query);
-                rs = database.setQuery(currentIndicateur, ps, yearInt-1, centreNo[centreCounter]);
+                rs = database.setQuery(currentIndicateur, ps, YEAR - 1, centreNo);
                 while (rs.next()) {
                     totalCount += rs.getDouble("TOTAL");
                 }
@@ -302,9 +303,9 @@ class IndicateurDeGestion implements Runnable {
                 // RESULT CELLS
                 totalCount = 0;
                 int columnCounter = 0;
-                rs = database.setQuery(currentIndicateur, ps, yearInt, centreNo[centreCounter]);
+                rs = database.setQuery(currentIndicateur, ps, YEAR, centreNo);
                 while (rs.next()) {
-                    double result =  rs.getDouble("TOTAL");
+                    double result = rs.getDouble("TOTAL");
                     System.out.println("ROW :" + result);
                     PdfPCell cell = new PdfPCell(new Phrase(format(result), setInterstateFont(8)));
                     totalCount += result;
@@ -316,7 +317,7 @@ class IndicateurDeGestion implements Runnable {
                 ps.close();
                 // Basically, meanCounter will be the divider for the Mean Cell.
                 int meanCounter = columnCounter;
-                // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the yearStr is not complete yet.
+                // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the year is not complete yet.
                 while (columnCounter < 12) {
                     PdfPCell cell = new PdfPCell(new Phrase(format(0), setInterstateFont(9)));
                     totalCount += 0;
@@ -337,9 +338,9 @@ class IndicateurDeGestion implements Runnable {
                 System.out.println("MEAN ROW :" + totalCount / meanCounter);
                 System.out.println("----------------\n");
                 centerContent(meanCell);
-                if (lastYearMean < totalCount / meanCounter && meanCounter >= 12) {
+                if (meanCounter >= 12 && lastYearMean < totalCount / meanCounter) {
                     meanCell.setBackgroundColor(GREEN_ASD);
-                } else if (lastYearMean > totalCount / meanCounter && meanCounter >= 12) {
+                } else if (meanCounter >= 12 && lastYearMean > totalCount / meanCounter) {
                     meanCell.setBackgroundColor(LIGHT_RED);
                 } else {
                     meanCell.setBackgroundColor(ORANGE_ASD);

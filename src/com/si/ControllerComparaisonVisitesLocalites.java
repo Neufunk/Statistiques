@@ -35,16 +35,10 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
     @FXML
     private BarChart barChart;
     @FXML
-    private TextField toZipCode;
-    @FXML
-    private TextField fromZipCode;
-    @FXML
-    private TextField yearCombo;
+    private TextField toZipCode, fromZipCode, yearCombo;
     @FXML
     private GridPane waitingPane;
 
-
-    final private Menu menu = new Menu();
     final private Database database = new Database();
 
     @Override

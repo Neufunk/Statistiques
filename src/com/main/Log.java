@@ -70,7 +70,7 @@ public class Log implements Initializable {
         ObservableList<ObservableList> observableList = FXCollections.observableArrayList();
         String query = "SELECT date, \"user\", ip_adress, host_name, software_version " +
                 "FROM global.log_application_launched " +
-                "ORDER BY date ASC";
+                "ORDER BY date DESC";
         int rowCount = 1;
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
@@ -116,7 +116,11 @@ public class Log implements Initializable {
 
     private void populateBarChart() throws Exception {
         XYChart.Series series = new XYChart.Series();
-        String query = "SELECT TO_DATE(SUBSTRING(date, 1, 10), 'yyyy-mm-dd') AS date, count(\"user\") FROM global.log_application_launched GROUP BY date ORDER BY date ASC";
+        String query = "SELECT TO_DATE(SUBSTRING(date, 1, 10), 'yyyy-mm-dd') AS date, count(\"user\") " +
+                "FROM global.log_application_launched " +
+                "WHERE TO_DATE(SUBSTRING(date, 1, 10), 'yyyy-mm-dd') > current_date - 31 " +
+                "GROUP BY date " +
+                "ORDER BY date ASC";
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
         while (rs.next()){

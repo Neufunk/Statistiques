@@ -4,33 +4,38 @@
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="main.Main" />
-        <option name="description" value="" />
+        <option name="description" value="Logiciel Statistiques" />
+        <option name="height" value="720" />
         <option name="htmlPlaceholderId" value="" />
-        <option name="title" value="" />
-        <option name="vendor" value="" />
-        <option name="version" value="" />
+        <option name="icons">
+          <JavaFxApplicationIcons>
+            <option name="windowsIcon" value="$PROJECT_DIR$/src/resources/img/favicon trans.ico" />
+          </JavaFxApplicationIcons>
+        </option>
+        <option name="title" value="Statistiques" />
+        <option name="vendor" value="Johnathan Vanbeneden" />
+        <option name="version" value="1.5.1" />
+        <option name="width" value="1280" />
       </options>
     </properties>
     <root id="root">
       <element id="archive" name="Statistiques.jar">
-        <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
-        </element>
         <element id="module-output" name="Statistiques" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/resources/txt/Changelog.txt" />
       </element>
-      <element id="library" level="project" name="itext5-itextpdf-5.5.11" />
-      <element id="library" level="project" name="postgresql-42.1.1" />
-      <element id="library" level="project" name="ojdbc6" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/resources/txt/Changelog.txt" />
       <element id="artifact" artifact-name="Preloader" />
+      <element id="library" level="project" name="ojdbc6" />
       <element id="library" level="project" name="commons-collections4-4.2" />
+      <element id="library" level="project" name="commons-compress-1.18" />
+      <element id="file-copy" path="$APPLICATION_HOME_DIR$/lib/groovy-all-2.4.15.jar" />
+      <element id="library" level="project" name="itext5-itextpdf-5.5.11" />
+      <element id="library" level="project" name="jfoenix-8.0.8" />
       <element id="library" level="project" name="ooxml-schemas-1.4" />
       <element id="library" level="project" name="poi-4.0.1" />
       <element id="library" level="project" name="poi-ooxml-4.0.1" />
       <element id="library" level="project" name="poi-ooxml-schemas-4.0.1" />
+      <element id="library" level="project" name="postgresql-42.1.1" />
       <element id="library" level="project" name="xmlbeans-3.0.1" />
-      <element id="library" level="project" name="commons-compress-1.18" />
-      <element id="library" level="project" name="jfoenix-8.0.8" />
     </root>
   </artifact>
 </component>

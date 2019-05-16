@@ -1,16 +1,16 @@
-.jfx-combo-box {
-	-fx-selection-bar: #006782;
-}
-.jfx-combo-box .cell:selected {
-    -fx-text-fill: BLACK;
-}
 .combo-box {
-    -fx-font-size: 15pt;
-    -fx-padding: -1 -1 -1 140;
+
 }
-.combo-box-popup .list-view {
+.big {
+    -fx-font-size: 16pt;
+    -fx-padding: -1 -1 -1 50;
+}
+.big .combo-box-popup .list-view {
     -fx-font-size : 15pt;
 }
+.combo-box>.list-cell {
+    -fx-alignment: CENTER;
+}
 .combo-box-popup .list-view .list-cell {
-    -fx-padding: -1 -1 -1 153;
+    -fx-alignment: center;
 }

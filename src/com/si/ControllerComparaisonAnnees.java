@@ -24,17 +24,9 @@ import java.util.ResourceBundle;
 
 public class ControllerComparaisonAnnees implements Initializable {
     @FXML
-    private JFXComboBox<String> comboCentre;
+    private JFXComboBox<String> comboCentre, comboIndic, comboCategorie;
     @FXML
-    private JFXComboBox<Integer> comboYear1;
-    @FXML
-    private JFXComboBox<Integer> comboYear2;
-    @FXML
-    private JFXComboBox<Integer> comboYear3;
-    @FXML
-    private JFXComboBox<String> comboIndic;
-    @FXML
-    private JFXComboBox<String> comboCategorie;
+    private JFXComboBox<Integer> comboYear1, comboYear2, comboYear3;
     @FXML
     private LineChart<String, Float> lineChart;
     @FXML
@@ -42,11 +34,7 @@ public class ControllerComparaisonAnnees implements Initializable {
     @FXML
     private JFXSpinner idleSpinner;
     @FXML
-    private ImageView redCross0;
-    @FXML
-    private ImageView redCross1;
-    @FXML
-    private ImageView redCross2;
+    private ImageView redCross0, redCross1, redCross2;
     @FXML
     private AnchorPane menuPane;
 

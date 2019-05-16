@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -24,10 +25,13 @@
           <CategoryAxis side="BOTTOM" />
       </xAxis>
       <yAxis>
-          <NumberAxis label="CONNEXIONS" side="LEFT" />
+          <NumberAxis label="CONNEXIONS   (30 derniers jours)" side="LEFT" />
       </yAxis>
     </BarChart>
-    <PieChart fx:id="pieChart" legendVisible="false" />
+    <PieChart fx:id="pieChart" legendVisible="false">
+      <cursor>
+         <Cursor fx:constant="CROSSHAIR" />
+      </cursor></PieChart>
     <ScatterChart fx:id="scatterChart" legendVisible="false" GridPane.rowIndex="1">
       <xAxis>
           <CategoryAxis label="VERSIONS" side="BOTTOM" />
@@ -35,6 +39,9 @@
       <yAxis>
           <NumberAxis label="CONNEXIONS" side="LEFT" />
       </yAxis>
+      <cursor>
+         <Cursor fx:constant="CROSSHAIR" />
+      </cursor>
     </ScatterChart>
     <TableView fx:id="logTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
       <columnResizePolicy>

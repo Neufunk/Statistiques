@@ -36,7 +36,7 @@
         </Label>
     </HBox>
     <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
-        <ComboBox fx:id="comboYear" prefHeight="40.0" prefWidth="3000.0" style="-fx-background-color: white;" stylesheets="@../CSS/ComboBox.css" visibleRowCount="6">
+        <ComboBox fx:id="comboYear" prefHeight="40.0" prefWidth="3000.0" style="-fx-background-color: white;" styleClass="big" stylesheets="@../CSS/ComboBox.css" visibleRowCount="6">
           <cursor>
               <Cursor fx:constant="HAND" />
           </cursor>

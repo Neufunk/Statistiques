@@ -28,29 +28,9 @@ public class ControllerComparaisonCentres implements Initializable {
     @FXML
     private JFXComboBox<Integer> comboYear;
     @FXML
-    private JFXComboBox<String> comboCentre1;
+    private JFXComboBox<String> comboCentre1, comboCentre2, comboCentre3, comboCentre4, comboCentre5, comboIndic, comboCategorie;
     @FXML
-    private JFXComboBox<String> comboCentre2;
-    @FXML
-    private JFXComboBox<String> comboCentre3;
-    @FXML
-    private JFXComboBox<String> comboCentre4;
-    @FXML
-    private JFXComboBox<String> comboCentre5;
-    @FXML
-    private JFXComboBox<String> comboIndic;
-    @FXML
-    private JFXComboBox<String> comboCategorie;
-    @FXML
-    private ImageView redCross1;
-    @FXML
-    private ImageView redCross2;
-    @FXML
-    private ImageView redCross3;
-    @FXML
-    private ImageView redCross4;
-    @FXML
-    private ImageView redCross5;
+    private ImageView redCross1, redCross2, redCross3, redCross4, redCross5;
     @FXML
     private JFXSpinner idleSpinner;
     @FXML

@@ -47,7 +47,7 @@
         <padding>
             <Insets left="50.0" right="50.0" />
         </padding>
-        <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" focusTraversable="false" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="avj" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+        <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" focusTraversable="false" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="AVJ" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER">
             <font>
                 <Font name="System Bold" size="25.0" />
             </font>
@@ -80,14 +80,14 @@
         </GridPane.margin>
     </GridPane>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
-        <Label alignment="CENTER" contentDisplay="CENTER" text="STATISTIQUES">
+        <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" text="STATISTIQUES" visible="false">
             <font>
-                <Font name="Interstate-Regular" size="31.0" />
+                <Font name="Product Sans" size="35.0" />
             </font>
         </Label>
     </HBox>
     <fx:include fx:id="menuPane" source="Menu.fxml" />
-    <JFXButton id="close-button" fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" focusTraversable="false" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="FERMER" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+    <JFXButton id="close-button" fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" focusTraversable="false" onMouseClicked="#closeButtonAction" prefHeight="28.0" prefWidth="67.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Fermer" textFill="WHITE" textOverrun="CLIP" visible="false" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
         <GridPane.margin>
             <Insets bottom="30.0" right="30.0" />
         </GridPane.margin>

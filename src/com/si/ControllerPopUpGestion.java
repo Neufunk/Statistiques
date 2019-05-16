@@ -42,7 +42,6 @@ public class ControllerPopUpGestion implements Initializable {
     public void onButtonClick() {
         Time.setStartTime();
         effects.setFadeTransition(button, 800, 1, 0);
-        button.setVisible(false);
         spinner.setVisible(true);
         Thread t = new Thread(new IndicateurDeGestion(this));
         t.start();
@@ -53,7 +52,7 @@ public class ControllerPopUpGestion implements Initializable {
         label.setVisible(false);
         label2.setVisible(false);
         label3.setVisible(false);
-        effects.setFadeTransition(closeButton, 800, 1, 0);
+        effects.setFadeTransition(closeButton, 500, 1, 0);
         spinner.setVisible(true);
         Thread t = new Thread(new IndicateurDeGestion(this));
         t.start();
@@ -64,6 +63,7 @@ public class ControllerPopUpGestion implements Initializable {
     }
 
     void updateGUI(Boolean success){
+        button.setVisible(false);
         effects.setFadeTransition(closeButton, 200, 0, 1);
         label.setVisible(true);
         if (success) {
