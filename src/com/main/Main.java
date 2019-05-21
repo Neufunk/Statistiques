@@ -7,10 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import tools.DatabaseConnection;
-import tools.ExceptionHandler;
-import tools.Identification;
-import tools.Version;
+import tools.*;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -44,6 +41,7 @@ public class Main extends Application {
                 logApplicationLaunch();
             } else {
                 System.out.println("UNLOGGED CONNECTION");
+                Console.appendln("UNLOGGED CONNECTION");
             }
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
@@ -82,6 +80,7 @@ public class Main extends Application {
             ps.setString(5, SOFTWARE_VERSION);
             ps.executeUpdate();
             System.out.println("CONNECTION LOGGED -> " + USER);
+            Console.appendln("CONNECTION LOGGED -> " + USER);
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
         } finally {

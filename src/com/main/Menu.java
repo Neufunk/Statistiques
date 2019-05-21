@@ -8,11 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
+import tools.Changelog;
+import tools.Console;
 import tools.Version;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Calendar;
 
 public class Menu {
@@ -51,17 +51,26 @@ public class Menu {
     }
 
     public void changeLogs() {
-        String changelog = "P:\\STATISTIQUES\\Changelog.txt";
-        File file = new File(changelog);
-        if (!Desktop.isDesktopSupported()) {
-            System.out.println("OS non supporté");
-            return;
-        }
-        Desktop desktop = Desktop.getDesktop();
+        InputStream inputStream = this.getClass().getResourceAsStream("/txt/Changelog.txt");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String str = "";
         try {
-            if (file.exists()) desktop.open(file);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            while ((str = bufferedReader.readLine()) != null) {
+                System.out.println(str);
+                Changelog.buildChangelog();
+                Changelog.append(str);
+
+            }
+        } catch (Exception e) {
+                e.printStackTrace();
+        } finally {
+            try {
+                bufferedReader.close();
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -231,6 +240,7 @@ public class Menu {
         alert.setHeaderText("La version de JAVA installée sur votre système et actuellement utilisée par STATISTIQUES est : \nJRE " + JAVA_VERSION);
         alert.setContentText("STATISTIQUES est optimisé pour les versions 8u172/181/201");
         alert.show();
+        Console.appendln("JAVA VERSION DETECTED: " + JAVA_VERSION + "\n");
     }
 
     public void openAboutWindow() {

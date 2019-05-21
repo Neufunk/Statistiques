@@ -3,8 +3,8 @@ package main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import tools.Console;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +14,6 @@ public class Settings implements Initializable {
     @FXML
     public AnchorPane menuPane;
     public Button consoleButton;
-    public TableView logTable;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -22,7 +21,11 @@ public class Settings implements Initializable {
     }
 
     @FXML
-    void onConsoleButtonClick(){
-        System.out.println("BUTTON PRESSED");
+    void onConsoleButtonClick() {
+        if (Console.console.isShowing()) {
+            Console.console.close();
+        } else {
+            Console.buildConsole();
+        }
     }
 }

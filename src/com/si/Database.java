@@ -1,5 +1,6 @@
 package si;
 
+import tools.Console;
 import tools.ExceptionHandler;
 import tools.Identification;
 
@@ -16,16 +17,20 @@ class Database {
         try {
             System.out.println("\n---------------------------------- ");
             System.out.println("Test du driver...");
-            Class.forName("org.postgresql.Driver");
+            Console.appendln("Test du driver...");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             System.out.println("Driver O.K.");
+            Console.appendln("Driver O.K.");
 
             String url = id.set(Identification.info.D615_URL);
             String user = id.set(Identification.info.D615_USER);
             String passwd = id.set(Identification.info.D615_PASSWD);
 
             System.out.println("Connexion en cours à " + url);
+            Console.appendln("Connexion en cours à " + url);
             conn = DriverManager.getConnection(url, user, passwd);
             System.out.println("Connexion effective !");
+            Console.appendln("Connexion effective !");
             System.out.println("---------------------------------- \n");
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
@@ -35,6 +40,7 @@ class Database {
 
     void close(ResultSet rs) {
         try {
+            System.out.println("\n---------------------------------- ");
             System.out.println("Tentative de fermeture de ResultSet...");
             if (rs != null) {
                 rs.close();
@@ -76,6 +82,8 @@ class Database {
                 conn.close();
             }
             System.out.println("Connexion terminée");
+            Console.appendln("Connexion terminée");
+            System.out.println("---------------------------------- \n");
         } catch (SQLException e) {
             ExceptionHandler.switchException(e, this.getClass());
         }
@@ -85,10 +93,10 @@ class Database {
 
     final Query[][] INDICATEUR_ARRAY = {
             // TARIFICATION
-            {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
+            {RECETTE_TOTALE, TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
                     TICKETS_MODERATEURS, SOINS_DIVERS, CONVENTIONS, RECETTE_OA_PAR_VISITE, RECETTE_OA_PAR_J_PRESTE, RECETTE_OA_PAR_J_AVEC_SOINS, RECETTE_TOTALE_PAR_J_AVEC_SOINS},
             // VISITES
-            {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, VISITES_PAR_J_PRESTES, VISITES_PAR_J_AV_SOINS, DUREE_MOYENNE_PAR_VISITE},
+            {NOMBRE_DE_VISITES, NOMBRE_DE_VISITES_PAR_FFA, NOMBRE_DE_VISITES_PAR_FFB, NOMBRE_DE_VISITES_PAR_FFC, VISITES_PAR_J_PRESTES, VISITES_PAR_J_AV_SOINS, DUREE_MOYENNE_PAR_VISITE},
             // PATIENTS
             {NOMBRE_DE_PATIENTS, NOMBRE_DE_PATIENTS_FFA, NOMBRE_DE_PATIENTS_FFB, NOMBRE_DE_PATIENTS_FFC, NOMBRE_DE_PATIENTS_PALLIA,
                     TAUX_PATIENTS_NOMENCLATURE, TAUX_PATIENTS_FORFAITS, TAUX_PATIENTS_FFA, TAUX_PATIENTS_FFB, TAUX_PATIENTS_FFC,
@@ -108,10 +116,10 @@ class Database {
         PATIENTS_PAR_LOCALITE,
 
         // VISITES
-        NOMBRE_DE_VISITE,
-        NOMBRE_DE_VISITE_PAR_FFA,
-        NOMBRE_DE_VISITE_PAR_FFB,
-        NOMBRE_DE_VISITE_PAR_FFC,
+        NOMBRE_DE_VISITES,
+        NOMBRE_DE_VISITES_PAR_FFA,
+        NOMBRE_DE_VISITES_PAR_FFB,
+        NOMBRE_DE_VISITES_PAR_FFC,
         VISITES_PAR_J_PRESTES,
         VISITES_PAR_J_AV_SOINS,
         DUREE_MOYENNE_PAR_VISITE,
@@ -153,6 +161,7 @@ class Database {
         TAUX_AUTRES_SOINS,
 
         // TARIFICATION
+        RECETTE_TOTALE,
         TARIFICATION_OA,
         TARIFICATION_NOMENCLATURE,
         TARIFICATION_FORFAITS_ABC,
@@ -290,7 +299,7 @@ class Database {
                         "WHERE Name NOT LIKE ('ALL') \n" +
                         "ORDER BY Localité NULLS LAST";
                 break;
-            case NOMBRE_DE_VISITE:
+            case NOMBRE_DE_VISITES:
                 query = "SELECT SUM(SOMME) AS Total, periode \n" +
                         "        FROM V_STAT_NAMUR\n" +
                         "        WHERE CODE_REF_NO IN (7, 8, 9, 10, 205, 227, 249, 271, 293)\n" +
@@ -299,7 +308,7 @@ class Database {
                         "        GROUP BY periode\n" +
                         "        ORDER BY periode";
                 break;
-            case NOMBRE_DE_VISITE_PAR_FFA:
+            case NOMBRE_DE_VISITES_PAR_FFA:
                 query = "SELECT periode, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, \n" +
@@ -313,7 +322,7 @@ class Database {
                         ")\n" +
                         "ORDER BY periode";
                 break;
-            case NOMBRE_DE_VISITE_PAR_FFB:
+            case NOMBRE_DE_VISITES_PAR_FFB:
                 query = "SELECT periode, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, \n" +
@@ -327,7 +336,7 @@ class Database {
                         ")\n" +
                         "ORDER BY periode\n";
                 break;
-            case NOMBRE_DE_VISITE_PAR_FFC:
+            case NOMBRE_DE_VISITES_PAR_FFC:
                 query = "SELECT periode, total_1/NULLIF(total_2, 0) as Total \n" +
                         "FROM (\n" +
                         "    SELECT periode, \n" +
@@ -377,19 +386,19 @@ class Database {
                         "      GROUP BY PERIODE\n" +
                         "      ORDER BY periode) x\n" +
                         "JOIN\n" +
-                        "    (SELECT SUM(uren)/7.6 as TOTAL, MAAND\n" +
-                        " FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
-                        "           WHERE wkp.maand BETWEEN ? AND ?\n" +
-                        "             AND wkp.werknemer_id = w.werknemer_id\n" +
-                        "             AND wkp.taak_id      = tc.taak_id\n" +
-                        "             AND w.werknemer_id   = vk.werknemer_id\n" +
-                        "             AND vk.functie_id    IN (121, 122, 128)\n" +
-                        "             AND wkp.afdeling_id LIKE ?\n" +
-                        "             AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
-                        "             AND tc.taak_cd in ('AS', 'EMAS', 'EMRE')\n" +
-                        "            AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
-                        "            GROUP BY MAAND\n" +
-                        "            ORDER BY MAAND ASC) y\n" +
+                        "    (SELECT SUM(UREN)/7.6 as TOTAL, wkp.MAAND\n" +
+                        "                        FROM HR.WKN_PLANNINGEN wkp, HR.WERKNEMERS w, HR.TAAK_CODES tc, HR.V_KONTRAKTEN vk\n" +
+                        "                        WHERE wkp.maand BETWEEN ? AND ?\n" +
+                        "                        AND wkp.werknemer_id = w.werknemer_id\n" +
+                        "                        AND wkp.taak_id      = tc.taak_id\n" +
+                        "                        AND w.werknemer_id   = vk.werknemer_id\n" +
+                        "                        AND vk.functie_id    IN (121, 122, 128)\n" +
+                        "                        AND wkp.afdeling_id LIKE ?\n" +
+                        "                        AND wkp.planning_dt BETWEEN hist_start_dt AND nvl(hist_eind_dt, to_date('31-12-2099','dd-mm-yyyy'))\n" +
+                        "                        AND tc.taak_cd in ('AS', 'EMAS', 'EMRE', 'HOM', 'GPA', 'PIS', 'HMD', 'PMM')\n" +
+                        "                        AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
+                        "                        GROUP BY MAAND\n" +
+                        "                        ORDER BY MAAND ASC) y\n" +
                         "ON x.PERIODE = y.MAAND ";
                 break;
             case DUREE_MOYENNE_PAR_VISITE:
@@ -777,6 +786,24 @@ class Database {
                         "ORDER BY periode";
                 break;
             //TARIFICATION
+            case RECETTE_TOTALE:
+                query = "SELECT x.TOTAL + y.TOTAL as TOTAL, PERIODE\n" +
+                        "         FROM (\n" +
+                        "                  SELECT SUM(SOMME) AS Total, TO_DATE(periode, 'yyyymm') as PERIODE\n" +
+                        "                  FROM V_STAT_NAMUR\n" +
+                        "                  WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281, 11, 99, 373)\n" +
+                        "                    AND periode BETWEEN ? AND ?\n" +
+                        "                    AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
+                        "                  group by PERIODE\n" +
+                        "                  order by PERIODE) x\n" +
+                        "                  JOIN\n" +
+                        "              (SELECT SUM(VAR_AMOUNT) as TOTAL, VAR_MONTH\n" +
+                        "               FROM CONV_HC.INVOICE_CONVENTIONALS_V\n" +
+                        "               WHERE VAR_MONTH BETWEEN TO_DATE(?, 'yyyymm') AND TO_DATE(?, 'yyyymm')\n" +
+                        "                 AND CENTER LIKE ?" +
+                        "                   GROUP BY VAR_MONTH) y\n" +
+                        "              ON x.PERIODE = y.VAR_MONTH";
+                break;
             case TARIFICATION_OA:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
                         "WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281) AND periode BETWEEN ? AND ? AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
@@ -1191,8 +1218,9 @@ class Database {
             ps.setInt(3, (centreNo));
         }
 
-        final boolean MORE_PARAMETERS_NEEDED = (
+        final boolean SIX_PARAMETERS_NEEDED = (
                 currentIndicateur.equals(RECETTE_OA_PAR_J_PRESTE) ||
+                        currentIndicateur.equals(RECETTE_TOTALE) ||
                         currentIndicateur.equals(RECETTE_OA_PAR_J_AVEC_SOINS) ||
                         currentIndicateur.equals(RECETTE_OA_PAR_VISITE) ||
                         currentIndicateur.equals(TAUX_ADMINISTRATIF) ||
@@ -1204,7 +1232,7 @@ class Database {
                         currentIndicateur.equals(DUREE_MOYENNE_PAR_VISITE)
         );
         // Check if the SQL query takes 6 parameters
-        if (MORE_PARAMETERS_NEEDED) {
+        if (SIX_PARAMETERS_NEEDED) {
             ps.setString(4, (year + "01"));
             ps.setString(5, (year + "12"));
             if (centreNo == 997) {

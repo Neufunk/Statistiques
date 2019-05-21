@@ -7,10 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import tools.Date;
-import tools.Effects;
-import tools.ExceptionHandler;
-import tools.Time;
+import tools.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,7 +56,7 @@ public class ControllerPopUpGestion implements Initializable {
     }
 
     void updateProgress(){
-        spinner.setProgress(progress+=0.002816);
+        spinner.setProgress(progress+=0.002777); // 100%/(NBRE INDICATEURS * CENTRES) = 1/(60*6) = 1/360
     }
 
     void updateGUI(Boolean success){
@@ -73,8 +70,10 @@ public class ControllerPopUpGestion implements Initializable {
             label2.setText("C:/users/" + System.getProperty("user.name") +
                     "/Desktop/Indicateurs_Gestion_" + year + ".pdf");
             label3.setText("Rapport généré en " + Time.computeElapsed() + " secondes");
+            Console.appendln("Rapport généré avec succès en " + Time.computeElapsed() + " secondes");
         } else {
             label.setText("Erreur lors de la génération du rapport PDF");
+            Console.appendln("Erreur lors de la génération du rapport PDF");
             ExceptionHandler.switchException(error, this.getClass());
         }
         spinner.setVisible(false);

@@ -43,10 +43,15 @@ public class ExceptionHandler {
         e.printStackTrace(new PrintWriter(error));
         e.printStackTrace();
         String e1 = e.toString();
+
+        Console.appendln("ERREUR " + e1 + " RENVOYÉE PAR " + className);
+        Console.appendln(error.toString() + "\n");
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title + " - " + className);
-        alert.setHeaderText("ERREUR " + e1 + "\nRENVOYÉ PAR " + className);
+        alert.setHeaderText("ERREUR " + e1 + "\nRENVOYÉE PAR " + className);
         alert.setContentText("STACKTRACE \n" + error.toString() + "\n");
         alert.showAndWait();
+
     }
 }

@@ -3,6 +3,7 @@ package si;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import javafx.application.Platform;
+import tools.Console;
 import tools.ExceptionHandler;
 
 import java.io.FileOutputStream;
@@ -33,10 +34,10 @@ class IndicateurDeGestion implements Runnable {
 
     private final Database.Query[][] INDICATEUR_ARRAY = {
             // TARIFICATION
-            {TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
+            {RECETTE_TOTALE, TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
                     TICKETS_MODERATEURS, SOINS_DIVERS, CONVENTIONS, RECETTE_OA_PAR_VISITE, RECETTE_OA_PAR_J_PRESTE, RECETTE_OA_PAR_J_AVEC_SOINS, RECETTE_TOTALE_PAR_J_AVEC_SOINS},
             // VISITES
-            {NOMBRE_DE_VISITE, NOMBRE_DE_VISITE_PAR_FFA, NOMBRE_DE_VISITE_PAR_FFB, NOMBRE_DE_VISITE_PAR_FFC, VISITES_PAR_J_PRESTES, VISITES_PAR_J_AV_SOINS},
+            {NOMBRE_DE_VISITES, NOMBRE_DE_VISITES_PAR_FFA, NOMBRE_DE_VISITES_PAR_FFB, NOMBRE_DE_VISITES_PAR_FFC, VISITES_PAR_J_PRESTES, VISITES_PAR_J_AV_SOINS},
             // PATIENTS
             {NOMBRE_DE_PATIENTS, NOMBRE_DE_PATIENTS_FFA, NOMBRE_DE_PATIENTS_FFB, NOMBRE_DE_PATIENTS_FFC, NOMBRE_DE_PATIENTS_PALLIA,
                     TAUX_PATIENTS_NOMENCLATURE, TAUX_PATIENTS_FORFAITS, TAUX_PATIENTS_FFA, TAUX_PATIENTS_FFB, TAUX_PATIENTS_FFC,
@@ -190,7 +191,6 @@ class IndicateurDeGestion implements Runnable {
             }
             document.close();
             Platform.runLater(() -> c.updateGUI(true));
-            System.out.println("PDF généré avec succès");
         } catch (Exception e) {
             Platform.runLater(() -> c.updateGUI(false));
             ControllerPopUpGestion.setError(e);
@@ -234,6 +234,7 @@ class IndicateurDeGestion implements Runnable {
     private void addPage(Document document) throws Exception {
         document.setPageSize(PageSize.A4.rotate());
         Anchor anchor = new Anchor("CENTRE : " + centreName, setInterstateFont(16));
+        Platform.runLater(() -> Console.appendln("########## " + centreName + " ##########"));
         Chapter chapter = new Chapter(new Paragraph(anchor), chapterCounter);
 
         Paragraph paragraph = new Paragraph();
@@ -272,6 +273,7 @@ class IndicateurDeGestion implements Runnable {
                 Platform.runLater(c::updateProgress);
                 Database.Query currentIndicateur = INDICATEUR_ARRAY[i][j];
                 System.out.println(currentIndicateur);
+                Platform.runLater(() -> Console.appendln("-------------------- " + currentIndicateur.toString()));
                 // COLUMN_NO
                 PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(8)));
                 indicateurNo++;
@@ -296,6 +298,8 @@ class IndicateurDeGestion implements Runnable {
                 double lastYearMean = totalCount / 12;
                 PdfPCell lastYearMeanCell = new PdfPCell(new Phrase(format(lastYearMean), setInterstateFont(8)));
                 System.out.println("MOYENNE PRÉCÉDENTE : " + totalCount / 12);
+                double finalTotalCount = totalCount;
+                Platform.runLater(() -> Console.appendln("PREVIOUS AVERAGE : " + finalTotalCount / 12));
                 lastYearMeanCell.setBackgroundColor(ORANGE_ASD);
                 centerContent(lastYearMeanCell);
                 table.addCell(lastYearMeanCell);
@@ -306,7 +310,8 @@ class IndicateurDeGestion implements Runnable {
                 rs = database.setQuery(currentIndicateur, ps, YEAR, centreNo);
                 while (rs.next()) {
                     double result = rs.getDouble("TOTAL");
-                    System.out.println("ROW :" + result);
+                    System.out.println("ROW: " + result);
+                    Platform.runLater(() -> Console.appendln("ROW: " + result));
                     PdfPCell cell = new PdfPCell(new Phrase(format(result), setInterstateFont(8)));
                     totalCount += result;
                     centerContent(cell);
@@ -328,15 +333,20 @@ class IndicateurDeGestion implements Runnable {
 
                 // TOTAL CELLS
                 PdfPCell totalCell = new PdfPCell(new Phrase(format(totalCount), setInterstateFont(9)));
-                System.out.println("TOTAL ROW :" + totalCount);
+                System.out.println("TOTAL: " + totalCount);
+                double finalTotalCount1 = totalCount;
+                Platform.runLater(() -> Console.appendln("TOTAL ROW: " + finalTotalCount1));
                 centerContent(totalCell);
                 totalCell.setBackgroundColor(ORANGE_ASD);
                 table.addCell(totalCell);
 
                 // MEAN CELLS
                 PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount / meanCounter), setInterstateFont(8)));
-                System.out.println("MEAN ROW :" + totalCount / meanCounter);
+                System.out.println("MEAN ROW: " + totalCount / meanCounter);
                 System.out.println("----------------\n");
+                double finalTotalCount2 = totalCount;
+                Platform.runLater(() -> Console.appendln("AVERAGE: " + finalTotalCount2 / meanCounter));
+                Platform.runLater(() -> Console.appendln("----------------\n"));
                 centerContent(meanCell);
                 if (meanCounter >= 12 && lastYearMean < totalCount / meanCounter) {
                     meanCell.setBackgroundColor(GREEN_ASD);

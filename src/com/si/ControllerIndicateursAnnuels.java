@@ -84,6 +84,16 @@ public class ControllerIndicateursAnnuels implements Initializable {
     private final IteratorExcel iteratorExcel = new IteratorExcel();
     private final Effects effects = new Effects();
 
+    /* TODO : TOTAL JOURS PAYES
+        TOTAL JOURS PRESTES INF
+        NOMBRE DE VISITES
+        FACTURATION TOT
+        NOMBRE DE PATIENTS NOMENCLATURE / FF
+        TOTAL PRESTE
+        REPARTITION DES BLOCS
+        SUPPLEMENT EN JOURS
+     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         menuPane.getChildren().get(0).getStyleClass().add("indigo");

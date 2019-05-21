@@ -31,11 +31,11 @@
       <element id="library" level="project" name="itext5-itextpdf-5.5.11" />
       <element id="library" level="project" name="jfoenix-8.0.8" />
       <element id="library" level="project" name="ooxml-schemas-1.4" />
-      <element id="library" level="project" name="poi-4.0.1" />
       <element id="library" level="project" name="poi-ooxml-4.0.1" />
       <element id="library" level="project" name="poi-ooxml-schemas-4.0.1" />
       <element id="library" level="project" name="postgresql-42.1.1" />
       <element id="library" level="project" name="xmlbeans-3.0.1" />
+      <element id="library" level="project" name="poi-4.0.1" />
     </root>
   </artifact>
 </component>

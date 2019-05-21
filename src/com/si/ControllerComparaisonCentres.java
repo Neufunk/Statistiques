@@ -11,10 +11,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import tools.Date;
-import tools.Effects;
-import tools.ExceptionHandler;
-import tools.HoveredNode;
+import tools.*;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -217,9 +214,11 @@ public class ControllerComparaisonCentres implements Initializable {
                 XYChart.Data<String, Double> data = new XYChart.Data<>(MONTH[i], rs.getDouble("TOTAL"));
                 data.setNode(new HoveredNode(rs.getDouble("TOTAL"), colorCounter));
                 series.getData().add(data);
-                System.out.println(i);
+                System.out.println(MONTH[i]);
                 i++;
             }
+            int finalI = i;
+            Platform.runLater(() -> Console.append(finalI + "mois ajoutés au graphique avec succès"));
             Platform.runLater(() -> lineChart.getData().add(series));
             colorCounter++;
         } catch (Exception e) {

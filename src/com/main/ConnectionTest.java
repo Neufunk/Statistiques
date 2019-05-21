@@ -15,39 +15,11 @@ import java.sql.DriverManager;
 public class ConnectionTest {
 
     @FXML
-    private JFXSpinner progress1;
+    private JFXSpinner progress1, progress2, progress3, progress4, progress5;
     @FXML
-    private JFXSpinner progress2;
+    private Label done1, done2, done3, done4, done5, failed1, failed2, failed3, failed4, failed5;
     @FXML
-    private JFXSpinner progress3;
-    @FXML
-    private JFXSpinner progress4;
-    @FXML
-    private JFXSpinner progress5;
-    @FXML
-    private Label done1;
-    @FXML
-    private Label done2;
-    @FXML
-    private Label done3;
-    @FXML
-    private Label done4;
-    @FXML
-    private Label done5;
-    @FXML
-    private Label failed1;
-    @FXML
-    private Label failed2;
-    @FXML
-    private Label failed3;
-    @FXML
-    private Label failed4;
-    @FXML
-    private Label failed5;
-    @FXML
-    private JFXButton launchButton;
-    @FXML
-    private JFXButton closeButton;
+    private JFXButton launchButton, closeButton;
 
     private final Identification id = new Identification();
 
