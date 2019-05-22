@@ -53,7 +53,7 @@ public class Menu {
     public void changeLogs() {
         InputStream inputStream = this.getClass().getResourceAsStream("/txt/Changelog.txt");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String str = "";
+        String str;
         try {
             while ((str = bufferedReader.readLine()) != null) {
                 System.out.println(str);
@@ -81,7 +81,7 @@ public class Menu {
     public void openIndicateursPage() {
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/IndicateursAnnuels.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonIndicateurs.fxml"));
             changeScene(root);
             stage.setTitle(Data.pageTitle0);
         } catch (IOException e1) {

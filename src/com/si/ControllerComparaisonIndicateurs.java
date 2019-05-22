@@ -18,14 +18,10 @@ import tools.ExceptionHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerIndicateursAnnuels implements Initializable {
+public class ControllerComparaisonIndicateurs implements Initializable {
 
     @FXML
-    private JFXComboBox<String> comboCentre;
-    @FXML
-    private JFXComboBox<String> comboPeriode;
-    @FXML
-    private JFXComboBox<String> comboIndic;
+    private JFXComboBox<String> comboCentre, comboPeriode, comboIndic;
     @FXML
     private JFXComboBox<Integer> comboYear;
     @FXML
@@ -33,47 +29,19 @@ public class ControllerIndicateursAnnuels implements Initializable {
     @FXML
     private JFXButton generateButton;
     @FXML
-    private Label graphicTitle;
+    private Label graphicTitle, noGraphicLabel, labelMasterIndic, labelMasterValue, labelIndicA, labelIndicB, labelIndicC, labelIndicD;
+    @FXML
+    private Label labelIndicE, labelValueA, labelValueB, labelValueC, labelValueD, labelValueE;
     @FXML
     private JFXSpinner spinner;
     @FXML
     private JFXComboBox<String> comboCategorie;
     @FXML
-    private Label noGraphicLabel;
-    @FXML
-    private Label labelMasterIndic;
-    @FXML
-    private Label labelMasterValue;
-    @FXML
-    private Label labelIndicA;
-    @FXML
-    private Label labelIndicB;
-    @FXML
-    private Label labelIndicC;
-    @FXML
-    private Label labelIndicD;
-    @FXML
-    private Label labelIndicE;
-    @FXML
-    private Label labelValueA;
-    @FXML
-    private Label labelValueB;
-    @FXML
-    private Label labelValueC;
-    @FXML
-    private Label labelValueD;
-    @FXML
-    private Label labelValueE;
-    @FXML
-    private GridPane labelPane;
-    @FXML
-    private GridPane valuePane;
+    private GridPane labelPane, valuePane;
     @FXML
     private Label monthLabel;
     @FXML
-    private JFXButton backButton;
-    @FXML
-    private JFXButton nextButton;
+    private JFXButton backButton, nextButton;
     @FXML
     private AnchorPane menuPane;
 
@@ -105,7 +73,7 @@ public class ControllerIndicateursAnnuels implements Initializable {
     private void initializeCombo() {
         Data data = new Data();
         int[] yearList = Date.getYearList();
-        for(int value:yearList){
+        for (int value : yearList) {
             comboYear.getItems().addAll(value);
         }
         comboCentre.setItems(data.centerList);

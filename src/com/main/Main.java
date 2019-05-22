@@ -37,6 +37,7 @@ public class Main extends Application {
             primaryStage.setResizable(true);
             primaryStage.show();
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/graphique.png")));
+            Console.appendln("STATISTIQUES \u00A9 2017-"+Date.getCurrentYearStr()+" VERSION " + Version.versionNumber);
             if (!System.getProperty("user.name").equals("johnathanv")) {
                 logApplicationLaunch();
             } else {
@@ -80,7 +81,7 @@ public class Main extends Application {
             ps.setString(5, SOFTWARE_VERSION);
             ps.executeUpdate();
             System.out.println("CONNECTION LOGGED -> " + USER);
-            Console.appendln("CONNECTION LOGGED -> " + USER);
+            Console.appendln("Bienvenue " + USER);
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
         } finally {

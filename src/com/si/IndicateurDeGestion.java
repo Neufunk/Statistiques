@@ -273,7 +273,7 @@ class IndicateurDeGestion implements Runnable {
                 Platform.runLater(c::updateProgress);
                 Database.Query currentIndicateur = INDICATEUR_ARRAY[i][j];
                 System.out.println(currentIndicateur);
-                Platform.runLater(() -> Console.appendln("-------------------- " + currentIndicateur.toString()));
+                Platform.runLater(() -> Console.appendln("----------------------------------- " + currentIndicateur.toString()));
                 // COLUMN_NO
                 PdfPCell numberCell = new PdfPCell(new Phrase(String.valueOf(indicateurNo), setInterstateFont(8)));
                 indicateurNo++;

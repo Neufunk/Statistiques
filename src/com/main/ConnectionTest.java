@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import tools.Console;
 import tools.ExceptionHandler;
 import tools.Identification;
 
@@ -56,12 +57,14 @@ public class ConnectionTest {
             System.out.println("Connexion en cours...");
             Connection conn = DriverManager.getConnection(url, user, passwd);
             System.out.println("Connexion réussie -> " + url + " !");
+            Console.appendln("Connexion à "+ url + " réussie");
             conn.close();
             System.out.println("Connexion terminée !");
             System.out.println("---------------------------------- ");
             progress.setVisible(false);
             done.setVisible(true);
         } catch (Exception e) {
+            Console.appendln("Connexion à "+ url + " échouée");
             progress.setVisible(false);
             failed.setVisible(true);
             ExceptionHandler.switchException(e, this.getClass());
@@ -70,15 +73,18 @@ public class ConnectionTest {
 
     private void testServerConnection(String ip, JFXSpinner progress, Label done, Label failed) {
         try {
+            final String HOSTNAME = InetAddress.getByName(ip).getHostName();
             progress.setVisible(false);
             if (InetAddress.getByName(ip).isReachable(5000)) {
                 done.setVisible(true);
-                System.out.println("Connexion à " + InetAddress.getByName(ip).getHostName() + " (" + ip + ") réussie");
+                System.out.println("Connexion à " + HOSTNAME + " (" + ip + ") réussie");
+                Console.appendln("Connexion à " + HOSTNAME + " (" + ip + ") réussie");
                 System.out.println("\n -------------------------------\n");
             } else {
                 failed.setVisible(true);
             }
         } catch (IOException e) {
+            Console.appendln("Connexion à " + ip + " échouée");
             failed.setVisible(true);
             ExceptionHandler.switchException(e, this.getClass());
         }
