@@ -59,7 +59,6 @@ public class Menu {
                 System.out.println(str);
                 Changelog.buildChangelog();
                 Changelog.append(str);
-
             }
         } catch (Exception e) {
                 e.printStackTrace();
@@ -81,7 +80,7 @@ public class Menu {
     public void openIndicateursPage() {
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonIndicateurs.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/Repartition.fxml"));
             changeScene(root);
             stage.setTitle(Data.pageTitle0);
         } catch (IOException e1) {

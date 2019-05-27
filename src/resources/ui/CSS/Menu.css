@@ -8,47 +8,46 @@
 }
 
 /* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
-
 .white {
-    -fx-my-menu-color: #fff;                  /* Change according to your needs */
-    -fx-my-menu-color-highlighted: #fff;     /* Change according to your needs */
-    -fx-my-menu-font-color: #666;             /* Change according to your needs */
-    -fx-my-menu-font-color-highlighted: #222; /* Change according to your needs */
+    -fx-my-menu-color: #fff;
+    -fx-my-menu-color-highlighted: #fff;
+    -fx-my-menu-font-color: #666;
+    -fx-my-menu-font-color-highlighted: #222;
 }
 
 .brown {
-    -fx-my-menu-color: #5f4339;                  /* Change according to your needs */
-    -fx-my-menu-color-highlighted: #8d6e63;     /* Change according to your needs */
-    -fx-my-menu-font-color: #fff;             /* Change according to your needs */
-    -fx-my-menu-font-color-highlighted: #fff; /* Change according to your needs */
+    -fx-my-menu-color: #5f4339;
+    -fx-my-menu-color-highlighted: #8d6e63;
+    -fx-my-menu-font-color: #fff;
+    -fx-my-menu-font-color-highlighted: #fff;
 }
 
 .indigo {
-    -fx-my-menu-color: #303F9F;                  /* Change according to your needs */
-    -fx-my-menu-color-highlighted: #3F51B5;     /* Change according to your needs */
-    -fx-my-menu-font-color: #fff;             /* Change according to your needs */
-    -fx-my-menu-font-color-highlighted: #C5CAE9; /* Change according to your needs */
+    -fx-my-menu-color: #303F9F;
+    -fx-my-menu-color-highlighted: #3F51B5;
+    -fx-my-menu-font-color: #fff;
+    -fx-my-menu-font-color-highlighted: #C5CAE9;
 }
 
 .green {
-    -fx-my-menu-color: #689F38 ;                 /* Change according to your needs */
-    -fx-my-menu-color-highlighted: #8BC34A;     /* Change according to your needs */
-    -fx-my-menu-font-color: #fff;             /* Change according to your needs */
-    -fx-my-menu-font-color-highlighted: #000; /* Change according to your needs */
+    -fx-my-menu-color: #689F38 ;
+    -fx-my-menu-color-highlighted: #8BC34A;
+    -fx-my-menu-font-color: #fff;
+    -fx-my-menu-font-color-highlighted: #000;
 }
 
 .orange {
-    -fx-my-menu-color: #FFA000;                  /* Change according to your needs */
-    -fx-my-menu-color-highlighted: #FFC107;     /* Change according to your needs */
-    -fx-my-menu-font-color: #000;             /* Change according to your needs */
-    -fx-my-menu-font-color-highlighted: #FFECB3; /* Change according to your needs */
+    -fx-my-menu-color: #FFA000;
+    -fx-my-menu-color-highlighted: #FFC107;
+    -fx-my-menu-font-color: #000;
+    -fx-my-menu-font-color-highlighted: #FFECB3;
 }
 
 .pink {
-    -fx-my-menu-color: #C2185B;                  /* Change according to your needs */
-    -fx-my-menu-color-highlighted: #E91E63;     /* Change according to your needs */
-    -fx-my-menu-font-color: #000;             /* Change according to your needs */
-    -fx-my-menu-font-color-highlighted: #F8BBD0; /* Change according to your needs */
+    -fx-my-menu-color: #C2185B;
+    -fx-my-menu-color-highlighted: #E91E63;
+    -fx-my-menu-font-color: #000;
+    -fx-my-menu-font-color-highlighted: #F8BBD0;
 }
 
 /* MENU BAR + Top-level MENU BUTTONS */
