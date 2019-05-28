@@ -55,15 +55,16 @@ public class ControllerComparaisonCentres implements Initializable {
     }
 
     private void initializeCombo() {
-        String[] centreArray = Arrays.copyOf(centre.CENTER_NAME, centre.CENTER_NAME.length - 1);
         int[] yearList = Date.getYearList();
         for (int value : yearList) {
             comboYear.getItems().addAll(value);
         }
+
         comboYear.setValue(Date.getCurrentYearInt());
         JFXComboBox[] comboCenterArray = {comboCentre1, comboCentre2, comboCentre3, comboCentre4, comboCentre5};
+
         for (JFXComboBox aComboCenterArray : comboCenterArray) {
-            aComboCenterArray.getItems().addAll(centreArray);
+            aComboCenterArray.getItems().addAll(centre.CENTER_NAME);
         }
         for (int i = 0; i < database.CATEGORIE.length; i++) {
             comboCategorie.getItems().addAll(database.CATEGORIE[i]);

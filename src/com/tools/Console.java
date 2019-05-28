@@ -28,11 +28,11 @@ public class Console {
 
         String title = "CONSOLE";
         console.setTitle(title);
-        console.setX(Main.getPrimaryStage().getX() + Main.getPrimaryStage().getWidth() / 1 - console.getWidth() / 2);
-        console.setY(Main.getPrimaryStage().getY() + Main.getPrimaryStage().getHeight() / 1 - console.getHeight() / 2);
-        console.setScene(scene);
+        console.setX(100);
+        console.setY(120);
         console.setHeight(400);
         console.setWidth(600);
+        console.setScene(scene);
         console.show();
     }
 

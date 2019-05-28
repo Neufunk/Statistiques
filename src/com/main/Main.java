@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import tools.*;
 
+import java.awt.*;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.sql.Connection;
@@ -30,14 +31,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             setPrimaryStage(primaryStage);
+            Console.appendln("STATISTIQUES \u00A9 2017-"+Date.getCurrentYearStr()+" VERSION " + Version.versionNumber);
             primaryStage.setTitle(Data.homePageTitle);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXML/HomePage.fxml"));
             Parent root = loader.load();
-            primaryStage.setScene(new Scene(root, 1280, 720));
+            setScreenSize(root);
             primaryStage.setResizable(true);
             primaryStage.show();
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/graphique.png")));
-            Console.appendln("STATISTIQUES \u00A9 2017-"+Date.getCurrentYearStr()+" VERSION " + Version.versionNumber);
             if (!System.getProperty("user.name").equals("johnathanv")) {
                 logApplicationLaunch();
             } else {
@@ -88,6 +89,16 @@ public class Main extends Application {
             databaseConnection.close(ps);
             databaseConnection.close(conn);
         }
+    }
+
+    private void setScreenSize(Parent root){
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final int WIDTH = screenSize.width;
+        final int HEIGHT = screenSize.height;
+        final int WINDOW_WIDTH = WIDTH-(WIDTH/100)*30;
+        final int WINDOW_HEIGHT = HEIGHT-(HEIGHT/100)*30;
+        Console.appendln("Screen rez " + WIDTH + "x" + HEIGHT +" casted to " + WINDOW_WIDTH+"x"+WINDOW_HEIGHT + " window size" );
+        primaryStage.setScene(new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT));
     }
 
     public static void main(String[] args) {
