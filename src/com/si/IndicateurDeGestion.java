@@ -234,7 +234,7 @@ class IndicateurDeGestion implements Runnable {
     private void addPage(Document document) throws Exception {
         document.setPageSize(PageSize.A4.rotate());
         Anchor anchor = new Anchor("CENTRE : " + centreName, setInterstateFont(16));
-        Platform.runLater(() -> Console.appendln("########## " + centreName + " ##########"));
+        Platform.runLater(() -> Console.appendln("######################### " + centreName + " #########################"));
         Chapter chapter = new Chapter(new Paragraph(anchor), chapterCounter);
 
         Paragraph paragraph = new Paragraph();
@@ -325,7 +325,6 @@ class IndicateurDeGestion implements Runnable {
                 // Loop to add 0,00 to the row if RS returns less than 12 results, meaning the year is not complete yet.
                 while (columnCounter < 12) {
                     PdfPCell cell = new PdfPCell(new Phrase(format(0), setInterstateFont(9)));
-                    totalCount += 0;
                     centerContent(cell);
                     table.addCell(cell);
                     columnCounter++;
@@ -341,16 +340,16 @@ class IndicateurDeGestion implements Runnable {
                 table.addCell(totalCell);
 
                 // MEAN CELLS
-                PdfPCell meanCell = new PdfPCell(new Phrase(format(totalCount / meanCounter), setInterstateFont(8)));
-                System.out.println("MEAN ROW: " + totalCount / meanCounter);
+                final double MEAN = totalCount / meanCounter;
+                PdfPCell meanCell = new PdfPCell(new Phrase(format(MEAN), setInterstateFont(8)));
+                System.out.println("MEAN ROW: " + MEAN);
                 System.out.println("----------------\n");
-                double finalTotalCount2 = totalCount;
-                Platform.runLater(() -> Console.appendln("AVERAGE: " + finalTotalCount2 / meanCounter));
+                Platform.runLater(() -> Console.appendln("AVERAGE: " + MEAN));
                 Platform.runLater(() -> Console.appendln("----------------\n"));
                 centerContent(meanCell);
-                if (meanCounter >= 12 && lastYearMean < totalCount / meanCounter) {
+                if (meanCounter >= 12 && lastYearMean < MEAN) {
                     meanCell.setBackgroundColor(GREEN_ASD);
-                } else if (meanCounter >= 12 && lastYearMean > totalCount / meanCounter) {
+                } else if (meanCounter >= 12 && lastYearMean > MEAN) {
                     meanCell.setBackgroundColor(LIGHT_RED);
                 } else {
                     meanCell.setBackgroundColor(ORANGE_ASD);
@@ -370,7 +369,7 @@ class IndicateurDeGestion implements Runnable {
                     addFooter(writer, SheetOrientation.LANDSCAPE);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                ExceptionHandler.switchException(e, this.getClass());
             }
         }
     }

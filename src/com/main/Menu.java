@@ -13,6 +13,7 @@ import tools.Console;
 import tools.Version;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
 public class Menu {
@@ -45,21 +46,15 @@ public class Menu {
         }
     }
 
-    public void showPatchnote() {
-        PatchNote pn = new PatchNote();
-        pn.patchNote();
-    }
-
     public void changeLogs() {
         InputStream inputStream = this.getClass().getResourceAsStream("/txt/Changelog.txt");
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         String str;
         try {
             while ((str = bufferedReader.readLine()) != null) {
                 System.out.println(str);
-                Changelog.buildChangelog();
                 Changelog.append(str);
-
+                Changelog.buildChangelog();
             }
         } catch (Exception e) {
                 e.printStackTrace();
@@ -246,13 +241,16 @@ public class Menu {
     public void openAboutWindow() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        alert.setTitle("Logiciel Statistiques - AIDE & SOINS À DOMICILE VERSION " + Version.versionNumber);
-        alert.setHeaderText("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
-        alert.setContentText(year + " - AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
+        alert.setTitle("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
+        alert.setHeaderText("Logiciel Statistiques [version " + Version.versionNumber + "]");
+        alert.setContentText("2017-" + year + " \n AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Code & Design JOHNATHAN VANBENEDEN \n" +
-                Version.versionNumber +
-                "\nSDK 1.8.0_201 - Supported JRE : 1.8.0_172/181/201");
+                "SDK 1.8.0_201 - Supported JRE : 1.8.0_172/181/201/211");
         alert.show();
+    }
+
+    public void openConsole() {
+        Console.buildConsole();
     }
 
     public void closeButtonAction() {

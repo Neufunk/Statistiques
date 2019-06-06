@@ -44,7 +44,7 @@ public class ControllerPopUpGestion implements Initializable {
         t.start();
     }
 
-    public void onRefreshButtonClick(){
+    public void onRefreshButtonClick() {
         Time.setStartTime();
         label.setVisible(false);
         label2.setVisible(false);
@@ -55,11 +55,11 @@ public class ControllerPopUpGestion implements Initializable {
         t.start();
     }
 
-    void updateProgress(){
+    void updateProgress() {
         spinner.setProgress(progress+=0.002777); // 100%/(NBRE INDICATEURS * CENTRES) = 1/(60*6) = 1/360
     }
 
-    void updateGUI(Boolean success){
+    void updateGUI(Boolean success) {
         button.setVisible(false);
         effects.setFadeTransition(closeButton, 200, 0, 1);
         label.setVisible(true);

@@ -15,6 +15,8 @@ public class Settings implements Initializable {
     public AnchorPane menuPane;
     public Button consoleButton;
 
+    private Menu menu = new Menu();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         menuPane.getChildren().get(0).getStyleClass().add("white");
@@ -27,5 +29,9 @@ public class Settings implements Initializable {
         } else {
             Console.buildConsole();
         }
+    }
+
+    public void openLog(){
+        menu.openLog();
     }
 }

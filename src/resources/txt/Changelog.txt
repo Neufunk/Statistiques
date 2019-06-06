@@ -1,56 +1,53 @@
 ﻿CHANGELOG
 ---------
+Patchnote 1.5.2 -
+  - Ajout de la Console.
+  - Lecture du changelog via input stream.
+
 Patchnote 1.5.1 - 13/05/2019
-  - Séparation des threads pour les graphiques de comparaisons.
   - QoL improvements.
-  - Corrections orthographiques
-  - Ajout indicateur 'Recette Totale'
-  - Changement driver db Oracle
-  - Ajout de la Console
+  - Séparation des threads pour les graphiques de comparaisons.
+  - Corrections orthographiques.
+  - Ajout indicateur 'Recette Totale'.
+  - Changement driver db Oracle.
 
 Patchnote 1.5 - 06/05/2019
-  GENERAL
+  - QoL improvements.
   - Correction de bugs et améliorations de la vitesse/réactivité.
   - Reskin du logiciel entier.
-  - QoL improvements.
-  - Ajout des logs de connexions
- INDICATEURS DE GESTION
+  - Ajout des logs de connexions.
   - Ajout de certains indicateurs.
   - Ajout de la barre de chargement.
- COMPARAISON PAR CENTRES/ANNÉES
   - Rework pour que les graphiques se basent sur la DB de la FASD au lieu des fichiers Excels.
   - Ajout du hover.
 
-Patchnote = version 1.4.1 - 28/01/2019
-  GENERAL
+Patchnote 1.4.1 - 28/01/2019
   - Création et ajout de l'outil 'Vérifier ma version de JAVA'.
-  - Ajout d'un log de connexion (31/01/2019)
-  INDICATEURS DE GESTION
+  - Ajout d'un log de connexion.
   - Ajout de la 'Moyenne année précédente'.
-  - Modifications des requêtes SQL avec NULLIF pour gérer les années antérieures.
+  - Modifications des requêtes SQL avec NULLIF/NVL pour gérer les années antérieures.
   - Couleur de la case 'MOYENNE' variable en fonction des résultats d'entreprise annuels.
 
-
-Patchnote-1.4 - 09/07/2018 MAJ 15/01/2019
+Patchnote 1.4 - 09/07/2018 MAJ 15/01/2019
   - Ajout du rapport d'indicateurs de gestion.
   - Ajout du footer sur chaque page du rapport de gestion.
   - Ajout des couleurs sur les barcharts.
   - Passage et ajustements au SDK 1.8.0_181 (Java 181) pour coller avec version FASD.
   - Correction de quelques résultats du rapport indicateurs de gestion.
 
-Patchnote-1.3 - 22/06/2018
+Patchnote 1.3 - 22/06/2018
   - [WIP] Ajout des comparaisons des visites par communes et par localités
   - Correction du cas où le CELL_TYPE_FORMULA renvoyait une erreur dans comparaison années / centres.
   - Sécurisation des informations de connexion aux BDD dans un fichier .PROPERTIES
 
-Patchnote-1.2 - 25/04/2018
+Patchnote 1.2 - 25/04/2018
   - Refactor de l'itération Excel (IteratorExcel)
   - Ajout de la fonction de comparaison par centre
   - Ajout des chemins absolus pour être utilisé dans toutes les ASD
   - [WIP] Ajout Rapport Vinciane
   - Ajout comparaison par commune
 
-Patchnote-1.1 - 06/04/2018 MàJ 18/04/2018
+Patchnote 1.1 - 06/04/2018 MàJ 18/04/2018
   - Ajout des écrans de sélection
   - Ajout de la fonctionalité de test des connexions
   - Correction du chemin du Patchnote
@@ -58,74 +55,74 @@ Patchnote-1.1 - 06/04/2018 MàJ 18/04/2018
   - Optimisations
   - Refonte fenêtre 'Rapport d'activité'
 
-Patchnote-1.0 = Janvier 2018
+Patchnote 1.0 - Janvier 2018
   - Lancement 1.0
   - Ajout de données au contingent
   - Correction de bugs
   - Correction de glitchs graphiques
   - Traduction de tous les items
 
-Patchnote-0.3.2 = 08/01/2018
+Patchnote 0.3.2 - 08/01/2018
   - Rapport d'activité ajusté fonctionnel
   - Intégration de la police INTERSTATE
   - Secteurs de Philippevilles-Florennes fusionnés.
 
-Patchnote-0.3.1 = 12/12/2017
+Patchnote 0.3.1 = 12/12/2017
   - Rapport d'activité integré
 
-Patchnote-0.3.0 = 06/12/2017
+Patchnote 0.3.0 - 06/12/2017
   - Refactorisation complète du système de fichiers
   - Correction des warnings IDEA
   - Création de l'objet 'PDF' pour les rapports
   - Création de l'objet 'Menu' pour optimiser et faciliter la maintenance
   - Mise à jour de l'UI
 
-Patchnote-0.2.4 = 09/10/2017
+Patchnote 0.2.4 - 09/10/2017
   - Ajout d'un ratio au niveau de POI Excel pour éviter le blocage des zip-bombs provoqué par les tableaux mensuels
         trop lourds et qui empêchaient la DB de se mettre à jour
 
-Patchnote-0.2.3 = 25/09/2017
+Patchnote 0.2.3 - 25/09/2017
   - Tabs "Travailleurs" et "Secteurs" fonctionnels dans l'ASDB
   - Ajout d'une barre de chargement lors de la mise à jour de la DB Contingent
   - Séparation des Threads graphiques et updates
   - Ajout d'une fenêtre shell pour résumer les secteurs mis à jour
   - Ajout du squelette XML pour le Tab "Issue" de l'ASDB
 
-Patchnote-0.2.2 = 11/09/2017
+Patchnote 0.2.2 - 11/09/2017
   - Ajouts et corrections au Contingent
   - Correction de bugs côté SI
   - Ajout de la fonction UPDATE dans le contingent
 
-Patchnote-0.2.1 = 08/08/2017
+Patchnote 0.2.1 - 08/08/2017
   - Ajout de la page Paramètres SI
   - Correction d'un bug lié au Drawer SI
   - Ajout d'un controlleur pour le Drawer SI afin d'alléger l'impact sur les ressources système
   - Plusieurs modifications design via resources.ui.CSS
   - Correction de bugs mineurs
 
-Patchnote-0.2.0.1 = 04/07/2017
+Patchnote 0.2.0.1 - 04/07/2017
     - Ajout de la menuBar sur page Contingent
 
-Patchnote-0.2.0 = 28/07/2017
+Patchnote 0.2.0 - 28/07/2017
   - ASDB Issue fonctionnel
   - Système de Contingent fonctionnel
   - Correction de bugs mineurs
 
-Patchnote-0.1.4 = 19/07/2017
+Patchnote 0.1.4 - 19/07/2017
     - ASDB GUI complete
     - Transformation des .properties vers une BDD centralisée (com.avj)
 
-Patchnote-0.1.3 = 27/06/2017
+Patchnote 0.1.3 - 27/06/2017
   - Ajout du raccourci menu Contingent
   - Ajout du squelette de la page Contingent
   - Ajout de la fonction modification des travailleurs sociaux
   - Ajout d'une librairie pour gérer PostgreSQL
 
-Patchnote-0.1.2 = 19/06/2017
+Patchnote 0.1.2 - 19/06/2017
   - Implémentation du Changelog
   - Implémentation du Patchnote
   - Ajout de la menuBar sur la page d'accueil
 
-Patchnote-0.1.1 = 14/06/2017
+Patchnote 0.1.1 - 14/06/2017
   - Correction d'un bug où le Menu empêchait un boutton de fonctionner correctement
   - Désactivation de la fonction PDF pour empêcher le programme de remplir le répertoire temp

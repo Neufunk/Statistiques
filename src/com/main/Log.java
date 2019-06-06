@@ -107,7 +107,7 @@ public class Log implements Initializable {
         pieChart.setVisible(true);
         for (final PieChart.Data data : pieChart.getData()) {
             data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, (e1) ->
-                    Tooltip.install(data.getNode(), new Tooltip(String.format("%,.0f", data.getPieValue()) + " connexions")));
+                    Tooltip.install(data.getNode(), new Tooltip(data.getName() + " - " + String.format("%,.0f", data.getPieValue()) + " connexions")));
         }
         System.out.println("PieChart OK \n");
         db.close(rs);
@@ -134,7 +134,10 @@ public class Log implements Initializable {
 
     private void populateScatterChart() throws Exception{
         XYChart.Series series = new XYChart.Series();
-        String query = "SELECT software_version, count(software_version) FROM global.log_application_launched GROUP BY software_version ORDER BY software_version ASC";
+        String query = "SELECT software_version, count(software_version) " +
+                "FROM global.log_application_launched " +
+                "GROUP BY software_version " +
+                "ORDER BY software_version ASC";
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
         while (rs.next()){

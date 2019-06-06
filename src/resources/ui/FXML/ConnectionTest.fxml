@@ -2,123 +2,119 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="350.0" prefWidth="300.0" style="-fx-background-color: #FAFAFA;"
-            xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.ConnectionTest">
+<AnchorPane prefHeight="350.0" prefWidth="300.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.ConnectionTest">
     <Pane prefHeight="66.0" prefWidth="300.0" style="-fx-background-color: #006782;">
         <Label layoutX="22.0" layoutY="24.0" text="TESTER LES CONNEXIONS" textFill="WHITE">
             <font>
-                <Font name="System Bold" size="13.0"/>
+                <Font name="System Bold" size="13.0" />
             </font>
         </Label>
-        <JFXButton fx:id="launchButton" buttonType="RAISED" layoutX="207.0" layoutY="17.0" onAction="#onButtonClick"
-                   prefHeight="33.0" prefWidth="67.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css"
-                   text="Lancer"/>
-        <JFXButton fx:id="closeButton" buttonType="RAISED" layoutX="207.0" layoutY="17.0" onAction="#onCloseClick"
-                   prefHeight="33.0" prefWidth="67.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css"
-                   text="Fermer" visible="false"/>
+        <JFXButton fx:id="launchButton" buttonType="RAISED" layoutX="207.0" layoutY="17.0" onAction="#onButtonClick" prefHeight="33.0" prefWidth="67.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Lancer">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></JFXButton>
+        <JFXButton fx:id="closeButton" buttonType="RAISED" layoutX="207.0" layoutY="17.0" onAction="#onCloseClick" prefHeight="33.0" prefWidth="67.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Fermer" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></JFXButton>
     </Pane>
     <Pane layoutX="14.0" layoutY="83.0">
         <Label layoutY="53.0" prefHeight="25.0" prefWidth="98.0" text="DC Namur">
             <font>
-                <Font name="System Bold" size="14.0"/>
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
         <Label layoutY="106.0" prefHeight="25.0" prefWidth="98.0" text="DC Philville">
             <font>
-                <Font name="System Bold" size="14.0"/>
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
         <Label prefHeight="25.0" prefWidth="138.0" text="Serveur Statistiques">
             <font>
-                <Font name="System Bold" size="14.0"/>
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
         <Label layoutY="157.0" prefHeight="25.0" prefWidth="111.0" text="Database D615">
             <font>
-                <Font name="System Bold" size="14.0"/>
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
         <Label layoutY="210.0" prefHeight="25.0" prefWidth="111.0" text="Database D015">
             <font>
-                <Font name="System Bold" size="14.0"/>
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
         <Label layoutY="25.0" prefHeight="17.0" prefWidth="131.0" text="130.15.0.3">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
-        <Label layoutY="77.0" prefHeight="17.0" prefWidth="131.0" text="130.15.0.1"/>
-        <Label layoutY="131.0" prefHeight="17.0" prefWidth="131.0" text="130.17.0.1"/>
-        <Label layoutY="181.0" prefHeight="17.0" prefWidth="131.0" text="192.168.46.12"/>
-        <Label layoutY="233.0" prefHeight="17.0" prefWidth="131.0" text="192.168.46.12"/>
+        <Label layoutY="77.0" prefHeight="17.0" prefWidth="131.0" text="130.15.0.1" />
+        <Label layoutY="131.0" prefHeight="17.0" prefWidth="131.0" text="130.17.0.1" />
+        <Label layoutY="181.0" prefHeight="17.0" prefWidth="131.0" text="192.168.46.12" />
+        <Label layoutY="233.0" prefHeight="17.0" prefWidth="131.0" text="192.168.46.12" />
     </Pane>
     <Pane layoutX="163.0" layoutY="72.0" prefHeight="270.0" prefWidth="131.0">
-        <Label fx:id="done1" layoutX="13.0" layoutY="24.0" text="Connexion réussie" textFill="#96bb37"
-               visible="false">
+        <Label fx:id="done1" layoutX="13.0" layoutY="24.0" text="Connexion réussie" textFill="#96bb37" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="done2" layoutX="13.0" layoutY="78.0" text="Connexion réussie" textFill="#96bb37"
-               visible="false">
+        <Label fx:id="done2" layoutX="13.0" layoutY="78.0" text="Connexion réussie" textFill="#96bb37" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="done3" layoutX="13.0" layoutY="128.0" text="Connexion réussie" textFill="#96bb37"
-               visible="false">
+        <Label fx:id="done3" layoutX="13.0" layoutY="128.0" text="Connexion réussie" textFill="#96bb37" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="done4" layoutX="14.0" layoutY="179.0" text="Connexion réussie" textFill="#96bb37"
-               visible="false">
+        <Label fx:id="done4" layoutX="14.0" layoutY="179.0" text="Connexion réussie" textFill="#96bb37" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="done5" layoutX="12.0" layoutY="235.0" text="Connexion réussie" textFill="#96bb37"
-               visible="false">
+        <Label fx:id="done5" layoutX="12.0" layoutY="235.0" text="Connexion réussie" textFill="#96bb37" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
         <Label fx:id="failed1" layoutX="8.0" layoutY="24.0" text="Connexion échouée" textFill="RED" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
         <Label fx:id="failed2" layoutX="8.0" layoutY="76.0" text="Connexion échouée" textFill="RED" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
         <Label fx:id="failed3" layoutX="7.0" layoutY="128.0" text="Connexion échouée" textFill="RED" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
         <Label fx:id="failed4" layoutX="8.0" layoutY="178.0" text="Connexion échouée" textFill="RED" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
         <Label fx:id="failed5" layoutX="9.0" layoutY="232.0" text="Connexion échouée" textFill="RED" visible="false">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <JFXSpinner fx:id="progress1" layoutX="47.0" layoutY="16.0" visible="false"/>
-        <JFXSpinner fx:id="progress2" layoutX="49.0" layoutY="70.0" visible="false"/>
-        <JFXSpinner fx:id="progress3" layoutX="50.0" layoutY="120.0" visible="false"/>
-        <JFXSpinner fx:id="progress4" layoutX="50.0" layoutY="170.0" visible="false"/>
-        <JFXSpinner fx:id="progress5" layoutX="50.0" layoutY="224.0" visible="false"/>
+        <JFXSpinner fx:id="progress1" layoutX="47.0" layoutY="16.0" visible="false" />
+        <JFXSpinner fx:id="progress2" layoutX="49.0" layoutY="70.0" visible="false" />
+        <JFXSpinner fx:id="progress3" layoutX="50.0" layoutY="120.0" visible="false" />
+        <JFXSpinner fx:id="progress4" layoutX="50.0" layoutY="170.0" visible="false" />
+        <JFXSpinner fx:id="progress5" layoutX="50.0" layoutY="224.0" visible="false" />
     </Pane>
 </AnchorPane>

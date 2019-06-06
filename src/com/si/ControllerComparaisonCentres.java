@@ -17,7 +17,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class ControllerComparaisonCentres implements Initializable {
@@ -126,7 +125,6 @@ public class ControllerComparaisonCentres implements Initializable {
         lineChart.setTitle("");
         lineChart.getData().clear();
         effects.setFadeTransition(lineChart, 200, 1, 0);
-        idleSpinner.setVisible(true);
     }
 
     private void onRedCrossClick() {
@@ -161,14 +159,11 @@ public class ControllerComparaisonCentres implements Initializable {
     }
 
     private void clearCombos() {
-        comboYear.getSelectionModel().clearSelection();
         comboCentre1.getSelectionModel().clearSelection();
         comboCentre2.getSelectionModel().clearSelection();
         comboCentre3.getSelectionModel().clearSelection();
         comboCentre4.getSelectionModel().clearSelection();
         comboCentre5.getSelectionModel().clearSelection();
-        comboCategorie.getSelectionModel().clearSelection();
-        comboIndic.getSelectionModel().clearSelection();
     }
 
     private void generateAll() throws Exception {
@@ -219,7 +214,7 @@ public class ControllerComparaisonCentres implements Initializable {
                 i++;
             }
             int finalI = i;
-            Platform.runLater(() -> Console.append(finalI + "mois ajoutés au graphique avec succès"));
+            Platform.runLater(() -> Console.appendln(finalI + "mois ajoutés au graphique avec succès"));
             Platform.runLater(() -> lineChart.getData().add(series));
             colorCounter++;
         } catch (Exception e) {

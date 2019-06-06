@@ -91,12 +91,12 @@ public class Main extends Application {
         }
     }
 
-    private void setScreenSize(Parent root){
+    private void setScreenSize(Parent root) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         final int WIDTH = screenSize.width;
         final int HEIGHT = screenSize.height;
-        final int WINDOW_WIDTH = WIDTH-(WIDTH/100)*30;
-        final int WINDOW_HEIGHT = HEIGHT-(HEIGHT/100)*30;
+        final int WINDOW_WIDTH = WIDTH-(WIDTH/100)*25;
+        final int WINDOW_HEIGHT = HEIGHT-(HEIGHT/100)*25;
         Console.appendln("Screen rez " + WIDTH + "x" + HEIGHT +" casted to " + WINDOW_WIDTH+"x"+WINDOW_HEIGHT + " window size" );
         primaryStage.setScene(new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT));
     }

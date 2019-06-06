@@ -14,6 +14,7 @@ public class Changelog {
         StackPane stackPane = new StackPane();
         Scene scene = new Scene(stackPane);
         stackPane.getChildren().add(text);
+        text.positionCaret(0);
         String style = "-fx-control-inner-background:#FFF;" +
                 " -fx-highlight-fill: #333;" +
                 " -fx-highlight-text-fill: #fff; " +
@@ -31,7 +32,7 @@ public class Changelog {
         console.show();
     }
 
-    static public void append(String string){
+    static public void append(String string) {
         text.appendText(string + "\n");
     }
 }

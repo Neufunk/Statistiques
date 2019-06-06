@@ -4,13 +4,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import main.Main;
 
 public class Console {
-
-    public Console() {
-
-    }
 
     public static Stage console = new Stage();
     private static TextArea text = new TextArea();
