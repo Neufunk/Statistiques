@@ -2,13 +2,13 @@
 
 [![GitHub version](https://badge.fury.io/gh/Neufunk%2FStatistiques.svg)](https://badge.fury.io/gh/Neufunk%2FStatistiques)
 
-SDK 1.8.0_181 \
+SDK 1.8.0_201 \
 May 05, 2017
 
 ### LIBRARIES :
 
 - JFoenix
-    - jfoenix
+    - jfoenix 8.0.8
 - iText
     - itext5-itextpdf-5.5.11
 - Apache POI
