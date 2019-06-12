@@ -192,7 +192,7 @@ public class ControllerComparaisonAnnees implements Initializable {
         }
     }
 
-    private void buildGraphic(){
+    private void buildGraphic() {
         lineChart.setTitle(comboIndic.getValue());
         lineChart.setVisible(true);
         effects.setFadeTransition(lineChart, 300, 0, 1);
