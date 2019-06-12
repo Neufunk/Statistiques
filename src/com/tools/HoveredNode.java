@@ -6,6 +6,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 public class HoveredNode extends StackPane {
+
     public HoveredNode(double value, int colorCounter) {
         setPrefSize(11, 11);
 

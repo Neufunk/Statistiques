@@ -38,7 +38,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Département SI">
          <MenuItem mnemonicParsing="false" onAction="#openSelectSi" text="Menu de sélection" />
-            <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Indicateurs annuels" />
+            <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Répartition Annuelle" />
             <MenuItem mnemonicParsing="false" onAction="#openComparaisonAnnees" text="Comparaison années" />
          <MenuItem mnemonicParsing="false" onAction="#openComparaisonCentres" text="Comparaison centres" />
             <Menu mnemonicParsing="false" onAction="#openSelectVisitesPatients" text="Comparaison Visites/Patients">

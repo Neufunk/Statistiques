@@ -29,8 +29,8 @@ class Database {
             System.out.println("Connexion en cours à " + url);
             Console.appendln("Connexion en cours à " + url);
             conn = DriverManager.getConnection(url, user, passwd);
-            System.out.println("Connexion effective !");
-            Console.appendln("Connexion effective !");
+            System.out.println("Connexion ouverte");
+            Console.appendln("Connexion ouverte\n");
             System.out.println("---------------------------------- \n");
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
