@@ -46,7 +46,7 @@ public class Menu {
         }
     }
 
-    public void changeLogs() {
+    public void changeLog() {
         InputStream inputStream = this.getClass().getResourceAsStream("/txt/Changelog.txt");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         String str;

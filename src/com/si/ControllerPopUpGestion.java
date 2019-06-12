@@ -30,7 +30,7 @@ public class ControllerPopUpGestion implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for (int value : Date.getYearList()){
+        for (int value : Date.getYearList()) {
             comboYear.getItems().addAll(value);
         }
         comboYear.setValue(year);

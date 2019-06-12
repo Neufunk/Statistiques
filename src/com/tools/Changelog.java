@@ -22,7 +22,7 @@ public class Changelog {
         text.setStyle(style);
         text.setEditable(false);
 
-        String title = "CHANGELOGS";
+        String title = "CHANGELOG";
         console.setTitle(title);
         console.setX(100);
         console.setY(150);
