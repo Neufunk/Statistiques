@@ -42,4 +42,8 @@ public class Console {
     static public void append(int number) {
         text.appendText(Time.getCurrentTime() + " - " + number + "\n");
     }
+
+    static public void appendln(double number) {
+        text.appendText(Time.getCurrentTime() + " - " + number + "\n");
+    }
 }

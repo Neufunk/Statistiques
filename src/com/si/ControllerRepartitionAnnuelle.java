@@ -14,9 +14,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import tools.Date;
-import tools.Effects;
-import tools.Formatter;
+import javafx.scene.text.Font;
+import tools.*;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -26,7 +25,7 @@ import java.util.ResourceBundle;
 
 import static si.Database.Query.*;
 
-public class ControllerRepartition implements Initializable {
+public class ControllerRepartitionAnnuelle implements Initializable {
 
     @FXML
     private JFXComboBox<String> comboCentre, comboIndic;
@@ -34,8 +33,6 @@ public class ControllerRepartition implements Initializable {
     private JFXComboBox<Integer> comboYear;
     @FXML
     private PieChart roundGraph;
-    @FXML
-    private Label graphicTitle, noGraphicLabel;
     @FXML
     private JFXSpinner spinner;
     @FXML
@@ -51,7 +48,7 @@ public class ControllerRepartition implements Initializable {
     private final Effects effects = new Effects();
     private Database database = new Database();
 
-    private final String[][] COMBO_ARRAY = {
+    private final String[][] COMBO_INDICATEURS = {
             // TARIFICATION
             {"RECETTE_TOTALE"},
             // VISITES
@@ -80,7 +77,7 @@ public class ControllerRepartition implements Initializable {
             },
             // PATIENTS
             {
-                    {NOMBRE_DE_PATIENTS, NOMBRE_DE_PATIENTS_FFA, NOMBRE_DE_PATIENTS_FFB, NOMBRE_DE_PATIENTS_FFC, NOMBRE_DE_PATIENTS_PALLIA}
+                    {NOMBRE_DE_PATIENTS, NOMBRE_DE_PATIENTS_FFA, NOMBRE_DE_PATIENTS_FFB, NOMBRE_DE_PATIENTS_FFC, NOMBRE_DE_PATIENTS_NOMENCLATURE}
             },
             // SOINS
             {
@@ -106,6 +103,7 @@ public class ControllerRepartition implements Initializable {
         for (int value : yearList) {
             comboYear.getItems().addAll(value);
         }
+        comboYear.setValue(Date.getCurrentYearInt());
         comboCategorie.getItems().addAll(database.CATEGORIE);
     }
 
@@ -113,19 +111,26 @@ public class ControllerRepartition implements Initializable {
         if (comboCategorie.getValue() != null) {
             comboIndic.getItems().clear();
             int index = comboCategorie.getSelectionModel().getSelectedIndex();
-            for (int i = 0; i < COMBO_ARRAY[index].length; i++) {
-                comboIndic.getItems().add(COMBO_ARRAY[index][i].replace("_", " "));
+            for (int i = 0; i < COMBO_INDICATEURS[index].length; i++) {
+                comboIndic.getItems().add(COMBO_INDICATEURS[index][i].replace("_", " "));
             }
         }
     }
 
     @FXML
     private void onGenerateButtonClick() {
-        roundGraph.setVisible(false);
+        resetAll();
+        new Thread(this::generate).start();
+    }
+
+    private void resetAll() {
+        effects.setFadeOut(roundGraph, 100);
+        effects.setFadeOut(vboxData, 300);
+        effects.setFadeOut(vboxIndic, 300);
+        roundGraph.getData().clear();
         spinner.setVisible(true);
         vboxData.getChildren().clear();
         vboxIndic.getChildren().clear();
-        new Thread(this::generate).start();
     }
 
     private void generate() {
@@ -142,14 +147,26 @@ public class ControllerRepartition implements Initializable {
                 ResultSet rs = database.setQuery(currentIndicateur, ps, comboYear.getValue(), CENTRE_NO);
                 while (rs.next()) {
                     System.out.println(rs.getDouble("TOTAL"));
+                    Console.appendln("" + rs.getDouble("TOTAL"));
                     total += rs.getDouble("TOTAL");
                 }
                 System.out.println(currentIndicateur + ": " + total);
-                Platform.runLater(() -> vboxIndic.getChildren().add(new Label(currentIndicateur.toString().replace("_", " "))));
+                Console.appendln(currentIndicateur + " : " + total);
                 double finalTotal = total;
-                Platform.runLater(() -> vboxData.getChildren().add(new Label(Formatter.formatDouble(finalTotal))));
-                if (i > 0) {
-                    pieChartData.add(new PieChart.Data(currentIndicateur.toString(), total));
+                if (i < 1) {
+                    final Label label = new Label(currentIndicateur.toString().replace("_", " "));
+                    label.setFont(Font.font(18));
+                    label.setStyle("-fx-font-weight: bold;");
+                    Platform.runLater(() -> vboxIndic.getChildren().add(label));
+
+                    final Label label2 = new Label(Formatter.formatDouble(finalTotal));
+                    label2.setFont(Font.font(18));
+                    label2.setStyle("-fx-font-weight: bold;");
+                    Platform.runLater(() -> vboxData.getChildren().add(label2));
+                } else {
+                    pieChartData.add(new PieChart.Data(Formatter.formatString(currentIndicateur.toString()), total));
+                    Platform.runLater(() -> vboxIndic.getChildren().add(new Label(currentIndicateur.toString().replace("_", " "))));
+                    Platform.runLater(() -> vboxData.getChildren().add(new Label(Formatter.formatDouble(finalTotal))));
                 }
             }
             Platform.runLater(() -> roundGraph.setData(pieChartData));
@@ -164,9 +181,10 @@ public class ControllerRepartition implements Initializable {
 
     private void buildGraphic() {
         roundGraph.setTitle(comboIndic.getValue() + " - " + comboYear.getValue());
-        roundGraph.setVisible(true);
         spinner.setVisible(false);
-
+        effects.setFadeIn(vboxData, 300);
+        effects.setFadeIn(vboxIndic, 300);
+        effects.setFadeIn(roundGraph, 900);
         for (final PieChart.Data data : roundGraph.getData()) {
             data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, (e1) ->
                     Tooltip.install(data.getNode(), new Tooltip(data.getName() + " - " + Formatter.formatDouble(data.getPieValue()))));

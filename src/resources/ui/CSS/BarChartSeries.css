@@ -1,0 +1,23 @@
+.chart-bar {
+    -fx-background-radius: 5px;
+}
+.chart-plot-background {
+    -fx-background-color: #ffffff;
+}
+.default-color0.chart-bar { -fx-bar-fill: #96bb37; }
+.default-color1.chart-bar { -fx-bar-fill: #006782; }
+.default-color2.chart-bar { -fx-bar-fill: #E1A634; }
+.default-color3.chart-bar { -fx-bar-fill: #0181e2; }
+.default-color4.chart-bar { -fx-bar-fill: #2f357f; }
+.default-color5.chart-bar { -fx-bar-fill: #860061; }
+.default-color6.chart-bar { -fx-bar-fill: #c62b00; }
+.default-color7.chart-bar { -fx-bar-fill: #ff5700; }
+
+.default-color0.chart-bar:hover { -fx-bar-fill: #C2E863; }
+.default-color1.chart-bar:hover { -fx-bar-fill: #1387a5; }
+.default-color2.chart-bar:hover { -fx-bar-fill: #ffc454; }
+.default-color3.chart-bar:hover { -fx-bar-fill: #0181e2; }
+.default-color4.chart-bar:hover { -fx-bar-fill: #2f357f; }
+.default-color5.chart-bar:hover { -fx-bar-fill: #860061; }
+.default-color6.chart-bar:hover { -fx-bar-fill: #c62b00; }
+.default-color7.chart-bar:hover { -fx-bar-fill: #ff5700; }

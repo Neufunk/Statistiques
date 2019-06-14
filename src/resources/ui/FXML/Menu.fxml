@@ -17,7 +17,7 @@
             <MenuItem accelerator="backspace" mnemonicParsing="false" onAction="#openHomepage" style="-fx-font-weight: normal;" text="Revenir à l'accueil " />
             <SeparatorMenuItem mnemonicParsing="false" />
          <MenuItem mnemonicParsing="false" onAction="#openSettings" style="-fx-font-weight: normal;" text="Paramètres" />
-            <MenuItem mnemonicParsing="false" onAction="#changeLog" style="-fx-font-weight: normal;" text="Changelogs" />
+            <MenuItem mnemonicParsing="false" onAction="#changeLog" style="-fx-font-weight: normal;" text="Changelog" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#closeButtonAction" style="-fx-font-weight: normal;" text="Quitter Statistiques" />
         </Menu>
@@ -38,7 +38,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Département SI">
          <MenuItem mnemonicParsing="false" onAction="#openSelectSi" text="Menu de sélection" />
-            <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Répartition Annuelle" />
+            <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Répartition annuelle" />
             <MenuItem mnemonicParsing="false" onAction="#openComparaisonAnnees" text="Comparaison années" />
          <MenuItem mnemonicParsing="false" onAction="#openComparaisonCentres" text="Comparaison centres" />
             <Menu mnemonicParsing="false" onAction="#openSelectVisitesPatients" text="Comparaison Visites/Patients">
@@ -48,6 +48,7 @@
                 <MenuItem disable="true" mnemonicParsing="false" text="Patients / Centres" />
                 <MenuItem disable="true" mnemonicParsing="false" text="Patients / Localités" />
             </Menu>
+         <MenuItem mnemonicParsing="false" onAction="#openRepartitionAge" text="Répartition age" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <Menu mnemonicParsing="false" text="Rapports">
             <MenuItem mnemonicParsing="false" onAction="#pdfGestion" text="Rapport indicateurs de gestion" />

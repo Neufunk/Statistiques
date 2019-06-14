@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -34,7 +35,7 @@
       <padding>
          <Insets bottom="10.0" />
       </padding>
-      <JFXButton contentDisplay="TOP" onAction="#openVisiteCentres" prefHeight="240.0" prefWidth="240.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Visites / Centres" wrapText="true" HBox.hgrow="ALWAYS">
+      <JFXButton contentDisplay="TOP" onAction="#openVisiteCentres" prefHeight="240.0" prefWidth="240.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Visites par Centres" wrapText="true" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets left="20.0" right="20.0" />
          </HBox.margin>
@@ -46,8 +47,11 @@
                <Image url="@../../img/pie-chart.png" />
             </ImageView>
          </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <JFXButton alignment="CENTER" contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Patients / Centres" wrapText="true">
+      <JFXButton alignment="CENTER" contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Patients par Centres" wrapText="true">
          <HBox.margin>
             <Insets right="20.0" />
          </HBox.margin>
@@ -69,40 +73,40 @@
       <GridPane.margin>
          <Insets bottom="20.0" right="20.0" />
       </GridPane.margin>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
    </JFXButton>
-   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-         GridPane.columnSpan="11" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2"
-         GridPane.valignment="CENTER">
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnSpan="11" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER">
       <padding>
-         <Insets bottom="10.0"/>
+         <Insets bottom="10.0" />
       </padding>
-      <JFXButton contentDisplay="TOP" onAction="#openVisiteLocalites" prefHeight="240.0" prefWidth="240.0"
-                 styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Visites / Localités" wrapText="true"
-                 HBox.hgrow="ALWAYS">
+      <JFXButton contentDisplay="TOP" onAction="#openVisiteLocalites" prefHeight="240.0" prefWidth="240.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Visites par Localités" wrapText="true" HBox.hgrow="ALWAYS">
          <HBox.margin>
-            <Insets left="20.0" right="20.0"/>
+            <Insets left="20.0" right="20.0" />
          </HBox.margin>
          <font>
-            <Font name="Interstate-Bold" size="15.0"/>
+            <Font name="Interstate-Bold" size="15.0" />
          </font>
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true">
-               <Image url="@../../img/line-chart.png"/>
+               <Image url="@../../img/line-chart.png" />
             </ImageView>
          </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <JFXButton alignment="CENTER" contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0"
-                 styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Patients / Localités"
-                 wrapText="true">
+      <JFXButton alignment="CENTER" contentDisplay="TOP" disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Patients par Localités" wrapText="true">
          <HBox.margin>
-            <Insets right="20.0"/>
+            <Insets right="20.0" />
          </HBox.margin>
          <font>
-            <Font name="Interstate-Bold" size="15.0"/>
+            <Font name="Interstate-Bold" size="15.0" />
          </font>
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true">
-               <Image url="@../../img/line-chart.png"/>
+               <Image url="@../../img/line-chart.png" />
             </ImageView>
          </graphic>
       </JFXButton>

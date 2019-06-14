@@ -40,7 +40,7 @@
         <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="38.0" vgrow="NEVER" />
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="401.0" />
     </rowConstraints>
-    <fx:include fx:id="menuPane" source="Menu.fxml" GridPane.columnSpan="11" />
+    <fx:include fx:id="menuPane" source="Menu.fxml"/>
     <JFXSpinner fx:id="idleSpinner" prefHeight="100.0" prefWidth="100.0" visible="false" GridPane.columnSpan="11" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
       <GridPane.margin>
          <Insets bottom="80.0" top="80.0" />

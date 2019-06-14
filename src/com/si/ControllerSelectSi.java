@@ -34,6 +34,10 @@ public class ControllerSelectSi implements Initializable {
 
     public void openSelectVisitesPatients() { menu.openSelectVisitesPatients(); }
 
+    public void openRepartitionAge() {
+        menu.openRepartitionAge();
+    }
+
     public void pdfGestion() {menu.pdfGestion();}
 
     public void openHomepage() {

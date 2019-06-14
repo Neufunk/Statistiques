@@ -50,6 +50,13 @@
     -fx-my-menu-font-color-highlighted: #F8BBD0;
 }
 
+.purple {
+    -fx-my-menu-color: #7B1FA2;
+    -fx-my-menu-color-highlighted: #9C27B0;
+    -fx-my-menu-font-color: #fff;
+    -fx-my-menu-font-color-highlighted: #fff;
+}
+
 /* MENU BAR + Top-level MENU BUTTONS */
 /*** The menu bar itself ***/
 .menu-bar {

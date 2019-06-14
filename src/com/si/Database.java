@@ -114,7 +114,11 @@ class Database {
         VISITES_PAR_LOCALITE,
         PATIENTS_PAR_CENTRE,
         PATIENTS_PAR_LOCALITE,
+        PATIENTS_PAR_AGE,
 
+        /****************************************
+         INDICATEURS DE GESTION
+         ***************************************/
         // VISITES
         NOMBRE_DE_VISITES,
         NOMBRE_DE_VISITES_PAR_FFA,
@@ -298,6 +302,52 @@ class Database {
                         ")\n" +
                         "WHERE Name NOT LIKE ('ALL') \n" +
                         "ORDER BY Localité NULLS LAST";
+                break;
+            case PATIENTS_PAR_AGE:
+                query = "WITH AgeData as\n" +
+                        "         (\n" +
+                        "             SELECT COUNT(fmr.FAY_SEQ_NO), COALESCE((SYSDATE - BIRTH_DAT)/365.25, 0) AS AGE, fmr.NAME\n" +
+                        "             FROM municipalities mun,\n" +
+                        "                  streets stt,\n" +
+                        "                  fams fay,\n" +
+                        "                  fam_membs fmr,\n" +
+                        "                  patients pat,\n" +
+                        "                  orgs ogn,\n" +
+                        "                  org_membs omr,\n" +
+                        "                  care_plans cpl\n" +
+                        "             WHERE stt.mun_seq_no = mun.seq_no\n" +
+                        "               AND stt.seq_no = fay.stt_seq_no\n" +
+                        "               AND fay.seq_no = fmr.fay_seq_no\n" +
+                        "               AND fmr.fay_seq_no = pat.fmr_fay_seq_no\n" +
+                        "               AND fmr.ref_no = pat.fmr_ref_no\n" +
+                        "               AND ogn.seq_no = omr.ogn_seq_no\n" +
+                        "               AND fmr.fay_seq_no = omr.fmr_fay_seq_no\n" +
+                        "               AND fmr.ref_no = omr.fmr_ref_no\n" +
+                        "               AND pat.seq_no = cpl.cp_pat_seq_no\n" +
+                        "               AND to_date('01-02-2019', 'DD-MM-YYYY') between omr.start_dat and nvl(omr.end_dat, to_date('31122500', 'ddmmyyyy'))\n" +
+                        "               AND cpl.status != 4\n" +
+                        "               AND cpl.achiev_dat between to_date(?, 'YYYYMM') and to_date(?, 'YYYYMM')\n" +
+                        "               AND fmr.CENTER LIKE ?\n" +
+                        "             GROUP BY BIRTH_DAT, fmr.NAME\n" +
+                        "         ),\n" +
+                        "GroupAge AS (\n" +
+                        "SELECT Age, AgeData.NAME,\n" +
+                        "       (CASE\n" +
+                        "           WHEN AGE < 30 THEN 'Moins de 30'\n" +
+                        "           WHEN AGE BETWEEN 30 AND 40 THEN '30 - 40'\n" +
+                        "           WHEN AGE BETWEEN 40 AND 50 THEN '40 - 50'\n" +
+                        "           WHEN AGE BETWEEN 50 AND 60 THEN '50 - 60'\n" +
+                        "           WHEN AGE BETWEEN 60 AND 70 THEN '60 - 70'\n" +
+                        "           WHEN AGE BETWEEN 70 AND 80 THEN '70 - 80'\n" +
+                        "           WHEN AGE BETWEEN 80 AND 90 THEN '80 - 90'\n" +
+                        "           WHEN AGE > 90 THEN '90 et Plus' END) as Range\n" +
+                        "FROM AgeData\n" +
+                        "   )\n" +
+                        "SELECT GroupAge.Range, COUNT(*) AS Patients\n" +
+                        "FROM GroupAge\n" +
+                        "GROUP BY Range\n" +
+                        "ORDER BY RANGE\n" +
+                        "\n";
                 break;
             case NOMBRE_DE_VISITES:
                 query = "SELECT SUM(SOMME) AS Total, periode \n" +

@@ -1,8 +1,16 @@
 ﻿CHANGELOG
 ---------
-Patchnote 1.5.2 -
+Patchnote 1.6 -
+  - QoL.
+  - Modifications des effets.
+  - Ajout de la fonction 'Répartition par Age'.
+  - Correction d'indicateurs 'Répartition annuelle'.
+
+Patchnote 1.5.2 - 12/06/2019
+  - QoL improvements.
   - Ajout de la Console.
   - Lecture du changelog via input stream.
+  - Rework 'Répartition annuelle'.
 
 Patchnote 1.5.1 - 13/05/2019
   - QoL improvements.
@@ -18,7 +26,7 @@ Patchnote 1.5 - 06/05/2019
   - Ajout des logs de connexions.
   - Ajout de certains indicateurs.
   - Ajout de la barre de chargement.
-  - Rework pour que les graphiques se basent sur la DB de la FASD au lieu des fichiers Excels.
+  - Rework pour que les graphiques se basent sur la DB FASD au lieu des fichiers Excels.
   - Ajout du hover.
 
 Patchnote 1.4.1 - 28/01/2019

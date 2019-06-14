@@ -76,7 +76,7 @@ public class Menu {
     public void openIndicateursPage() {
         Stage stage = Main.getPrimaryStage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonIndicateurs.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/RepartitionAnnuelle.fxml"));
             changeScene(root);
             stage.setTitle(Data.pageTitle0);
         } catch (IOException e1) {
@@ -135,6 +135,17 @@ public class Menu {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/CompaisonVisitesLocalites.fxml"));
             changeScene(root);
             stage.setTitle(Data.pageTitle4);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openRepartitionAge() {
+        Stage stage = Main.getPrimaryStage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/RepartitionAge.fxml"));
+            changeScene(root);
+            stage.setTitle(Data.pageTitle6);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -233,7 +244,7 @@ public class Menu {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Version de JAVA installée sur le système");
         alert.setHeaderText("La version de JAVA installée sur votre système et actuellement utilisée par STATISTIQUES est : \nJRE " + JAVA_VERSION);
-        alert.setContentText("STATISTIQUES est optimisé pour les versions 8u172/181/201");
+        alert.setContentText("STATISTIQUES est optimisé pour les versions 8u172/181/201/211");
         alert.show();
         Console.appendln("JAVA VERSION DETECTED: " + JAVA_VERSION + "\n");
     }
@@ -243,9 +254,9 @@ public class Menu {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         alert.setTitle("Logiciel Statistiques - AIDE & SOINS À DOMICILE");
         alert.setHeaderText("Logiciel Statistiques [version " + Version.versionNumber + "]");
-        alert.setContentText("2017-" + year + " \n AIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
+        alert.setContentText("2017-" + year + "\nAIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Code & Design JOHNATHAN VANBENEDEN \n" +
-                "SDK 1.8.0_201 - Supported JRE : 1.8.0_172/181/201/211");
+                "SDK 1.8.0_201 - Supported JRE : 8u172/181/201/211");
         alert.show();
     }
 

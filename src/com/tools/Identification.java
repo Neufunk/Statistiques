@@ -8,7 +8,7 @@ public class Identification {
     public enum info {
         D03_URL, D03_USER, D03_PASSWD, D03_DRIVER,
         D015_URL, D015_USER, D015_PASSWD,
-        D615_URL, D615_USER, D615_PASSWD
+        D615_URL, D615_USER, D615_PASSWD, D615_DRIVER
     }
 
     public String set(info info) {
@@ -45,6 +45,8 @@ public class Identification {
             case D615_PASSWD:
                 answer = prop.getProperty("D615_PASSWD", "vide");
                 break;
+            case D615_DRIVER:
+                answer = prop.getProperty("D615_DRIVER", "null");
             default:
                 answer = null;
         }

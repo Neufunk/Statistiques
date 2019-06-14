@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="350.0" prefWidth="300.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.ConnectionTest">
-    <Pane prefHeight="66.0" prefWidth="300.0" style="-fx-background-color: #006782;">
+    <Pane prefHeight="66.0" prefWidth="300.0" style="-fx-background-color: #424242;">
         <Label layoutX="22.0" layoutY="24.0" text="TESTER LES CONNEXIONS" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="13.0" />

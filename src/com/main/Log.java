@@ -132,7 +132,7 @@ public class Log implements Initializable {
         db.close(ps);
     }
 
-    private void populateScatterChart() throws Exception{
+    private void populateScatterChart() throws Exception {
         XYChart.Series series = new XYChart.Series();
         String query = "SELECT software_version, count(software_version) " +
                 "FROM global.log_application_launched " +
