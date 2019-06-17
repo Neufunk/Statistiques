@@ -1,6 +1,6 @@
 ﻿CHANGELOG
 ---------
-Patchnote 1.6 -
+Patchnote 1.6 - 17/06/2019
   - QoL.
   - Modifications des effets.
   - Ajout de la fonction 'Répartition par Age'.

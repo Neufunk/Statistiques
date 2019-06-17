@@ -119,6 +119,7 @@ public class ControllerRepartitionAnnuelle implements Initializable {
 
     @FXML
     private void onGenerateButtonClick() {
+        disableButton();
         resetAll();
         new Thread(this::generate).start();
     }
@@ -180,6 +181,7 @@ public class ControllerRepartitionAnnuelle implements Initializable {
     }
 
     private void buildGraphic() {
+        roundGraph.setVisible(true);
         roundGraph.setTitle(comboIndic.getValue() + " - " + comboYear.getValue());
         spinner.setVisible(false);
         effects.setFadeIn(vboxData, 300);
@@ -188,17 +190,36 @@ public class ControllerRepartitionAnnuelle implements Initializable {
         for (final PieChart.Data data : roundGraph.getData()) {
             data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, (e1) ->
                     Tooltip.install(data.getNode(), new Tooltip(data.getName() + " - " + Formatter.formatDouble(data.getPieValue()))));
+            if(data.getPieValue() == 0) {
+                roundGraph.setVisible(false);
+            }
         }
+
     }
 
     private void navigateThroughYears() {
         backButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
             comboYear.getSelectionModel().selectPrevious();
+            resetAll();
             onGenerateButtonClick();
         });
         nextButton.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
             comboYear.getSelectionModel().selectNext();
+            resetAll();
             onGenerateButtonClick();
         });
+    }
+
+    private void disableButton() {
+        if (comboYear.getSelectionModel().getSelectedIndex() == 0) {
+            backButton.setDisable(true);
+        } else {
+            backButton.setDisable(false);
+        }
+        if (comboYear.getSelectionModel().getSelectedIndex() == 4) {
+            nextButton.setDisable(true);
+        } else {
+            nextButton.setDisable(false);
+        }
     }
 }

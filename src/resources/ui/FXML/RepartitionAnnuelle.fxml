@@ -148,7 +148,7 @@
             </GridPane.margin></PieChart>
         <JFXSpinner fx:id="spinner" prefHeight="80.0" prefWidth="80.0" visible="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <GridPane.margin>
-                <Insets bottom="100.0" top="100.0" />
+                <Insets bottom="200.0" left="200.0" right="200.0" top="200.0" />
             </GridPane.margin></JFXSpinner>
     </GridPane>
     <JFXButton buttonType="RAISED" prefHeight="80.0" prefWidth="3000.0" style="-fx-background-color: #3F51B5; -fx-background-radius: 0;" text="Répartition Annuelle" textFill="WHITE" GridPane.columnSpan="2" GridPane.rowIndex="1">

@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -75,7 +74,7 @@ public class ControllerRepartitionAge implements Initializable {
     }
 
     private void populateBarChart(Connection conn) throws Exception {
-        int[] yearList = {Date.getCurrentYearInt() - 2, Date.getCurrentYearInt() - 1, Date.getCurrentYearInt()};
+        int[] yearList = {Date.getCurrentYearInt()-2, Date.getCurrentYearInt()-1, Date.getCurrentYearInt()};
 
         for (int value : yearList) {
             PreparedStatement ps = conn.prepareStatement(query);
@@ -91,6 +90,7 @@ public class ControllerRepartitionAge implements Initializable {
 
     @FXML
     private void populatePieChart(Connection conn) throws Exception {
+        pieChart.getData().clear();
         PreparedStatement ps = conn.prepareStatement(query);
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         ResultSet rs = database.setQuery(Database.Query.PATIENTS_PAR_AGE, ps, comboYear.getValue(), 997);
@@ -99,9 +99,17 @@ public class ControllerRepartitionAge implements Initializable {
             final String label = rs.getString(1);
             final double result = rs.getDouble(2);
             pieChartData.add(new PieChart.Data(label, result));
-            Platform.runLater(() -> Console.appendln(label + " : " + result + ""));
+            Platform.runLater(() -> Console.appendln(label + " : " + result));
         }
         Platform.runLater(() -> pieChart.getData().addAll(pieChartData));
+        Platform.runLater(this::installToolTip);
+    }
+
+    private void installToolTip() {
+        for (final PieChart.Data data : pieChart.getData()) {
+            data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, (e1) ->
+                    Tooltip.install(data.getNode(), new Tooltip(String.format("%,.0f", data.getPieValue()) + " patients")));
+        }
     }
 
     @FXML

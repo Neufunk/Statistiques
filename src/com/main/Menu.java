@@ -1,5 +1,6 @@
 package main;
 
+import javafx.scene.image.Image;
 import si.Data;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -155,7 +156,8 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/PopUpGestion.fxml"));
             gestionStage.setScene(new Scene(root, 370, 420));
-            gestionStage.setTitle("Rapport - indicateurs de gestion");
+            gestionStage.setTitle("Rapport - Indicateurs de gestion");
+            gestionStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/pdf-symbol-small.png")));
             gestionStage.show();
         } catch (IOException e1) {
             e1.printStackTrace();

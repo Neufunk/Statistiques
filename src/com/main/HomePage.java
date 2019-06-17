@@ -11,6 +11,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import tools.Time;
 
 import java.io.IOException;
 import java.net.URL;

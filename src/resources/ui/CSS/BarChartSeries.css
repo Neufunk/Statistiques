@@ -1,5 +1,5 @@
 .chart-bar {
-    -fx-background-radius: 5px;
+    -fx-background-radius: 5px 5px 0 0 ;
 }
 .chart-plot-background {
     -fx-background-color: #ffffff;

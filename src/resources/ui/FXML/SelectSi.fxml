@@ -25,8 +25,8 @@
       <RowConstraints maxHeight="100.0" minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <fx:include fx:id="menuPane" source="Menu.fxml" GridPane.columnSpan="2147483647" />
-   <HBox alignment="CENTER" spacing="50.0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-      <JFXButton buttonType="RAISED" contentDisplay="TOP" onAction="#openIndicateursPage" prefHeight="240.0" prefWidth="240.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Répartition annuelle" wrapText="true">
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="37.0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openIndicateursPage" prefHeight="250.0" prefWidth="250.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text="Répartition annuelle" wrapText="true" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -42,7 +42,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#openComparaisonAnnees" prefHeight="240.0" prefWidth="240.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Comparaison années" wrapText="true">
+      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openComparaisonAnnees" prefHeight="250.0" prefWidth="250.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="Comparaison années" wrapText="true" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -58,7 +58,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#openComparaisonCentres" prefHeight="240.0" prefWidth="240.0" styleClass="brown-button" stylesheets="@../CSS/Buttons.css" text="Comparaison centres" textAlignment="CENTER">
+      <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openComparaisonCentres" prefHeight="250.0" prefWidth="250.0" styleClass="brown-button" stylesheets="@../CSS/Buttons.css" text="Comparaison centres" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -74,7 +74,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" contentDisplay="TOP" onAction="#openSelectVisitesPatients" prefHeight="240.0" prefWidth="240.0" styleClass="orange-button" stylesheets="@../CSS/Buttons.css" text="Comparaison Visites / Patients" textAlignment="CENTER" wrapText="true">
+      <JFXButton buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openSelectVisitesPatients" prefHeight="250.0" prefWidth="250.0" styleClass="orange-button" stylesheets="@../CSS/Buttons.css" text="Comparaison Visites / Patients" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -94,12 +94,9 @@
          <Insets bottom="5.0" left="20.0" right="20.0" />
       </GridPane.margin>
    </HBox>
-   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="37.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
-      <padding>
-         <Insets bottom="10.0" />
-      </padding>
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="37.0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
       <children>
-         <JFXButton buttonType="RAISED" contentDisplay="TOP" onAction="#openRepartitionAge" prefHeight="240.0" prefWidth="240.0" styleClass="purple-button" stylesheets="@../CSS/Buttons.css" text="Répartition par âge">
+         <JFXButton buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openRepartitionAge" prefHeight="240.0" prefWidth="250.0" styleClass="purple-button" stylesheets="@../CSS/Buttons.css" text="Répartition par âge" wrapText="true" HBox.hgrow="ALWAYS">
             <HBox.margin>
                <Insets />
             </HBox.margin>
@@ -117,17 +114,17 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </JFXButton>
-         <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="brown-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false">
+         <JFXButton disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="240.0" prefWidth="250.0" styleClass="brown-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false" HBox.hgrow="ALWAYS">
             <HBox.margin>
-               <Insets right="20.0" />
+               <Insets />
             </HBox.margin>
          </JFXButton>
-         <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false">
+         <JFXButton disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="240.0" prefWidth="250.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false" HBox.hgrow="ALWAYS">
             <HBox.margin>
-               <Insets right="20.0" />
+               <Insets />
             </HBox.margin>
          </JFXButton>
-         <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#openHomepage" prefHeight="240.0" prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Accueil" textAlignment="CENTER" visible="false" wrapText="true">
+         <JFXButton alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openHomepage" prefHeight="240.0" prefWidth="250.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Accueil" textAlignment="CENTER" visible="false" wrapText="true" HBox.hgrow="ALWAYS">
             <HBox.margin>
                <Insets />
             </HBox.margin>
@@ -147,14 +144,11 @@
          </JFXButton>
       </children>
       <GridPane.margin>
-         <Insets left="20.0" right="20.0" top="5.0" />
+         <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
       </GridPane.margin>
    </HBox>
-   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="37.0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-      <padding>
-         <Insets bottom="10.0" />
-      </padding>
-      <JFXButton buttonType="RAISED" contentDisplay="TOP" onAction="#pdfGestion" prefHeight="240.0" prefWidth="240.0" styleClass="setup-button" stylesheets="@../CSS/Buttons.css" text="Rapport indicateurs de gestion">
+   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="37.0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <JFXButton buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#pdfGestion" prefHeight="240.0" prefWidth="250.0" styleClass="setup-button" stylesheets="@../CSS/Buttons.css" text="Rapport indicateurs de gestion" wrapText="true" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -170,17 +164,17 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="brown-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false">
+      <JFXButton disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="240.0" prefWidth="250.0" styleClass="brown-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false" HBox.hgrow="ALWAYS">
          <HBox.margin>
-            <Insets right="20.0" />
+            <Insets />
          </HBox.margin>
       </JFXButton>
-      <JFXButton disable="true" prefHeight="240.0" prefWidth="240.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false">
+      <JFXButton disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="240.0" prefWidth="250.0" styleClass="blue-button" stylesheets="@../CSS/Buttons.css" text=" " visible="false" HBox.hgrow="ALWAYS">
          <HBox.margin>
-            <Insets right="20.0" />
+            <Insets />
          </HBox.margin>
       </JFXButton>
-      <JFXButton alignment="CENTER" contentDisplay="TOP" onAction="#openHomepage" prefHeight="240.0" prefWidth="240.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Accueil" textAlignment="CENTER" wrapText="true">
+      <JFXButton alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openHomepage" prefHeight="240.0" prefWidth="250.0" styleClass="close-button" stylesheets="@../CSS/Buttons.css" text="Accueil" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -197,7 +191,7 @@
          </cursor>
       </JFXButton>
       <GridPane.margin>
-         <Insets left="20.0" right="20.0" top="5.0" />
+         <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
       </GridPane.margin>
    </HBox>
 </GridPane>

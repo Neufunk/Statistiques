@@ -41,6 +41,7 @@
             <MenuItem mnemonicParsing="false" onAction="#openIndicateursPage" text="Répartition annuelle" />
             <MenuItem mnemonicParsing="false" onAction="#openComparaisonAnnees" text="Comparaison années" />
          <MenuItem mnemonicParsing="false" onAction="#openComparaisonCentres" text="Comparaison centres" />
+         <MenuItem mnemonicParsing="false" onAction="#openRepartitionAge" text="Répartition par âge" />
             <Menu mnemonicParsing="false" onAction="#openSelectVisitesPatients" text="Comparaison Visites/Patients">
                 <MenuItem mnemonicParsing="false" onAction="#openVisitesCentres" text="Visites / Centres" />
                 <MenuItem mnemonicParsing="false" onAction="#openVisitesLocalites" text="Visites / Localités" />
@@ -48,7 +49,6 @@
                 <MenuItem disable="true" mnemonicParsing="false" text="Patients / Centres" />
                 <MenuItem disable="true" mnemonicParsing="false" text="Patients / Localités" />
             </Menu>
-         <MenuItem mnemonicParsing="false" onAction="#openRepartitionAge" text="Répartition age" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <Menu mnemonicParsing="false" text="Rapports">
             <MenuItem mnemonicParsing="false" onAction="#pdfGestion" text="Rapport indicateurs de gestion" />

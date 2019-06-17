@@ -39,7 +39,7 @@ public class Console {
         text.appendText(Time.getCurrentTime() + " - " + string + "\n");
     }
 
-    static public void append(int number) {
+    static public void appendln(int number) {
         text.appendText(Time.getCurrentTime() + " - " + number + "\n");
     }
 
