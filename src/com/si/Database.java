@@ -17,20 +17,16 @@ class Database {
         try {
             System.out.println("\n---------------------------------- ");
             System.out.println("Test du driver...");
-            Console.appendln("Test du driver...");
             Class.forName("oracle.jdbc.driver.OracleDriver");
             System.out.println("Driver O.K.");
-            Console.appendln("Driver O.K.");
 
             String url = id.set(Identification.info.D615_URL);
             String user = id.set(Identification.info.D615_USER);
             String passwd = id.set(Identification.info.D615_PASSWD);
 
             System.out.println("Connexion en cours à " + url);
-            Console.appendln("Connexion en cours à " + url);
             conn = DriverManager.getConnection(url, user, passwd);
             System.out.println("Connexion ouverte");
-            Console.appendln("Connexion ouverte\n");
             System.out.println("---------------------------------- \n");
         } catch (Exception e) {
             ExceptionHandler.switchException(e, this.getClass());
@@ -82,7 +78,6 @@ class Database {
                 conn.close();
             }
             System.out.println("Connexion terminée");
-            Console.appendln("Connexion terminée");
             System.out.println("---------------------------------- \n");
         } catch (SQLException e) {
             ExceptionHandler.switchException(e, this.getClass());

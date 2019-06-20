@@ -8,6 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -119,9 +121,11 @@ public class ControllerRepartitionAnnuelle implements Initializable {
 
     @FXML
     private void onGenerateButtonClick() {
-        disableButton();
-        resetAll();
-        new Thread(this::generate).start();
+        if (EmptyChecker.checkCombo(comboCategorie, comboIndic, comboYear)) {
+            disableButton();
+            resetAll();
+            new Thread(this::generate).start();
+        }
     }
 
     private void resetAll() {
@@ -154,6 +158,7 @@ public class ControllerRepartitionAnnuelle implements Initializable {
                 System.out.println(currentIndicateur + ": " + total);
                 Console.appendln(currentIndicateur + " : " + total);
                 double finalTotal = total;
+                // Avoid the first indic. in the pie
                 if (i < 1) {
                     final Label label = new Label(currentIndicateur.toString().replace("_", " "));
                     label.setFont(Font.font(18));
@@ -192,6 +197,15 @@ public class ControllerRepartitionAnnuelle implements Initializable {
                     Tooltip.install(data.getNode(), new Tooltip(data.getName() + " - " + Formatter.formatDouble(data.getPieValue()))));
             if(data.getPieValue() == 0) {
                 roundGraph.setVisible(false);
+            }
+        }
+        for (Node node : roundGraph.lookupAll(".chart-legend-item")) {
+            if (node instanceof Label) {
+                ((Label) node).setWrapText(true);
+                ((Label) node).setAlignment(Pos.CENTER);
+                node.setManaged(true);
+                ((Label) node).setMinWidth(150);
+                ((Label) node).setMaxWidth(2000);
             }
         }
 

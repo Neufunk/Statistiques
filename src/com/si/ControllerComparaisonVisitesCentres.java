@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 import tools.Date;
+import tools.EmptyChecker;
 import tools.ExceptionHandler;
 
 import java.net.URL;
@@ -47,10 +48,12 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
     }
 
     public void onAction() {
-        waitingPane.setVisible(true);
-        tableView.getColumns().clear();
-        barChart.getData().clear();
-        new Thread(this::startQuery).start();
+        if (checkEmpty()) {
+            waitingPane.setVisible(true);
+            tableView.getColumns().clear();
+            barChart.getData().clear();
+            new Thread(this::startQuery).start();
+        }
     }
 
     private void startQuery() {
@@ -101,6 +104,15 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
             database.close(rs);
             database.close(ps);
             database.close(conn);
+        }
+    }
+
+    private boolean checkEmpty() {
+        if (yearPicker1.getText().length() != 4) {
+            EmptyChecker.showEmptyYearDialog();
+            return false;
+        } else {
+            return true;
         }
     }
 

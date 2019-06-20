@@ -7,9 +7,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -94,7 +97,7 @@ public class ControllerRepartitionAge implements Initializable {
         PreparedStatement ps = conn.prepareStatement(query);
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         ResultSet rs = database.setQuery(Database.Query.PATIENTS_PAR_AGE, ps, comboYear.getValue(), 997);
-        Platform.runLater(() -> Console.appendln("*****" + comboYear.getValue().toString() + "*****"));
+        Platform.runLater(() -> Console.appendln("\n***** REPARTITION DES PATIENTS PAR ÂGE " + comboYear.getValue().toString() + "*****"));
         while (rs.next()) {
             final String label = rs.getString(1);
             final double result = rs.getDouble(2);

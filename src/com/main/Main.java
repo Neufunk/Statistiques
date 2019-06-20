@@ -37,9 +37,11 @@ public class Main extends Application {
             Parent root = loader.load();
             setScreenSize(root);
             primaryStage.setResizable(true);
+            primaryStage.setMinWidth(700);
+            primaryStage.setMinHeight(540);
             primaryStage.show();
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/graphique.png")));
-            if (!System.getProperty("user.name").equals("johnathanv")) {
+            if (!System.getProperty("user.name").equals("johnathanv") && !System.getProperty("user.name").equals("jo")) {
                 logApplicationLaunch();
             } else {
                 System.out.println("UNLOGGED CONNECTION");

@@ -16,6 +16,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
+import tools.EmptyChecker;
 import tools.ExceptionHandler;
 import main.Menu;
 import tools.Date;
@@ -48,10 +49,12 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
     }
 
     public void onAction() {
-        waitingPane.setVisible(true);
-        tableView.getColumns().clear();
-        barChart.getData().clear();
-        new Thread(this::startQuery).start();
+        if(emptyChecker()) {
+            waitingPane.setVisible(true);
+            tableView.getColumns().clear();
+            barChart.getData().clear();
+            new Thread(this::startQuery).start();
+        }
     }
 
     private void startQuery() {
@@ -102,6 +105,18 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
             database.close(rs);
             database.close(ps);
             database.close(conn);
+        }
+    }
+
+    private boolean emptyChecker(){
+        if (yearCombo.getText().length() != 4) {
+            EmptyChecker.showEmptyYearDialog();
+            return false;
+        } else if (fromZipCode.getText().length() != 4 || toZipCode.getText().length() != 4) {
+            EmptyChecker.showEmptyCentreDialog();
+            return false;
+        } else {
+            return true;
         }
     }
 

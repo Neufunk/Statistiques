@@ -5,9 +5,12 @@ import com.jfoenix.controls.JFXSpinner;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -35,8 +38,6 @@ public class ControllerComparaisonAnnees implements Initializable {
     @FXML
     private AnchorPane menuPane;
 
-    private final Year year = new Year();
-    private final Indicateur indicateur = new Indicateur();
     private final Database database = new Database();
     private final Centre centre = new Centre();
     private final Effects effects = new Effects();
@@ -134,13 +135,16 @@ public class ControllerComparaisonAnnees implements Initializable {
 
     private boolean checkEmpty() {
         if (comboYear1.getValue() == null && comboYear2.getValue() == null && comboYear3.getValue() == null) {
-            year.showEmptyDialog();
+            EmptyChecker.showEmptyYearDialog();
             return false;
         } else if (comboCentre.getValue() == null) {
-            centre.showEmptyDialog();
+            EmptyChecker.showEmptyCentreDialog();
+            return false;
+        } else if (comboCategorie.getValue() == null) {
+            EmptyChecker.showEmptyCategoryDialog();
             return false;
         } else if (comboIndic.getValue() == null) {
-            indicateur.showEmptyDialog();
+            EmptyChecker.showEmptyIndicDialog();
             return false;
         } else {
             return true;
@@ -197,6 +201,15 @@ public class ControllerComparaisonAnnees implements Initializable {
         lineChart.setVisible(true);
         effects.setFadeTransition(lineChart, 300, 0, 1);
         idleSpinner.setVisible(false);
+        for (Node node : lineChart.lookupAll(".chart-legend-item")) {
+            if (node instanceof Label) {
+                ((Label) node).setWrapText(true);
+                ((Label) node).setAlignment(Pos.CENTER);
+                node.setManaged(true);
+                ((Label) node).setMinWidth(150);
+                ((Label) node).setMaxWidth(2000);
+            }
+        }
     }
 }
 

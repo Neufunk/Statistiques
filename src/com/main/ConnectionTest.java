@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXSpinner;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import tools.Console;
+import tools.Effects;
 import tools.ExceptionHandler;
 import tools.Identification;
 
@@ -23,6 +24,7 @@ public class ConnectionTest {
     private JFXButton launchButton, closeButton;
 
     private final Identification id = new Identification();
+    private Effects fx = new Effects();
 
     public void onButtonClick() {
         progressSetVisible();
@@ -36,8 +38,9 @@ public class ConnectionTest {
             testDatabaseConnection(id.set(Identification.info.D015_URL), id.set(Identification.info.D015_USER), id.set(Identification.info.D015_PASSWD),
                     "oracle.jdbc.driver.OracleDriver", progress5, done5, failed5);
         }).start();
-        launchButton.setVisible(false);
+        fx.setFadeOut(launchButton, 500);
         closeButton.setVisible(true);
+        fx.setFadeIn(closeButton, 500);
     }
 
     private void progressSetVisible() {
