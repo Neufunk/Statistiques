@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import static si.Database.Query.*;
+import static tools.Identification.*;
 
 public class ControllerRepartitionAnnuelle implements Initializable {
 
@@ -49,6 +50,8 @@ public class ControllerRepartitionAnnuelle implements Initializable {
     private final Centre centre = new Centre();
     private final Effects effects = new Effects();
     private Database database = new Database();
+    private DatabaseConnection dbco = new DatabaseConnection();
+    private Identification id = new Identification();
 
     private final String[][] COMBO_INDICATEURS = {
             // TARIFICATION
@@ -139,7 +142,12 @@ public class ControllerRepartitionAnnuelle implements Initializable {
     }
 
     private void generate() {
-        Connection conn = database.connect();
+        Connection conn = dbco.connect(
+                id.set(info.D615_URL),
+                id.set(info.D615_USER),
+                id.set(info.D615_PASSWD),
+                id.set(info.D615_DRIVER)
+        );
         PreparedStatement ps = null;
         try {
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -158,7 +166,7 @@ public class ControllerRepartitionAnnuelle implements Initializable {
                 System.out.println(currentIndicateur + ": " + total);
                 Console.appendln(currentIndicateur + " : " + total);
                 double finalTotal = total;
-                // Avoid the first indic. in the pie
+                // i < 1 to Avoid the first indic. to be in the pie
                 if (i < 1) {
                     final Label label = new Label(currentIndicateur.toString().replace("_", " "));
                     label.setFont(Font.font(18));
@@ -180,8 +188,8 @@ public class ControllerRepartitionAnnuelle implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            database.close(ps);
-            database.close(conn);
+            dbco.close(ps);
+            dbco.close(conn);
         }
     }
 
@@ -208,7 +216,6 @@ public class ControllerRepartitionAnnuelle implements Initializable {
                 ((Label) node).setMaxWidth(2000);
             }
         }
-
     }
 
     private void navigateThroughYears() {

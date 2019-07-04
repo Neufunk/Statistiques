@@ -1,6 +1,5 @@
 package main;
 
-import si.Data;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,8 +9,11 @@ import javafx.stage.Stage;
 import tools.*;
 
 import java.awt.*;
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.channels.FileLock;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -32,7 +34,7 @@ public class Main extends Application {
         try {
             setPrimaryStage(primaryStage);
             Console.appendln("STATISTIQUES \u00A9 2017-"+Date.getCurrentYearStr()+" VERSION " + Version.versionNumber);
-            primaryStage.setTitle(Data.homePageTitle);
+            primaryStage.setTitle(Menu.HOMEPAGE); //
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXML/HomePage.fxml"));
             Parent root = loader.load();
             setScreenSize(root);
@@ -103,7 +105,36 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT));
     }
 
+    private static boolean lockInstance() {
+        final String PATH = "C:/Windows/Temp/lockfile";
+        try {
+            final File file = new File(PATH);
+            final RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
+            final FileLock fileLock = randomAccessFile.getChannel().tryLock();
+            if (fileLock != null) {
+                Runtime.getRuntime().addShutdownHook(new Thread() {
+                    public void run() {
+                        try {
+                            fileLock.release();
+                            randomAccessFile.close();
+                            file.delete();
+                        } catch (Exception e) {
+                            Console.appendln("Impossible de supprimer: " + PATH);
+                            ExceptionHandler.switchException(e, this.getClass());
+                        }
+                    }
+                });
+                return true;
+            }
+        } catch (Exception e) {
+            Console.appendln("Impossible de créer/verrouiller: " + PATH);
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
-        launch(args);
+        if (lockInstance()) {
+            launch(args);
+        }
     }
 }

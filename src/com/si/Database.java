@@ -1,92 +1,14 @@
 package si;
 
-import tools.Console;
-import tools.ExceptionHandler;
-import tools.Identification;
-
 import java.sql.*;
 
 import static si.Database.Query.*;
 
 class Database {
 
-    private Connection conn;
-    private final Identification id = new Identification();
-
-    Connection connect() {
-        try {
-            System.out.println("\n---------------------------------- ");
-            System.out.println("Test du driver...");
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            System.out.println("Driver O.K.");
-
-            String url = id.set(Identification.info.D615_URL);
-            String user = id.set(Identification.info.D615_USER);
-            String passwd = id.set(Identification.info.D615_PASSWD);
-
-            System.out.println("Connexion en cours à " + url);
-            conn = DriverManager.getConnection(url, user, passwd);
-            System.out.println("Connexion ouverte");
-            System.out.println("---------------------------------- \n");
-        } catch (Exception e) {
-            ExceptionHandler.switchException(e, this.getClass());
-        }
-        return conn;
-    }
-
-    void close(ResultSet rs) {
-        try {
-            System.out.println("\n---------------------------------- ");
-            System.out.println("Tentative de fermeture de ResultSet...");
-            if (rs != null) {
-                rs.close();
-            }
-            System.out.println("ResultSet terminé");
-        } catch (SQLException e) {
-            ExceptionHandler.switchException(e, this.getClass());
-        }
-    }
-
-    void close(Statement st) {
-        try {
-            System.out.println("Tentative de fermeture de Statement...");
-            if (st != null) {
-                st.close();
-            }
-            System.out.println("Statement terminé");
-        } catch (SQLException e) {
-            ExceptionHandler.switchException(e, this.getClass());
-        }
-    }
-
-    void close(PreparedStatement ps) {
-        try {
-            System.out.println("Tentative de fermeture de PreparedStatement...");
-            if (ps != null) {
-                ps.close();
-            }
-            System.out.println("PreparedStatement terminé");
-        } catch (SQLException e) {
-            ExceptionHandler.switchException(e, this.getClass());
-        }
-    }
-
-    void close(Connection conn) {
-        try {
-            System.out.println("Tentative de fermeture de Connexion...");
-            if (conn != null) {
-                conn.close();
-            }
-            System.out.println("Connexion terminée");
-            System.out.println("---------------------------------- \n");
-        } catch (SQLException e) {
-            ExceptionHandler.switchException(e, this.getClass());
-        }
-    }
-
     final String[] CATEGORIE = {"TARIFICATION", "VISITES", "PATIENTS", "SOINS", "SUIVI DU PERSONNEL"};
 
-    final Query[][] INDICATEUR_ARRAY = {
+    final Query[][] COMBO_INDICATEUR_ARRAY = {
             // TARIFICATION
             {RECETTE_TOTALE, TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
                     TICKETS_MODERATEURS, SOINS_DIVERS, CONVENTIONS, RECETTE_OA_PAR_VISITE, RECETTE_OA_PAR_J_PRESTE, RECETTE_OA_PAR_J_AVEC_SOINS, RECETTE_TOTALE_PAR_J_AVEC_SOINS},
@@ -327,11 +249,11 @@ class Database {
                         "SELECT Age, AgeData.NAME,\n" +
                         "       (CASE\n" +
                         "           WHEN AGE < 40 THEN 'Moins de 40'\n" +
-                        "           WHEN AGE BETWEEN 40 AND 49 THEN '40 - 49'\n" +
-                        "           WHEN AGE BETWEEN 50 AND 59 THEN '50 - 59'\n" +
-                        "           WHEN AGE BETWEEN 60 AND 69 THEN '60 - 69'\n" +
-                        "           WHEN AGE BETWEEN 70 AND 79 THEN '70 - 79'\n" +
-                        "           WHEN AGE BETWEEN 80 AND 89 THEN '80 - 89'\n" +
+                        "           WHEN AGE BETWEEN 39 AND 49 THEN '40 - 49'\n" +
+                        "           WHEN AGE BETWEEN 49 AND 59 THEN '50 - 59'\n" +
+                        "           WHEN AGE BETWEEN 59 AND 69 THEN '60 - 69'\n" +
+                        "           WHEN AGE BETWEEN 69 AND 79 THEN '70 - 79'\n" +
+                        "           WHEN AGE BETWEEN 79 AND 89 THEN '80 - 89'\n" +
                         "           WHEN AGE > 89 THEN '90 et Plus'\n" +
                         "           ELSE 'Sans date' END) as Range\n" +
                         "FROM AgeData\n" +

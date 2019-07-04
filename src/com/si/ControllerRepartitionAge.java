@@ -7,19 +7,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import tools.Console;
-import tools.Date;
-import tools.Effects;
+import tools.*;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -44,8 +39,10 @@ public class ControllerRepartitionAge implements Initializable {
 
     private Database database = new Database();
     private String query = database.selectQuery(Database.Query.PATIENTS_PAR_AGE);
+    private DatabaseConnection dbco = new DatabaseConnection();
     private Effects effects = new Effects();
-
+    private Identification id = new Identification();
+    private Connection conn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,14 +51,14 @@ public class ControllerRepartitionAge implements Initializable {
         menuPane.getChildren().get(0).getStyleClass().add("purple");
         initializeCombo();
         new Thread(() -> {
-            Connection conn = database.connect();
+            connect();
             try {
-                populateBarChart(conn);
-                populatePieChart(conn);
+                populateBarChart();
+                populatePieChart();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                database.close(conn);
+                dbco.close(conn);
             }
             Platform.runLater(() -> waitingPane.setVisible(false));
             Platform.runLater(() -> effects.unsetBoxBlur(mainPane));
@@ -76,8 +73,17 @@ public class ControllerRepartitionAge implements Initializable {
         comboYear.setValue(Date.getCurrentYearInt());
     }
 
-    private void populateBarChart(Connection conn) throws Exception {
-        int[] yearList = {Date.getCurrentYearInt()-2, Date.getCurrentYearInt()-1, Date.getCurrentYearInt()};
+    private void connect(){
+        this.conn = dbco.connect(
+                id.set(Identification.info.D615_URL),
+                id.set(Identification.info.D615_USER),
+                id.set(Identification.info.D615_PASSWD),
+                id.set(Identification.info.D615_DRIVER)
+        );
+    }
+
+    private void populateBarChart() throws Exception {
+        int[] yearList = {Date.getCurrentYearInt() - 2, Date.getCurrentYearInt() - 1, Date.getCurrentYearInt()};
 
         for (int value : yearList) {
             PreparedStatement ps = conn.prepareStatement(query);
@@ -92,7 +98,7 @@ public class ControllerRepartitionAge implements Initializable {
     }
 
     @FXML
-    private void populatePieChart(Connection conn) throws Exception {
+    private void populatePieChart() throws Exception {
         pieChart.getData().clear();
         PreparedStatement ps = conn.prepareStatement(query);
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -120,13 +126,13 @@ public class ControllerRepartitionAge implements Initializable {
         pieChart.getData().clear();
         pieChartSpinner.setVisible(true);
         new Thread(() -> {
-            Connection connection = database.connect();
+            connect();
             try {
-                populatePieChart(connection);
+                populatePieChart();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                database.close(connection);
+                dbco.close(conn);
             }
             pieChartSpinner.setVisible(false);
         }).start();

@@ -1,10 +1,13 @@
 ﻿CHANGELOG
 ---------
-Patchnote 1.6 - 17/06/2019
+Patchnote 1.6 - 28/06/2019
   - QoL.
   - Modifications des effets.
   - Ajout de la fonction 'Répartition par Age'.
   - Correction d'indicateurs 'Répartition annuelle'.
+  - Contrôle des nulls.
+  - Responsive design.
+  - Lockfile pour éviter les instances multiples.
 
 Patchnote 1.5.2 - 12/06/2019
   - QoL improvements.

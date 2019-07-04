@@ -16,9 +16,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
-import tools.Date;
-import tools.EmptyChecker;
-import tools.ExceptionHandler;
+import tools.*;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -40,6 +38,8 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
     private GridPane waitingPane;
 
     final private Database database = new Database();
+    final private DatabaseConnection dbco = new DatabaseConnection();
+    final private Identification id = new Identification();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,15 +63,20 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String fromYear = yearPicker1.getText();
-        String toYear = String.valueOf(Integer.parseInt(fromYear)+1);
+        String toYear = String.valueOf(Integer.parseInt(fromYear) + 1);
         ObservableList<ObservableList> data = FXCollections.observableArrayList();
         XYChart.Series series = new XYChart.Series();
         try {
-            conn = database.connect();
+            conn = dbco.connect(
+                    id.set(Identification.info.D615_URL),
+                    id.set(Identification.info.D615_USER),
+                    id.set(Identification.info.D615_PASSWD),
+                    id.set(Identification.info.D615_DRIVER)
+            );
             String query = database.selectQuery(Database.Query.VISITES_PAR_CENTRE);
             ps = conn.prepareStatement(query);
-            ps.setDate(1, java.sql.Date.valueOf(""+ fromYear + "-01-01"));
-            ps.setDate(2, java.sql.Date.valueOf(""+ toYear + "-01-01"));
+            ps.setDate(1, java.sql.Date.valueOf("" + fromYear + "-01-01"));
+            ps.setDate(2, java.sql.Date.valueOf("" + toYear + "-01-01"));
             rs = ps.executeQuery();
 
             for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
@@ -91,7 +96,7 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
                 rowCount++;
                 data.add(row);
                 // Starting rowCount @ 2 to avoid having the 'ALL' column in the chart
-                if (rowCount > 2 ) {
+                if (rowCount > 2) {
                     series.getData().add(new XYChart.Data<>(rs.getString(1), rs.getDouble(14)));
                 }
             }
@@ -101,9 +106,9 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
             ExceptionHandler.switchException(e, this.getClass());
         } finally {
             waitingPane.setVisible(false);
-            database.close(rs);
-            database.close(ps);
-            database.close(conn);
+            dbco.close(rs);
+            dbco.close(ps);
+            dbco.close(conn);
         }
     }
 
@@ -116,7 +121,7 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
         }
     }
 
-    private void generateBarChart(XYChart.Series series){
+    private void generateBarChart(XYChart.Series series) {
         barChart.getData().add(series);
     }
 }

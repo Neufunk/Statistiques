@@ -4,7 +4,9 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import javafx.application.Platform;
 import tools.Console;
+import tools.DatabaseConnection;
 import tools.ExceptionHandler;
+import tools.Identification;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,6 +28,8 @@ class IndicateurDeGestion implements Runnable {
     private final ControllerPopUpGestion c;
     private final int YEAR;
     private final Database database = new Database();
+    private final DatabaseConnection databaseConnection = new DatabaseConnection();
+    private final Identification id = new Identification();
     private Connection conn;
     private PreparedStatement ps;
     private ResultSet rs;
@@ -177,7 +181,12 @@ class IndicateurDeGestion implements Runnable {
             document.open();
             addMetaData(document);
             addTitlePage(document);
-            conn = database.connect();
+            this.conn = databaseConnection.connect(
+                    id.set(Identification.info.D615_URL),
+                    id.set(Identification.info.D615_USER),
+                    id.set(Identification.info.D615_PASSWD),
+                    id.set(Identification.info.D615_DRIVER)
+            );
             // Loop to construct pages for every center
             for (int i = 0; i < CENTRE_NO.length; i++) {
                 centreName = CENTRE_NAME[i];
@@ -195,9 +204,9 @@ class IndicateurDeGestion implements Runnable {
             Platform.runLater(() -> c.updateGUI(false));
             ControllerPopUpGestion.setError(e);
         } finally {
-            database.close(rs);
-            database.close(ps);
-            database.close(conn);
+            databaseConnection.close(rs);
+            databaseConnection.close(ps);
+            databaseConnection.close(conn);
         }
     }
 

@@ -41,8 +41,9 @@ public class ControllerComparaisonAnnees implements Initializable {
     private final Database database = new Database();
     private final Centre centre = new Centre();
     private final Effects effects = new Effects();
-
-    private Connection conn = null;
+    private Identification id = new Identification();
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
+    private Connection conn;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
     private int colorCounter = 0;
@@ -76,8 +77,8 @@ public class ControllerComparaisonAnnees implements Initializable {
         if (comboCategorie.getValue() != null) {
             comboIndic.getItems().clear();
             int index = comboCategorie.getSelectionModel().getSelectedIndex();
-            for (int i = 0; i < database.INDICATEUR_ARRAY[index].length; i++) {
-                comboIndic.getItems().add(database.INDICATEUR_ARRAY[index][i].toString().replace("_", " "));
+            for (int i = 0; i < database.COMBO_INDICATEUR_ARRAY[index].length; i++) {
+                comboIndic.getItems().add(database.COMBO_INDICATEUR_ARRAY[index][i].toString().replace("_", " "));
             }
         }
     }
@@ -115,19 +116,19 @@ public class ControllerComparaisonAnnees implements Initializable {
     }
 
     public void onGenerateButtonClick() {
+        effects.setFadeTransition(lineChart, 200, 1, 0);
+        lineChart.getData().clear();
         if (checkEmpty()) {
             idleSpinner.setVisible(true);
-            effects.setFadeTransition(lineChart, 200, 1, 0);
-            lineChart.getData().clear();
             new Thread(() -> {
                 try {
                     generateAll();
                 } catch (Exception e) {
                     ExceptionHandler.switchException(e, this.getClass());
                 } finally {
-                    database.close(rs);
-                    database.close(ps);
-                    database.close(conn);
+                    databaseConnection.close(rs);
+                    databaseConnection.close(ps);
+                    databaseConnection.close(conn);
                 }
             }).start();
         }
@@ -153,8 +154,13 @@ public class ControllerComparaisonAnnees implements Initializable {
 
     private void generateAll() throws Exception {
         colorCounter = 0;
-        Database.Query currentIndicateur = database.INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
-        conn = database.connect();
+        Database.Query currentIndicateur = database.COMBO_INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
+        conn = databaseConnection.connect(
+                id.set(Identification.info.D615_URL),
+                id.set(Identification.info.D615_USER),
+                id.set(Identification.info.D615_PASSWD),
+                id.set(Identification.info.D615_DRIVER)
+        );
         final int CENTRE_NO = centre.CENTER_NO[comboCentre.getSelectionModel().getSelectedIndex()];
         String query = database.selectQuery(currentIndicateur);
         ps = conn.prepareStatement(query);

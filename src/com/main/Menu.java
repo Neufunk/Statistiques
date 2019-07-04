@@ -1,7 +1,6 @@
 package main;
 
 import javafx.scene.image.Image;
-import si.Data;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,12 +24,21 @@ public class Menu {
     private static final Stage gestionStage = new Stage();
     static final Stage connectionTestStage = new Stage();
 
+    static final String HOMEPAGE = "Aide & Soins à Domicile - STATISTIQUES - v" + Version.versionNumber;
+    private final String TITLE_1 = "Soins Infirmiers - Comparaison par années - v" + Version.versionNumber;
+    private final String TITLE_2 = "Soins Infirmiers - Répartition annuelle - v" + Version.versionNumber;
+    static final String TITLE_3 = "Soins Infirmiers - Sélection - v" + Version.versionNumber;
+    private final String TITLE_4 = "Soins Infirmiers - Comparaison par centres - v" + Version.versionNumber;
+    private final String TITLE_5 = "Soins Infirmiers - Comparaison - visites par localités - v" + Version.versionNumber;
+    private final String TITLE_6 = "Soins Infirmiers - Comparaison - visites par centres - v" + Version.versionNumber;
+    private final String TITLE_7 = "Soins Infirmiers - Répartition par âge - v" + Version.versionNumber;
+
     public void openHomepage() {
         Stage stage = Main.getPrimaryStage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/HomePage.fxml"));
             changeScene(root);
-            stage.setTitle(avj.Data.homePageTitle);
+            stage.setTitle(HOMEPAGE);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -79,7 +87,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/RepartitionAnnuelle.fxml"));
             changeScene(root);
-            stage.setTitle(Data.pageTitle0);
+            stage.setTitle(TITLE_2);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -90,7 +98,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonAnnees.fxml"));
             changeScene(root);
-            stage.setTitle(Data.pageTitle1);
+            stage.setTitle(TITLE_1);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -101,7 +109,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/ComparaisonCentres.fxml"));
             changeScene(root);
-            stage.setTitle(Data.pageTitle3);
+            stage.setTitle(TITLE_4);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -113,7 +121,7 @@ public class Menu {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectVisitesPatients.fxml"));
             Scene scene = stage.getScene();
             scene.setRoot(root);
-            stage.setTitle(Data.pageTitle2);
+            stage.setTitle(TITLE_3);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -124,7 +132,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/CompaisonVisitesCentres.fxml"));
             changeScene(root);
-            stage.setTitle(Data.pageTitle5);
+            stage.setTitle(TITLE_6);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -135,7 +143,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/CompaisonVisitesLocalites.fxml"));
             changeScene(root);
-            stage.setTitle(Data.pageTitle4);
+            stage.setTitle(TITLE_5);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,7 +154,7 @@ public class Menu {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/RepartitionAge.fxml"));
             changeScene(root);
-            stage.setTitle(Data.pageTitle6);
+            stage.setTitle(TITLE_7);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -211,7 +219,7 @@ public class Menu {
             Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectSi.fxml"));
             Scene scene = stage.getScene();
             scene.setRoot(root);
-            stage.setTitle(Data.pageTitle2);
+            stage.setTitle(TITLE_3);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -245,10 +253,10 @@ public class Menu {
         final String JAVA_VERSION = System.getProperty("java.version");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Version de JAVA installée sur le système");
-        alert.setHeaderText("La version de JAVA installée sur votre système et actuellement utilisée par STATISTIQUES est : \nJRE " + JAVA_VERSION);
-        alert.setContentText("STATISTIQUES est optimisé pour les versions 8u172/181/201/211");
+        alert.setHeaderText("La version de JAVA installée sur votre système et actuellement utilisée par STATISTIQUES :");
+        alert.setContentText("JRE " + JAVA_VERSION);
         alert.show();
-        Console.appendln("JAVA VERSION DETECTED: " + JAVA_VERSION + "\n");
+        Console.appendln("\nJAVA VERSION DETECTED: " + JAVA_VERSION + "\n");
     }
 
     public void openAboutWindow() {
@@ -258,7 +266,7 @@ public class Menu {
         alert.setHeaderText("Logiciel Statistiques [version " + Version.versionNumber + "]");
         alert.setContentText("2017-" + year + "\nAIDE & SOINS À DOMICILE EN PROVINCE DE NAMUR\n" +
                 "Code & Design JOHNATHAN VANBENEDEN \n" +
-                "SDK 1.8.0_201 - Supported JRE : 8u172/181/201/211");
+                "SDK 1.8.0_211 - Supported JRE : 8u172/181/201/211");
         alert.show();
     }
 

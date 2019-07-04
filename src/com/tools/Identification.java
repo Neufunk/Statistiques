@@ -7,7 +7,7 @@ public class Identification {
 
     public enum info {
         D03_URL, D03_USER, D03_PASSWD, D03_DRIVER,
-        D015_URL, D015_USER, D015_PASSWD,
+        D015_URL, D015_USER, D015_PASSWD, D015_DRIVER,
         D615_URL, D615_USER, D615_PASSWD, D615_DRIVER
     }
 
@@ -36,6 +36,9 @@ public class Identification {
             case D015_PASSWD:
                 answer = prop.getProperty("D015_PASSWD", "vide");
                 break;
+            case D015_DRIVER:
+                answer = prop.getProperty("D615_DRIVER", "null");
+                break;
             case D615_URL:
                 answer = prop.getProperty("D615_URL", "vide");
                 break;
@@ -47,6 +50,7 @@ public class Identification {
                 break;
             case D615_DRIVER:
                 answer = prop.getProperty("D615_DRIVER", "null");
+                break;
             default:
                 answer = null;
         }

@@ -1,6 +1,5 @@
 package main;
 
-import si.Data;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import tools.Time;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,7 +48,7 @@ public class HomePage implements Initializable {
                 Parent root = FXMLLoader.load(getClass().getResource("/ui/FXML/SelectSi.fxml"));
                 Scene scene = stage.getScene();
                 scene.setRoot(root);
-                stage.setTitle(Data.pageTitle2);
+                stage.setTitle(Menu.TITLE_3);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -67,10 +65,5 @@ public class HomePage implements Initializable {
             e1.printStackTrace();
         }
     }
-
-    public void closeButtonAction() {
-        System.exit(0);
-    }
-
 }
 

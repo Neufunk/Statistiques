@@ -16,10 +16,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
-import tools.EmptyChecker;
-import tools.ExceptionHandler;
-import main.Menu;
-import tools.Date;
+import tools.*;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -41,6 +38,8 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
     private GridPane waitingPane;
 
     final private Database database = new Database();
+    final private DatabaseConnection dbco = new DatabaseConnection();
+    final private Identification id = new Identification();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,7 +48,7 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
     }
 
     public void onAction() {
-        if(emptyChecker()) {
+        if (emptyChecker()) {
             waitingPane.setVisible(true);
             tableView.getColumns().clear();
             barChart.getData().clear();
@@ -61,7 +60,7 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
         int c = 1;
         Platform.runLater(() -> tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
         String fromYear = yearCombo.getText();
-        String toYear = String.valueOf(Integer.parseInt(fromYear)+1);
+        String toYear = String.valueOf(Integer.parseInt(fromYear) + 1);
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -69,11 +68,16 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
         ObservableList<ObservableList> data = FXCollections.observableArrayList();
         XYChart.Series series = new XYChart.Series();
         try {
-            conn = database.connect();
+            conn = dbco.connect(
+                    id.set(Identification.info.D615_URL),
+                    id.set(Identification.info.D615_USER),
+                    id.set(Identification.info.D615_PASSWD),
+                    id.set(Identification.info.D615_DRIVER)
+            );
             String query = database.selectQuery(Database.Query.VISITES_PAR_LOCALITE);
             ps = conn.prepareStatement(query);
-            ps.setDate(1, java.sql.Date.valueOf(""+ fromYear + "-01-01"));
-            ps.setDate(2, java.sql.Date.valueOf(""+ toYear + "-01-01"));
+            ps.setDate(1, java.sql.Date.valueOf("" + fromYear + "-01-01"));
+            ps.setDate(2, java.sql.Date.valueOf("" + toYear + "-01-01"));
             ps.setString(3, fromZipCode.getText());
             ps.setString(4, toZipCode.getText());
             rs = ps.executeQuery();
@@ -102,13 +106,13 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
             ExceptionHandler.switchException(e, this.getClass());
         } finally {
             waitingPane.setVisible(false);
-            database.close(rs);
-            database.close(ps);
-            database.close(conn);
+            dbco.close(rs);
+            dbco.close(ps);
+            dbco.close(conn);
         }
     }
 
-    private boolean emptyChecker(){
+    private boolean emptyChecker() {
         if (yearCombo.getText().length() != 4) {
             EmptyChecker.showEmptyYearDialog();
             return false;
@@ -120,7 +124,7 @@ public class ControllerComparaisonVisitesLocalites implements Initializable {
         }
     }
 
-    private void generateBarChart(XYChart.Series series){
+    private void generateBarChart(XYChart.Series series) {
         barChart.getData().add(series);
     }
 }
