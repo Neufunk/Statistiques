@@ -56,6 +56,7 @@ public class ControllerComparaisonCentres implements Initializable {
         onRedCrossClick();
     }
 
+    @SuppressWarnings("unchecked")
     private void initializeCombo() {
         int[] yearList = Date.getYearList();
         for (int value : yearList) {
@@ -177,7 +178,7 @@ public class ControllerComparaisonCentres implements Initializable {
         Database.Query currentIndicateur = database.COMBO_INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
         int year = comboYear.getValue();
         String query = database.selectQuery(currentIndicateur);
-        Connection conn = databaseConnection.connect(
+        conn = databaseConnection.connect(
                 id.set(Identification.info.D615_URL),
                 id.set(Identification.info.D615_USER),
                 id.set(Identification.info.D615_PASSWD),
@@ -207,6 +208,7 @@ public class ControllerComparaisonCentres implements Initializable {
         Platform.runLater(this::buildGraphic);
     }
 
+    @SuppressWarnings("unchecked")
     private void addDataToGraphic(ResultSet rs, String centre) {
         XYChart.Series series = new XYChart.Series();
         try {

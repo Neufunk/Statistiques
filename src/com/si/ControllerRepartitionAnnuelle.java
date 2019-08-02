@@ -63,7 +63,7 @@ public class ControllerRepartitionAnnuelle implements Initializable {
             // SOINS
             {},
             // SUIVI DU PERSONNEL
-            {"TOTAL_JOURS_PAYES", "TOTAL_JOURS_PRESTES_INF.", "TOTAL_PRESTE"}
+            /*{"TOTAL_JOURS_PAYES", "TOTAL_JOURS_PRESTES_INF.", "TOTAL_PRESTE"}*/
     };
 
     /* TODO :
@@ -105,14 +105,15 @@ public class ControllerRepartitionAnnuelle implements Initializable {
         comboCentre.getItems().addAll(centre.CENTER_NAME);
         comboCentre.setValue(centre.CENTER_NAME[5]);
         int[] yearList = Date.getYearList();
-        for (int value : yearList) {
-            comboYear.getItems().addAll(value);
+        for (int year : yearList) {
+            comboYear.getItems().addAll(year);
         }
         comboYear.setValue(Date.getCurrentYearInt());
         comboCategorie.getItems().addAll(database.CATEGORIE);
     }
 
-    public void setIndicateursInCombo() {
+    @FXML
+    private void setIndicateursInCombo() {
         if (comboCategorie.getValue() != null) {
             comboIndic.getItems().clear();
             int index = comboCategorie.getSelectionModel().getSelectedIndex();

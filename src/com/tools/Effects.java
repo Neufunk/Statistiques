@@ -8,7 +8,7 @@ import javafx.util.Duration;
 
 public class Effects {
 
-    public void setFadeTransition(Node node, double duration, double fromValue, double toValue){
+    public void setFadeTransition(Node node, double duration, double fromValue, double toValue) {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), node);
         fadeTransition.setAutoReverse(false);
         fadeTransition.setFromValue(fromValue);
@@ -32,7 +32,7 @@ public class Effects {
         fadeTransition.play();
     }
 
-    public void setBoxBlur(Node node){
+    public void setBoxBlur(Node node) {
         BoxBlur boxBlur = new BoxBlur();
         boxBlur.setWidth(5);
         boxBlur.setHeight(5);
@@ -40,7 +40,7 @@ public class Effects {
         node.setEffect(boxBlur);
     }
 
-    public void unsetBoxBlur(Node node){
+    public void unsetBoxBlur(Node node) {
         BoxBlur boxBlur = new BoxBlur();
         boxBlur.setWidth(0);
         boxBlur.setHeight(0);
@@ -48,7 +48,7 @@ public class Effects {
         node.setEffect(boxBlur);
     }
 
-    public void setScaleTransition(Node node, int duration, double fromValue, double toValue){
+    public void setScaleTransition(Node node, int duration, double fromValue, double toValue) {
         ScaleTransition scaleTransition = new ScaleTransition();
         scaleTransition.setDuration(Duration.millis(duration));
         scaleTransition.setNode(node);

@@ -39,7 +39,7 @@
          <Insets />
       </GridPane.margin>
      </JFXButton>
-     <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="AVJ" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+     <JFXButton id="avjButton" fx:id="avjButton" buttonType="RAISED" disable="true" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="134.0" prefWidth="245.0" styleClass="green-button" stylesheets="@../CSS/Buttons.css" text="AVJ" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
          <font>
              <Font name="System Bold" size="25.0" />
          </font>

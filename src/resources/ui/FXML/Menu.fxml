@@ -30,7 +30,7 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem disable="true" mnemonicParsing="false" text="Préférences" />
         </Menu>
-        <Menu mnemonicParsing="false" text="Département AVJ">
+        <Menu disable="true" mnemonicParsing="false" text="Département AVJ">
          <MenuItem mnemonicParsing="false" onAction="#openSelectAvj" text="Menu de sélection" />
             <MenuItem mnemonicParsing="false" onAction="#openContingentPage" text="Contingent" />
             <SeparatorMenuItem mnemonicParsing="false" />

@@ -82,8 +82,9 @@ public class ControllerRepartitionAge implements Initializable {
         );
     }
 
+    @SuppressWarnings("unchecked")
     private void populateBarChart() throws Exception {
-        int[] yearList = {Date.getCurrentYearInt() - 2, Date.getCurrentYearInt() - 1, Date.getCurrentYearInt()};
+        int[] yearList = {Date.getCurrentYearInt()-2, Date.getCurrentYearInt()-1, Date.getCurrentYearInt()};
 
         for (int value : yearList) {
             PreparedStatement ps = conn.prepareStatement(query);
@@ -97,7 +98,6 @@ public class ControllerRepartitionAge implements Initializable {
         }
     }
 
-    @FXML
     private void populatePieChart() throws Exception {
         pieChart.getData().clear();
         PreparedStatement ps = conn.prepareStatement(query);
