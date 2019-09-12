@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import tools.Console;
 import tools.Effects;
-import tools.ExceptionHandler;
 import tools.Identification;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class ConnectionTest {
-
     @FXML
     private JFXSpinner progress1, progress2, progress3, progress4, progress5;
     @FXML
@@ -70,7 +68,6 @@ public class ConnectionTest {
             Console.appendln("Connexion à "+ url + " échouée");
             progress.setVisible(false);
             failed.setVisible(true);
-            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 
@@ -89,7 +86,6 @@ public class ConnectionTest {
         } catch (IOException e) {
             Console.appendln("Connexion à " + ip + " échouée");
             failed.setVisible(true);
-            ExceptionHandler.switchException(e, this.getClass());
         }
     }
 

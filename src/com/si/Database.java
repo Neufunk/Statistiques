@@ -61,6 +61,9 @@ class Database {
         TAUX_PATIENTS_MC_ACCORD,
         TAUX_PATIENTS_MC_AUTRES,
         TAUX_PATIENTS_AUTRES_OA,
+        TAUX_PATIENTS_VIPO,
+        TAUX_PATIENTS_NON_VIPO,
+
 
         // SOINS
         NOMBRE_DE_SOINS,
@@ -556,6 +559,38 @@ class Database {
                         ")\n" +
                         "ORDER BY periode";
                 break;
+            case TAUX_PATIENTS_VIPO:
+                query = "SELECT (x.total+y.total)/x.total as TOTAL, x.PERIODE\n" +
+                        "FROM (SELECT somme AS total, PERIODE\n" +
+                        "         FROM V_STAT_NAMUR\n" +
+                        "         WHERE CODE_REF_NO = 23\n" +
+                        "           AND periode BETWEEN ? AND ?\n" +
+                        "           AND cee_ref_no LIKE ?\n" +
+                        "     ) x\n" +
+                        "JOIN\n" +
+                        "    (SELECT somme AS total, PERIODE\n" +
+                        "         FROM V_STAT_NAMUR\n" +
+                        "         WHERE CODE_REF_NO = 24\n" +
+                        "           AND periode BETWEEN ? AND ?\n" +
+                        "           AND cee_ref_no LIKE ?) y\n" +
+                        "ON x.PERIODE = y.PERIODE";
+                break;
+            case TAUX_PATIENTS_NON_VIPO:
+                query = "SELECT (x.total+y.total)/y.total as TOTAL, x.PERIODE\n" +
+                        "FROM (SELECT somme AS total, PERIODE\n" +
+                        "         FROM V_STAT_NAMUR\n" +
+                        "         WHERE CODE_REF_NO = 23\n" +
+                        "           AND periode BETWEEN ? AND ?\n" +
+                        "           AND cee_ref_no LIKE ?\n" +
+                        "     ) x\n" +
+                        "JOIN\n" +
+                        "    (SELECT somme AS total, PERIODE\n" +
+                        "         FROM V_STAT_NAMUR\n" +
+                        "         WHERE CODE_REF_NO = 24\n" +
+                        "           AND periode BETWEEN ? AND ?\n" +
+                        "           AND cee_ref_no LIKE ?) y\n" +
+                        "ON x.PERIODE = y.PERIODE";
+                break;
             // SOINS
             case NOMBRE_DE_SOINS:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
@@ -755,7 +790,7 @@ class Database {
                         "         FROM (\n" +
                         "                  SELECT SUM(SOMME) AS Total, TO_DATE(periode, 'yyyymm') as PERIODE\n" +
                         "                  FROM V_STAT_NAMUR\n" +
-                        "                  WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 193, 215, 237, 259, 281, 11, 99, 373)\n" +
+                        "                  WHERE CODE_REF_NO IN (1, 2, 3, 4, 5, 6, 11, 193, 215, 237, 259, 281, 373)\n" +
                         "                    AND periode BETWEEN ? AND ?\n" +
                         "                    AND V_STAT_NAMUR.cee_ref_no LIKE ?\n" +
                         "                  group by PERIODE\n" +
@@ -766,7 +801,8 @@ class Database {
                         "               WHERE VAR_MONTH BETWEEN TO_DATE(?, 'yyyymm') AND TO_DATE(?, 'yyyymm')\n" +
                         "                 AND CENTER LIKE ?" +
                         "                   GROUP BY VAR_MONTH) y\n" +
-                        "              ON x.PERIODE = y.VAR_MONTH";
+                        "              ON x.PERIODE = y.VAR_MONTH " +
+                        "ORDER BY PERIODE";
                 break;
             case TARIFICATION_OA:
                 query = "SELECT SUM(SOMME) AS Total, periode FROM V_STAT_NAMUR \n" +
@@ -1193,7 +1229,9 @@ class Database {
                         currentIndicateur.equals(VISITES_PAR_J_PRESTES) ||
                         currentIndicateur.equals(VISITES_PAR_J_AV_SOINS) ||
                         currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS) ||
-                        currentIndicateur.equals(DUREE_MOYENNE_PAR_VISITE)
+                        currentIndicateur.equals(DUREE_MOYENNE_PAR_VISITE) ||
+                        currentIndicateur.equals(TAUX_PATIENTS_VIPO) ||
+                        currentIndicateur.equals(TAUX_PATIENTS_NON_VIPO)
         );
         // Check if the SQL query takes 6 parameters
         if (SIX_PARAMETERS_NEEDED) {

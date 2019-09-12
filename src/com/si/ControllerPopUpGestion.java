@@ -56,7 +56,7 @@ public class ControllerPopUpGestion implements Initializable {
     }
 
     void updateProgress() {
-        spinner.setProgress(progress+=0.002777); // 100%/(NBRE INDICATEURS * CENTRES) = 1/(60*6) = 1/360
+        spinner.setProgress(progress+=0.0026881); // 100%/(NBRE INDICATEURS * CENTRES) = 1/(62*6) = 1/372
     }
 
     void updateGUI(Boolean success) {
