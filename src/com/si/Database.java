@@ -560,36 +560,36 @@ class Database {
                         "ORDER BY periode";
                 break;
             case TAUX_PATIENTS_VIPO:
-                query = "SELECT (x.total+y.total)/x.total as TOTAL, x.PERIODE\n" +
-                        "FROM (SELECT somme AS total, PERIODE\n" +
+                query = "SELECT (x.total/(x.total+y.total))*100 as TOTAL\n" +
+                        "FROM (SELECT SUM(somme) AS total, PERIODE\n" +
                         "         FROM V_STAT_NAMUR\n" +
                         "         WHERE CODE_REF_NO = 23\n" +
                         "           AND periode BETWEEN ? AND ?\n" +
-                        "           AND cee_ref_no LIKE ?\n" +
+                        "           AND cee_ref_no LIKE ? GROUP BY PERIODE\n" +
                         "     ) x\n" +
                         "JOIN\n" +
-                        "    (SELECT somme AS total, PERIODE\n" +
+                        "    (SELECT SUM(somme) AS total, PERIODE\n" +
                         "         FROM V_STAT_NAMUR\n" +
                         "         WHERE CODE_REF_NO = 24\n" +
                         "           AND periode BETWEEN ? AND ?\n" +
-                        "           AND cee_ref_no LIKE ?) y\n" +
-                        "ON x.PERIODE = y.PERIODE";
+                        "           AND cee_ref_no LIKE ? GROUP BY PERIODE) y\n" +
+                        "ON x.PERIODE = y.PERIODE\n";
                 break;
             case TAUX_PATIENTS_NON_VIPO:
-                query = "SELECT (x.total+y.total)/y.total as TOTAL, x.PERIODE\n" +
-                        "FROM (SELECT somme AS total, PERIODE\n" +
+                query = "SELECT (y.total/(x.total+y.total))*100 as TOTAL\n" +
+                        "FROM (SELECT SUM(somme) AS total, PERIODE\n" +
                         "         FROM V_STAT_NAMUR\n" +
                         "         WHERE CODE_REF_NO = 23\n" +
                         "           AND periode BETWEEN ? AND ?\n" +
-                        "           AND cee_ref_no LIKE ?\n" +
+                        "           AND cee_ref_no LIKE ? GROUP BY PERIODE\n" +
                         "     ) x\n" +
                         "JOIN\n" +
-                        "    (SELECT somme AS total, PERIODE\n" +
+                        "    (SELECT SUM(somme) AS total, PERIODE\n" +
                         "         FROM V_STAT_NAMUR\n" +
                         "         WHERE CODE_REF_NO = 24\n" +
                         "           AND periode BETWEEN ? AND ?\n" +
-                        "           AND cee_ref_no LIKE ?) y\n" +
-                        "ON x.PERIODE = y.PERIODE";
+                        "           AND cee_ref_no LIKE ? GROUP BY PERIODE) y\n" +
+                        "ON x.PERIODE = y.PERIODE\n";
                 break;
             // SOINS
             case NOMBRE_DE_SOINS:
