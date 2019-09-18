@@ -37,7 +37,7 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
     @FXML
     private GridPane waitingPane;
 
-    final private Database database = new Database();
+    final private Queries queries = new Queries();
     final private DatabaseConnection dbco = new DatabaseConnection();
     final private Identification id = new Identification();
 
@@ -73,7 +73,7 @@ public class ControllerComparaisonVisitesCentres implements Initializable {
                     id.set(Identification.info.D615_PASSWD),
                     id.set(Identification.info.D615_DRIVER)
             );
-            String query = database.selectQuery(Database.Query.VISITES_PAR_CENTRE);
+            String query = queries.selectQuery(Queries.Query.VISITES_PAR_CENTRE);
             ps = conn.prepareStatement(query);
             ps.setDate(1, java.sql.Date.valueOf("" + fromYear + "-01-01"));
             ps.setDate(2, java.sql.Date.valueOf("" + toYear + "-01-01"));

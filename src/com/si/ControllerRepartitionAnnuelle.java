@@ -25,7 +25,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
-import static si.Database.Query.*;
+import static si.Queries.Query.*;
 import static tools.Identification.*;
 
 public class ControllerRepartitionAnnuelle implements Initializable {
@@ -49,7 +49,7 @@ public class ControllerRepartitionAnnuelle implements Initializable {
 
     private final Centre centre = new Centre();
     private final Effects effects = new Effects();
-    private Database database = new Database();
+    private Queries queries = new Queries();
     private DatabaseConnection dbco = new DatabaseConnection();
     private Identification id = new Identification();
 
@@ -71,7 +71,7 @@ public class ControllerRepartitionAnnuelle implements Initializable {
         SUPPLEMENTS EN JOURS
      */
 
-    private final Database.Query[][][] INDICATEUR_ARRAY = {
+    private final Queries.Query[][][] INDICATEUR_ARRAY = {
             // TARIFICATION
             {
                     {RECETTE_TOTALE, TARIFICATION_OA, TICKETS_MODERATEURS, SOINS_DIVERS, CONVENTIONS}
@@ -109,7 +109,7 @@ public class ControllerRepartitionAnnuelle implements Initializable {
             comboYear.getItems().addAll(year);
         }
         comboYear.setValue(Date.getCurrentYearInt());
-        comboCategorie.getItems().addAll(database.CATEGORIE);
+        comboCategorie.getItems().addAll(queries.CATEGORIE);
     }
 
     @FXML
@@ -155,10 +155,10 @@ public class ControllerRepartitionAnnuelle implements Initializable {
             final int CENTRE_NO = centre.CENTER_NO[comboCentre.getSelectionModel().getSelectedIndex()];
             for (int i = 0; i < INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()].length; i++) {
                 double total = 0;
-                Database.Query currentIndicateur = INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()][i];
-                String query = database.selectQuery(currentIndicateur);
+                Queries.Query currentIndicateur = INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()][i];
+                String query = queries.selectQuery(currentIndicateur);
                 ps = conn.prepareStatement(query);
-                ResultSet rs = database.setQuery(currentIndicateur, ps, comboYear.getValue(), CENTRE_NO);
+                ResultSet rs = queries.setQuery(currentIndicateur, ps, comboYear.getValue(), CENTRE_NO);
                 while (rs.next()) {
                     System.out.println(rs.getDouble("TOTAL"));
                     Console.appendln("" + rs.getDouble("TOTAL"));

@@ -2,9 +2,9 @@ package si;
 
 import java.sql.*;
 
-import static si.Database.Query.*;
+import static si.Queries.Query.*;
 
-class Database {
+class Queries {
 
     final String[] CATEGORIE = {"TARIFICATION", "VISITES", "PATIENTS", "SOINS", "SUIVI DU PERSONNEL"};
 

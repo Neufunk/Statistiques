@@ -15,7 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Date;
 
-import static si.Database.Query.*;
+import static si.Queries.Query.*;
 
 class IndicateurDeGestion implements Runnable {
 
@@ -27,7 +27,7 @@ class IndicateurDeGestion implements Runnable {
     private int centreNo, chapterCounter = 1;
     private final ControllerPopUpGestion c;
     private final int YEAR;
-    private final Database database = new Database();
+    private final Queries queries = new Queries();
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
     private final Identification id = new Identification();
     private Connection conn;
@@ -36,7 +36,7 @@ class IndicateurDeGestion implements Runnable {
     private final String[] CENTRE_NAME = {"Philippeville", "Ciney", "Gedinne", "Eghezée", "Namur", "Province"};
     private final int[] CENTRE_NO = {902, 913, 923, 931, 961, 997};
 
-    private final Database.Query[][] INDICATEUR_ARRAY = {
+    private final Queries.Query[][] INDICATEUR_ARRAY = {
             // TARIFICATION
             {RECETTE_TOTALE, TARIFICATION_OA, TARIFICATION_NOMENCLATURE, TARIFICATION_FORFAITS_ABC, TARIFICATION_SOINS_SPECIFIQUES, FORFAITS_PALLIATIFS, DEPLACEMENTS,
                     TICKETS_MODERATEURS, SOINS_DIVERS, CONVENTIONS, RECETTE_OA_PAR_VISITE, RECETTE_OA_PAR_J_PRESTE, RECETTE_OA_PAR_J_AVEC_SOINS, RECETTE_TOTALE_PAR_J_AVEC_SOINS},
@@ -257,7 +257,7 @@ class IndicateurDeGestion implements Runnable {
         int indicateurNo = 1;
         for (int i = 0; i < INDICATEUR_ARRAY.length; i++) {
             // TITLE
-            Paragraph title = new Paragraph(database.CATEGORIE[i], setInterstateFont(12, "black", "bold"));
+            Paragraph title = new Paragraph(queries.CATEGORIE[i], setInterstateFont(12, "black", "bold"));
             paragraph.add(title);
             title.setSpacingBefore(12);
             title.setSpacingAfter(0);
@@ -280,7 +280,7 @@ class IndicateurDeGestion implements Runnable {
             for (int j = 0; j < INDICATEUR_ARRAY[i].length; j++) {
                 // Update progress Bar
                 Platform.runLater(c::updateProgress);
-                Database.Query currentIndicateur = INDICATEUR_ARRAY[i][j];
+                Queries.Query currentIndicateur = INDICATEUR_ARRAY[i][j];
                 System.out.println(currentIndicateur);
                 Platform.runLater(() -> Console.appendln("----------------------------------- " + currentIndicateur.toString()));
                 // COLUMN_NO
@@ -297,9 +297,9 @@ class IndicateurDeGestion implements Runnable {
 
                 // LAST YEAR MEAN CELLS
                 double totalCount = 0;
-                String query = database.selectQuery(currentIndicateur);
+                String query = queries.selectQuery(currentIndicateur);
                 ps = conn.prepareStatement(query);
-                rs = database.setQuery(currentIndicateur, ps, YEAR - 1, centreNo);
+                rs = queries.setQuery(currentIndicateur, ps, YEAR - 1, centreNo);
                 while (rs.next()) {
                     totalCount += rs.getDouble("TOTAL");
                 }
@@ -316,7 +316,7 @@ class IndicateurDeGestion implements Runnable {
                 // RESULT CELLS
                 totalCount = 0;
                 int columnCounter = 0;
-                rs = database.setQuery(currentIndicateur, ps, YEAR, centreNo);
+                rs = queries.setQuery(currentIndicateur, ps, YEAR, centreNo);
                 while (rs.next()) {
                     double result = rs.getDouble("TOTAL");
                     System.out.println("ROW: " + result);

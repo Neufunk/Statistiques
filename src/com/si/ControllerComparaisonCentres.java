@@ -40,7 +40,7 @@ public class ControllerComparaisonCentres implements Initializable {
     private NumberAxis yAxis;
 
     private final Centre centre = new Centre();
-    private final Database database = new Database();
+    private final Queries queries = new Queries();
     private final Effects effects = new Effects();
     private PreparedStatement ps = null;
     private ResultSet rs = null;
@@ -69,8 +69,8 @@ public class ControllerComparaisonCentres implements Initializable {
         for (JFXComboBox aComboCenterArray : comboCenterArray) {
             aComboCenterArray.getItems().addAll(centre.CENTER_NAME);
         }
-        for (int i = 0; i < database.CATEGORIE.length; i++) {
-            comboCategorie.getItems().addAll(database.CATEGORIE[i]);
+        for (int i = 0; i < queries.CATEGORIE.length; i++) {
+            comboCategorie.getItems().addAll(queries.CATEGORIE[i]);
         }
     }
 
@@ -78,9 +78,9 @@ public class ControllerComparaisonCentres implements Initializable {
         if (comboCategorie.getValue() != null) {
             comboIndic.getItems().clear();
             int index = comboCategorie.getSelectionModel().getSelectedIndex();
-            for (int i = 0; i < database.COMBO_INDICATEUR_ARRAY[index].length; i++) {
-                System.out.println(database.COMBO_INDICATEUR_ARRAY[index][i].toString());
-                comboIndic.getItems().addAll(database.COMBO_INDICATEUR_ARRAY[index][i].toString().replace("_", " "));
+            for (int i = 0; i < queries.COMBO_INDICATEUR_ARRAY[index].length; i++) {
+                System.out.println(queries.COMBO_INDICATEUR_ARRAY[index][i].toString());
+                comboIndic.getItems().addAll(queries.COMBO_INDICATEUR_ARRAY[index][i].toString().replace("_", " "));
             }
         }
     }
@@ -175,9 +175,9 @@ public class ControllerComparaisonCentres implements Initializable {
 
     private void generateAll() throws Exception {
         colorCounter = 0;
-        Database.Query currentIndicateur = database.COMBO_INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
+        Queries.Query currentIndicateur = queries.COMBO_INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
         int year = comboYear.getValue();
-        String query = database.selectQuery(currentIndicateur);
+        String query = queries.selectQuery(currentIndicateur);
         conn = databaseConnection.connect(
                 id.set(Identification.info.D615_URL),
                 id.set(Identification.info.D615_USER),
@@ -186,23 +186,23 @@ public class ControllerComparaisonCentres implements Initializable {
         );
         ps = conn.prepareStatement(query);
         if (comboCentre1.getValue() != null) {
-            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre1.getSelectionModel().getSelectedIndex()]);
+            rs = queries.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre1.getSelectionModel().getSelectedIndex()]);
             addDataToGraphic(rs, comboCentre1.getValue());
         }
         if (comboCentre2.getValue() != null) {
-            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre2.getSelectionModel().getSelectedIndex()]);
+            rs = queries.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre2.getSelectionModel().getSelectedIndex()]);
             addDataToGraphic(rs, comboCentre2.getValue());
         }
         if (comboCentre3.getValue() != null) {
-            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre3.getSelectionModel().getSelectedIndex()]);
+            rs = queries.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre3.getSelectionModel().getSelectedIndex()]);
             addDataToGraphic(rs, comboCentre3.getValue());
         }
         if (comboCentre4.getValue() != null) {
-            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre4.getSelectionModel().getSelectedIndex()]);
+            rs = queries.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre4.getSelectionModel().getSelectedIndex()]);
             addDataToGraphic(rs, comboCentre4.getValue());
         }
         if (comboCentre5.getValue() != null) {
-            rs = database.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre5.getSelectionModel().getSelectedIndex()]);
+            rs = queries.setQuery(currentIndicateur, ps, year, centre.CENTER_NO[comboCentre5.getSelectionModel().getSelectedIndex()]);
             addDataToGraphic(rs, comboCentre5.getValue());
         }
         Platform.runLater(this::buildGraphic);

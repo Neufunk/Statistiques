@@ -38,7 +38,7 @@ public class ControllerComparaisonAnnees implements Initializable {
     @FXML
     private AnchorPane menuPane;
 
-    private final Database database = new Database();
+    private final Queries queries = new Queries();
     private final Centre centre = new Centre();
     private final Effects effects = new Effects();
     private Identification id = new Identification();
@@ -70,15 +70,15 @@ public class ControllerComparaisonAnnees implements Initializable {
             currentYear++;
         }
 
-        comboCategorie.getItems().addAll(database.CATEGORIE);
+        comboCategorie.getItems().addAll(queries.CATEGORIE);
     }
 
     public void setIndicateursInCombo() {
         if (comboCategorie.getValue() != null) {
             comboIndic.getItems().clear();
             int index = comboCategorie.getSelectionModel().getSelectedIndex();
-            for (int i = 0; i < database.COMBO_INDICATEUR_ARRAY[index].length; i++) {
-                comboIndic.getItems().add(database.COMBO_INDICATEUR_ARRAY[index][i].toString().replace("_", " "));
+            for (int i = 0; i < queries.COMBO_INDICATEUR_ARRAY[index].length; i++) {
+                comboIndic.getItems().add(queries.COMBO_INDICATEUR_ARRAY[index][i].toString().replace("_", " "));
             }
         }
     }
@@ -154,7 +154,7 @@ public class ControllerComparaisonAnnees implements Initializable {
 
     private void generateAll() throws Exception {
         colorCounter = 0;
-        Database.Query currentIndicateur = database.COMBO_INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
+        Queries.Query currentIndicateur = queries.COMBO_INDICATEUR_ARRAY[comboCategorie.getSelectionModel().getSelectedIndex()][comboIndic.getSelectionModel().getSelectedIndex()];
         conn = databaseConnection.connect(
                 id.set(Identification.info.D615_URL),
                 id.set(Identification.info.D615_USER),
@@ -162,19 +162,19 @@ public class ControllerComparaisonAnnees implements Initializable {
                 id.set(Identification.info.D615_DRIVER)
         );
         final int CENTRE_NO = centre.CENTER_NO[comboCentre.getSelectionModel().getSelectedIndex()];
-        String query = database.selectQuery(currentIndicateur);
+        String query = queries.selectQuery(currentIndicateur);
         ps = conn.prepareStatement(query);
 
         if (comboYear1.getValue() != null) {
-            rs = database.setQuery(currentIndicateur, ps, comboYear1.getValue(), CENTRE_NO);
+            rs = queries.setQuery(currentIndicateur, ps, comboYear1.getValue(), CENTRE_NO);
             addDataToGraphic(rs, comboYear1.getValue().toString());
         }
         if (comboYear2.getValue() != null) {
-            rs = database.setQuery(currentIndicateur, ps, comboYear2.getValue(), CENTRE_NO);
+            rs = queries.setQuery(currentIndicateur, ps, comboYear2.getValue(), CENTRE_NO);
             addDataToGraphic(rs, comboYear2.getValue().toString());
         }
         if (comboYear3.getValue() != null) {
-            rs = database.setQuery(currentIndicateur, ps, comboYear3.getValue(), CENTRE_NO);
+            rs = queries.setQuery(currentIndicateur, ps, comboYear3.getValue(), CENTRE_NO);
             addDataToGraphic(rs, comboYear3.getValue().toString());
         }
         Platform.runLater(this::buildGraphic);

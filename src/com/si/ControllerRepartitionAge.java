@@ -37,8 +37,8 @@ public class ControllerRepartitionAge implements Initializable {
     @FXML
     private JFXSpinner pieChartSpinner;
 
-    private Database database = new Database();
-    private String query = database.selectQuery(Database.Query.PATIENTS_PAR_AGE);
+    private Queries queries = new Queries();
+    private String query = queries.selectQuery(Queries.Query.PATIENTS_PAR_AGE);
     private DatabaseConnection dbco = new DatabaseConnection();
     private Effects effects = new Effects();
     private Identification id = new Identification();
@@ -90,7 +90,7 @@ public class ControllerRepartitionAge implements Initializable {
             PreparedStatement ps = conn.prepareStatement(query);
             XYChart.Series serie = new XYChart.Series();
             serie.setName(String.valueOf(value));
-            ResultSet rs = database.setQuery(Database.Query.PATIENTS_PAR_AGE, ps, value, 997);
+            ResultSet rs = queries.setQuery(Queries.Query.PATIENTS_PAR_AGE, ps, value, 997);
             while (rs.next()) {
                 serie.getData().add(new XYChart.Data<>(rs.getString(1), rs.getDouble(2)));
             }
@@ -102,7 +102,7 @@ public class ControllerRepartitionAge implements Initializable {
         pieChart.getData().clear();
         PreparedStatement ps = conn.prepareStatement(query);
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        ResultSet rs = database.setQuery(Database.Query.PATIENTS_PAR_AGE, ps, comboYear.getValue(), 997);
+        ResultSet rs = queries.setQuery(Queries.Query.PATIENTS_PAR_AGE, ps, comboYear.getValue(), 997);
         Platform.runLater(() -> Console.appendln("\n***** REPARTITION DES PATIENTS PAR ÂGE " + comboYear.getValue().toString() + "*****"));
         while (rs.next()) {
             final String label = rs.getString(1);
