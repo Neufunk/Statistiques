@@ -1149,21 +1149,41 @@ class Queries {
                         "        AND tc.taak_cd not in ('GPS', 'GPSS', 'GPW', 'GPWS', 'GPWD')\n" +
                         "      GROUP BY MAAND) x\n" +
                         "         JOIN\n" +
-                        "     (SELECT TO_CHAR(sl.loonperiode_dt, 'YYYYMM') as MAAND, sum(slr.uren) code_250_251\n" +
-                        "      FROM HR.soc_loonbrief_regels slr,\n" +
-                        "           HR.soc_loonbrieven sl,\n" +
-                        "           HR.werknemers w,\n" +
-                        "           HR.v_kontrakten vk\n" +
-                        "      WHERE TO_CHAR(sl.loonperiode_dt, 'YYYYMM') BETWEEN ? AND ?\n" +
-                        "        AND slr.loon_code_id IN (424, 425)\n" +
-                        "        AND slr.loonbrief_id = sl.loonbrief_id\n" +
-                        "        AND w.werknemer_id = sl.werknemer_id\n" +
-                        "        AND w.werknemer_id = vk.werknemer_id\n" +
-                        "        AND vk.functie_id IN (121, 122, 128)\n" +
-                        "        AND sl.loonperiode_dt BETWEEN hist_start_dt AND last_day(nvl(hist_eind_dt, sl.loonperiode_dt))\n" +
-                        "        AND w.afdeling_id like ?\n" +
-                        "      GROUP BY sl.loonperiode_dt) y\n" +
-                        "     ON x.MAAND = y.MAAND\n" +
+                        "     (WITH Months (CurrentMonth, MaxYear) AS (\n" +
+                        "         SELECT CAST(TO_DATE(?, 'YYYYMM') AS DATE) AS CurrentMonth, ? AS MaxYear\n" +
+                        "         FROM DUAL\n" +
+                        "\n" +
+                        "         UNION ALL\n" +
+                        "\n" +
+                        "         SELECT CAST(ADD_MONTHS(CurrentMonth, 1) AS DATE), MaxYear\n" +
+                        "         FROM Months\n" +
+                        "         WHERE EXTRACT(YEAR FROM ADD_MONTHS(CurrentMonth, 1)) <= MaxYear\n" +
+                        "     ),\n" +
+                        "           Query as (\n" +
+                        "               SELECT sl.loonperiode_dt, sum(slr.uren) code_250_251\n" +
+                        "               FROM HR.soc_loonbrief_regels slr,\n" +
+                        "                    HR.soc_loonbrieven sl,\n" +
+                        "                    HR.werknemers w,\n" +
+                        "                    HR.v_kontrakten vk\n" +
+                        "               WHERE TO_CHAR(sl.loonperiode_dt, 'YYYYMM') BETWEEN ? AND ?\n" +
+                        "                 AND slr.loon_code_id IN (424, 425)\n" +
+                        "                 AND slr.loonbrief_id = sl.loonbrief_id\n" +
+                        "                 AND w.werknemer_id = sl.werknemer_id\n" +
+                        "                 AND w.werknemer_id = vk.werknemer_id\n" +
+                        "                 AND vk.functie_id IN (121, 122, 128)\n" +
+                        "                 AND sl.loonperiode_dt BETWEEN hist_start_dt AND last_day(nvl(hist_eind_dt, sl.loonperiode_dt))\n" +
+                        "                 AND w.afdeling_id LIKE ?\n" +
+                        "               GROUP BY sl.loonperiode_dt\n" +
+                        "           )\n" +
+                        "      SELECT TO_CHAR(LAST_DAY(Months.CurrentMonth), 'YYYYMM') AS LastDay\n" +
+                        "           , NVL(Query.code_250_251, 0)                           AS code_250_251\n" +
+                        "      FROM Months\n" +
+                        "\n" +
+                        "               Left Join Query\n" +
+                        "                         on Extract(MONTH FROM Months.CurrentMonth) = Extract(MONTH FROM Query.LOONPERIODE_DT)\n" +
+                        "      ORDER BY LastDay ASC\n" +
+                        "     ) y\n" +
+                        "     ON x.MAAND = y.LastDay\n" +
                         "         JOIN\n" +
                         "     (WITH Months (CurrentMonth, MaxYear) AS (\n" +
                         "         SELECT CAST(TO_DATE(?, 'YYYYMM') AS DATE) AS CurrentMonth, ? AS MaxYear\n" +
@@ -1174,30 +1194,30 @@ class Queries {
                         "         SELECT CAST(ADD_MONTHS(CurrentMonth, 1) AS DATE), MaxYear\n" +
                         "         FROM Months\n" +
                         "         WHERE EXTRACT(YEAR FROM ADD_MONTHS(CurrentMonth, 1)) <= MaxYear\n" +
-                        "     )\n" +
-                        "         , YourData as (\n" +
-                        "             SELECT sl.loonperiode_dt, (sum(slr.uren)) code_220\n" +
-                        "             FROM HR.soc_loonbrief_regels slr,\n" +
-                        "                  HR.soc_loonbrieven sl,\n" +
-                        "                  HR.werknemers w,\n" +
-                        "                  HR.v_kontrakten vk\n" +
-                        "             WHERE slr.loon_code_id IN (394)\n" +
-                        "               AND TO_CHAR(LOONPERIODE_DT, 'YYYYMM') BETWEEN ? AND ?\n" +
-                        "               AND slr.loonbrief_id = sl.loonbrief_id\n" +
-                        "               AND w.werknemer_id = sl.werknemer_id\n" +
-                        "               AND w.werknemer_id = vk.werknemer_id\n" +
-                        "               AND vk.functie_id IN (121, 122, 128)\n" +
-                        "               AND sl.loonperiode_dt BETWEEN hist_start_dt AND last_day(nvl(hist_eind_dt, sl.loonperiode_dt))\n" +
-                        "               AND w.afdeling_id like ?\n" +
-                        "             GROUP BY sl.loonperiode_dt\n" +
-                        "             --ORDER BY sl.loonperiode_dt\n" +
-                        "         )\n" +
+                        "     ),\n" +
+                        "           Query as (\n" +
+                        "               SELECT sl.loonperiode_dt, (sum(slr.uren)) code_220\n" +
+                        "               FROM HR.soc_loonbrief_regels slr,\n" +
+                        "                    HR.soc_loonbrieven sl,\n" +
+                        "                    HR.werknemers w,\n" +
+                        "                    HR.v_kontrakten vk\n" +
+                        "               WHERE slr.loon_code_id IN (394)\n" +
+                        "                 AND TO_CHAR(LOONPERIODE_DT, 'YYYYMM') BETWEEN ? AND ?\n" +
+                        "                 AND slr.loonbrief_id = sl.loonbrief_id\n" +
+                        "                 AND w.werknemer_id = sl.werknemer_id\n" +
+                        "                 AND w.werknemer_id = vk.werknemer_id\n" +
+                        "                 AND vk.functie_id IN (121, 122, 128)\n" +
+                        "                 AND sl.loonperiode_dt BETWEEN hist_start_dt AND last_day(nvl(hist_eind_dt, sl.loonperiode_dt))\n" +
+                        "                 AND w.afdeling_id LIKE ?\n" +
+                        "               GROUP BY sl.loonperiode_dt\n" +
+                        "               ORDER BY sl.loonperiode_dt\n" +
+                        "           )\n" +
                         "      SELECT TO_CHAR(LAST_DAY(Months.CurrentMonth), 'YYYYMM') AS LastDay\n" +
-                        "           , COALESCE(YourData.code_220, 0)                   AS code_220\n" +
+                        "           , NVL(Query.code_220, 0)                           AS code_220\n" +
                         "      FROM Months\n" +
                         "\n" +
-                        "               Left Join YourData\n" +
-                        "                         on Extract(MONTH FROM Months.CurrentMonth) = Extract(MONTH FROM YourData.loonperiode_dt)\n" +
+                        "               Left Join Query\n" +
+                        "                         on Extract(MONTH FROM Months.CurrentMonth) = Extract(MONTH FROM Query.loonperiode_dt)\n" +
                         "      ORDER BY LastDay ASC\n" +
                         "     ) z\n" +
                         "     ON x.MAAND = z.LastDay\n";
@@ -1225,7 +1245,6 @@ class Queries {
                         currentIndicateur.equals(RECETTE_OA_PAR_VISITE) ||
                         currentIndicateur.equals(TAUX_ADMINISTRATIF) ||
                         currentIndicateur.equals(TAUX_ADMINISTRATIF_IC) ||
-                        currentIndicateur.equals(TAUX_SMG) ||
                         currentIndicateur.equals(VISITES_PAR_J_PRESTES) ||
                         currentIndicateur.equals(VISITES_PAR_J_AV_SOINS) ||
                         currentIndicateur.equals(RECETTE_TOTALE_PAR_J_AVEC_SOINS) ||
@@ -1253,16 +1272,25 @@ class Queries {
                 ps.setInt(9, (centreNo));
             }
         }
-        // Check if the SQL query takes 11 parameters
+        // Check if the SQL query takes 13 parameters
         if (currentIndicateur.equals(TAUX_SMG)) {
-            ps.setString(7, year + "01");
-            ps.setInt(8, year);
-            ps.setString(9, (year + "01"));
-            ps.setString(10, (year + "12"));
+            ps.setString(4, year + "01");
+            ps.setInt(5, year);
+            ps.setString(6, year + "01");
+            ps.setString(7, year + "12");
             if (centreNo == 997) {
-                ps.setString(11, "%");
+                ps.setString(8, "%");
             } else {
-                ps.setInt(11, (centreNo));
+                ps.setInt(8, (centreNo));
+            }
+            ps.setString(9, year + "01");
+            ps.setInt(10, year);
+            ps.setString(11, year + "01");
+            ps.setString(12, year + "12");
+            if (centreNo == 997) {
+                ps.setString(13, "%");
+            } else {
+                ps.setInt(13, (centreNo));
             }
         }
         return ps.executeQuery();
